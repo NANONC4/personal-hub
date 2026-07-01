@@ -1,4 +1,5 @@
 "use client";
+import { useState } from "react";
 import { motion } from "framer-motion";
 import BackgroundArt from "@/components/BackgroundArt";
 import ProfileSection from "@/components/ProfileSection";
@@ -21,14 +22,40 @@ const getTheme = (index: number): Theme => {
 };
 
 export default function Home() {
+  const [isLocked, setIsLocked] = useState(true);
+
+  const handleUnlockAndScroll = (e: React.MouseEvent) => {
+    e.preventDefault();
+    setIsLocked(false);
+    
+    // Allow React state to update and unlock scroll, then perform smooth scroll
+    setTimeout(() => {
+      document.getElementById("intro")?.scrollIntoView({ behavior: "smooth" });
+    }, 50);
+  };
+
   return (
-    <main className="relative min-h-screen bg-neutral-950 font-[family-name:var(--font-geist-sans)] selection:bg-sky-500/30">
+    <main className={`relative min-h-screen bg-neutral-950 font-[family-name:var(--font-geist-sans)] selection:bg-sky-500/30 ${isLocked ? 'h-screen overflow-hidden' : ''}`}>
       <BackgroundArt />
 
       {/* 1. HERO SECTION (Link-in-Bio) */}
-      <section className="relative z-10 w-full min-h-screen flex flex-col lg:flex-row max-w-[1600px] mx-auto">
+      <section className="relative z-10 w-full min-h-screen flex flex-col lg:flex-row max-w-[1600px] mx-auto bg-sky-100/90 text-slate-800 overflow-hidden"
+        style={{
+          backgroundImage: "radial-gradient(#94a3b8 1px, transparent 1px)",
+          backgroundSize: "20px 20px"
+        }}
+      >
+        {/* Floating Decorative Elements (Desktop Only) */}
+        <div className="hidden lg:block absolute inset-0 pointer-events-none z-0">
+          <motion.div animate={{ y: [0, -20, 0] }} transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }} className="absolute top-[15%] left-[5%] text-4xl text-pink-400 drop-shadow-md font-[family-name:var(--font-pixel)]">✦</motion.div>
+          <motion.div animate={{ y: [0, 15, 0] }} transition={{ duration: 5, repeat: Infinity, ease: "easeInOut", delay: 1 }} className="absolute bottom-[20%] left-[10%] text-5xl text-yellow-400 drop-shadow-md font-[family-name:var(--font-pixel)]">☁️</motion.div>
+          <motion.div animate={{ y: [0, -15, 0], rotate: [0, 10, 0] }} transition={{ duration: 3, repeat: Infinity, ease: "easeInOut", delay: 2 }} className="absolute top-[30%] right-[8%] text-4xl text-purple-400 drop-shadow-md font-[family-name:var(--font-pixel)]">♥</motion.div>
+          <motion.div animate={{ y: [0, 25, 0], scale: [1, 1.1, 1] }} transition={{ duration: 6, repeat: Infinity, ease: "easeInOut", delay: 0.5 }} className="absolute bottom-[15%] right-[15%] text-6xl text-white drop-shadow-md font-[family-name:var(--font-pixel)]">★</motion.div>
+          <motion.div animate={{ y: [0, -10, 0] }} transition={{ duration: 3.5, repeat: Infinity, ease: "easeInOut", delay: 1.5 }} className="absolute top-[50%] left-[45%] text-2xl text-emerald-400 drop-shadow-md font-[family-name:var(--font-pixel)]">✧</motion.div>
+        </div>
+
         {/* Left Side: Profile (Sticky on Desktop) */}
-        <div className="w-full lg:w-[45%] lg:h-screen lg:sticky top-0 flex items-center justify-center p-6 md:p-12 lg:p-20">
+        <div className="w-full lg:w-[45%] lg:h-screen lg:sticky top-0 flex items-center justify-center p-6 md:p-12 lg:p-20 relative z-10">
           <ProfileSection />
         </div>
 
@@ -42,29 +69,30 @@ export default function Home() {
               hidden: { opacity: 0 },
               show: {
                 opacity: 1,
-                transition: { staggerChildren: 0.1, delayChildren: 0.3 }
+                transition: { staggerChildren: 0.15, delayChildren: 0.2 }
               }
             }}
             className="flex flex-col gap-4 max-w-xl mx-auto w-full"
           >
             <motion.h2 
-              variants={{ hidden: { opacity: 0, x: -20 }, show: { opacity: 1, x: 0 } }}
-              className="text-xl md:text-2xl font-semibold text-white mb-6 tracking-tight"
+              variants={{ hidden: { opacity: 0, y: -30 }, show: { opacity: 1, y: 0 } }}
+              className="text-2xl md:text-3xl font-[family-name:var(--font-pixel)] text-slate-800 mb-6 tracking-tight uppercase drop-shadow-sm"
             >
-              Let's Connect
+              Let's Connect (✿◠‿◠)
             </motion.h2>
             
-            <motion.div variants={{ hidden: { opacity: 0, x: -20 }, show: { opacity: 1, x: 0 } }}>
+            <motion.div variants={{ hidden: { opacity: 0, scale: 0.9, y: 20 }, show: { opacity: 1, scale: 1, y: 0 } }}>
               <SocialLinkButton 
                 title="My Portfolio" 
-                subtitle="Keep scrolling down to see my works" 
+                subtitle="Explore my selected works & case studies" 
                 icon={<Globe size={24} strokeWidth={1.5} />} 
-                href="#" 
+                href="#intro" 
                 highlighted={true}
+                onClick={handleUnlockAndScroll}
               />
             </motion.div>
             
-            <motion.div variants={{ hidden: { opacity: 0, x: -20 }, show: { opacity: 1, x: 0 } }}>
+            <motion.div variants={{ hidden: { opacity: 0, x: 40 }, show: { opacity: 1, x: 0 } }}>
               <SocialLinkButton 
                 title="Dribbble" 
                 subtitle="Design concepts and UI explorations" 
@@ -73,7 +101,7 @@ export default function Home() {
               />
             </motion.div>
 
-            <motion.div variants={{ hidden: { opacity: 0, x: -20 }, show: { opacity: 1, x: 0 } }}>
+            <motion.div variants={{ hidden: { opacity: 0, x: -40 }, show: { opacity: 1, x: 0 } }}>
               <SocialLinkButton 
                 title="GitHub" 
                 subtitle="Open source contributions and code" 
@@ -82,7 +110,7 @@ export default function Home() {
               />
             </motion.div>
 
-            <motion.div variants={{ hidden: { opacity: 0, x: -20 }, show: { opacity: 1, x: 0 } }}>
+            <motion.div variants={{ hidden: { opacity: 0, y: 30 }, show: { opacity: 1, y: 0 } }}>
               <SocialLinkButton 
                 title="LinkedIn" 
                 subtitle="Professional network and resume" 
@@ -91,7 +119,7 @@ export default function Home() {
               />
             </motion.div>
             
-            <motion.div variants={{ hidden: { opacity: 0, x: -20 }, show: { opacity: 1, x: 0 } }}>
+            <motion.div variants={{ hidden: { opacity: 0, scale: 0.95, x: 30 }, show: { opacity: 1, scale: 1, x: 0 } }}>
               <SocialLinkButton 
                 title="Instagram" 
                 subtitle="Behind the scenes and daily life" 
@@ -100,7 +128,7 @@ export default function Home() {
               />
             </motion.div>
             
-            <motion.div variants={{ hidden: { opacity: 0, x: -20 }, show: { opacity: 1, x: 0 } }}>
+            <motion.div variants={{ hidden: { opacity: 0, y: 40 }, show: { opacity: 1, y: 0 } }}>
               <SocialLinkButton 
                 title="Email Me" 
                 subtitle="Available for freelance opportunities" 
@@ -127,8 +155,9 @@ export default function Home() {
             theme="blue"
             prevBgClass="bg-white"
             currentBgClass="bg-neutral-950"
-          />
-          <LemonyShopPro project={projects[0]} />
+          >
+            <LemonyShopPro project={projects[0]} />
+          </SectionDivider>
         </div>
 
         {/* Project 2: Lemony Shop (Light) */}
@@ -140,21 +169,23 @@ export default function Home() {
             theme="dark"
             prevBgClass="bg-neutral-950"
             currentBgClass="bg-white"
-          />
-          <LemonyShop project={projects[1]} />
+          >
+            <LemonyShop project={projects[1]} />
+          </SectionDivider>
         </div>
 
-        {/* Project 3: Rules of Horror (Horror) */}
-        <div className="bg-neutral-950 transition-colors duration-700">
+        {/* Project 3: Rules of Horror (Dark Red) */}
+        <div className="bg-[#4a0d0d] transition-colors duration-700">
           <SectionDivider 
             title={projects[2].title} 
             subtitle={projects[2].category} 
             index={2} 
-            theme="dark"
+            theme="horror"
             prevBgClass="bg-white"
-            currentBgClass="bg-neutral-950"
-          />
-          <RulesOfHorror project={projects[2]} />
+            currentBgClass="bg-[#4a0d0d]"
+          >
+            <RulesOfHorror project={projects[2]} />
+          </SectionDivider>
         </div>
 
       </section>

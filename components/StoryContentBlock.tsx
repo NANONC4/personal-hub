@@ -44,7 +44,7 @@ export default function StoryContentBlock({ project, theme = "light" }: StoryCon
 
   return (
     <div className="flex flex-col max-w-xl">
-      <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} transition={{ duration: 0.8 }} viewport={{ once: true }}>
+      <motion.div initial={{ opacity: 0, x: -30 }} whileInView={{ opacity: 1, x: 0 }} transition={{ duration: 0.8 }} viewport={{ once: true }}>
         <h3 className={`text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight mb-6 ${currentTheme.title}`}>
           {project.title}
         </h3>
@@ -53,15 +53,28 @@ export default function StoryContentBlock({ project, theme = "light" }: StoryCon
         </p>
       </motion.div>
 
-      <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, delay: 0.2 }} viewport={{ once: true }} className="flex flex-wrap gap-3 mb-12">
+      <motion.div 
+        initial="hidden" 
+        whileInView="show" 
+        viewport={{ once: true }} 
+        variants={{
+          hidden: { opacity: 0 },
+          show: { opacity: 1, transition: { staggerChildren: 0.1, delayChildren: 0.3 } }
+        }}
+        className="flex flex-wrap gap-3 mb-12"
+      >
         {project.stack.map((tech) => (
-          <span key={tech} className={`px-4 py-1.5 rounded-full text-sm font-medium border ${currentTheme.tag}`}>
+          <motion.span 
+            variants={{ hidden: { opacity: 0, scale: 0.8 }, show: { opacity: 1, scale: 1 } }}
+            key={tech} 
+            className={`px-4 py-1.5 rounded-full text-sm font-medium border ${currentTheme.tag}`}
+          >
             {tech}
-          </span>
+          </motion.span>
         ))}
       </motion.div>
 
-      <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, delay: 0.4 }} viewport={{ once: true }} className="flex flex-wrap items-center gap-4">
+      <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, delay: 0.5 }} viewport={{ once: true }} className="flex flex-wrap items-center gap-4">
         {project.links.demo && (
           <a href={project.links.demo} target="_blank" rel="noreferrer" className={`flex items-center gap-2 px-6 py-3 font-semibold rounded-full transition-colors border ${currentTheme.btnBg}`}>
             <ExternalLink size={18} /> Live Demo

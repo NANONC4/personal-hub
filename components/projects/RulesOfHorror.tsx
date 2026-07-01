@@ -6,10 +6,10 @@ import StoryContentBlock from "../StoryContentBlock";
 
 export default function RulesOfHorror({ project }: { project: Project }) {
   return (
-    <HorizontalScrollWrapper bgClass="bg-neutral-950" buttonTextClass="text-red-500">
+    <HorizontalScrollWrapper bgClass="bg-[#4a0d0d]" buttonTextClass="text-red-500">
       
       {/* Slide 1: Content Block (With Bloody Dark Card) */}
-      <div className="w-[80vw] md:w-[60vw] max-w-5xl flex-shrink-0 flex flex-col justify-center h-full mr-12 md:mr-24 relative px-4">
+      <div className="w-full lg:w-[60vw] max-w-5xl flex-shrink-0 flex flex-col justify-center h-auto lg:h-full mr-0 lg:mr-24 relative px-0 lg:px-4">
         <div className="w-full bg-[#200909] border border-red-900/30 p-8 md:p-16 rounded-[2.5rem] shadow-[0_0_50px_rgba(220,38,38,0.1)] relative">
           {/* Subtle noise or texture could go here */}
           <StoryContentBlock project={project} theme="horror" />
@@ -17,7 +17,7 @@ export default function RulesOfHorror({ project }: { project: Project }) {
       </div>
 
       {/* Slide 2: Full Bleed Image with Overlay Text */}
-      <div className="w-[90vw] md:w-[70vw] h-full flex-shrink-0 flex items-center justify-center mr-12 md:mr-24 px-4">
+      <div className="w-full lg:w-[70vw] h-auto lg:h-full flex-shrink-0 flex items-center justify-center mr-0 lg:mr-24 px-0 lg:px-4">
         <motion.div 
           initial={{ opacity: 0 }} 
           whileInView={{ opacity: 1 }} 
@@ -29,13 +29,13 @@ export default function RulesOfHorror({ project }: { project: Project }) {
           
           <div className="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent flex flex-col justify-end p-12 md:p-20">
             <motion.h4 
-              initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, delay: 0.5 }}
+              initial={{ opacity: 0, x: 30 }} whileInView={{ opacity: 1, x: 0 }} transition={{ duration: 0.8, delay: 0.5, type: "spring" }}
               className="text-4xl md:text-5xl font-black text-red-600 drop-shadow-[0_0_15px_rgba(220,38,38,0.8)] tracking-widest uppercase mb-4"
             >
               Survive the Night
             </motion.h4>
             <motion.p 
-              initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, delay: 0.7 }}
+              initial={{ opacity: 0, y: 30, scale: 0.95 }} whileInView={{ opacity: 1, y: 0, scale: 1 }} transition={{ duration: 0.8, delay: 0.7 }}
               className="text-red-200/70 text-lg md:text-xl max-w-2xl font-light"
             >
               ระบบ Rule-based Survival ที่ผู้เล่นจะต้องทำตามกฎหมายถึงความตาย 
@@ -46,7 +46,7 @@ export default function RulesOfHorror({ project }: { project: Project }) {
       </div>
 
       {/* Slide 3: Staggered Image Grid */}
-      <div className="w-[120vw] md:w-[90vw] h-full flex-shrink-0 flex items-center justify-center mr-12 md:mr-24 px-4">
+      <div className="w-full lg:w-[90vw] h-auto lg:h-full flex-shrink-0 flex items-center justify-center mr-0 lg:mr-24 px-0 lg:px-4">
         <div className="w-full h-[70vh] flex gap-4 md:gap-8 items-center">
           
           <motion.div 

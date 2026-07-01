@@ -18,16 +18,18 @@ export default function HorizontalScrollWrapper({
   const containerRef = useRef<HTMLDivElement>(null);
   const trackRef = useRef<HTMLDivElement>(null);
   const [isLocked, setIsLocked] = useState(false);
+  const [isDesktop, setIsDesktop] = useState(true);
   const maxScrollRef = useRef(0);
   const lenis = useLenis();
 
   // Use Framer Motion spring for buttery smooth horizontal movement
   const xSpring = useSpring(0, { stiffness: 120, damping: 25, mass: 0.8 });
 
-  // Update max scroll distance when locked
   useEffect(() => {
     const handleResize = () => {
-      if (containerRef.current && trackRef.current) {
+      const desktop = window.innerWidth >= 1024;
+      setIsDesktop(desktop);
+      if (desktop && containerRef.current && trackRef.current) {
         maxScrollRef.current = trackRef.current.scrollWidth - containerRef.current.offsetWidth;
       }
     };
@@ -42,9 +44,9 @@ export default function HorizontalScrollWrapper({
     };
   }, [isLocked, children]);
 
-  // Handle Wheel Events when locked
+  // Handle Wheel Events when locked (Desktop only)
   useEffect(() => {
-    if (!isLocked) return;
+    if (!isLocked || !isDesktop) return;
 
     const handleWheel = (e: WheelEvent) => {
       e.preventDefault(); // Stop vertical scroll
@@ -81,9 +83,11 @@ export default function HorizontalScrollWrapper({
         container.removeEventListener('wheel', handleWheel);
       }
     };
-  }, [isLocked, xSpring, lenis]);
+  }, [isLocked, xSpring, lenis, isDesktop]);
 
   const toggleLock = () => {
+    if (!isDesktop) return; // Don't lock on mobile
+
     if (isLocked) {
       setIsLocked(false);
       lenis?.start();
@@ -114,47 +118,51 @@ export default function HorizontalScrollWrapper({
   return (
     <section 
       ref={containerRef} 
-      className={`relative w-full h-screen flex items-center justify-center overflow-hidden transition-colors duration-700 ${bgClass}`}
+      className={`relative z-10 w-full min-h-screen lg:h-screen flex flex-col lg:flex-row items-center justify-center overflow-visible transition-colors duration-700 ${bgClass}`}
     >
       <motion.div 
         ref={trackRef}
-        style={{ x: xSpring }} 
-        drag={isLocked ? "x" : false}
+        style={{ x: isDesktop ? xSpring : 0 }} 
+        drag={isLocked && isDesktop ? "x" : false}
         dragConstraints={{ right: 0, left: -maxScrollRef.current }}
         dragElastic={0.05}
         dragTransition={{ bounceStiffness: 400, bounceDamping: 30 }}
-        className="flex h-full absolute left-0 top-0 will-change-transform items-center px-12 md:px-24 cursor-grab active:cursor-grabbing"
+        className="flex flex-col lg:flex-row h-auto lg:h-full relative lg:absolute left-0 top-0 will-change-transform items-center py-24 lg:py-0 px-6 lg:px-24 gap-16 lg:gap-0 w-full lg:w-auto lg:cursor-grab lg:active:cursor-grabbing"
       >
         {/* Inject Custom Slides Here */}
         {children}
         
-        {/* End Slide (Buffer & Unlock) */}
-        <div className="w-[20vw] flex-shrink-0 flex items-center justify-center pl-12">
-          <button 
-            onClick={toggleLock}
-            className={`flex flex-col items-center gap-4 ${buttonTextClass} hover:opacity-70 transition-opacity`}
-          >
-            <X size={32} />
-            <span className="font-medium tracking-widest uppercase text-sm">Close</span>
-          </button>
-        </div>
+        {/* End Slide (Buffer & Unlock) - Desktop Only */}
+        {isDesktop && (
+          <div className="w-[20vw] flex-shrink-0 flex items-center justify-center pl-12">
+            <button 
+              onClick={toggleLock}
+              className={`flex flex-col items-center gap-4 ${buttonTextClass} hover:opacity-70 transition-opacity`}
+            >
+              <X size={32} />
+              <span className="font-medium tracking-widest uppercase text-sm">Close</span>
+            </button>
+          </div>
+        )}
       </motion.div>
 
-      {/* Floating UI just for the Close button when locked */}
-      <div className="absolute bottom-12 left-1/2 -translate-x-1/2 z-50 pointer-events-none">
-        <motion.button 
-          initial={false}
-          animate={{ opacity: isLocked ? 1 : 0, y: isLocked ? 0 : 20 }}
-          className={`pointer-events-auto flex items-center gap-2 px-6 py-3 rounded-full font-medium shadow-xl backdrop-blur-md bg-white/10 ${buttonTextClass} border border-white/20`}
-          onClick={toggleLock}
-        >
-          <X size={18} />
-          Close Gallery
-        </motion.button>
-      </div>
+      {/* Floating UI just for the Close button when locked (Desktop Only) */}
+      {isDesktop && (
+        <div className="absolute bottom-12 left-1/2 -translate-x-1/2 z-50 pointer-events-none">
+          <motion.button 
+            initial={false}
+            animate={{ opacity: isLocked ? 1 : 0, y: isLocked ? 0 : 20 }}
+            className={`pointer-events-auto flex items-center gap-2 px-6 py-3 rounded-full font-medium shadow-xl backdrop-blur-md bg-white/10 ${buttonTextClass} border border-white/20`}
+            onClick={toggleLock}
+          >
+            <X size={18} />
+            Close Gallery
+          </motion.button>
+        </div>
+      )}
 
-      {/* Absolute overlay button intercepting clicks when unlocked */}
-      {!isLocked && (
+      {/* Absolute overlay button intercepting clicks when unlocked (Desktop Only) */}
+      {!isLocked && isDesktop && (
         <div 
           className="absolute inset-0 cursor-pointer z-0" 
           onClick={toggleLock} 

@@ -9,14 +9,14 @@ export default function LemonyShop({ project }: { project: Project }) {
     <HorizontalScrollWrapper bgClass="bg-neutral-50" buttonTextClass="text-neutral-900">
       
       {/* Slide 1: Content Block (With Light Solid Card) */}
-      <div className="w-[80vw] md:w-[60vw] max-w-5xl flex-shrink-0 flex flex-col justify-center h-full mr-12 md:mr-24 relative px-4">
+      <div className="w-full lg:w-[60vw] max-w-5xl flex-shrink-0 flex flex-col justify-center h-auto lg:h-full mr-0 lg:mr-24 relative px-0 lg:px-4">
         <div className="w-full bg-white p-8 md:p-16 rounded-[2.5rem] shadow-[0_20px_60px_rgba(0,0,0,0.05)] border border-neutral-100 relative">
           <StoryContentBlock project={project} theme="light" />
         </div>
       </div>
 
       {/* Slide 2: 3-Column Phone Mockup Style */}
-      <div className="w-[90vw] md:w-[80vw] h-full flex-shrink-0 flex items-center justify-center mr-12 md:mr-24 px-4">
+      <div className="w-full lg:w-[80vw] h-auto lg:h-full flex-shrink-0 flex items-center justify-center mr-0 lg:mr-24 px-0 lg:px-4">
         <div className="w-full h-[70vh] grid grid-cols-1 md:grid-cols-3 gap-6">
           
           <motion.div 
@@ -44,7 +44,7 @@ export default function LemonyShop({ project }: { project: Project }) {
       </div>
 
       {/* Slide 3: Big Feature Highlight */}
-      <div className="w-[80vw] h-full flex-shrink-0 flex flex-col justify-center mr-12 md:mr-24 px-4">
+      <div className="w-full lg:w-[80vw] h-auto lg:h-full flex-shrink-0 flex flex-col justify-center mr-0 lg:mr-24 px-0 lg:px-4">
          <motion.div 
             initial={{ opacity: 0, scale: 0.9 }} whileInView={{ opacity: 1, scale: 1 }} transition={{ duration: 0.8 }} viewport={{ once: true, amount: 0.3 }}
             className="w-full h-[70vh] rounded-[2.5rem] bg-gradient-to-br from-[#b5cddf] to-[#a3bcd0] p-12 md:p-20 flex flex-col justify-between shadow-2xl"

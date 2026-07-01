@@ -9,14 +9,14 @@ export default function LemonyShopPro({ project }: { project: Project }) {
     <HorizontalScrollWrapper bgClass="bg-neutral-950" buttonTextClass="text-white">
       
       {/* Slide 1: Content Block (With Solid Card to prevent lag) */}
-      <div className="w-[80vw] md:w-[60vw] max-w-5xl flex-shrink-0 flex flex-col justify-center h-full mr-12 md:mr-24 relative px-4">
+      <div className="w-full lg:w-[60vw] max-w-5xl flex-shrink-0 flex flex-col justify-center h-auto lg:h-full mr-0 lg:mr-24 relative px-0 lg:px-4">
         <div className="w-full bg-[#151515] border border-white/5 p-8 md:p-16 rounded-[2.5rem] shadow-2xl relative">
           <StoryContentBlock project={project} theme="dark" />
         </div>
       </div>
 
       {/* Slide 2: Large Mockup & Small Detail */}
-      <div className="w-[85vw] md:w-[70vw] h-full flex-shrink-0 flex items-center justify-center mr-12 md:mr-24 px-4">
+      <div className="w-full lg:w-[70vw] h-auto lg:h-full flex-shrink-0 flex items-center justify-center mr-0 lg:mr-24 px-0 lg:px-4">
         <div className="w-full h-[70vh] flex flex-col md:flex-row gap-6">
           <motion.div 
             initial={{ opacity: 0, x: 50 }} whileInView={{ opacity: 1, x: 0 }} transition={{ duration: 0.8 }} viewport={{ once: true, amount: 0.3 }}
@@ -43,7 +43,7 @@ export default function LemonyShopPro({ project }: { project: Project }) {
       </div>
 
       {/* Slide 3: Two Column Layout */}
-      <div className="w-[85vw] md:w-[70vw] h-full flex-shrink-0 flex items-center justify-center mr-12 md:mr-24 px-4">
+      <div className="w-full lg:w-[70vw] h-auto lg:h-full flex-shrink-0 flex items-center justify-center mr-0 lg:mr-24 px-0 lg:px-4">
         <div className="w-full h-[70vh] flex flex-col md:flex-row gap-6">
           <motion.div 
             initial={{ opacity: 0, y: 50 }} whileInView={{ opacity: 1, y: 0 }} transition={{ duration: 0.8 }} viewport={{ once: true, amount: 0.3 }}
