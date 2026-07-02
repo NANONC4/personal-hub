@@ -9,6 +9,7 @@ import LemonyShopPro from "@/components/projects/LemonyShopPro";
 import LemonyShop from "@/components/projects/LemonyShop";
 import RulesOfHorror from "@/components/projects/RulesOfHorror";
 import SectionDivider from "@/components/SectionDivider";
+import PixelSky from "@/components/PixelSky";
 import HorizontalScrollCarousel from "@/components/HorizontalScrollCarousel";
 import HorrorPortalButton from "@/components/HorrorPortalButton";
 import { Gift, Star, Link, Mail, Globe, Palette } from "lucide-react";
@@ -39,28 +40,17 @@ export default function Home() {
       <BackgroundArt />
 
       {/* 1. HERO SECTION (Link-in-Bio) */}
-      <section className="relative z-10 w-full min-h-screen flex flex-col lg:flex-row max-w-[1600px] mx-auto bg-sky-100/90 text-slate-800 overflow-hidden"
-        style={{
-          backgroundImage: "radial-gradient(#94a3b8 1px, transparent 1px)",
-          backgroundSize: "20px 20px"
-        }}
-      >
-        {/* Floating Decorative Elements (Desktop Only) */}
-        <div className="hidden lg:block absolute inset-0 pointer-events-none z-0">
-          <motion.div animate={{ y: [0, -20, 0] }} transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }} className="absolute top-[15%] left-[5%] text-4xl text-pink-400 drop-shadow-md font-[family-name:var(--font-pixel)]">✦</motion.div>
-          <motion.div animate={{ y: [0, 15, 0] }} transition={{ duration: 5, repeat: Infinity, ease: "easeInOut", delay: 1 }} className="absolute bottom-[20%] left-[10%] text-5xl text-yellow-400 drop-shadow-md font-[family-name:var(--font-pixel)]">☁️</motion.div>
-          <motion.div animate={{ y: [0, -15, 0], rotate: [0, 10, 0] }} transition={{ duration: 3, repeat: Infinity, ease: "easeInOut", delay: 2 }} className="absolute top-[30%] right-[8%] text-4xl text-purple-400 drop-shadow-md font-[family-name:var(--font-pixel)]">♥</motion.div>
-          <motion.div animate={{ y: [0, 25, 0], scale: [1, 1.1, 1] }} transition={{ duration: 6, repeat: Infinity, ease: "easeInOut", delay: 0.5 }} className="absolute bottom-[15%] right-[15%] text-6xl text-white drop-shadow-md font-[family-name:var(--font-pixel)]">★</motion.div>
-          <motion.div animate={{ y: [0, -10, 0] }} transition={{ duration: 3.5, repeat: Infinity, ease: "easeInOut", delay: 1.5 }} className="absolute top-[50%] left-[45%] text-2xl text-emerald-400 drop-shadow-md font-[family-name:var(--font-pixel)]">✧</motion.div>
-        </div>
+      <section className="relative z-10 w-full min-h-screen flex flex-col lg:flex-row mx-auto text-slate-800 overflow-hidden bg-sky-200">
+        
+        <PixelSky />
 
         {/* Left Side: Profile (Sticky on Desktop) */}
-        <div className="w-full lg:w-[45%] lg:h-screen lg:sticky top-0 flex items-center justify-center p-6 md:p-12 lg:p-20 relative z-10">
+        <div className="w-full lg:w-[45%] lg:h-screen lg:sticky top-0 flex items-center justify-center p-6 md:p-12 lg:p-20 relative z-10 max-w-4xl mx-auto lg:max-w-none">
           <ProfileSection />
         </div>
 
         {/* Right Side: Links (Scrollable on Desktop) */}
-        <div className="w-full lg:w-[55%] flex flex-col justify-center p-6 md:p-12 lg:p-20 lg:py-32">
+        <div className="w-full lg:w-[55%] flex flex-col justify-center p-6 md:p-12 lg:p-20 lg:py-32 relative z-10">
           <motion.div 
             initial="hidden"
             whileInView="show"
@@ -88,6 +78,7 @@ export default function Home() {
                 icon={<Globe size={24} strokeWidth={1.5} />} 
                 href="#intro" 
                 highlighted={true}
+                index={0}
                 onClick={handleUnlockAndScroll}
               />
             </motion.div>
@@ -98,6 +89,7 @@ export default function Home() {
                 subtitle="Design concepts and UI explorations" 
                 icon={<Palette size={24} strokeWidth={1.5} />} 
                 href="https://dribbble.com" 
+                index={1}
               />
             </motion.div>
 
@@ -107,6 +99,7 @@ export default function Home() {
                 subtitle="Open source contributions and code" 
                 icon={<Gift size={24} strokeWidth={1.5} />} 
                 href="https://github.com" 
+                index={2}
               />
             </motion.div>
 
@@ -116,6 +109,7 @@ export default function Home() {
                 subtitle="Professional network and resume" 
                 icon={<Link size={24} strokeWidth={1.5} />} 
                 href="https://linkedin.com" 
+                index={3}
               />
             </motion.div>
             
@@ -125,6 +119,7 @@ export default function Home() {
                 subtitle="Behind the scenes and daily life" 
                 icon={<Star size={24} strokeWidth={1.5} />} 
                 href="https://instagram.com" 
+                index={4}
               />
             </motion.div>
             
@@ -134,6 +129,7 @@ export default function Home() {
                 subtitle="Available for freelance opportunities" 
                 icon={<Mail size={24} strokeWidth={1.5} />} 
                 href="mailto:hello@example.com" 
+                index={5}
               />
             </motion.div>
           </motion.div>

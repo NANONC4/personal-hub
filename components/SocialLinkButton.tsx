@@ -8,10 +8,36 @@ interface SocialLinkButtonProps {
   icon?: React.ReactNode;
   href: string;
   highlighted?: boolean;
+  index?: number;
   onClick?: (e: React.MouseEvent) => void;
 }
 
-export default function SocialLinkButton({ title, subtitle, icon, href, highlighted, onClick }: SocialLinkButtonProps) {
+export default function SocialLinkButton({ title, subtitle, icon, href, highlighted, index, onClick }: SocialLinkButtonProps) {
+  
+  // Cute pixel stars pattern
+  const starPattern = "data:image/svg+xml;charset=utf-8," + encodeURIComponent(`
+    <svg width="40" height="40" xmlns="http://www.w3.org/2000/svg">
+      <path d="M16,4 h8 v8 h8 v8 h-8 v8 h-8 v-8 h-8 v-8 h8 z" fill="rgba(250,204,21,0.25)" />
+    </svg>
+  `);
+
+  // Cute pixel hearts pattern (perfectly symmetrical)
+  const heartPattern = "data:image/svg+xml;charset=utf-8," + encodeURIComponent(`
+    <svg width="60" height="60" xmlns="http://www.w3.org/2000/svg">
+      <path d="M10,5 h15 v5 h10 v-5 h15 v10 h5 v10 h-5 v5 h-5 v5 h-5 v5 h-5 v5 h-10 v-5 h-5 v-5 h-5 v-5 h-5 v-5 h-5 v-10 h5 v-10 z" fill="rgba(255,192,203,0.4)" transform="translate(0, 5)" />
+    </svg>
+  `);
+
+  const i = index ?? 0;
+  const isHeart = i % 2 === 0;
+  const dirIndex = i % 4;
+  
+  const patternUrl = isHeart ? "url('" + heartPattern + "')" : "url('" + starPattern + "')";
+  const patternSize = isHeart ? "60px 60px" : "40px 40px";
+  
+  // Base animation speed
+  const animationName = "scrollPattern-" + dirIndex + " " + (isHeart ? "8s" : "10s") + " linear infinite";
+
   return (
     <motion.a
       href={href}
@@ -25,27 +51,121 @@ export default function SocialLinkButton({ title, subtitle, icon, href, highligh
         }
       `}
     >
-      {/* Icon */}
-      <div className={`flex items-center justify-center w-12 h-12 rounded-lg border-2 border-slate-800 ${highlighted ? 'bg-pink-300' : 'bg-sky-200'} text-slate-800 shadow-inner mr-4 group-hover:scale-110 transition-transform duration-200`}>
+      {/* Scrolling Background Pattern (Alternating patterns and directions) */}
+      <div 
+        className="absolute inset-0 z-0 pointer-events-none opacity-80"
+        style={{
+          backgroundImage: patternUrl,
+          backgroundSize: patternSize,
+          animation: animationName
+        }}
+      />
+
+      {/* Shine Sweep Effect (Continuous loop) */}
+      <div className="absolute top-0 bottom-0 w-12 bg-white/50 blur-[4px] -skew-x-12 -translate-x-[150%] animate-sweep-loop z-10 pointer-events-none" />
+
+      {/* Floating Sparkles (Continuous loop) */}
+      <span className="absolute -top-2 right-6 text-pink-400 font-[family-name:var(--font-pixel)] text-xl z-20 pointer-events-none animate-sparkle-1">
+        ✦
+      </span>
+      <span className="absolute -bottom-1 left-[15%] text-yellow-400 font-[family-name:var(--font-pixel)] text-2xl z-20 pointer-events-none animate-sparkle-2">
+        ✧
+      </span>
+      {highlighted && (
+        <span className="absolute top-2 right-1/4 text-purple-400 font-[family-name:var(--font-pixel)] text-lg z-20 pointer-events-none animate-sparkle-3">
+          ♥
+        </span>
+      )}
+
+      {/* Icon with continuous gentle bobbing/jiggle */}
+      <div className={`relative z-20 flex items-center justify-center w-12 h-12 rounded-lg border-2 border-slate-800 ${highlighted ? 'bg-pink-300' : 'bg-sky-200'} text-slate-800 shadow-inner mr-4 animate-jiggle-loop`}>
         {icon ? icon : <ExternalLink size={24} strokeWidth={2} />}
       </div>
 
       {/* Content */}
-      <div className="flex-1 text-left">
-        <h3 className="text-slate-800 font-[family-name:var(--font-pixel)] text-lg lg:text-xl tracking-wide group-hover:text-pink-600 transition-colors">
+      <div className="flex-1 text-left relative z-20">
+        <h3 className="font-[family-name:var(--font-pixel)] text-lg lg:text-xl tracking-wide bg-gradient-to-r from-sky-500 via-pink-500 to-purple-500 bg-clip-text text-transparent animate-gradient-text">
           {title}
         </h3>
         {subtitle && (
-          <p className="text-slate-500 text-sm mt-1 group-hover:text-slate-700 transition-colors font-medium">
+          <p className="text-slate-500 text-sm mt-1 group-hover:text-slate-700 transition-colors font-medium bg-white/50 inline-block px-1 rounded">
             {subtitle}
           </p>
         )}
       </div>
 
-      {/* Hover Arrow */}
-      <div className="text-slate-400 group-hover:text-pink-600 transition-all transform -translate-x-2 opacity-0 group-hover:translate-x-0 group-hover:opacity-100 duration-200">
+      {/* Hover Arrow (Keep this on hover only for interaction feedback) */}
+      <div className="relative z-20 text-slate-400 group-hover:text-pink-600 transition-all transform -translate-x-2 opacity-0 group-hover:translate-x-0 group-hover:opacity-100 duration-200">
         <ExternalLink size={24} strokeWidth={2.5} />
       </div>
+
+      <style jsx global>{`
+        /* 0: Heart, top-left */
+        @keyframes scrollPattern-0 {
+          0% { background-position: 0 0; }
+          100% { background-position: -60px -60px; }
+        }
+        /* 1: Star, bottom-right */
+        @keyframes scrollPattern-1 {
+          0% { background-position: 0 0; }
+          100% { background-position: 40px 40px; }
+        }
+        /* 2: Heart, bottom-left */
+        @keyframes scrollPattern-2 {
+          0% { background-position: 0 0; }
+          100% { background-position: -60px 60px; }
+        }
+        /* 3: Star, top-right */
+        @keyframes scrollPattern-3 {
+          0% { background-position: 0 0; }
+          100% { background-position: 40px -40px; }
+        }
+
+        @keyframes sweep-loop {
+          0%, 50% { transform: translateX(-150%) skewX(-12deg); opacity: 0; }
+          51% { opacity: 1; }
+          100% { transform: translateX(800%) skewX(-12deg); opacity: 1; }
+        }
+        .animate-sweep-loop {
+          animation: sweep-loop 3s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+        }
+
+        @keyframes float-sparkle-1 {
+          0%, 100% { transform: translateY(0) scale(1); opacity: 0.6; }
+          50% { transform: translateY(-8px) scale(1.3); opacity: 1; }
+        }
+        .animate-sparkle-1 { animation: float-sparkle-1 2s ease-in-out infinite; }
+
+        @keyframes float-sparkle-2 {
+          0%, 100% { transform: translateY(0) scale(1); opacity: 0.5; }
+          50% { transform: translateY(6px) scale(1.2); opacity: 1; }
+        }
+        .animate-sparkle-2 { animation: float-sparkle-2 2.5s ease-in-out infinite reverse; }
+
+        @keyframes float-sparkle-3 {
+          0%, 100% { transform: scale(1); opacity: 0.5; }
+          50% { transform: scale(1.4) rotate(15deg); opacity: 1; }
+        }
+        .animate-sparkle-3 { animation: float-sparkle-3 1.8s ease-in-out infinite; }
+
+        @keyframes jiggle-slow {
+          0%, 100% { transform: rotate(-3deg) scale(1); }
+          50% { transform: rotate(3deg) scale(1.05); }
+        }
+        .animate-jiggle-loop {
+          animation: jiggle-slow 3s ease-in-out infinite;
+        }
+
+        @keyframes gradient-text-shift {
+          0% { background-position: 0% 50%; }
+          50% { background-position: 100% 50%; }
+          100% { background-position: 0% 50%; }
+        }
+        .animate-gradient-text {
+          background-size: 200% auto;
+          animation: gradient-text-shift 6s linear infinite;
+        }
+      `}</style>
     </motion.a>
   );
 }
