@@ -40,7 +40,7 @@ export default function Home() {
       <BackgroundArt />
 
       {/* 1. HERO SECTION (Link-in-Bio) */}
-      <section className="relative z-10 w-full min-h-screen flex flex-col lg:flex-row mx-auto text-slate-800 overflow-hidden bg-sky-200">
+      <section className="relative z-10 w-full min-h-screen flex flex-col lg:flex-row mx-auto text-slate-800 overflow-hidden bg-gradient-to-b from-sky-300 via-sky-200 to-blue-100">
         
         <PixelSky />
 
