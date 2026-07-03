@@ -1,6 +1,7 @@
 "use client";
 import { Project } from "@/data/projects";
-import { motion } from "framer-motion";
+import { motion, useScroll, useMotionValueEvent } from "framer-motion";
+import { useState } from "react";
 import { ExternalLink, Code, FileText } from "lucide-react";
 
 interface StoryContentBlockProps {
@@ -42,9 +43,21 @@ export default function StoryContentBlock({ project, theme = "light" }: StoryCon
 
   const currentTheme = themeStyles[theme as keyof typeof themeStyles] || themeStyles.light;
 
+  const [scrollDir, setScrollDir] = useState<1 | -1>(1);
+  const { scrollY } = useScroll();
+
+  useMotionValueEvent(scrollY, "change", (latest) => {
+    const previous = scrollY.getPrevious() ?? 0;
+    if (latest > previous) {
+      setScrollDir(1);
+    } else if (latest < previous) {
+      setScrollDir(-1);
+    }
+  });
+
   return (
     <div className="flex flex-col max-w-xl">
-      <motion.div initial={{ opacity: 0, x: -30 }} whileInView={{ opacity: 1, x: 0 }} transition={{ duration: 0.8 }} viewport={{ once: true }}>
+      <motion.div initial={{ opacity: 0, x: -30 }} whileInView={{ opacity: 1, x: 0 }} transition={{ duration: 0.8 }} viewport={{ once: false }}>
         <h3 className={`text-4xl md:text-5xl lg:text-6xl font-bold mb-6 ${currentTheme.title}`}>
           {project.title}
         </h3>
@@ -56,10 +69,10 @@ export default function StoryContentBlock({ project, theme = "light" }: StoryCon
       <motion.div 
         initial="hidden" 
         whileInView="show" 
-        viewport={{ once: true }} 
+        viewport={{ once: false }} 
         variants={{
           hidden: { opacity: 0 },
-          show: { opacity: 1, transition: { staggerChildren: 0.1, delayChildren: 0.3 } }
+          show: { opacity: 1, transition: { staggerChildren: 0.1, delayChildren: 0.3, staggerDirection: scrollDir } }
         }}
         className="flex flex-wrap gap-3 mb-12"
       >
@@ -74,7 +87,7 @@ export default function StoryContentBlock({ project, theme = "light" }: StoryCon
         ))}
       </motion.div>
 
-      <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, delay: 0.5 }} viewport={{ once: true }} className="flex flex-wrap items-center gap-4">
+      <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, delay: 0.5 }} viewport={{ once: false }} className="flex flex-wrap items-center gap-4">
         {project.links.demo && (
           <a href={project.links.demo} target="_blank" rel="noreferrer" className={`flex items-center gap-2 px-6 py-3 font-semibold transition-all ${currentTheme.btnBg}`}>
             <ExternalLink size={18} /> Live Demo

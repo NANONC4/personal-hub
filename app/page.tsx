@@ -1,6 +1,6 @@
 "use client";
 import { useState } from "react";
-import { motion } from "framer-motion";
+import { motion, useScroll, useMotionValueEvent } from "framer-motion";
 import BackgroundArt from "@/components/BackgroundArt";
 import ProfileSection from "@/components/ProfileSection";
 import SocialLinkButton from "@/components/SocialLinkButton";
@@ -24,6 +24,17 @@ const getTheme = (index: number): Theme => {
 
 export default function Home() {
   const [isLocked, setIsLocked] = useState(true);
+  const [scrollDir, setScrollDir] = useState<1 | -1>(1);
+  const { scrollY } = useScroll();
+
+  useMotionValueEvent(scrollY, "change", (latest) => {
+    const previous = scrollY.getPrevious() ?? 0;
+    if (latest > previous) {
+      setScrollDir(1);
+    } else if (latest < previous) {
+      setScrollDir(-1);
+    }
+  });
 
   const handleUnlockAndScroll = (e: React.MouseEvent) => {
     e.preventDefault();
@@ -38,29 +49,31 @@ export default function Home() {
   return (
     <main className="relative min-h-screen bg-neutral-950 font-[family-name:var(--font-geist-sans)] selection:bg-sky-500/30 overflow-x-hidden">
       {/* 1. HERO SECTION (Link-in-Bio) */}
-      <section className="relative z-10 w-full min-h-screen flex flex-col lg:flex-row mx-auto text-slate-800 overflow-hidden bg-gradient-to-b from-sky-300 via-sky-200 to-blue-100">
+      <section className="relative z-10 w-full min-h-screen flex flex-col items-center justify-center overflow-hidden bg-gradient-to-b from-sky-300 via-sky-200 to-blue-100">
         
         <PixelSky />
 
-        {/* Left Side: Profile (Sticky on Desktop) */}
-        <div className="w-full lg:w-[45%] lg:h-screen lg:sticky top-0 flex items-center justify-center p-6 md:p-12 lg:p-20 relative z-10 max-w-4xl mx-auto lg:max-w-none">
-          <ProfileSection />
-        </div>
+        <div className="w-full max-w-[1600px] mx-auto flex flex-col lg:flex-row items-center justify-center gap-16 lg:gap-24 px-6 md:px-12 py-20 lg:py-0 relative z-10">
+          
+          {/* Left Side: Profile */}
+          <div className="flex-shrink-0">
+            <ProfileSection />
+          </div>
 
-        {/* Right Side: Links (Scrollable on Desktop) */}
-        <div className="w-full lg:w-[55%] flex flex-col justify-center p-6 md:p-12 lg:p-20 lg:py-32 relative z-10">
-          <motion.div 
-            initial="hidden"
-            whileInView="show"
-            viewport={{ once: true }}
+          {/* Right Side: Links */}
+          <div className="w-full max-w-xl flex-shrink-0">
+            <motion.div 
+              initial="hidden"
+              whileInView="show"
+              viewport={{ once: false }}
             variants={{
               hidden: { opacity: 0 },
               show: {
                 opacity: 1,
-                transition: { staggerChildren: 0.15, delayChildren: 0.2 }
+                transition: { staggerChildren: 0.15, delayChildren: 0.2, staggerDirection: scrollDir }
               }
             }}
-            className="flex flex-col gap-4 max-w-xl mx-auto w-full"
+            className="flex flex-col gap-4 max-w-xl mx-auto lg:mx-0 w-full"
           >
             <motion.div 
               variants={{ hidden: { opacity: 0, y: -30 }, show: { opacity: 1, y: 0 } }}
@@ -141,7 +154,8 @@ export default function Home() {
             </motion.div>
           </motion.div>
         </div>
-      </section>
+      </div>
+    </section>
 
       {!isLocked && (
         <motion.div

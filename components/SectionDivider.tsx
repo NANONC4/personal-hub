@@ -1,6 +1,7 @@
 "use client";
-import { motion, useScroll, useTransform, useSpring } from "framer-motion";
+import { motion, useScroll, useTransform, useSpring, useMotionTemplate } from "framer-motion";
 import { useRef, ReactNode } from "react";
+import { getPattern } from "@/lib/patterns";
 
 interface SectionDividerProps {
   title: string;
@@ -35,9 +36,16 @@ export default function SectionDivider({
   
   // 1. Divider Box slides horizontally out of the frame
   // The gap is centered on screen at progress 0.50.
-  const rawBoxX = useTransform(scrollYProgress, [0.50, 0.65], [0, direction * 150]);
+  // The box is w-[150%], so moving it 150% means moving it 225vw.
+  const rawBoxX = useTransform(scrollYProgress, [0.50, 0.65], [0, direction * 225]);
   const boxXSpring = useSpring(rawBoxX, { stiffness: 70, damping: 20, mass: 0.8 });
-  const boxX = useTransform(boxXSpring, v => `${v}%`);
+  const boxX = useTransform(boxXSpring, v => `${v}vw`);
+  
+  // Background Parallax Counters
+  // To keep dots perfectly still on screen, they must move opposite to the box's local movement.
+  const bgXVw = useTransform(boxXSpring, v => `${-v}vw`);
+  const { scrollY } = useScroll();
+  const bgYPx = useTransform(scrollY, y => `${y}px`);
   
   // 2. The NEXT section (children) slides UP by 30vh to perfectly dock with the Top Piece!
   // It starts right after the box begins to slide out, and finishes docking as the box leaves.
@@ -94,9 +102,7 @@ export default function SectionDivider({
         <div 
           className="absolute inset-0 z-0 opacity-60 pointer-events-none" 
           style={{
-            backgroundImage: `radial-gradient(white 3px, transparent 3px), radial-gradient(white 3px, transparent 3px)`,
-            backgroundSize: `40px 40px`,
-            backgroundPosition: `0 0, 20px 20px`,
+            ...getPattern(index + 1),
             backgroundAttachment: `fixed`
           }}
         />
@@ -124,9 +130,7 @@ export default function SectionDivider({
               <div 
                 className="absolute inset-0 z-0 opacity-60 pointer-events-none" 
                 style={{
-                  backgroundImage: `radial-gradient(white 3px, transparent 3px), radial-gradient(white 3px, transparent 3px)`,
-                  backgroundSize: `40px 40px`,
-                  backgroundPosition: `0 0, 20px 20px`,
+                  ...getPattern(0),
                   backgroundAttachment: `fixed`
                 }}
               />
@@ -142,22 +146,20 @@ export default function SectionDivider({
             style={{ x: boxX }}
             className={`w-[150%] flex-shrink-0 h-[30vh] ${currentTheme.bg} flex flex-col items-center justify-center shadow-[0_20px_0_0_rgba(0,0,0,0.5)] border-y-8 border-slate-800 will-change-transform pointer-events-auto relative overflow-hidden`}
           >
-            {/* CSS Static Stars Background to prevent scroll lag instead of Canvas */}
-            <div 
+            {/* CSS Static Stars Background - Parallax illusion! */}
+            <motion.div 
               className="absolute inset-0 z-0 opacity-60 pointer-events-none" 
               style={{
-                backgroundImage: `radial-gradient(white 3px, transparent 3px), radial-gradient(white 3px, transparent 3px)`,
-                backgroundSize: `40px 40px`,
-                backgroundPosition: `0 0, 20px 20px`,
-                backgroundAttachment: `fixed`
+                ...getPattern(index + 2),
+                backgroundPosition: useMotionTemplate`calc(0vw + ${bgXVw}) calc(0px + ${bgYPx})`
               }}
             />
 
-            <div className="text-center px-4 max-w-4xl relative z-10" style={{ transform: `rotate(${-rotationAngle}deg)` }}>
+            <div className="text-center px-4 max-w-4xl relative z-10">
               <motion.span 
                 initial={{ opacity: 0, y: -20 }}
                 whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
+                viewport={{ once: false }}
                 transition={{ duration: 0.6 }}
                 className={`${currentTheme.chapter} font-[family-name:var(--font-pixel)] tracking-widest text-xs md:text-sm uppercase mb-2 block`}
               >
@@ -166,7 +168,7 @@ export default function SectionDivider({
               <motion.h2 
                 initial={{ opacity: 0, scale: 0.9 }}
                 whileInView={{ opacity: 1, scale: 1 }}
-                viewport={{ once: true }}
+                viewport={{ once: false }}
                 transition={{ duration: 0.8, delay: 0.2, type: "spring" }}
                 className={`text-4xl md:text-6xl lg:text-7xl font-black ${currentTheme.title} font-[family-name:var(--font-pixel)] tracking-widest uppercase leading-none mb-4`}
               >
@@ -176,7 +178,7 @@ export default function SectionDivider({
                 <motion.p 
                   initial={{ opacity: 0, y: 20 }}
                   whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
+                  viewport={{ once: false }}
                   transition={{ duration: 0.6, delay: 0.4 }}
                   className={`${currentTheme.subtitle} mt-2 max-w-xl mx-auto text-base md:text-lg font-[family-name:var(--font-pixel)] uppercase`}
                 >

@@ -1,5 +1,6 @@
 "use client";
 import { motion } from "framer-motion";
+import { getPattern } from "@/lib/patterns";
 
 export default function IntroSection() {
   return (
@@ -8,9 +9,7 @@ export default function IntroSection() {
       <div 
         className="absolute inset-0 z-0 opacity-60 pointer-events-none" 
         style={{
-          backgroundImage: `radial-gradient(white 3px, transparent 3px), radial-gradient(white 3px, transparent 3px)`,
-          backgroundSize: `40px 40px`,
-          backgroundPosition: `0 0, 20px 20px`,
+          ...getPattern(0),
           backgroundAttachment: `fixed`
         }}
       />
@@ -18,7 +17,7 @@ export default function IntroSection() {
         <motion.p 
           initial={{ opacity: 0, x: -40 }}
           whileInView={{ opacity: 1, x: 0 }}
-          viewport={{ once: true, margin: "-100px" }}
+          viewport={{ margin: "-100px" }}
           transition={{ duration: 0.8, ease: "easeOut" }}
           className="text-slate-400 font-[family-name:var(--font-pixel)] tracking-widest text-lg uppercase mb-10"
         >
@@ -29,7 +28,7 @@ export default function IntroSection() {
           <motion.span
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "-100px" }}
+            viewport={{ margin: "-100px" }}
             transition={{ duration: 1, delay: 0.2 }}
           >
             Crafting digital
@@ -37,7 +36,7 @@ export default function IntroSection() {
           <motion.span
             initial={{ opacity: 0, scale: 0.8 }}
             whileInView={{ opacity: 1, scale: 1 }}
-            viewport={{ once: true, margin: "-100px" }}
+            viewport={{ margin: "-100px" }}
             transition={{ duration: 1, delay: 0.5, type: "spring" }}
             className="text-sky-500 mx-2"
           >
@@ -46,7 +45,7 @@ export default function IntroSection() {
           <motion.span
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "-100px" }}
+            viewport={{ margin: "-100px" }}
             transition={{ duration: 1, delay: 0.7 }}
           >
             with magic.
@@ -56,7 +55,7 @@ export default function IntroSection() {
         <motion.div 
           initial={{ opacity: 0, height: 0 }}
           whileInView={{ opacity: 1, height: 100 }}
-          viewport={{ once: true }}
+          viewport={{ once: false }}
           transition={{ duration: 1.5, delay: 0.8, ease: "circOut" }}
           className="mt-20 w-[4px] border-l-4 border-dashed border-slate-300 mx-auto"
         />

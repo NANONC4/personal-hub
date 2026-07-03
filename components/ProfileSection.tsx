@@ -1,7 +1,9 @@
 "use client";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
+import { useState } from "react";
 
 export default function ProfileSection() {
+  const [isDialogueOpen, setIsDialogueOpen] = useState(true);
   
   // 1. Classic fluffy cloud
   const cloudPattern1 = "data:image/svg+xml;charset=utf-8," + encodeURIComponent(`
@@ -56,7 +58,7 @@ export default function ProfileSection() {
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.8, ease: "easeOut" }}
-      className="flex flex-col items-center lg:items-start text-center lg:text-left space-y-6 w-full lg:w-[350px] lg:sticky lg:top-24 z-10 relative"
+      className="flex flex-col lg:flex-row items-center lg:items-center text-center lg:text-left gap-6 lg:gap-10 w-full lg:w-auto lg:sticky lg:top-24 z-10 relative"
     >
       {/* Melancholic Pixel Clouds Drifting in the Background */}
       <div className="absolute -inset-x-20 inset-y-0 z-0 pointer-events-none">
@@ -69,12 +71,16 @@ export default function ProfileSection() {
       <div className="relative mt-6 mb-2">
         {/* Floating Moon Decoration (Now visible on mobile, positioned left of profile) */}
         <div className="absolute top-[-30px] left-[-70px] lg:top-[-40px] lg:left-[-120px] z-0 pointer-events-none opacity-90">
-          <img src={moonPattern} className="w-24 lg:w-32 xl:w-48 animate-float-slow drop-shadow-[0_0_15px_rgba(255,255,255,0.8)]" style={{ animationDelay: '0.5s' }} alt="Large Crescent Moon" />
+          <img src={moonPattern} className="w-24 lg:w-40 xl:w-56 animate-float-slow drop-shadow-[0_0_15px_rgba(255,255,255,0.8)]" style={{ animationDelay: '0.5s' }} alt="Large Crescent Moon" />
         </div>
 
         {/* Profile Image with Floating Effect & Pixel-Art Shadow */}
-        <div className="relative group cursor-pointer animate-float-slow z-10" style={{ animationDelay: '0.2s' }}>
-          <div className="relative w-32 h-32 lg:w-44 lg:h-44 rounded-xl overflow-hidden border-4 border-slate-800 bg-sky-200 p-1 shadow-[6px_6px_0_0_#1e293b] group-hover:translate-x-[2px] group-hover:translate-y-[2px] group-hover:shadow-[4px_4px_0_0_#1e293b] transition-all duration-200">
+        <div 
+          className="relative group cursor-pointer animate-float-slow z-10" 
+          style={{ animationDelay: '0.2s' }}
+          onClick={() => setIsDialogueOpen(true)}
+        >
+          <div className="relative w-32 h-32 lg:w-[300px] lg:h-[440px] rounded-xl overflow-hidden border-4 border-slate-800 bg-sky-200 p-1 shadow-[6px_6px_0_0_#1e293b] group-hover:translate-x-[2px] group-hover:translate-y-[2px] group-hover:shadow-[4px_4px_0_0_#1e293b] transition-all duration-200">
             <div className="w-full h-full rounded-lg bg-pink-100 overflow-hidden relative flex items-center justify-center border-2 border-slate-800/20">
               {/* Shine Sweep Effect */}
               <div className="absolute top-0 bottom-0 w-16 bg-white/60 blur-[6px] -skew-x-12 -translate-x-[150%] group-hover:animate-sweep z-10 pointer-events-none" />
@@ -104,20 +110,35 @@ export default function ProfileSection() {
         </div>
         
         {/* RPG Dialogue Box Description */}
-        <div className="relative mt-2">
-          {/* Dialogue Box Tail */}
-          <div className="absolute -top-3 left-8 lg:left-6 w-0 h-0 border-l-[10px] border-l-transparent border-r-[10px] border-r-transparent border-b-[12px] border-b-slate-800"></div>
-          <div className="absolute -top-2 left-[33px] lg:left-[25px] w-0 h-0 border-l-[8px] border-l-transparent border-r-[8px] border-r-transparent border-b-[10px] border-b-white z-10"></div>
-          
-          <div className="bg-white border-4 border-slate-800 rounded-xl p-4 lg:p-5 shadow-[4px_4px_0_0_#1e293b] relative z-0">
-            <p className="text-sm text-slate-700 leading-relaxed font-medium">
-              私は川で、星は、どこを参照してください。<br/>
-              <span className="text-xs text-slate-500 mt-2 block font-semibold">— Chatchai Danrungruang</span>
-            </p>
-            {/* Blinking Continue Triangle */}
-            <div className="absolute bottom-3 right-4 w-0 h-0 border-l-[6px] border-l-transparent border-r-[6px] border-r-transparent border-t-[8px] border-t-pink-500 animate-blink"></div>
-          </div>
-        </div>
+        <AnimatePresence>
+          {isDialogueOpen && (
+            <motion.div 
+              initial={{ opacity: 0, scale: 0.9, y: -10 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.9, y: -10 }}
+              transition={{ type: "spring", bounce: 0.5, duration: 0.5 }}
+              className="relative mt-2 w-full cursor-pointer group/dialogue"
+              onClick={() => setIsDialogueOpen(false)}
+            >
+              {/* Mobile Tail (Points UP) */}
+              <div className="lg:hidden absolute -top-3 left-8 w-0 h-0 border-l-[10px] border-l-transparent border-r-[10px] border-r-transparent border-b-[12px] border-b-slate-800 transition-transform group-hover/dialogue:translate-y-[2px]"></div>
+              <div className="lg:hidden absolute -top-2 left-[33px] w-0 h-0 border-l-[8px] border-l-transparent border-r-[8px] border-r-transparent border-b-[10px] border-b-white z-10 transition-transform group-hover/dialogue:translate-y-[2px]"></div>
+              
+              {/* Desktop Tail (Points LEFT) */}
+              <div className="hidden lg:block absolute top-6 -left-3 w-0 h-0 border-t-[10px] border-t-transparent border-b-[10px] border-b-transparent border-r-[12px] border-r-slate-800 transition-transform group-hover/dialogue:translate-x-[2px]"></div>
+              <div className="hidden lg:block absolute top-[26px] -left-2 w-0 h-0 border-t-[8px] border-t-transparent border-b-[8px] border-b-transparent border-r-[10px] border-r-white z-10 transition-transform group-hover/dialogue:translate-x-[2px]"></div>
+              
+              <div className="bg-white border-4 border-slate-800 rounded-xl p-4 lg:p-5 shadow-[4px_4px_0_0_#1e293b] group-hover/dialogue:shadow-[2px_2px_0_0_#1e293b] group-hover/dialogue:translate-x-[2px] group-hover/dialogue:translate-y-[2px] transition-all relative z-0">
+                <p className="text-sm text-slate-700 leading-relaxed font-medium">
+                  私は川で、星は、どこを参照してください。<br/>
+                  <span className="text-xs text-slate-500 mt-2 block font-semibold">— Chatchai Danrungruang</span>
+                </p>
+                {/* Blinking Continue Triangle */}
+                <div className="absolute bottom-3 right-4 w-0 h-0 border-l-[6px] border-l-transparent border-r-[6px] border-r-transparent border-t-[8px] border-t-pink-500 animate-blink"></div>
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
       </div>
 
       

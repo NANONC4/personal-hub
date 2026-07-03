@@ -145,7 +145,7 @@ export default function HorizontalScrollCarousel({ project, theme = "light" }: H
               initial={{ opacity: 0, scale: 0.8, filter: "blur(10px)" }}
               whileInView={{ opacity: 1, scale: 1, filter: "blur(0px)" }}
               transition={{ duration: 0.8, delay: 0.1, ease: "easeOut" }}
-              viewport={{ once: true, amount: 0.3 }}
+              viewport={{ amount: 0.3 }}
               className="w-[70vw] md:w-[50vw] max-w-4xl h-[70vh] flex-shrink-0 flex items-center justify-center px-4 md:px-8"
             >
               <div className="w-full h-full rounded-2xl overflow-hidden shadow-2xl relative group">

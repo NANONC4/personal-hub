@@ -22,7 +22,7 @@ export default function RulesOfHorror({ project }: { project: Project }) {
           initial={{ opacity: 0 }} 
           whileInView={{ opacity: 1 }} 
           transition={{ duration: 1.5, ease: "easeOut" }} 
-          viewport={{ once: true, amount: 0.3 }}
+          viewport={{ amount: 0.3 }}
           className="w-full h-[70vh] rounded-xl overflow-hidden shadow-[8px_8px_0_0_#1a0505] relative border-4 border-[#4a0d0d] group"
         >
           <img src={project.gallery[0]} alt="Horror Scene 1" className="w-full h-full object-cover scale-105 group-hover:scale-100 transition-transform duration-[2s]" style={{ imageRendering: 'pixelated' }} />
@@ -50,21 +50,21 @@ export default function RulesOfHorror({ project }: { project: Project }) {
         <div className="w-full h-[70vh] flex gap-4 md:gap-8 items-center">
           
           <motion.div 
-            initial={{ opacity: 0, y: -50 }} whileInView={{ opacity: 1, y: 0 }} transition={{ duration: 1 }} viewport={{ once: true, amount: 0.3 }}
+            initial={{ opacity: 0, y: -50 }} whileInView={{ opacity: 1, y: 0 }} transition={{ duration: 1 }} viewport={{ amount: 0.3 }}
             className="w-1/3 h-[60%] rounded-xl overflow-hidden shadow-[8px_8px_0_0_#1a0505] border-4 border-[#4a0d0d]"
           >
             <img src={project.gallery[1]} alt="Gameplay 1" className="w-full h-full object-cover opacity-70 hover:opacity-100 transition-all duration-700" style={{ imageRendering: 'pixelated' }} />
           </motion.div>
           
           <motion.div 
-            initial={{ opacity: 0, scale: 0.8 }} whileInView={{ opacity: 1, scale: 1 }} transition={{ duration: 1, delay: 0.3 }} viewport={{ once: true, amount: 0.3 }}
+            initial={{ opacity: 0, scale: 0.8 }} whileInView={{ opacity: 1, scale: 1 }} transition={{ duration: 1, delay: 0.3 }} viewport={{ amount: 0.3 }}
             className="w-1/3 h-[90%] rounded-xl overflow-hidden shadow-[8px_8px_0_0_#1a0505] border-4 border-[#4a0d0d] relative z-10"
           >
             <img src={project.gallery[2]} alt="Gameplay 2" className="w-full h-full object-cover" style={{ imageRendering: 'pixelated' }} />
           </motion.div>
           
           <motion.div 
-            initial={{ opacity: 0, y: 50 }} whileInView={{ opacity: 1, y: 0 }} transition={{ duration: 1, delay: 0.6 }} viewport={{ once: true, amount: 0.3 }}
+            initial={{ opacity: 0, y: 50 }} whileInView={{ opacity: 1, y: 0 }} transition={{ duration: 1, delay: 0.6 }} viewport={{ amount: 0.3 }}
             className="w-1/3 h-[60%] rounded-xl overflow-hidden shadow-[8px_8px_0_0_#1a0505] border-4 border-[#4a0d0d]"
           >
             <img src={project.gallery[3]} alt="Gameplay 3" className="w-full h-full object-cover opacity-70 hover:opacity-100 transition-all duration-700" style={{ imageRendering: 'pixelated' }} />
