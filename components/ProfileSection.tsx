@@ -110,15 +110,16 @@ export default function ProfileSection() {
         </div>
         
         {/* RPG Dialogue Box Description */}
-        <AnimatePresence>
-          {isDialogueOpen && (
+        <AnimatePresence mode="wait">
+          {isDialogueOpen ? (
             <motion.div 
+              key="full-dialogue"
               initial={{ opacity: 0, scale: 0.9, y: -10 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.9, y: -10 }}
               transition={{ type: "spring", bounce: 0.5, duration: 0.5 }}
               className="relative mt-2 w-full cursor-pointer group/dialogue"
-              onClick={() => setIsDialogueOpen(false)}
+              onClick={(e) => { e.stopPropagation(); setIsDialogueOpen(false); }}
             >
               {/* Mobile Tail (Points UP) */}
               <div className="lg:hidden absolute -top-3 left-8 w-0 h-0 border-l-[10px] border-l-transparent border-r-[10px] border-r-transparent border-b-[12px] border-b-slate-800 transition-transform group-hover/dialogue:translate-y-[2px]"></div>
@@ -135,6 +136,32 @@ export default function ProfileSection() {
                 </p>
                 {/* Blinking Continue Triangle */}
                 <div className="absolute bottom-3 right-4 w-0 h-0 border-l-[6px] border-l-transparent border-r-[6px] border-r-transparent border-t-[8px] border-t-pink-500 animate-blink"></div>
+              </div>
+            </motion.div>
+          ) : (
+            <motion.div
+              key="mini-dialogue"
+              initial={{ opacity: 0, scale: 0.5, y: -10 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.5, y: -10 }}
+              transition={{ type: "spring", bounce: 0.5, duration: 0.4 }}
+              className="relative mt-2 w-auto cursor-pointer group/mini flex lg:block"
+              onClick={(e) => { e.stopPropagation(); setIsDialogueOpen(true); }}
+            >
+              {/* Mobile Tail (Points UP) */}
+              <div className="lg:hidden absolute -top-3 left-8 w-0 h-0 border-l-[8px] border-l-transparent border-r-[8px] border-r-transparent border-b-[10px] border-b-slate-800 transition-transform group-hover/mini:translate-y-[2px]"></div>
+              <div className="lg:hidden absolute -top-2 left-[30px] w-0 h-0 border-l-[6px] border-l-transparent border-r-[6px] border-r-transparent border-b-[8px] border-b-white z-10 transition-transform group-hover/mini:translate-y-[2px]"></div>
+              
+              {/* Desktop Tail (Points LEFT) */}
+              <div className="hidden lg:block absolute top-[18px] -left-3 w-0 h-0 border-t-[8px] border-t-transparent border-b-[8px] border-b-transparent border-r-[10px] border-r-slate-800 transition-transform group-hover/mini:translate-x-[2px]"></div>
+              <div className="hidden lg:block absolute top-[20px] -left-2 w-0 h-0 border-t-[6px] border-t-transparent border-b-[6px] border-b-transparent border-r-[8px] border-r-white z-10 transition-transform group-hover/mini:translate-x-[2px]"></div>
+              
+              <div className="bg-white border-4 border-slate-800 rounded-xl px-4 py-3 shadow-[4px_4px_0_0_#1e293b] group-hover/mini:shadow-[2px_2px_0_0_#1e293b] group-hover/mini:translate-x-[2px] group-hover/mini:translate-y-[2px] transition-all relative z-0 inline-flex items-center justify-center min-w-[64px]">
+                <div className="flex gap-1 animate-pulse">
+                  <div className="w-1.5 h-1.5 bg-slate-800 rounded-full"></div>
+                  <div className="w-1.5 h-1.5 bg-slate-800 rounded-full"></div>
+                  <div className="w-1.5 h-1.5 bg-slate-800 rounded-full"></div>
+                </div>
               </div>
             </motion.div>
           )}

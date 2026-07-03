@@ -1,6 +1,7 @@
 "use client";
 import { motion } from "framer-motion";
-import { ExternalLink, LucideIcon } from "lucide-react";
+import { ExternalLink, Check, Copy } from "lucide-react";
+import { useState } from "react";
 
 interface SocialLinkButtonProps {
   title: string;
@@ -9,10 +10,22 @@ interface SocialLinkButtonProps {
   href: string;
   highlighted?: boolean;
   index?: number;
+  copyText?: string;
   onClick?: (e: React.MouseEvent) => void;
 }
 
-export default function SocialLinkButton({ title, subtitle, icon, href, highlighted, index, onClick }: SocialLinkButtonProps) {
+export default function SocialLinkButton({ title, subtitle, icon, href, highlighted, index, copyText, onClick }: SocialLinkButtonProps) {
+  const [copied, setCopied] = useState(false);
+
+  const handleClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
+    if (copyText) {
+      e.preventDefault();
+      navigator.clipboard.writeText(copyText);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+    }
+    if (onClick) onClick(e);
+  };
   
   // Cute pixel stars pattern
   const starPattern = "data:image/svg+xml;charset=utf-8," + encodeURIComponent(`
@@ -41,7 +54,7 @@ export default function SocialLinkButton({ title, subtitle, icon, href, highligh
   return (
     <motion.a
       href={href}
-      onClick={onClick}
+      onClick={handleClick}
       target="_blank"
       rel="noopener noreferrer"
       className={`group relative flex items-center p-4 lg:p-5 w-full overflow-hidden transition-all duration-150 border-4 border-slate-800 rounded-xl
@@ -84,8 +97,9 @@ export default function SocialLinkButton({ title, subtitle, icon, href, highligh
 
       {/* Content */}
       <div className="flex-1 text-left relative z-20">
-        <h3 className="font-[family-name:var(--font-pixel)] text-lg lg:text-xl tracking-wide bg-gradient-to-r from-sky-500 via-pink-500 to-purple-500 bg-clip-text text-transparent animate-gradient-text">
+        <h3 className="font-[family-name:var(--font-pixel)] text-lg lg:text-xl tracking-wide bg-gradient-to-r from-sky-500 via-pink-500 to-purple-500 bg-clip-text text-transparent animate-gradient-text flex items-center gap-2">
           {title}
+          {copied && <span className="text-xs text-pink-500 bg-pink-100 px-2 py-0.5 rounded-full border border-pink-300">Copied!</span>}
         </h3>
         {subtitle && (
           <p className="text-slate-500 text-sm mt-1 group-hover:text-slate-700 transition-colors font-medium bg-white/50 inline-block px-1 rounded">
@@ -94,9 +108,15 @@ export default function SocialLinkButton({ title, subtitle, icon, href, highligh
         )}
       </div>
 
-      {/* Hover Arrow (Keep this on hover only for interaction feedback) */}
+      {/* Hover Arrow / Copy Icon */}
       <div className="relative z-20 text-slate-400 group-hover:text-pink-600 transition-all transform -translate-x-2 opacity-0 group-hover:translate-x-0 group-hover:opacity-100 duration-200">
-        <ExternalLink size={24} strokeWidth={2.5} />
+        {copied ? (
+          <Check size={24} strokeWidth={3} className="text-pink-500" />
+        ) : copyText ? (
+          <Copy size={24} strokeWidth={2.5} />
+        ) : (
+          <ExternalLink size={24} strokeWidth={2.5} />
+        )}
       </div>
 
       <style jsx global>{`
