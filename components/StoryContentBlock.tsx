@@ -11,32 +11,32 @@ interface StoryContentBlockProps {
 export default function StoryContentBlock({ project, theme = "light" }: StoryContentBlockProps) {
   const themeStyles = {
     light: {
-      title: "text-neutral-900",
-      desc: "text-neutral-600",
-      tag: "bg-neutral-100 text-neutral-600 border-neutral-200",
-      btnBg: "bg-neutral-900 hover:bg-neutral-800 border-neutral-800 text-white",
-      btnOutline: "bg-transparent hover:bg-neutral-100 border-neutral-300 text-neutral-900",
+      title: "text-slate-900 drop-shadow-[2px_2px_0_#cbd5e1] font-[family-name:var(--font-pixel)]",
+      desc: "text-slate-700",
+      tag: "bg-white text-slate-800 border-2 border-slate-800 shadow-[2px_2px_0_0_#1e293b] font-[family-name:var(--font-pixel)] text-xs uppercase",
+      btnBg: "bg-slate-900 hover:bg-slate-800 border-4 border-slate-800 text-white shadow-[4px_4px_0_0_#1e293b] hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-none font-[family-name:var(--font-pixel)] uppercase",
+      btnOutline: "bg-white hover:bg-slate-50 border-4 border-slate-800 text-slate-900 shadow-[4px_4px_0_0_#1e293b] hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-none font-[family-name:var(--font-pixel)] uppercase",
     },
     dark: {
-      title: "text-white",
-      desc: "text-neutral-400",
-      tag: "bg-neutral-800/50 text-neutral-300 border-neutral-700",
-      btnBg: "bg-white hover:bg-neutral-200 border-white text-neutral-950",
-      btnOutline: "bg-transparent hover:bg-neutral-800 border-neutral-700 text-white",
+      title: "text-white drop-shadow-[2px_2px_0_#334155] font-[family-name:var(--font-pixel)]",
+      desc: "text-slate-300",
+      tag: "bg-slate-800 text-white border-2 border-slate-950 shadow-[2px_2px_0_0_#020617] font-[family-name:var(--font-pixel)] text-xs uppercase",
+      btnBg: "bg-white hover:bg-slate-200 border-4 border-slate-950 text-slate-900 shadow-[4px_4px_0_0_#020617] hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-none font-[family-name:var(--font-pixel)] uppercase",
+      btnOutline: "bg-slate-900 hover:bg-slate-800 border-4 border-slate-950 text-white shadow-[4px_4px_0_0_#020617] hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-none font-[family-name:var(--font-pixel)] uppercase",
     },
     gray: {
-      title: "text-neutral-100",
-      desc: "text-neutral-400",
-      tag: "bg-neutral-800 text-neutral-300 border-neutral-700",
-      btnBg: "bg-neutral-100 hover:bg-white border-neutral-200 text-neutral-900",
-      btnOutline: "bg-transparent hover:bg-neutral-800 border-neutral-600 text-neutral-100",
+      title: "text-slate-100 drop-shadow-[2px_2px_0_#334155] font-[family-name:var(--font-pixel)]",
+      desc: "text-slate-400",
+      tag: "bg-slate-800 text-slate-200 border-2 border-slate-950 shadow-[2px_2px_0_0_#020617] font-[family-name:var(--font-pixel)] text-xs uppercase",
+      btnBg: "bg-slate-200 hover:bg-white border-4 border-slate-950 text-slate-900 shadow-[4px_4px_0_0_#020617] hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-none font-[family-name:var(--font-pixel)] uppercase",
+      btnOutline: "bg-slate-800 hover:bg-slate-700 border-4 border-slate-950 text-slate-100 shadow-[4px_4px_0_0_#020617] hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-none font-[family-name:var(--font-pixel)] uppercase",
     },
     horror: {
-      title: "text-red-600 drop-shadow-[0_0_15px_rgba(220,38,38,0.4)] tracking-widest",
-      desc: "text-red-100/70",
-      tag: "bg-red-950 text-red-300 border-red-900/50",
-      btnBg: "bg-red-700 hover:bg-red-600 border-red-600 text-white shadow-[0_0_20px_rgba(220,38,38,0.3)]",
-      btnOutline: "bg-transparent hover:bg-red-950/50 border-red-800 text-red-400",
+      title: "text-red-600 drop-shadow-[3px_3px_0_#4a0d0d] font-[family-name:var(--font-pixel)] tracking-widest",
+      desc: "text-red-200/80 font-medium",
+      tag: "bg-[#4a0d0d] text-red-300 border-2 border-[#200909] shadow-[2px_2px_0_0_#200909] font-[family-name:var(--font-pixel)] text-xs uppercase",
+      btnBg: "bg-red-900 hover:bg-red-800 border-4 border-[#200909] text-white shadow-[4px_4px_0_0_#200909] hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-none font-[family-name:var(--font-pixel)] uppercase",
+      btnOutline: "bg-[#200909] hover:bg-[#330f0f] border-4 border-red-950 text-red-500 shadow-[4px_4px_0_0_#4a0d0d] hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-none font-[family-name:var(--font-pixel)] uppercase",
     }
   };
 
@@ -45,7 +45,7 @@ export default function StoryContentBlock({ project, theme = "light" }: StoryCon
   return (
     <div className="flex flex-col max-w-xl">
       <motion.div initial={{ opacity: 0, x: -30 }} whileInView={{ opacity: 1, x: 0 }} transition={{ duration: 0.8 }} viewport={{ once: true }}>
-        <h3 className={`text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight mb-6 ${currentTheme.title}`}>
+        <h3 className={`text-4xl md:text-5xl lg:text-6xl font-bold mb-6 ${currentTheme.title}`}>
           {project.title}
         </h3>
         <p className={`text-lg md:text-xl leading-relaxed mb-8 ${currentTheme.desc}`}>
@@ -67,7 +67,7 @@ export default function StoryContentBlock({ project, theme = "light" }: StoryCon
           <motion.span 
             variants={{ hidden: { opacity: 0, scale: 0.8 }, show: { opacity: 1, scale: 1 } }}
             key={tech} 
-            className={`px-4 py-1.5 rounded-full text-sm font-medium border ${currentTheme.tag}`}
+            className={`px-3 py-1.5 border ${currentTheme.tag}`}
           >
             {tech}
           </motion.span>
@@ -76,17 +76,17 @@ export default function StoryContentBlock({ project, theme = "light" }: StoryCon
 
       <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, delay: 0.5 }} viewport={{ once: true }} className="flex flex-wrap items-center gap-4">
         {project.links.demo && (
-          <a href={project.links.demo} target="_blank" rel="noreferrer" className={`flex items-center gap-2 px-6 py-3 font-semibold rounded-full transition-colors border ${currentTheme.btnBg}`}>
+          <a href={project.links.demo} target="_blank" rel="noreferrer" className={`flex items-center gap-2 px-6 py-3 font-semibold transition-all ${currentTheme.btnBg}`}>
             <ExternalLink size={18} /> Live Demo
           </a>
         )}
         {project.links.github && (
-          <a href={project.links.github} target="_blank" rel="noreferrer" className={`flex items-center gap-2 px-6 py-3 font-semibold rounded-full transition-colors border ${currentTheme.btnOutline}`}>
+          <a href={project.links.github} target="_blank" rel="noreferrer" className={`flex items-center gap-2 px-6 py-3 font-semibold transition-all ${currentTheme.btnOutline}`}>
             <Code size={18} /> Source Code
           </a>
         )}
         {project.links.document && (
-          <a href={project.links.document} target="_blank" rel="noreferrer" className={`flex items-center gap-2 px-6 py-3 font-semibold rounded-full transition-colors border ${currentTheme.btnOutline}`}>
+          <a href={project.links.document} target="_blank" rel="noreferrer" className={`flex items-center gap-2 px-6 py-3 font-semibold transition-all ${currentTheme.btnOutline}`}>
             <FileText size={18} /> Case Study
           </a>
         )}

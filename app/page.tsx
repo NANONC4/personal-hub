@@ -36,9 +36,7 @@ export default function Home() {
   };
 
   return (
-    <main className="relative min-h-screen bg-neutral-950 font-[family-name:var(--font-geist-sans)] selection:bg-sky-500/30">
-      <BackgroundArt />
-
+    <main className="relative min-h-screen bg-neutral-950 font-[family-name:var(--font-geist-sans)] selection:bg-sky-500/30 overflow-x-hidden">
       {/* 1. HERO SECTION (Link-in-Bio) */}
       <section className="relative z-10 w-full min-h-screen flex flex-col lg:flex-row mx-auto text-slate-800 overflow-hidden bg-gradient-to-b from-sky-300 via-sky-200 to-blue-100">
         
@@ -164,7 +162,7 @@ export default function Home() {
             subtitle={projects[0].category} 
             index={0} 
             theme="blue"
-            prevBgClass="bg-white"
+            prevBgClass="bg-pink-200"
             currentBgClass="bg-neutral-950"
           >
             <LemonyShopPro project={projects[0]} />

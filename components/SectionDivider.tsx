@@ -46,34 +46,40 @@ export default function SectionDivider({
   const lowerBgY = useTransform(lowerBgYSpring, v => `${v}vh`);
 
   // Theme Styles for the Divider Box
+  // We will override all themes to use the pixel sky theme as requested by the user,
+  // but we can keep the object for fallback or future use.
   const themeStyles = {
     blue: {
-      bg: "bg-[#b5cddf]",
-      border: "border-[#a3bcd0]",
-      chapter: "text-sky-600",
-      title: "text-sky-950",
-      subtitle: "text-sky-800",
+      gapBg: "bg-gradient-to-br from-purple-200 via-purple-100 to-fuchsia-200",
+      bg: "bg-gradient-to-b from-sky-300 via-sky-200 to-blue-100",
+      border: "border-slate-800 border-y-8",
+      chapter: "text-slate-800",
+      title: "text-white drop-shadow-[4px_4px_0_#1e293b]",
+      subtitle: "text-slate-800 bg-white/70 px-4 py-2 rounded-md border-2 border-slate-800 shadow-[4px_4px_0_0_#1e293b] inline-block font-bold",
     },
     light: {
-      bg: "bg-white",
-      border: "border-neutral-200",
-      chapter: "text-neutral-400",
-      title: "text-neutral-900",
-      subtitle: "text-neutral-500",
+      gapBg: "bg-gradient-to-br from-pink-200 via-pink-100 to-rose-200",
+      bg: "bg-gradient-to-b from-sky-300 via-sky-200 to-blue-100",
+      border: "border-slate-800 border-y-8",
+      chapter: "text-slate-800",
+      title: "text-white drop-shadow-[4px_4px_0_#1e293b]",
+      subtitle: "text-slate-800 bg-white/70 px-4 py-2 rounded-md border-2 border-slate-800 shadow-[4px_4px_0_0_#1e293b] inline-block font-bold",
     },
     dark: {
-      bg: "bg-neutral-900",
-      border: "border-neutral-800",
-      chapter: "text-neutral-500",
-      title: "text-white",
-      subtitle: "text-neutral-400",
+      gapBg: "bg-gradient-to-br from-pink-200 via-pink-100 to-rose-200",
+      bg: "bg-gradient-to-b from-sky-300 via-sky-200 to-blue-100",
+      border: "border-slate-800 border-y-8",
+      chapter: "text-slate-800",
+      title: "text-white drop-shadow-[4px_4px_0_#1e293b]",
+      subtitle: "text-slate-800 bg-white/70 px-4 py-2 rounded-md border-2 border-slate-800 shadow-[4px_4px_0_0_#1e293b] inline-block font-bold",
     },
     horror: {
-      bg: "bg-black",
-      border: "border-red-900/50",
-      chapter: "text-red-700",
-      title: "text-red-600 drop-shadow-[0_0_15px_rgba(220,38,38,0.5)]",
-      subtitle: "text-red-800",
+      gapBg: "bg-gradient-to-br from-purple-200 via-purple-100 to-fuchsia-200",
+      bg: "bg-gradient-to-b from-sky-300 via-sky-200 to-blue-100",
+      border: "border-slate-800 border-y-8",
+      chapter: "text-slate-800",
+      title: "text-white drop-shadow-[4px_4px_0_#1e293b]",
+      subtitle: "text-slate-800 bg-white/70 px-4 py-2 rounded-md border-2 border-slate-800 shadow-[4px_4px_0_0_#1e293b] inline-block font-bold",
     }
   };
 
@@ -83,45 +89,86 @@ export default function SectionDivider({
     <div ref={containerRef} className="w-full relative flex flex-col items-center justify-start overflow-visible">
       
       {/* Spacer for the gap (Reduced to 60vh to prevent massive empty space) */}
-      <div ref={gapRef} className="h-[60vh] w-full bg-neutral-800 relative overflow-hidden flex items-center justify-center">
-        
-        {/* 1. Upper Background (Top Piece) */}
-        {/* Extends from top to 15vh with a slanted bottom edge */}
+      <div ref={gapRef} className={`h-[60vh] w-full ${currentTheme.gapBg} relative overflow-hidden flex items-center justify-center`}>
+        {/* CSS Stars Parallax (Fixed) for Gap */}
         <div 
-          className={`absolute w-[150%] h-[150vh] ${prevBgClass} z-10 shadow-2xl`}
+          className="absolute inset-0 z-0 opacity-60 pointer-events-none" 
           style={{
-            bottom: "50%",
-            left: "-25%",
-            transform: `translateY(-15vh) rotate(${rotationAngle}deg)`,
-            transformOrigin: "bottom center"
+            backgroundImage: `radial-gradient(white 3px, transparent 3px), radial-gradient(white 3px, transparent 3px)`,
+            backgroundSize: `40px 40px`,
+            backgroundPosition: `0 0, 20px 20px`,
+            backgroundAttachment: `fixed`
           }}
         />
+        
+        {/* 1. Upper Background (Top Piece) */}
+        {/* Extends from top to 15vh with a slanted bottom edge, using clip-path instead of transform so parallax works! */}
+        <div 
+          className="absolute w-full h-[150vh] z-10 pointer-events-none"
+          style={{
+            bottom: "calc(50% + 15vh - 3.5vw)",
+            left: "0",
+            filter: "drop-shadow(0 20px 25px rgba(0,0,0,0.5))"
+          }}
+        >
+          <div
+            className={`w-full h-full ${prevBgClass} pointer-events-auto overflow-hidden`}
+            style={{
+              clipPath: direction === -1 
+                ? 'polygon(0 0, 100% 0, 100% 100%, 0 calc(100% - 7vw))' 
+                : 'polygon(0 0, 100% 0, 100% calc(100% - 7vw), 0 100%)',
+            }}
+          >
+            {/* Add CSS Stars Parallax if this block is an extension of the pastel pink IntroSection */}
+            {prevBgClass.includes('pink') && (
+              <div 
+                className="absolute inset-0 z-0 opacity-60 pointer-events-none" 
+                style={{
+                  backgroundImage: `radial-gradient(white 3px, transparent 3px), radial-gradient(white 3px, transparent 3px)`,
+                  backgroundSize: `40px 40px`,
+                  backgroundPosition: `0 0, 20px 20px`,
+                  backgroundAttachment: `fixed`
+                }}
+              />
+            )}
+          </div>
+        </div>
 
-        {/* 3. The Divider Box (The yellow band in the gap) */}
         <div 
           className="absolute inset-0 flex items-center justify-center z-20 pointer-events-none"
           style={{ transform: `rotate(${rotationAngle}deg)` }}
         >
           <motion.div 
             style={{ x: boxX }}
-            className={`w-[150%] flex-shrink-0 h-[30vh] ${currentTheme.bg} flex flex-col items-center justify-center shadow-2xl border-y ${currentTheme.border} will-change-transform pointer-events-auto`}
+            className={`w-[150%] flex-shrink-0 h-[30vh] ${currentTheme.bg} flex flex-col items-center justify-center shadow-[0_20px_0_0_rgba(0,0,0,0.5)] border-y-8 border-slate-800 will-change-transform pointer-events-auto relative overflow-hidden`}
           >
-            <div className="text-center px-4 max-w-4xl" style={{ transform: `rotate(${-rotationAngle}deg)` }}>
+            {/* CSS Static Stars Background to prevent scroll lag instead of Canvas */}
+            <div 
+              className="absolute inset-0 z-0 opacity-60 pointer-events-none" 
+              style={{
+                backgroundImage: `radial-gradient(white 3px, transparent 3px), radial-gradient(white 3px, transparent 3px)`,
+                backgroundSize: `40px 40px`,
+                backgroundPosition: `0 0, 20px 20px`,
+                backgroundAttachment: `fixed`
+              }}
+            />
+
+            <div className="text-center px-4 max-w-4xl relative z-10" style={{ transform: `rotate(${-rotationAngle}deg)` }}>
               <motion.span 
                 initial={{ opacity: 0, y: -20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.6 }}
-                className={`${currentTheme.chapter} font-bold tracking-[0.3em] text-xs md:text-sm uppercase mb-2 block`}
+                className={`${currentTheme.chapter} font-[family-name:var(--font-pixel)] tracking-widest text-xs md:text-sm uppercase mb-2 block`}
               >
-                Chapter 0{index + 1}
+                - Chapter 0{index + 1} -
               </motion.span>
               <motion.h2 
                 initial={{ opacity: 0, scale: 0.9 }}
                 whileInView={{ opacity: 1, scale: 1 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.8, delay: 0.2, type: "spring" }}
-                className={`text-4xl md:text-6xl lg:text-7xl font-black ${currentTheme.title} tracking-tighter uppercase leading-none`}
+                className={`text-4xl md:text-6xl lg:text-7xl font-black ${currentTheme.title} font-[family-name:var(--font-pixel)] tracking-widest uppercase leading-none mb-4`}
               >
                 {title}
               </motion.h2>
@@ -131,7 +178,7 @@ export default function SectionDivider({
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
                   transition={{ duration: 0.6, delay: 0.4 }}
-                  className={`${currentTheme.subtitle} mt-2 max-w-xl mx-auto text-base md:text-lg font-light`}
+                  className={`${currentTheme.subtitle} mt-2 max-w-xl mx-auto text-base md:text-lg font-[family-name:var(--font-pixel)] uppercase`}
                 >
                   {subtitle}
                 </motion.p>

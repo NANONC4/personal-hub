@@ -1,7 +1,7 @@
 "use client";
 import { useEffect, useRef } from "react";
 
-export default function PixelSky() {
+export default function PixelSky({ className = "absolute inset-0 z-0 overflow-hidden pointer-events-none" }: { className?: string }) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
   useEffect(() => {
@@ -114,25 +114,33 @@ export default function PixelSky() {
       stars.push(new Star(true));
     }
 
+    let isVisible = true;
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        isVisible = entry.isIntersecting;
+      });
+    }, { threshold: 0 });
+
+    observer.observe(canvas);
+
     const render = () => {
-      // Clear canvas each frame
-      ctx.clearRect(0, 0, width, height);
+      if (isVisible) {
+        ctx.clearRect(0, 0, width, height);
 
-      for (let i = stars.length - 1; i >= 0; i--) {
-        const star = stars[i];
-        star.update();
-        star.draw(ctx);
+        for (let i = stars.length - 1; i >= 0; i--) {
+          const star = stars[i];
+          star.update();
+          star.draw(ctx);
 
-        // If star completely faded out, remove it and spawn a new one in a NEW random location!
-        if (star.opacity <= 0 && !star.isFadingIn) {
-          stars.splice(i, 1);
-          stars.push(new Star());
-        }
-        
-        // If falling star went off screen, respawn
-        if (star.isFalling && (star.x < -20 || star.y > height + 20)) {
+          if (star.opacity <= 0 && !star.isFadingIn) {
             stars.splice(i, 1);
             stars.push(new Star());
+          }
+          
+          if (star.isFalling && (star.x < -20 || star.y > height + 20)) {
+              stars.splice(i, 1);
+              stars.push(new Star());
+          }
         }
       }
 
@@ -143,12 +151,13 @@ export default function PixelSky() {
 
     return () => {
       window.removeEventListener("resize", resize);
+      observer.disconnect();
       cancelAnimationFrame(animationFrameId);
     };
   }, []);
 
   return (
-    <div className="fixed inset-0 z-0 overflow-hidden pointer-events-none">
+    <div className={className}>
       <canvas 
         ref={canvasRef} 
         className="w-full h-full"
