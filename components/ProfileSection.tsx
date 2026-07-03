@@ -65,31 +65,43 @@ export default function ProfileSection() {
         <img src={cloudPattern3} className="absolute top-[75%] left-[-20%] w-12 opacity-90 animate-drift-slow" style={{ animationDelay: '12s' }} alt="" />
       </div>
 
-      {/* Floating Moon Decoration */}
-      <div className="absolute -inset-20 z-0 pointer-events-none hidden lg:block opacity-90">
-        <img src={moonPattern} className="absolute top-[-5%] right-[-10%] w-32 xl:w-48 animate-float-slow drop-shadow-[0_0_15px_rgba(255,255,255,0.8)]" style={{ animationDelay: '0.5s' }} alt="Large Crescent Moon" />
-      </div>
+      {/* Profile Image Area with Moon */}
+      <div className="relative mt-6 mb-2">
+        {/* Floating Moon Decoration (Now visible on mobile, positioned left of profile) */}
+        <div className="absolute top-[-30px] left-[-70px] lg:top-[-40px] lg:left-[-120px] z-0 pointer-events-none opacity-90">
+          <img src={moonPattern} className="w-24 lg:w-32 xl:w-48 animate-float-slow drop-shadow-[0_0_15px_rgba(255,255,255,0.8)]" style={{ animationDelay: '0.5s' }} alt="Large Crescent Moon" />
+        </div>
 
         {/* Profile Image with Floating Effect & Pixel-Art Shadow */}
-        <div className="relative group cursor-pointer mt-6 mb-2 animate-float-slow z-10">
+        <div className="relative group cursor-pointer animate-float-slow z-10" style={{ animationDelay: '0.2s' }}>
           <div className="relative w-32 h-32 lg:w-44 lg:h-44 rounded-xl overflow-hidden border-4 border-slate-800 bg-sky-200 p-1 shadow-[6px_6px_0_0_#1e293b] group-hover:translate-x-[2px] group-hover:translate-y-[2px] group-hover:shadow-[4px_4px_0_0_#1e293b] transition-all duration-200">
-          <div className="w-full h-full rounded-lg bg-pink-100 overflow-hidden relative flex items-center justify-center border-2 border-slate-800/20">
-            {/* Shine Sweep Effect */}
-            <div className="absolute top-0 bottom-0 w-16 bg-white/60 blur-[6px] -skew-x-12 -translate-x-[150%] group-hover:animate-sweep z-10 pointer-events-none" />
-            
-            {/* Placeholder for Profile Picture */}
-            <span className="text-slate-800 font-[family-name:var(--font-pixel)] tracking-widest text-xs uppercase text-center leading-relaxed z-0">
-              Insert<br/>Coin
-            </span>
+            <div className="w-full h-full rounded-lg bg-pink-100 overflow-hidden relative flex items-center justify-center border-2 border-slate-800/20">
+              {/* Shine Sweep Effect */}
+              <div className="absolute top-0 bottom-0 w-16 bg-white/60 blur-[6px] -skew-x-12 -translate-x-[150%] group-hover:animate-sweep z-10 pointer-events-none" />
+              
+              <img src="/profile.png" alt="Profile" className="w-full h-full object-cover z-0" />
+            </div>
           </div>
         </div>
       </div>
 
       {/* Name and Dialogue Box */}
-      <div className="space-y-4 max-w-sm w-full z-10">
-        <h1 className="text-5xl lg:text-6xl font-black tracking-tighter text-transparent bg-clip-text bg-gradient-to-r from-pink-500 to-purple-500 drop-shadow-[3px_3px_0_#1e293b] font-[family-name:var(--font-pixel)] uppercase animate-gradient-shift" style={{ backgroundSize: '200% auto' }}>
-          Dia<br/>Fria
-        </h1>
+      <div className="space-y-4 max-w-sm w-full z-10 flex flex-col items-center lg:items-start">
+        {/* 3D Stacked Name */}
+        <div className="relative text-6xl lg:text-7xl font-black tracking-tighter font-[family-name:var(--font-pixel)] uppercase leading-[1.1] z-10 text-center lg:text-left mb-2 whitespace-nowrap">
+          {/* Layer 3: Deep Shadow */}
+          <div className="absolute top-[6px] left-[6px] lg:top-[8px] lg:left-[8px] text-slate-800 z-0 select-none">
+            CHATCHAI
+          </div>
+          {/* Layer 2: Mid Shadow/Extrusion */}
+          <div className="absolute top-[3px] left-[3px] lg:top-[4px] lg:left-[4px] text-indigo-900 z-10 select-none">
+            CHATCHAI
+          </div>
+          {/* Layer 1: Front Gradient */}
+          <div className="relative z-20 bg-gradient-to-r from-sky-400 via-pink-500 to-purple-500 text-transparent bg-clip-text animate-gradient-shift drop-shadow-sm" style={{ backgroundSize: '200% auto' }}>
+            CHATCHAI
+          </div>
+        </div>
         
         {/* RPG Dialogue Box Description */}
         <div className="relative mt-2">
@@ -99,7 +111,8 @@ export default function ProfileSection() {
           
           <div className="bg-white border-4 border-slate-800 rounded-xl p-4 lg:p-5 shadow-[4px_4px_0_0_#1e293b] relative z-0">
             <p className="text-sm text-slate-700 leading-relaxed font-medium">
-              Creating high-end digital experiences, beautiful interfaces, and robust web applications with a sprinkle of magic. ✧･ﾟ: *
+              私は川で、星は、どこを参照してください。<br/>
+              <span className="text-xs text-slate-500 mt-2 block font-semibold">— Chatchai Danrungruang</span>
             </p>
             {/* Blinking Continue Triangle */}
             <div className="absolute bottom-3 right-4 w-0 h-0 border-l-[6px] border-l-transparent border-r-[6px] border-r-transparent border-t-[8px] border-t-pink-500 animate-blink"></div>
@@ -155,6 +168,7 @@ export default function ProfileSection() {
         .animate-blink {
           animation: blink 1s step-end infinite;
         }
+
       `}</style>
     </motion.div>
   );

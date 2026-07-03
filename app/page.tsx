@@ -12,7 +12,7 @@ import SectionDivider from "@/components/SectionDivider";
 import PixelSky from "@/components/PixelSky";
 import HorizontalScrollCarousel from "@/components/HorizontalScrollCarousel";
 import HorrorPortalButton from "@/components/HorrorPortalButton";
-import { Gift, Star, Link, Mail, Globe, Palette } from "lucide-react";
+import { Code, Link, Mail, Globe, Phone, Gamepad2 } from "lucide-react";
 import { projects } from "@/data/projects";
 
 type Theme = "light" | "dark" | "gray";
@@ -36,7 +36,7 @@ export default function Home() {
   };
 
   return (
-    <main className={`relative min-h-screen bg-neutral-950 font-[family-name:var(--font-geist-sans)] selection:bg-sky-500/30 ${isLocked ? 'h-screen overflow-hidden' : ''}`}>
+    <main className="relative min-h-screen bg-neutral-950 font-[family-name:var(--font-geist-sans)] selection:bg-sky-500/30">
       <BackgroundArt />
 
       {/* 1. HERO SECTION (Link-in-Bio) */}
@@ -64,12 +64,21 @@ export default function Home() {
             }}
             className="flex flex-col gap-4 max-w-xl mx-auto w-full"
           >
-            <motion.h2 
+            <motion.div 
               variants={{ hidden: { opacity: 0, y: -30 }, show: { opacity: 1, y: 0 } }}
-              className="text-2xl md:text-3xl font-[family-name:var(--font-pixel)] text-slate-800 mb-6 tracking-tight uppercase drop-shadow-sm"
+              className="mb-6 self-center lg:self-start relative group inline-block"
             >
-              Let's Connect (✿◠‿◠)
-            </motion.h2>
+              {/* Retro badge background */}
+              <div className="absolute inset-0 bg-white border-4 border-slate-800 rounded-xl shadow-[4px_4px_0_0_#1e293b] -z-10 transition-all duration-200"></div>
+              
+              {/* Decorative Stars */}
+              <div className="absolute -top-3 -right-3 text-pink-500 font-[family-name:var(--font-pixel)] text-2xl animate-bounce z-20">✦</div>
+              <div className="absolute -bottom-2 -left-2 text-sky-400 font-[family-name:var(--font-pixel)] text-xl animate-bounce" style={{ animationDelay: '0.5s' }}>✧</div>
+
+              <h2 className="px-6 py-4 text-xl md:text-2xl font-[family-name:var(--font-pixel)] bg-gradient-to-r from-sky-500 via-pink-500 to-purple-500 bg-clip-text text-transparent tracking-widest uppercase text-center" style={{ backgroundSize: '200% auto', animation: 'gradient-shift 6s linear infinite' }}>
+                Let's Connect (✿◠‿◠)
+              </h2>
+            </motion.div>
             
             <motion.div variants={{ hidden: { opacity: 0, scale: 0.9, y: 20 }, show: { opacity: 1, scale: 1, y: 0 } }}>
               <SocialLinkButton 
@@ -85,50 +94,50 @@ export default function Home() {
             
             <motion.div variants={{ hidden: { opacity: 0, x: 40 }, show: { opacity: 1, x: 0 } }}>
               <SocialLinkButton 
-                title="Dribbble" 
-                subtitle="Design concepts and UI explorations" 
-                icon={<Palette size={24} strokeWidth={1.5} />} 
-                href="https://dribbble.com" 
+                title="GitHub" 
+                subtitle="Open source contributions and code" 
+                icon={<Code size={24} strokeWidth={1.5} />} 
+                href="https://github.com/NANONC4" 
                 index={1}
               />
             </motion.div>
 
             <motion.div variants={{ hidden: { opacity: 0, x: -40 }, show: { opacity: 1, x: 0 } }}>
               <SocialLinkButton 
-                title="GitHub" 
-                subtitle="Open source contributions and code" 
-                icon={<Gift size={24} strokeWidth={1.5} />} 
-                href="https://github.com" 
+                title="LinkedIn" 
+                subtitle="Professional network and resume" 
+                icon={<Link size={24} strokeWidth={1.5} />} 
+                href="https://www.linkedin.com/in/%E0%B8%89%E0%B8%B1%E0%B8%95%E0%B8%A3%E0%B8%8A%E0%B8%B1%E0%B8%A2-%E0%B8%94%E0%B9%88%E0%B8%B2%E0%B8%99%E0%B8%A3%E0%B8%B8%E0%B9%88%E0%B8%87%E0%B9%80%E0%B8%A3%E0%B8%B7%E0%B8%AD%E0%B8%87-1478213aa/" 
                 index={2}
               />
             </motion.div>
 
             <motion.div variants={{ hidden: { opacity: 0, y: 30 }, show: { opacity: 1, y: 0 } }}>
               <SocialLinkButton 
-                title="LinkedIn" 
-                subtitle="Professional network and resume" 
-                icon={<Link size={24} strokeWidth={1.5} />} 
-                href="https://linkedin.com" 
+                title="Email Me" 
+                subtitle="DiaFrampton771@gmail.com" 
+                icon={<Mail size={24} strokeWidth={1.5} />} 
+                href="mailto:DiaFrampton771@gmail.com" 
                 index={3}
               />
             </motion.div>
             
             <motion.div variants={{ hidden: { opacity: 0, scale: 0.95, x: 30 }, show: { opacity: 1, scale: 1, x: 0 } }}>
               <SocialLinkButton 
-                title="Instagram" 
-                subtitle="Behind the scenes and daily life" 
-                icon={<Star size={24} strokeWidth={1.5} />} 
-                href="https://instagram.com" 
+                title="Call Me" 
+                subtitle="062-990-7862" 
+                icon={<Phone size={24} strokeWidth={1.5} />} 
+                href="tel:0629907862" 
                 index={4}
               />
             </motion.div>
             
             <motion.div variants={{ hidden: { opacity: 0, y: 40 }, show: { opacity: 1, y: 0 } }}>
               <SocialLinkButton 
-                title="Email Me" 
-                subtitle="Available for freelance opportunities" 
-                icon={<Mail size={24} strokeWidth={1.5} />} 
-                href="mailto:hello@example.com" 
+                title="Itch.io" 
+                subtitle="Play my indie games and experiments" 
+                icon={<Gamepad2 size={24} strokeWidth={1.5} />} 
+                href="https://itch.io" 
                 index={5}
               />
             </motion.div>
@@ -136,8 +145,14 @@ export default function Home() {
         </div>
       </section>
 
-      {/* 2. INTRO SECTION */}
-      <IntroSection />
+      {!isLocked && (
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.5 }}
+        >
+          {/* 2. INTRO SECTION */}
+          <IntroSection />
 
       {/* 3. STORYTELLING PORTFOLIO (Bespoke Hardcoded Layouts) */}
       <section className="relative z-10 w-full">
@@ -186,10 +201,12 @@ export default function Home() {
 
       </section>
 
-      {/* 4. HORROR PORTAL */}
-      <section className="relative z-10 w-full">
-         <HorrorPortalButton />
-      </section>
+          {/* 4. HORROR PORTAL */}
+          <section className="relative z-10 w-full">
+             <HorrorPortalButton />
+          </section>
+        </motion.div>
+      )}
 
     </main>
   );
