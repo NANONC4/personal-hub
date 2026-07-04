@@ -1,6 +1,6 @@
 "use client";
 import { Project } from "@/data/projects";
-import { motion, useScroll, useMotionValueEvent } from "framer-motion";
+import { motion } from "framer-motion";
 import { useState } from "react";
 import { ExternalLink, Code, FileText } from "lucide-react";
 import { PixelStar, PixelSparkle } from "./PixelIcons";
@@ -58,17 +58,6 @@ export default function StoryContentBlock({ project, theme = "light" }: StoryCon
 
   const currentTheme = themeStyles[theme as keyof typeof themeStyles] || themeStyles.light;
 
-  const [scrollDir, setScrollDir] = useState<1 | -1>(1);
-  const { scrollY } = useScroll();
-
-  useMotionValueEvent(scrollY, "change", (latest) => {
-    const previous = scrollY.getPrevious() ?? 0;
-    if (latest > previous) {
-      setScrollDir(1);
-    } else if (latest < previous) {
-      setScrollDir(-1);
-    }
-  });
 
   return (
     <div className="flex flex-col max-w-xl">
@@ -87,7 +76,7 @@ export default function StoryContentBlock({ project, theme = "light" }: StoryCon
         viewport={{ once: false }} 
         variants={{
           hidden: { opacity: 0 },
-          show: { opacity: 1, transition: { staggerChildren: 0.1, delayChildren: 0.3, staggerDirection: scrollDir } }
+          show: { opacity: 1, transition: { staggerChildren: 0.1, delayChildren: 0.3 } }
         }}
         className="flex flex-wrap gap-3 mb-12"
       >

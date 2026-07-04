@@ -32,6 +32,7 @@ export default function SectionDivider({
 }: SectionDividerProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const gapRef = useRef<HTMLDivElement>(null);
+  const contentRef = useRef<HTMLDivElement>(null);
   
   // Track scroll progress specifically for the 100vh gap spacer!
   const { scrollYProgress } = useScroll({
@@ -41,10 +42,12 @@ export default function SectionDivider({
 
   // Auto-scroll when drawer opens
   useEffect(() => {
-    if (isDrawerMode && isActiveDrawer && gapRef.current) {
+    if (isDrawerMode && isActiveDrawer && contentRef.current) {
       setTimeout(() => {
-        gapRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
-      }, 100);
+        // Adding a slight delay allows the height animation to start
+        // so the browser can calculate the correct final scroll position
+        contentRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }, 150);
     }
   }, [isDrawerMode, isActiveDrawer]);
 
@@ -189,12 +192,15 @@ export default function SectionDivider({
             style={{ x: boxX }}
             className={`w-[150%] flex-shrink-0 h-[30vh] ${currentTheme.bg} flex flex-col items-center justify-center shadow-[0_20px_0_0_rgba(0,0,0,0.5)] border-y-8 border-slate-800 will-change-transform pointer-events-auto relative overflow-hidden`}
           >
-            {/* CSS Static Stars Background - Parallax illusion! */}
+            {/* GPU Accelerated Parallax Background */}
             <motion.div 
-              className="absolute inset-0 z-0 opacity-60 pointer-events-none" 
+              className="absolute z-0 opacity-60 pointer-events-none will-change-transform" 
               style={{
+                // Oversize the div so moving it doesn't reveal empty edges
+                top: "-150vh", bottom: "-150vh", left: "-300vw", right: "-300vw",
                 ...getPattern(index + 2),
-                backgroundPosition: useMotionTemplate`calc(0vw + ${bgXVw}) calc(0px + ${bgYPx})`
+                x: bgXVw,
+                y: bgYPx
               }}
             />
 
@@ -256,6 +262,7 @@ export default function SectionDivider({
             
             {/* Actual Content of the Next Section! */}
             <motion.div 
+              ref={contentRef}
               initial={isDrawerMode ? { height: 0 } : false}
               animate={{ height: "auto" }}
               exit={isDrawerMode ? { height: 0 } : undefined}

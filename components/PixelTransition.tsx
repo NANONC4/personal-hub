@@ -49,12 +49,12 @@ export default function PixelTransition({ isActive, onCovered, onComplete }: Pix
             return (
               <motion.div
                 key={`block-${rowIndex}-${colIndex}`}
-                className="flex-1 bg-slate-900 border border-slate-900/10"
-                initial={{ scale: 0, opacity: 0, borderRadius: "50%" }}
+                className="flex-1 bg-slate-900 border-none will-change-transform"
+                initial={{ scale: 0, opacity: 0 }}
                 animate={
                   phase === "in" 
-                    ? { scale: 1.05, opacity: 1, borderRadius: "0%" }
-                    : { scale: 0, opacity: 0, borderRadius: "50%" }
+                    ? { scale: 1.05, opacity: 1 }
+                    : { scale: 0, opacity: 0 }
                 }
                 transition={{
                   duration: 0.4,

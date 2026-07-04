@@ -1,6 +1,6 @@
 "use client";
 import { useState } from "react";
-import { motion, useScroll, useMotionValueEvent } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import BackgroundArt from "@/components/BackgroundArt";
 import ProfileSection from "@/components/ProfileSection";
 import SocialLinkButton from "@/components/SocialLinkButton";
@@ -30,17 +30,6 @@ export default function Home() {
   const [isLocked, setIsLocked] = useState(true);
   const [isDrawerMode, setIsDrawerMode] = useState(false);
   const [activeDrawer, setActiveDrawer] = useState<number | null>(0);
-  const [scrollDir, setScrollDir] = useState<1 | -1>(1);
-  const { scrollY } = useScroll();
-
-  useMotionValueEvent(scrollY, "change", (latest) => {
-    const previous = scrollY.getPrevious() ?? 0;
-    if (latest > previous) {
-      setScrollDir(1);
-    } else if (latest < previous) {
-      setScrollDir(-1);
-    }
-  });
 
   const [isTransitioning, setIsTransitioning] = useState(false);
 
@@ -81,16 +70,15 @@ export default function Home() {
             <motion.div 
               initial="hidden"
               whileInView="show"
-              viewport={{ once: false }}
-            variants={{
-              hidden: { opacity: 0 },
-              show: {
-                opacity: 1,
-                transition: { staggerChildren: 0.15, delayChildren: 0.2, staggerDirection: scrollDir }
-              }
-            }}
-            className="flex flex-col gap-4 max-w-xl mx-auto lg:mx-0 w-full"
-          >
+              variants={{
+                hidden: { opacity: 0 },
+                show: {
+                  opacity: 1,
+                  transition: { staggerChildren: 0.15, delayChildren: 0.2 }
+                }
+              }}
+              className="flex flex-col gap-4 max-w-xl mx-auto lg:mx-0 w-full"
+            >
             <motion.div 
               variants={{ hidden: { opacity: 0, y: -30 }, show: { opacity: 1, y: 0 } }}
               className="mb-6 self-center lg:self-start relative group inline-block"
