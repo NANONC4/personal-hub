@@ -9,12 +9,15 @@ import LemonyShopPro from "@/components/projects/LemonyShopPro";
 import LemonyShop from "@/components/projects/LemonyShop";
 import RulesOfHorror from "@/components/projects/RulesOfHorror";
 import SectionDivider from "@/components/SectionDivider";
+import PortfolioToggle from "@/components/PortfolioToggle";
 import PixelSky from "@/components/PixelSky";
 import HorizontalScrollCarousel from "@/components/HorizontalScrollCarousel";
 import HorrorPortalButton from "@/components/HorrorPortalButton";
+import PixelTransition from "@/components/PixelTransition";
 import { PixelMail, PixelPhone, PixelHeart } from "@/components/PixelIcons";
 import { Code, Link, Globe } from "lucide-react";
 import { projects } from "@/data/projects";
+import { getPattern } from "@/lib/patterns";
 
 type Theme = "light" | "dark" | "gray";
 
@@ -25,6 +28,8 @@ const getTheme = (index: number): Theme => {
 
 export default function Home() {
   const [isLocked, setIsLocked] = useState(true);
+  const [isDrawerMode, setIsDrawerMode] = useState(false);
+  const [activeDrawer, setActiveDrawer] = useState<number | null>(0);
   const [scrollDir, setScrollDir] = useState<1 | -1>(1);
   const { scrollY } = useScroll();
 
@@ -37,18 +42,28 @@ export default function Home() {
     }
   });
 
+  const [isTransitioning, setIsTransitioning] = useState(false);
+
   const handleUnlockAndScroll = (e: React.MouseEvent) => {
     e.preventDefault();
+    setIsTransitioning(true);
+  };
+
+  const onTransitionCovered = () => {
     setIsLocked(false);
-    
-    // Allow React state to update and unlock scroll, then perform smooth scroll
+    // Wait for React to render the newly unlocked sections
     setTimeout(() => {
-      document.getElementById("intro")?.scrollIntoView({ behavior: "smooth" });
+      document.getElementById("intro")?.scrollIntoView({ behavior: "auto" });
     }, 50);
   };
 
   return (
     <main className="relative min-h-screen bg-neutral-950 font-[family-name:var(--font-geist-sans)] selection:bg-sky-500/30 overflow-x-hidden">
+      <PixelTransition 
+        isActive={isTransitioning} 
+        onCovered={onTransitionCovered} 
+        onComplete={() => setIsTransitioning(false)} 
+      />
       {/* 1. HERO SECTION (Link-in-Bio) */}
       <section className="relative z-10 w-full min-h-screen flex flex-col items-center justify-center overflow-hidden bg-gradient-to-b from-sky-300 via-sky-200 to-blue-100">
         
@@ -167,48 +182,58 @@ export default function Home() {
           transition={{ duration: 0.5 }}
         >
           {/* 2. INTRO SECTION */}
-          <IntroSection />
+          <IntroSection isDrawerMode={isDrawerMode} onToggle={setIsDrawerMode} />
 
       {/* 3. STORYTELLING PORTFOLIO (Bespoke Hardcoded Layouts) */}
       <section className="relative z-10 w-full">
         
-        {/* Project 1: Lemony Shop Pro (Dark) */}
-        <div className="bg-neutral-950 transition-colors duration-700">
+        {/* Project 1: Lemony Shop Pro (Pastel Blue/Pink/Purple) */}
+        <div className="bg-purple-100 transition-colors duration-700 relative z-[30]">
           <SectionDivider 
             title={projects[0].title} 
             subtitle={projects[0].category} 
             index={0} 
             theme="blue"
             prevBgClass="bg-pink-200"
-            currentBgClass="bg-neutral-950"
+            currentBgClass="bg-purple-100"
+            prevHasPattern={true}
+            isDrawerMode={isDrawerMode}
+            isActiveDrawer={activeDrawer === 0}
+            onToggle={() => setActiveDrawer(activeDrawer === 0 ? null : 0)}
           >
             <LemonyShopPro project={projects[0]} />
           </SectionDivider>
         </div>
 
-        {/* Project 2: Lemony Shop (Light) */}
-        <div className="bg-white transition-colors duration-700">
+        {/* Project 2: Lemony Shop (Light / Sunset Lofi) */}
+        <div className="bg-amber-50 transition-colors duration-700 relative z-[20]">
           <SectionDivider 
             title={projects[1].title} 
             subtitle={projects[1].category} 
             index={1} 
             theme="dark"
-            prevBgClass="bg-neutral-950"
-            currentBgClass="bg-white"
+            prevBgClass="bg-purple-100"
+            currentBgClass="bg-amber-50"
+            isDrawerMode={isDrawerMode}
+            isActiveDrawer={activeDrawer === 1}
+            onToggle={() => setActiveDrawer(activeDrawer === 1 ? null : 1)}
           >
             <LemonyShop project={projects[1]} />
           </SectionDivider>
         </div>
 
         {/* Project 3: Rules of Horror (Dark Red) */}
-        <div className="bg-[#4a0d0d] transition-colors duration-700">
+        <div className="bg-[#4a0d0d] transition-colors duration-700 relative z-[10]">
           <SectionDivider 
             title={projects[2].title} 
             subtitle={projects[2].category} 
             index={2} 
             theme="horror"
-            prevBgClass="bg-white"
+            prevBgClass="bg-amber-50"
             currentBgClass="bg-[#4a0d0d]"
+            isDrawerMode={isDrawerMode}
+            isActiveDrawer={activeDrawer === 2}
+            onToggle={() => setActiveDrawer(activeDrawer === 2 ? null : 2)}
           >
             <RulesOfHorror project={projects[2]} />
           </SectionDivider>

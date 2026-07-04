@@ -1,6 +1,6 @@
 "use client";
-import { motion, useScroll, useTransform, useSpring, useMotionTemplate } from "framer-motion";
-import { useRef, ReactNode } from "react";
+import { motion, useScroll, useTransform, useSpring, AnimatePresence, useMotionTemplate, useMotionValue } from "framer-motion";
+import { useRef, ReactNode, useEffect } from "react";
 import { getPattern } from "@/lib/patterns";
 
 interface SectionDividerProps {
@@ -10,7 +10,11 @@ interface SectionDividerProps {
   theme?: "light" | "dark" | "blue" | "horror";
   prevBgClass?: string;
   currentBgClass?: string;
+  prevHasPattern?: boolean;
   children?: ReactNode;
+  isDrawerMode?: boolean;
+  isActiveDrawer?: boolean;
+  onToggle?: () => void;
 }
 
 export default function SectionDivider({ 
@@ -20,7 +24,11 @@ export default function SectionDivider({
   theme = "light",
   prevBgClass = "bg-white",
   currentBgClass = "bg-neutral-950",
-  children
+  prevHasPattern = false,
+  children,
+  isDrawerMode = false,
+  isActiveDrawer = false,
+  onToggle
 }: SectionDividerProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const gapRef = useRef<HTMLDivElement>(null);
@@ -31,63 +39,88 @@ export default function SectionDivider({
     offset: ["start end", "end start"]
   });
 
+  // Auto-scroll when drawer opens
+  useEffect(() => {
+    if (isDrawerMode && isActiveDrawer && gapRef.current) {
+      setTimeout(() => {
+        gapRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }, 100);
+    }
+  }, [isDrawerMode, isActiveDrawer]);
+
   const direction = index % 2 === 0 ? -1 : 1;
-  const rotationAngle = direction * -4; 
+  const rotationAngle = isDrawerMode ? 0 : direction * -4;
   
   // 1. Divider Box slides horizontally out of the frame
   // The gap is centered on screen at progress 0.50.
   // The box is w-[150%], so moving it 150% means moving it 225vw.
   const rawBoxX = useTransform(scrollYProgress, [0.50, 0.65], [0, direction * 225]);
   const boxXSpring = useSpring(rawBoxX, { stiffness: 70, damping: 20, mass: 0.8 });
-  const boxX = useTransform(boxXSpring, v => `${v}vw`);
+  const scrollBoxX = useTransform(boxXSpring, v => `${v}vw`);
+  const boxX = isDrawerMode ? "0vw" : scrollBoxX;
+  // Background Parallax
+  // Fix the swing bug: disable X movement when in Drawer Mode!
+  const isDrawerMV = useMotionValue(isDrawerMode ? 1 : 0);
+  useEffect(() => {
+    isDrawerMV.set(isDrawerMode ? 1 : 0);
+  }, [isDrawerMode]);
+
+  // If DrawerMode, X is 0. If Continuous, X counters the box sliding.
+  const bgXVw = useTransform(
+    [boxXSpring, isDrawerMV],
+    ([box, isDrawer]) => isDrawer === 1 ? "0vw" : `${-box}vw`
+  );
   
-  // Background Parallax Counters
-  // To keep dots perfectly still on screen, they must move opposite to the box's local movement.
-  const bgXVw = useTransform(boxXSpring, v => `${-v}vw`);
+  // Create a depth illusion by moving background slower than scroll
   const { scrollY } = useScroll();
-  const bgYPx = useTransform(scrollY, y => `${y}px`);
+  const bgYPx = useTransform(scrollY, y => `${y * 0.5}px`);
   
   // 2. The NEXT section (children) slides UP by 30vh to perfectly dock with the Top Piece!
   // It starts right after the box begins to slide out, and finishes docking as the box leaves.
   const rawLowerBgY = useTransform(scrollYProgress, [0.60, 0.75], [0, -30]);
   const lowerBgYSpring = useSpring(rawLowerBgY, { stiffness: 70, damping: 20, mass: 0.8 });
-  const lowerBgY = useTransform(lowerBgYSpring, v => `${v}vh`);
+  const scrollLowerBgY = useTransform(lowerBgYSpring, v => `${v}vh`);
+  const lowerBgY = isDrawerMode ? "0vh" : scrollLowerBgY;
 
   // Theme Styles for the Divider Box
   // We will override all themes to use the pixel sky theme as requested by the user,
   // but we can keep the object for fallback or future use.
   const themeStyles = {
     blue: {
-      gapBg: "bg-gradient-to-br from-purple-200 via-purple-100 to-fuchsia-200",
-      bg: "bg-gradient-to-b from-sky-300 via-sky-200 to-blue-100",
-      border: "border-slate-800 border-y-8",
-      chapter: "text-slate-800",
-      title: "text-white drop-shadow-[4px_4px_0_#1e293b]",
-      subtitle: "text-slate-800 bg-white/70 px-4 py-2 rounded-md border-2 border-slate-800 shadow-[4px_4px_0_0_#1e293b] inline-block font-bold",
+      gapBg: "bg-sky-200",
+      bg: "bg-gradient-to-r from-sky-300 via-fuchsia-300 to-pink-300",
+      border: "border-purple-400 border-y-8",
+      chapter: "text-purple-700",
+      title: "text-white drop-shadow-[4px_4px_0_#9333ea]",
+      subtitle: "text-purple-900 bg-white/80 px-4 py-2 rounded-md border-2 border-purple-400 shadow-[4px_4px_0_0_#9333ea] inline-block font-bold",
+      shadow: "shadow-[0_-10px_30px_rgba(168,85,247,0.15)]", // Extremely subtle shadow
     },
     light: {
-      gapBg: "bg-gradient-to-br from-pink-200 via-pink-100 to-rose-200",
-      bg: "bg-gradient-to-b from-sky-300 via-sky-200 to-blue-100",
+      gapBg: "bg-gradient-to-br from-sky-200 to-sky-100",
+      bg: "bg-white",
       border: "border-slate-800 border-y-8",
-      chapter: "text-slate-800",
-      title: "text-white drop-shadow-[4px_4px_0_#1e293b]",
-      subtitle: "text-slate-800 bg-white/70 px-4 py-2 rounded-md border-2 border-slate-800 shadow-[4px_4px_0_0_#1e293b] inline-block font-bold",
+      chapter: "text-slate-500",
+      title: "text-slate-900 drop-shadow-[2px_2px_0_#94a3b8]",
+      subtitle: "text-white bg-slate-800 px-4 py-2 rounded-md border-2 border-slate-900 shadow-[4px_4px_0_0_#0f172a] inline-block font-bold",
+      shadow: "shadow-[0_-10px_30px_rgba(0,0,0,0.05)]",
     },
-    dark: {
-      gapBg: "bg-gradient-to-br from-pink-200 via-pink-100 to-rose-200",
-      bg: "bg-gradient-to-b from-sky-300 via-sky-200 to-blue-100",
-      border: "border-slate-800 border-y-8",
-      chapter: "text-slate-800",
-      title: "text-white drop-shadow-[4px_4px_0_#1e293b]",
-      subtitle: "text-slate-800 bg-white/70 px-4 py-2 rounded-md border-2 border-slate-800 shadow-[4px_4px_0_0_#1e293b] inline-block font-bold",
+    dark: { // Used for Lemony Shop (light bg)
+      gapBg: "bg-gradient-to-br from-slate-200 to-slate-100",
+      bg: "bg-gradient-to-b from-amber-200 to-yellow-100",
+      border: "border-amber-900 border-y-8",
+      chapter: "text-amber-900",
+      title: "text-amber-950 drop-shadow-[4px_4px_0_#b45309]",
+      subtitle: "text-amber-900 bg-amber-50 px-4 py-2 rounded-md border-2 border-amber-900 shadow-[4px_4px_0_0_#b45309] inline-block font-bold",
+      shadow: "shadow-[0_-10px_30px_rgba(0,0,0,0.05)]",
     },
-    horror: {
-      gapBg: "bg-gradient-to-br from-purple-200 via-purple-100 to-fuchsia-200",
-      bg: "bg-gradient-to-b from-sky-300 via-sky-200 to-blue-100",
-      border: "border-slate-800 border-y-8",
-      chapter: "text-slate-800",
-      title: "text-white drop-shadow-[4px_4px_0_#1e293b]",
-      subtitle: "text-slate-800 bg-white/70 px-4 py-2 rounded-md border-2 border-slate-800 shadow-[4px_4px_0_0_#1e293b] inline-block font-bold",
+    horror: { // Used for Rules of Horror (dark red bg)
+      gapBg: "bg-gradient-to-br from-neutral-900 to-[#4a0d0d]",
+      bg: "bg-gradient-to-b from-[#3f0b0b] to-[#2a0808]",
+      border: "border-black border-y-8",
+      chapter: "text-red-500",
+      title: "text-red-500 drop-shadow-[4px_4px_0_#000000]",
+      subtitle: "text-black bg-red-600 px-4 py-2 rounded-md border-2 border-black shadow-[4px_4px_0_0_#000000] inline-block font-bold",
+      shadow: "shadow-[0_-20px_50px_rgba(0,0,0,0.5)]", // Original dark shadow
     }
   };
 
@@ -96,8 +129,17 @@ export default function SectionDivider({
   return (
     <div ref={containerRef} className="w-full relative flex flex-col items-center justify-start overflow-visible">
       
-      {/* Spacer for the gap (Reduced to 60vh to prevent massive empty space) */}
-      <div ref={gapRef} className={`h-[60vh] w-full ${currentTheme.gapBg} relative overflow-hidden flex items-center justify-center`}>
+      {/* Spacer for the gap */}
+      <div 
+        ref={gapRef} 
+        className={`w-full ${currentTheme.gapBg} relative flex items-center justify-center transition-all duration-700 ease-in-out ${isDrawerMode ? "h-[20vh] md:h-[25vh] cursor-pointer overflow-hidden" : "h-[60vh] overflow-hidden"}`}
+        onClick={isDrawerMode ? onToggle : undefined}
+      >
+        {/* Hover overlay for Drawer Mode */}
+        {isDrawerMode && (
+          <div className="absolute inset-0 z-20 hover:bg-black/10 transition-colors duration-300 pointer-events-none" />
+        )}
+
         {/* CSS Stars Parallax (Fixed) for Gap */}
         <div 
           className="absolute inset-0 z-0 opacity-60 pointer-events-none" 
@@ -118,19 +160,20 @@ export default function SectionDivider({
           }}
         >
           <div
-            className={`w-full h-full ${prevBgClass} pointer-events-auto overflow-hidden`}
+            className={`w-full h-full ${isDrawerMode ? "bg-transparent" : prevBgClass} pointer-events-auto overflow-hidden relative transition-all duration-700`}
             style={{
-              clipPath: direction === -1 
-                ? 'polygon(0 0, 100% 0, 100% 100%, 0 calc(100% - 7vw))' 
-                : 'polygon(0 0, 100% 0, 100% calc(100% - 7vw), 0 100%)',
+              clipPath: isDrawerMode 
+                ? 'none' 
+                : (direction === -1 
+                  ? 'polygon(0 0, 100% 0, 100% 100%, 0 calc(100% - 7vw))' 
+                  : 'polygon(0 0, 100% 0, 100% calc(100% - 7vw), 0 100%)'),
             }}
           >
-            {/* Add CSS Stars Parallax if this block is an extension of the pastel pink IntroSection */}
-            {prevBgClass.includes('pink') && (
+            {prevHasPattern && (
               <div 
                 className="absolute inset-0 z-0 opacity-60 pointer-events-none" 
                 style={{
-                  ...getPattern(0),
+                  ...getPattern(index),
                   backgroundAttachment: `fixed`
                 }}
               />
@@ -155,35 +198,28 @@ export default function SectionDivider({
               }}
             />
 
-            <div className="text-center px-4 max-w-4xl relative z-10">
+            <div className={`text-center transition-transform duration-300 ${isDrawerMode && !isActiveDrawer ? "scale-90" : "scale-100"}`}>
               <motion.span 
-                initial={{ opacity: 0, y: -20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: false }}
-                transition={{ duration: 0.6 }}
-                className={`${currentTheme.chapter} font-[family-name:var(--font-pixel)] tracking-widest text-xs md:text-sm uppercase mb-2 block`}
+                className={`font-[family-name:var(--font-pixel)] text-xs md:text-sm tracking-[0.3em] uppercase opacity-80 ${currentTheme.chapter}`}
               >
                 - Chapter 0{index + 1} -
               </motion.span>
-              <motion.h2 
-                initial={{ opacity: 0, scale: 0.9 }}
-                whileInView={{ opacity: 1, scale: 1 }}
-                viewport={{ once: false }}
-                transition={{ duration: 0.8, delay: 0.2, type: "spring" }}
-                className={`text-4xl md:text-6xl lg:text-7xl font-black ${currentTheme.title} font-[family-name:var(--font-pixel)] tracking-widest uppercase leading-none mb-4`}
-              >
+              <h2 className={`font-[family-name:var(--font-pixel)] text-3xl md:text-5xl lg:text-7xl font-black mt-2 md:mt-4 mb-4 md:mb-6 tracking-widest uppercase ${currentTheme.title}`}>
                 {title}
-              </motion.h2>
+              </h2>
               {subtitle && (
-                <motion.p 
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: false }}
-                  transition={{ duration: 0.6, delay: 0.4 }}
-                  className={`${currentTheme.subtitle} mt-2 max-w-xl mx-auto text-base md:text-lg font-[family-name:var(--font-pixel)] uppercase`}
-                >
+                <div className={`font-[family-name:var(--font-pixel)] text-xs md:text-sm tracking-widest uppercase ${currentTheme.subtitle}`}>
                   {subtitle}
-                </motion.p>
+                </div>
+              )}
+              
+              {/* Click instruction for Drawer Mode */}
+              {isDrawerMode && (
+                <div className="mt-4 animate-pulse">
+                  <span className={`font-[family-name:var(--font-pixel)] text-[10px] tracking-widest uppercase ${currentTheme.chapter} bg-white/20 px-3 py-1 rounded-full`}>
+                    {isActiveDrawer ? "[ CLICK TO CLOSE ]" : "[ CLICK TO OPEN ]"}
+                  </span>
+                </div>
               )}
             </div>
           </motion.div>
@@ -195,24 +231,42 @@ export default function SectionDivider({
         Starts at 60vh. Its roof extends up 15vh, so it starts at 45vh.
         This perfectly touches the bottom of the Divider Box (which spans 15vh to 45vh).
       */}
-      <motion.div 
-        style={{ y: lowerBgY }} 
-        className={`w-full z-10 will-change-transform relative`}
-      >
-        {/* Slanted Top Edge for the Next Section to dock with the Top Piece */}
-        <div 
-          className={`absolute w-[150%] h-[30vh] ${currentBgClass} z-[-1] pointer-events-none shadow-[0_-20px_50px_rgba(0,0,0,0.5)]`}
-          style={{ 
-            top: 0, 
-            left: "-25%", 
-            transform: `translateY(-15vh) rotate(${rotationAngle}deg)`, 
-            transformOrigin: "top center" 
-          }}
-        />
-        
-        {/* Actual Content of the Next Section! */}
-        {children}
-      </motion.div>
+      <AnimatePresence initial={false}>
+        {(!isDrawerMode || isActiveDrawer) && (
+          <motion.div 
+            initial={isDrawerMode ? { opacity: 0 } : false}
+            animate={{ opacity: 1 }}
+            exit={isDrawerMode ? { opacity: 0 } : undefined}
+            transition={{ duration: 0.4 }}
+            style={{ y: lowerBgY }} 
+            className={`w-full z-10 will-change-transform relative`}
+          >
+            {/* Slanted Top Edge for the Next Section to dock with the Top Piece */}
+            {!isDrawerMode && (
+              <div 
+                className={`absolute w-[150%] h-[30vh] ${currentBgClass} z-[-1] pointer-events-none ${currentTheme.shadow}`}
+                style={{ 
+                  top: 0, 
+                  left: "-25%", 
+                  transform: `translateY(-15vh) rotate(${rotationAngle}deg)`, 
+                  transformOrigin: "top center"
+                }}
+              />
+            )}
+            
+            {/* Actual Content of the Next Section! */}
+            <motion.div 
+              initial={isDrawerMode ? { height: 0 } : false}
+              animate={{ height: "auto" }}
+              exit={isDrawerMode ? { height: 0 } : undefined}
+              transition={{ duration: 0.8, ease: "easeInOut" }}
+              className="w-full relative overflow-hidden"
+            >
+              {children}
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   );
 }

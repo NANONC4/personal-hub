@@ -40,7 +40,7 @@ export function PixelMail({ color = "#1e293b", ...props }: PixelIconProps) {
   };
 
   return (
-    <svg viewBox="0 0 16 16" className="w-6 h-6 drop-shadow-sm" {...props}>
+    <svg viewBox="0 0 16 16" className="w-6 h-6" {...props}>
       {renderGrid(grid, colors)}
     </svg>
   );
@@ -71,7 +71,7 @@ export function PixelPhone({ color = "#1e293b", ...props }: PixelIconProps) {
   };
 
   return (
-    <svg viewBox="0 0 16 16" className="w-6 h-6 drop-shadow-sm" {...props}>
+    <svg viewBox="0 0 16 16" className="w-6 h-6" {...props}>
       {renderGrid(grid, colors)}
     </svg>
   );
@@ -102,7 +102,84 @@ export function PixelHeart({ color = "#1e293b", ...props }: PixelIconProps) {
   };
 
   return (
-    <svg viewBox="0 0 16 16" className="w-6 h-6 drop-shadow-sm" {...props}>
+    <svg viewBox="0 0 16 16" className="w-6 h-6" {...props}>
+      {renderGrid(grid, colors)}
+    </svg>
+  );
+}
+
+export function PixelStar({ color = "#1e293b", ...props }: PixelIconProps) {
+  const grid = [
+    "................",
+    ".......bb.......",
+    "......b..b......",
+    "..bbbb....bbbb..",
+    "....b......b....",
+    "...b........b...",
+    "..b..........b..",
+    "...b........b...",
+    "....b......b....",
+    "...b..b..b..b...",
+    "......b..b......",
+    ".......bb.......",
+    "................",
+    "................",
+    "................",
+    "................"
+  ];
+  const colors = { 'b': color };
+  return (
+    <svg viewBox="0 0 16 16" className="w-6 h-6" {...props}>
+      {renderGrid(grid, colors)}
+    </svg>
+  );
+}
+
+export function PixelSparkle({ color = "#1e293b", ...props }: PixelIconProps) {
+  const grid = [
+    "................",
+    ".......bb.......",
+    "......b..b......",
+    "......b..b......",
+    "...bbb....bbb...",
+    "..b..........b..",
+    "..b..........b..",
+    "...bbb....bbb...",
+    "......b..b......",
+    "......b..b......",
+    ".......bb.......",
+    "................",
+    "................",
+    "................",
+    "................",
+    "................"
+  ];
+  const colors = { 'b': color };
+  return (
+    <svg viewBox="0 0 16 16" className="w-6 h-6" {...props}>
+      {renderGrid(grid, colors)}
+    </svg>
+  );
+}
+
+export function PixelCloud({ color = "#ffffff", ...props }: PixelIconProps) {
+  const grid = [
+    "........................",
+    "..........bbbb..........",
+    ".........bbbbbb.........",
+    "......bbbbbbbbbbb.......",
+    ".....bbbbbbbbbbbbbb.....",
+    "...bbbbbbbbbbbbbbbbbb...",
+    "..bbbbbbbbbbbbbbbbbbbb..",
+    ".bbbbbbbbbbbbbbbbbbbbbb.",
+    ".bbbbbbbbbbbbbbbbbbbbbb.",
+    "..bbbbbbbbbbbbbbbbbbbb..",
+    "........................",
+    "........................"
+  ];
+  const colors = { 'b': color };
+  return (
+    <svg viewBox="0 0 24 12" className="w-12 h-6" {...props}>
       {renderGrid(grid, colors)}
     </svg>
   );

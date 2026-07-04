@@ -152,7 +152,7 @@ export default function HorizontalScrollWrapper({
           <motion.button 
             initial={false}
             animate={{ opacity: isLocked ? 1 : 0, y: isLocked ? 0 : 20 }}
-            className={`pointer-events-auto flex items-center gap-2 px-6 py-3 rounded-full font-medium shadow-xl backdrop-blur-md bg-white/10 ${buttonTextClass} border border-white/20`}
+            className={`pointer-events-auto flex items-center gap-2 px-6 py-3 rounded-full font-medium shadow-xl bg-white/90 ${buttonTextClass} border border-white/20`}
             onClick={toggleLock}
           >
             <X size={18} />

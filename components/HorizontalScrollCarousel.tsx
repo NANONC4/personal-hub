@@ -129,7 +129,7 @@ export default function HorizontalScrollCarousel({ project, theme = "light" }: H
               <div className="mt-12 flex">
                 <button 
                   onClick={toggleLock}
-                  className={`px-5 py-2.5 rounded-full backdrop-blur-md bg-neutral-800/10 hover:bg-neutral-800/30 font-medium text-sm tracking-widest flex items-center gap-2 border border-current shadow-lg transition-all hover:scale-105 ${currentTheme.buttonText}`}
+                  className={`px-5 py-2.5 rounded-full bg-neutral-800 hover:bg-neutral-700 font-medium text-sm tracking-widest flex items-center gap-2 border border-current shadow-lg transition-all hover:scale-105 ${currentTheme.buttonText}`}
                 >
                   <Expand size={16} />
                   CLICK TO EXPLORE
@@ -172,7 +172,7 @@ export default function HorizontalScrollCarousel({ project, theme = "light" }: H
         <motion.button 
           initial={false}
           animate={{ opacity: isLocked ? 1 : 0, y: isLocked ? 0 : 20 }}
-          className={`pointer-events-auto flex items-center gap-2 px-6 py-3 rounded-full font-medium shadow-xl backdrop-blur-md bg-white/10 ${currentTheme.buttonText} border border-white/20`}
+          className={`pointer-events-auto flex items-center gap-2 px-6 py-3 rounded-full font-medium shadow-xl bg-white/90 ${currentTheme.buttonText} border border-white/20`}
           onClick={toggleLock}
         >
           <X size={18} />

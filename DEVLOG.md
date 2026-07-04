@@ -37,6 +37,15 @@
 ### `SocialLinkButton.tsx`
 - ไอคอน, รูปแบบอนิเมชัน และลวดลายพื้นหลัง (ดาว/หัวใจ) จะเปลี่ยนไปตาม Index ของปุ่ม
 - มี Sparkles ที่วาดด้วยตัวอักษรธรรมดาและลอยขึ้นลงด้วย `float-sparkle` keyframes
+- **New Feature:** รองรับ `copyText` prop เมื่อกดปุ่มจะคัดลอกข้อความลง Clipboard และแสดงสถานะ "Copied!" พร้อมไอคอนติ๊กถูกแทนการเปิดหน้าเว็บใหม่
+
+### `PixelIcons.tsx` (New)
+- รวมไอคอน Pixel Art โปร่งใส (Email, Smartphone, Heart) ที่วาดขึ้นมาเองจากการแปลง Grid String Array ให้กลายเป็นแท็ก `<rect>` ของ SVG
+
+### `PixelTransition.tsx` (New)
+- สร้างเอฟเฟกต์ "ม่านพิกเซล" (Pixel Curtain / Shatter) 
+- ใช้ `framer-motion` ในการทำ Stagger Animation ให้กล่อง `div` สี่เหลี่ยม 96 กล่อง (8x12) ค่อยๆ ขยายตัวปิดหน้าจอทีละบล็อก 
+- ใช้คู่กับการหน่วงเวลา Scroll เพื่อซ่อนการกระตุกของการขยับหน้าเว็บ
 
 ---
 
@@ -44,6 +53,11 @@
 - **CMS Integration:** อนาคตสามารถเปลี่ยนจาก `data/projects.ts` ไปเชื่อมกับ Headless CMS ได้
 - **Performance:** ตรวจสอบความลื่นไหลของ Canvas และ Animations บนอุปกรณ์มือถือสเปคต่ำ
 - **Code Refactoring:** คอมโพเนนต์ใน `components/projects/` สามารถยุบรวมเป็น Template เดียวได้
+
+- **Aesthetic Pixel Art Frames:**
+  - Idea 1: "หน้าต่างห้องชิลๆ (Aesthetic Room Window)" - Window sill with minimal shading and pixel art props (e.g., potted plant, coffee cup with animated steam) acting as a view to the outside.
+  - Idea 2: "กรอบก้อนเมฆลอยฟ้า (Floating Cloud Frame)" - Image framed by soft, fluffy pixel art clouds that hover up and down, with smaller clouds drifting by.
+  - Idea 4: "ป้ายไฟกลางเมืองคืนชิลๆ (Lofi City Glow)" - Sleek billboard frame with pastel neon glow (blue/pink/purple) cutting through a dark background, giving a night city vibe.
 
 ---
 *End of Context.*
