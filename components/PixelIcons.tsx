@@ -184,3 +184,57 @@ export function PixelCloud({ color = "#ffffff", ...props }: PixelIconProps) {
     </svg>
   );
 }
+
+export function PixelMoon({ color = "#fef08a", ...props }: PixelIconProps) {
+  const grid = [
+    "......ww........",
+    "....wwwwww......",
+    "...wwwwwwww.....",
+    "..wwwwww........",
+    ".wwwww..........",
+    ".wwwww..........",
+    "wwwww...........",
+    "wwwww...........",
+    "wwwww...........",
+    "wwwww...........",
+    ".wwwww..........",
+    ".wwwww..........",
+    "..wwwww.........",
+    "...wwwwwww......",
+    "....wwwwww......",
+    "......ww........"
+  ];
+  const colors = { 'w': color };
+  return (
+    <svg viewBox="0 0 16 16" className="w-16 h-16 drop-shadow-[0_0_15px_rgba(254,240,138,0.5)]" {...props}>
+      {renderGrid(grid, colors)}
+    </svg>
+  );
+}
+
+export function PixelCoffee({ color = "#d4d4d8", ...props }: PixelIconProps) {
+  const grid = [
+    "......ss........",
+    ".......s........",
+    ".......ss.......",
+    "........s.......",
+    "................",
+    "...wwwwwwwww....",
+    "...wwwwwwwww.ww.",
+    "...wwwwwwwww..w.",
+    "...wwwwwwwww.ww.",
+    "...wwwwwwwww....",
+    "...wwwwwwwww....",
+    "....wwwwwww.....",
+    "....wwwwwww.....",
+    ".....wwwww......",
+    "..wwwwwwwwwww...",
+    "................"
+  ];
+  const colors = { 'w': color, 's': '#9ca3af' };
+  return (
+    <svg viewBox="0 0 16 16" className="w-16 h-16" {...props}>
+      {renderGrid(grid, colors)}
+    </svg>
+  );
+}

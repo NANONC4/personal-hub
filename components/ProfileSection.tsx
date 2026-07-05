@@ -166,6 +166,19 @@ export default function ProfileSection() {
             </motion.div>
           )}
         </AnimatePresence>
+
+        {/* Available for Freelance Badge */}
+        <motion.div 
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 1 }}
+          className="mt-6 self-center lg:self-start inline-flex items-center gap-2 px-4 py-2 bg-emerald-100 border-2 border-emerald-500 rounded-full shadow-[2px_2px_0_0_#10b981] hover:shadow-[0px_0px_0_0_#10b981] hover:translate-x-[2px] hover:translate-y-[2px] transition-all cursor-pointer group"
+        >
+          <div className="w-2.5 h-2.5 bg-emerald-500 rounded-full animate-pulse shadow-[0_0_8px_#10b981]"></div>
+          <span className="text-xs font-bold text-emerald-800 uppercase tracking-widest font-[family-name:var(--font-pixel)] mt-0.5 group-hover:text-emerald-900 transition-colors">
+            Available for Freelance
+          </span>
+        </motion.div>
       </div>
 
       

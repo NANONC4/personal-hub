@@ -5,6 +5,8 @@ import BackgroundArt from "@/components/BackgroundArt";
 import ProfileSection from "@/components/ProfileSection";
 import SocialLinkButton from "@/components/SocialLinkButton";
 import IntroSection from "@/components/IntroSection";
+import AboutMeSection from "@/components/AboutMeSection";
+import Footer from "@/components/Footer";
 import LemonyShopPro from "@/components/projects/LemonyShopPro";
 import LemonyShop from "@/components/projects/LemonyShop";
 import RulesOfHorror from "@/components/projects/RulesOfHorror";
@@ -14,6 +16,8 @@ import PixelSky from "@/components/PixelSky";
 import HorizontalScrollCarousel from "@/components/HorizontalScrollCarousel";
 import HorrorPortalButton from "@/components/HorrorPortalButton";
 import PixelTransition from "@/components/PixelTransition";
+import Preloader from "@/components/Preloader";
+import FloatingNav from "@/components/FloatingNav";
 import { PixelMail, PixelPhone, PixelHeart } from "@/components/PixelIcons";
 import { Code, Link, Globe } from "lucide-react";
 import { projects } from "@/data/projects";
@@ -30,6 +34,14 @@ export default function Home() {
   const [isLocked, setIsLocked] = useState(true);
   const [isDrawerMode, setIsDrawerMode] = useState(false);
   const [activeDrawer, setActiveDrawer] = useState<number | null>(0);
+
+  const handleToggleMode = (mode: boolean) => {
+    setIsDrawerMode(mode);
+    if (mode) {
+      // When switching to Drawer Mode, ensure all drawers are folded (closed) initially.
+      setActiveDrawer(null);
+    }
+  };
 
   const [isTransitioning, setIsTransitioning] = useState(false);
 
@@ -48,13 +60,15 @@ export default function Home() {
 
   return (
     <main className="relative min-h-screen bg-neutral-950 font-[family-name:var(--font-geist-sans)] selection:bg-sky-500/30 overflow-x-hidden">
+      <Preloader />
+      
       <PixelTransition 
         isActive={isTransitioning} 
         onCovered={onTransitionCovered} 
         onComplete={() => setIsTransitioning(false)} 
       />
       {/* 1. HERO SECTION (Link-in-Bio) */}
-      <section className="relative z-10 w-full min-h-screen flex flex-col items-center justify-center overflow-hidden bg-gradient-to-b from-sky-300 via-sky-200 to-blue-100">
+      <section id="home" className="relative z-10 w-full min-h-screen flex flex-col items-center justify-center overflow-hidden bg-gradient-to-b from-sky-300 via-sky-200 to-blue-100">
         
         <PixelSky />
 
@@ -170,11 +184,29 @@ export default function Home() {
           transition={{ duration: 0.5 }}
         >
           {/* 2. INTRO SECTION */}
-          <IntroSection isDrawerMode={isDrawerMode} onToggle={setIsDrawerMode} />
+          <IntroSection />
+
+          {/* 2.5 ABOUT ME SECTION (Night Sky Skills) */}
+          <div id="about">
+            <AboutMeSection />
+          </div>
 
       {/* 3. STORYTELLING PORTFOLIO (Bespoke Hardcoded Layouts) */}
-      <section className="relative z-10 w-full">
+      <section id="works" className="relative z-10 w-full bg-neutral-950">
         
+        {/* Sticky Portfolio Header */}
+        <div className="sticky top-0 z-[50] w-full bg-[#0f172a]/95 border-y border-indigo-900/50 py-3 px-6 md:px-12 flex flex-col md:flex-row justify-center items-center gap-6 md:gap-12 transition-colors duration-500 shadow-[0_4px_20px_rgba(0,0,0,0.5)]">
+          <div className="flex items-center gap-3">
+            <div className="w-1.5 h-6 bg-sky-400 rounded-full animate-pulse shadow-[0_0_10px_rgba(56,189,248,0.6)]" />
+            <h2 className="font-[family-name:var(--font-pixel)] text-slate-300 text-sm md:text-base tracking-widest uppercase mt-1">
+              Selected Works
+            </h2>
+          </div>
+          <div className="scale-90 md:scale-100">
+            <PortfolioToggle isDrawerMode={isDrawerMode} onToggle={handleToggleMode} />
+          </div>
+        </div>
+
         {/* Project 1: Lemony Shop Pro (Pastel Blue/Pink/Purple) */}
         <div className="bg-purple-100 transition-colors duration-700 relative z-[30]">
           <SectionDivider 
@@ -182,9 +214,9 @@ export default function Home() {
             subtitle={projects[0].category} 
             index={0} 
             theme="blue"
-            prevBgClass="bg-pink-200"
+            prevBgClass="bg-neutral-950"
             currentBgClass="bg-purple-100"
-            prevHasPattern={true}
+            prevHasPattern={false}
             isDrawerMode={isDrawerMode}
             isActiveDrawer={activeDrawer === 0}
             onToggle={() => setActiveDrawer(activeDrawer === 0 ? null : 0)}
@@ -233,6 +265,13 @@ export default function Home() {
           <section className="relative z-10 w-full">
              <HorrorPortalButton />
           </section>
+
+          {/* 5. FOOTER / CONTACT SECTION (Midnight Cafe) */}
+          <div id="contact">
+            <Footer />
+          </div>
+          
+          <FloatingNav />
         </motion.div>
       )}
 

@@ -9,21 +9,21 @@ interface PortfolioToggleProps {
 
 export default function PortfolioToggle({ isDrawerMode, onToggle }: PortfolioToggleProps) {
   return (
-    <div className="w-full max-w-sm mx-auto my-12 bg-white p-3 rounded-xl border-4 border-pink-400 shadow-[4px_4px_0_0_#f472b6] relative overflow-hidden flex flex-col items-center gap-3">
+    <div className="w-[280px] md:w-[320px] mx-auto bg-[#0f172a] p-2 rounded-xl border border-indigo-400/20 shadow-lg hover:border-indigo-400/40 hover:shadow-[0_0_20px_rgba(129,140,248,0.15)] transition-all duration-300 relative overflow-hidden flex flex-col items-center gap-2 group">
       
       {/* Decorative BG */}
-      <PixelStar color="#fcd34d" className="absolute -top-2 -left-2 w-8 h-8 opacity-40" />
-      <PixelSparkle color="#c084fc" className="absolute -bottom-2 -right-2 w-6 h-6 opacity-40" />
+      <PixelStar color="#fcd34d" className="absolute -top-1 -left-1 w-6 h-6 opacity-20 group-hover:opacity-40 group-hover:rotate-12 transition-all duration-500" />
+      <PixelSparkle color="#c084fc" className="absolute -bottom-1 -right-1 w-5 h-5 opacity-20 group-hover:opacity-40 group-hover:scale-125 transition-all duration-500" />
 
       {/* Label */}
       <div className="flex items-center gap-2">
-        <span className="text-pink-500 font-[family-name:var(--font-pixel)] text-[10px] uppercase tracking-widest font-bold">
+        <span className="text-indigo-300 font-[family-name:var(--font-pixel)] text-[10px] uppercase tracking-widest font-medium opacity-70 group-hover:opacity-100 transition-opacity">
           View Mode
         </span>
       </div>
 
       {/* Toggle Container */}
-      <div className="w-full bg-pink-50 p-1.5 rounded-lg border-2 border-dashed border-pink-300 flex relative">
+      <div className="w-full bg-slate-900/40 p-1 rounded-lg border border-slate-700/30 flex relative">
         
         {/* Sliding Indicator Background */}
         <motion.div
@@ -31,15 +31,15 @@ export default function PortfolioToggle({ isDrawerMode, onToggle }: PortfolioTog
           animate={{
             x: isDrawerMode ? "100%" : "0%",
           }}
-          transition={{ type: "spring", stiffness: 300, damping: 25 }}
-          className="absolute top-1.5 bottom-1.5 left-1.5 w-[calc(50%-6px)] bg-gradient-to-b from-pink-300 to-purple-400 rounded shadow-[inset_0_2px_4px_rgba(255,255,255,0.5)] border-2 border-pink-400 z-0"
+          transition={{ type: "spring", stiffness: 400, damping: 30 }}
+          className="absolute top-1 bottom-1 left-1 w-[calc(50%-4px)] bg-indigo-500/20 border border-indigo-400/30 rounded shadow-[inset_0_1px_2px_rgba(255,255,255,0.1),0_0_10px_rgba(129,140,248,0.3)] z-0"
         />
 
         {/* Option 1: Scroll */}
         <button
           onClick={() => onToggle(false)}
-          className={`flex-1 py-2 relative z-10 font-[family-name:var(--font-pixel)] text-xs uppercase tracking-wide transition-colors duration-200 ${
-            !isDrawerMode ? "text-white drop-shadow-[1px_1px_0_#c026d3]" : "text-pink-400 hover:text-pink-600"
+          className={`flex-1 py-2 relative z-10 font-[family-name:var(--font-pixel)] text-[10px] md:text-xs uppercase tracking-wide transition-colors duration-200 ${
+            !isDrawerMode ? "text-indigo-200 drop-shadow-[0_0_5px_rgba(129,140,248,0.8)]" : "text-slate-500 hover:text-indigo-300"
           }`}
         >
           Continuous
@@ -48,8 +48,8 @@ export default function PortfolioToggle({ isDrawerMode, onToggle }: PortfolioTog
         {/* Option 2: Drawer */}
         <button
           onClick={() => onToggle(true)}
-          className={`flex-1 py-2 relative z-10 font-[family-name:var(--font-pixel)] text-xs uppercase tracking-wide transition-colors duration-200 ${
-            isDrawerMode ? "text-white drop-shadow-[1px_1px_0_#c026d3]" : "text-pink-400 hover:text-pink-600"
+          className={`flex-1 py-2 relative z-10 font-[family-name:var(--font-pixel)] text-[10px] md:text-xs uppercase tracking-wide transition-colors duration-200 ${
+            isDrawerMode ? "text-indigo-200 drop-shadow-[0_0_5px_rgba(129,140,248,0.8)]" : "text-slate-500 hover:text-indigo-300"
           }`}
         >
           Drawer
