@@ -30,16 +30,24 @@ const getTheme = (index: number): Theme => {
   return themes[index % themes.length];
 };
 
+import CategoryGroup from "@/components/CategoryGroup";
+import PortfolioFilter, { categories } from "@/components/PortfolioFilter";
+import BioGallery from "@/components/BioGallery";
+
+// ... existing code ...
+
 export default function Home() {
   const [isLocked, setIsLocked] = useState(true);
   const [isDrawerMode, setIsDrawerMode] = useState(false);
-  const [activeDrawer, setActiveDrawer] = useState<number | null>(0);
+  const [activeDrawer, setActiveDrawer] = useState<string | null>(null); // For projects
+  const [activeDrawerCategory, setActiveDrawerCategory] = useState<string | null>(null); // For categories
+  const [activeCategory, setActiveCategory] = useState("all");
 
   const handleToggleMode = (mode: boolean) => {
     setIsDrawerMode(mode);
     if (mode) {
-      // When switching to Drawer Mode, ensure all drawers are folded (closed) initially.
       setActiveDrawer(null);
+      setActiveDrawerCategory(null);
     }
   };
 
@@ -52,10 +60,107 @@ export default function Home() {
 
   const onTransitionCovered = () => {
     setIsLocked(false);
-    // Wait for React to render the newly unlocked sections
     setTimeout(() => {
       document.getElementById("intro")?.scrollIntoView({ behavior: "auto" });
     }, 50);
+  };
+
+  // Grouping logic for dynamic rendering
+  const filteredProjects = projects.filter(p => activeCategory === 'all' || p.type === activeCategory);
+  const groupedProjects: Record<string, typeof projects> = {};
+  filteredProjects.forEach(p => {
+    if (!groupedProjects[p.type]) groupedProjects[p.type] = [];
+    groupedProjects[p.type].push(p);
+  });
+  
+  const categoryOrder = ['web', 'game', 'bio'];
+  const activeGroups = categoryOrder.filter(type => groupedProjects[type]);
+
+  const renderGroups = () => {
+    let globalIndex = 0;
+    let previousBgClass = "bg-[#0f172a]"; // Matches the bottom of the midnight zone
+
+    return activeGroups.map((type) => {
+      const groupProjects = groupedProjects[type];
+      const categoryLabel = categories.find(c => c.id === type)?.label || type;
+
+      if (type === 'bio') {
+        const bioGalleryNode = <BioGallery projects={groupProjects} isDrawerMode={isDrawerMode} />;
+        return (
+          <div key={type} className="flex flex-col relative w-full">
+            {isDrawerMode ? (
+              <CategoryGroup 
+                title={categoryLabel}
+                isOpen={activeDrawerCategory === type}
+                setIsOpen={() => setActiveDrawerCategory(activeDrawerCategory === type ? null : type)}
+                isDrawerMode={isDrawerMode}
+              >
+                {bioGalleryNode}
+              </CategoryGroup>
+            ) : (
+              <div className="relative z-30">
+                {/* Section header for continuous mode, since BioGallery replaces SectionDivider */}
+                {!isDrawerMode && (
+                  <div className="w-full bg-slate-950 py-12 flex justify-center border-t-8 border-slate-900 shadow-2xl relative z-10">
+                    <h2 className="font-[family-name:var(--font-pixel)] text-indigo-300 tracking-widest text-xl">
+                      - {categoryLabel} -
+                    </h2>
+                  </div>
+                )}
+                {bioGalleryNode}
+              </div>
+            )}
+          </div>
+        );
+      }
+
+      const projectNodes = groupProjects.map((project, idx) => {
+            const isFirstInCategory = idx === 0;
+            const currentPrevBg = previousBgClass;
+            previousBgClass = project.bgClass;
+            const filteredIndex = globalIndex++;
+            const zIndex = 30 - filteredIndex * 5;
+
+            return (
+              <div key={project.id} className={`${project.bgClass} transition-colors duration-700 relative`} style={{ zIndex }}>
+                <SectionDivider
+                  title={project.title}
+                  subtitle={project.role}
+                  categoryName={!isDrawerMode && isFirstInCategory ? categoryLabel : undefined}
+                  index={filteredIndex}
+                  theme={project.theme as any}
+                  prevBgClass={currentPrevBg}
+                  currentBgClass={project.bgClass}
+                  prevHasPattern={filteredIndex > 0}
+                  isDrawerMode={isDrawerMode}
+                  isActiveDrawer={isDrawerMode && activeDrawer === project.id}
+                  onToggle={() => setActiveDrawer(activeDrawer === project.id ? null : project.id)}
+                >
+                  {project.id === 'lemony-shop-pro' && <LemonyShopPro project={project} />}
+                  {project.id === 'lemony-shop' && <LemonyShop project={project} />}
+                  {project.id === 'rules-of-horror' && <RulesOfHorror project={project} />}
+                </SectionDivider>
+              </div>
+            );
+          });
+
+      return (
+        <div key={type} className="flex flex-col relative w-full">
+          {isDrawerMode ? (
+            <CategoryGroup 
+              title={categoryLabel}
+              isOpen={activeDrawerCategory === type}
+              setIsOpen={() => setActiveDrawerCategory(activeDrawerCategory === type ? null : type)}
+              isDrawerMode={isDrawerMode}
+            >
+              {projectNodes}
+            </CategoryGroup>
+          ) : (
+            projectNodes
+          )}
+        </div>
+      );
+    });
   };
 
   return (
@@ -192,72 +297,37 @@ export default function Home() {
           </div>
 
       {/* 3. STORYTELLING PORTFOLIO (Bespoke Hardcoded Layouts) */}
-      <section id="works" className="relative z-10 w-full bg-neutral-950">
+      <section id="works" className="relative z-10 w-full bg-[#0f172a]">
         
         {/* Sticky Portfolio Header */}
-        <div className="sticky top-0 z-[50] w-full bg-[#0f172a]/95 border-y border-indigo-900/50 py-3 px-6 md:px-12 flex flex-col md:flex-row justify-center items-center gap-6 md:gap-12 transition-colors duration-500 shadow-[0_4px_20px_rgba(0,0,0,0.5)]">
-          <div className="flex items-center gap-3">
-            <div className="w-1.5 h-6 bg-sky-400 rounded-full animate-pulse shadow-[0_0_10px_rgba(56,189,248,0.6)]" />
-            <h2 className="font-[family-name:var(--font-pixel)] text-slate-300 text-sm md:text-base tracking-widest uppercase mt-1">
+        <div className="sticky top-0 z-[50] w-full bg-[#0f172a] border-y-2 border-slate-800 py-3 px-6 md:px-12 flex flex-col xl:flex-row justify-center items-center gap-6 xl:gap-12 transition-colors duration-500 shadow-[0_4px_0_0_rgba(2,6,23,1)]">
+          <div className="flex items-center gap-3 shrink-0">
+            <div className="w-1.5 h-6 bg-indigo-400 rounded shadow-[2px_2px_0_0_rgba(2,6,23,0.8)]" />
+            <h2 className="font-[family-name:var(--font-pixel)] text-slate-300 text-sm md:text-base tracking-widest uppercase mt-1 drop-shadow-[1px_1px_0_#020617]">
               Selected Works
             </h2>
           </div>
-          <div className="scale-90 md:scale-100">
-            <PortfolioToggle isDrawerMode={isDrawerMode} onToggle={handleToggleMode} />
+          <div className="flex flex-col md:flex-row items-center gap-4 xl:gap-8 w-full xl:w-auto">
+            <PortfolioFilter activeCategory={activeCategory} onSelectCategory={setActiveCategory} />
+            <div className="shrink-0 w-full md:w-auto">
+              <PortfolioToggle isDrawerMode={isDrawerMode} onToggle={handleToggleMode} />
+            </div>
           </div>
         </div>
 
-        {/* Project 1: Lemony Shop Pro (Pastel Blue/Pink/Purple) */}
-        <div className="bg-purple-100 transition-colors duration-700 relative z-[30]">
-          <SectionDivider 
-            title={projects[0].title} 
-            subtitle={projects[0].category} 
-            index={0} 
-            theme="blue"
-            prevBgClass="bg-neutral-950"
-            currentBgClass="bg-purple-100"
-            prevHasPattern={false}
-            isDrawerMode={isDrawerMode}
-            isActiveDrawer={activeDrawer === 0}
-            onToggle={() => setActiveDrawer(activeDrawer === 0 ? null : 0)}
+        {/* Render Grouped Projects */}
+        <AnimatePresence mode="popLayout">
+          <motion.div
+            key={activeCategory + (isDrawerMode ? 'drawer' : 'continuous')}
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -20 }}
+            transition={{ duration: 0.5 }}
+            className="w-full flex flex-col"
           >
-            <LemonyShopPro project={projects[0]} />
-          </SectionDivider>
-        </div>
-
-        {/* Project 2: Lemony Shop (Light / Sunset Lofi) */}
-        <div className="bg-amber-50 transition-colors duration-700 relative z-[20]">
-          <SectionDivider 
-            title={projects[1].title} 
-            subtitle={projects[1].category} 
-            index={1} 
-            theme="dark"
-            prevBgClass="bg-purple-100"
-            currentBgClass="bg-amber-50"
-            isDrawerMode={isDrawerMode}
-            isActiveDrawer={activeDrawer === 1}
-            onToggle={() => setActiveDrawer(activeDrawer === 1 ? null : 1)}
-          >
-            <LemonyShop project={projects[1]} />
-          </SectionDivider>
-        </div>
-
-        {/* Project 3: Rules of Horror (Dark Red) */}
-        <div className="bg-[#4a0d0d] transition-colors duration-700 relative z-[10]">
-          <SectionDivider 
-            title={projects[2].title} 
-            subtitle={projects[2].category} 
-            index={2} 
-            theme="horror"
-            prevBgClass="bg-amber-50"
-            currentBgClass="bg-[#4a0d0d]"
-            isDrawerMode={isDrawerMode}
-            isActiveDrawer={activeDrawer === 2}
-            onToggle={() => setActiveDrawer(activeDrawer === 2 ? null : 2)}
-          >
-            <RulesOfHorror project={projects[2]} />
-          </SectionDivider>
-        </div>
+            {renderGroups()}
+          </motion.div>
+        </AnimatePresence>
 
       </section>
 

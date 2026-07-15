@@ -2,10 +2,12 @@
 import { motion, useScroll, useTransform, useSpring, AnimatePresence, useMotionTemplate, useMotionValue } from "framer-motion";
 import { useRef, ReactNode, useEffect } from "react";
 import { getPattern } from "@/lib/patterns";
+import { PixelStar } from "./PixelIcons";
 
 interface SectionDividerProps {
   title: string;
   subtitle?: string;
+  categoryName?: string;
   index: number;
   theme?: "light" | "dark" | "blue" | "horror";
   prevBgClass?: string;
@@ -20,6 +22,7 @@ interface SectionDividerProps {
 export default function SectionDivider({ 
   title, 
   subtitle, 
+  categoryName,
   index, 
   theme = "light",
   prevBgClass = "bg-white",
@@ -61,6 +64,12 @@ export default function SectionDivider({
   const boxXSpring = useSpring(rawBoxX, { stiffness: 70, damping: 20, mass: 0.8 });
   const scrollBoxX = useTransform(boxXSpring, v => `${v}vw`);
   const boxX = isDrawerMode ? "0vw" : scrollBoxX;
+
+  // Category Divider Box slides horizontally opposite to the main box
+  const rawCategoryBoxX = useTransform(scrollYProgress, [0.50, 0.65], [0, -direction * 225]);
+  const categoryBoxXSpring = useSpring(rawCategoryBoxX, { stiffness: 70, damping: 20, mass: 0.8 });
+  const scrollCategoryBoxX = useTransform(categoryBoxXSpring, v => `${v}vw`);
+  const categoryBoxX = isDrawerMode ? "0vw" : scrollCategoryBoxX;
   // Background Parallax
   // Fix the swing bug: disable X movement when in Drawer Mode!
   const isDrawerMV = useMotionValue(isDrawerMode ? 1 : 0);
@@ -74,13 +83,20 @@ export default function SectionDivider({
     ([box, isDrawer]) => isDrawer === 1 ? "0vw" : `${-box}vw`
   );
   
-  // Create a depth illusion by moving background slower than scroll
-  const { scrollY } = useScroll();
-  const bgYPx = useTransform(scrollY, y => `${y * 0.5}px`);
+  const categoryBgXVw = useTransform(
+    [categoryBoxXSpring, isDrawerMV],
+    ([box, isDrawer]) => isDrawer === 1 ? "0vw" : `${-box}vw`
+  );
   
-  // 2. The NEXT section (children) slides UP by 30vh to perfectly dock with the Top Piece!
+  // Create a depth illusion by moving background slower than scroll
+  // We modulo by 960 (LCM of 64, 60, 12, 80 pattern sizes) to loop infinitely!
+  const { scrollY } = useScroll();
+  const bgYPx = useTransform(scrollY, y => `${(y * 0.5) % 960}px`);
+  
+  // 2. The NEXT section (children) slides UP by 30vh (or 45vh) to perfectly dock with the Top Piece!
   // It starts right after the box begins to slide out, and finishes docking as the box leaves.
-  const rawLowerBgY = useTransform(scrollYProgress, [0.60, 0.75], [0, -30]);
+  const slideUpAmount = categoryName && !isDrawerMode ? -45 : -30;
+  const rawLowerBgY = useTransform(scrollYProgress, [0.60, 0.75], [0, slideUpAmount]);
   const lowerBgYSpring = useSpring(rawLowerBgY, { stiffness: 70, damping: 20, mass: 0.8 });
   const scrollLowerBgY = useTransform(lowerBgYSpring, v => `${v}vh`);
   const lowerBgY = isDrawerMode ? "0vh" : scrollLowerBgY;
@@ -135,7 +151,7 @@ export default function SectionDivider({
       {/* Spacer for the gap */}
       <div 
         ref={gapRef} 
-        className={`w-full ${currentTheme.gapBg} relative flex items-center justify-center transition-all duration-700 ease-in-out ${isDrawerMode ? "h-[20vh] md:h-[25vh] cursor-pointer overflow-hidden" : "h-[60vh] overflow-hidden"}`}
+        className={`w-full ${currentTheme.gapBg} relative flex items-center justify-center transition-all duration-700 ease-in-out ${isDrawerMode ? "h-[20vh] md:h-[25vh] cursor-pointer overflow-hidden" : (categoryName ? "h-[75vh] overflow-hidden" : "h-[60vh] overflow-hidden")}`}
         onClick={isDrawerMode ? onToggle : undefined}
       >
         {/* Hover overlay for Drawer Mode */}
@@ -157,7 +173,7 @@ export default function SectionDivider({
         <div 
           className="absolute w-full h-[150vh] z-10 pointer-events-none"
           style={{
-            bottom: "calc(50% + 15vh - 3.5vw)",
+            bottom: "calc(100% - 15vh - 3.5vw)",
             left: "0",
             filter: "drop-shadow(0 20px 25px rgba(0,0,0,0.5))"
           }}
@@ -188,16 +204,50 @@ export default function SectionDivider({
           className="absolute inset-0 flex items-center justify-center z-20 pointer-events-none"
           style={{ transform: `rotate(${rotationAngle}deg)` }}
         >
+          {categoryName && !isDrawerMode && (
+            <motion.div 
+              style={{ x: categoryBoxX, top: "15vh" }} 
+              className={`absolute w-[150%] h-[15vh] bg-gradient-to-b from-indigo-950 to-slate-900 flex flex-col items-center justify-center shadow-[inset_0_-10px_20px_rgba(0,0,0,0.5)] border-y-8 border-slate-800 will-change-transform pointer-events-auto overflow-hidden`}
+            >
+              {/* Category GPU Accelerated Parallax Background */}
+              <motion.div 
+                className="absolute z-0 opacity-40 pointer-events-none will-change-transform mix-blend-screen" 
+                style={{
+                  top: "-1000px", bottom: "-1000px", left: "-300vw", right: "-300vw",
+                  ...getPattern(3), // Dark Pixel Sparkles pattern
+                  x: categoryBgXVw,
+                  y: bgYPx
+                }}
+              />
+              
+              <div className="text-center relative z-10 flex flex-col items-center">
+                <span className="font-[family-name:var(--font-pixel)] text-[10px] md:text-xs tracking-[0.3em] uppercase text-indigo-400 opacity-80 mb-1">
+                  - CATEGORY -
+                </span>
+                <h2 className="font-[family-name:var(--font-pixel)] text-indigo-100 drop-shadow-[2px_2px_0_#020617] md:drop-shadow-[3px_3px_0_#000000] text-xl md:text-3xl tracking-widest uppercase flex items-center gap-4">
+                  <PixelStar color="#818cf8" className="w-5 h-5 md:w-6 md:h-6 opacity-70" />
+                  {categoryName}
+                  <PixelStar color="#818cf8" className="w-5 h-5 md:w-6 md:h-6 opacity-70" />
+                </h2>
+              </div>
+            </motion.div>
+          )}
+
           <motion.div 
-            style={{ x: boxX }}
-            className={`w-[150%] flex-shrink-0 h-[30vh] ${currentTheme.bg} flex flex-col items-center justify-center shadow-[0_20px_0_0_rgba(0,0,0,0.5)] border-y-8 border-slate-800 will-change-transform pointer-events-auto relative overflow-hidden`}
+            style={{ 
+              x: boxX, 
+              top: isDrawerMode ? "50%" : (categoryName && !isDrawerMode ? "30vh" : "15vh"),
+              y: isDrawerMode ? "-50%" : "0%"
+            }}
+            className={`absolute w-[150%] h-[30vh] ${currentTheme.bg} flex flex-col items-center justify-center shadow-[0_20px_0_0_rgba(0,0,0,0.5)] border-y-8 border-slate-800 will-change-transform pointer-events-auto overflow-hidden`}
           >
             {/* GPU Accelerated Parallax Background */}
             <motion.div 
               className="absolute z-0 opacity-60 pointer-events-none will-change-transform" 
               style={{
-                // Oversize the div so moving it doesn't reveal empty edges
-                top: "-150vh", bottom: "-150vh", left: "-300vw", right: "-300vw",
+                // Oversize the div so moving it doesn't reveal empty edges.
+                // Modulo 960 keeps Y within 960px. X is bounded by 300vw.
+                top: "-1000px", bottom: "-1000px", left: "-300vw", right: "-300vw",
                 ...getPattern(index + 2),
                 x: bgXVw,
                 y: bgYPx

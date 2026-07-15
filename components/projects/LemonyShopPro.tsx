@@ -12,7 +12,13 @@ export default function LemonyShopPro({ project }: { project: Project }) {
       
       {/* Slide 1: Content Block (With Solid Card to prevent lag) */}
       <div className="w-full lg:w-[60vw] max-w-5xl flex-shrink-0 flex flex-col justify-center h-auto lg:h-full mr-0 lg:mr-24 relative px-0 lg:px-4">
-        <div className="w-full bg-white border-4 border-purple-400 p-8 md:p-16 rounded-xl shadow-[8px_8px_0_0_#c084fc] relative overflow-hidden">
+        <motion.div 
+          initial={{ opacity: 0, y: 50 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: false, amount: 0.2 }}
+          transition={{ duration: 0.8 }}
+          className="w-full bg-white border-4 border-purple-400 p-8 md:p-16 rounded-xl shadow-[8px_8px_0_0_#c084fc] relative overflow-hidden"
+        >
           {/* Aesthetic Faint Background */}
           <PixelCloud color="#c084fc" className="absolute -top-4 -right-12 w-48 h-24 opacity-10 pointer-events-none" />
           <PixelCloud color="#93c5fd" className="absolute bottom-4 -left-12 w-64 h-32 opacity-10 pointer-events-none" />
@@ -22,7 +28,7 @@ export default function LemonyShopPro({ project }: { project: Project }) {
           <div className="relative z-10">
             <StoryContentBlock project={project} theme="pastel" />
           </div>
-        </div>
+        </motion.div>
       </div>
 
       {/* Slide 2: Large Mockup & Small Detail */}

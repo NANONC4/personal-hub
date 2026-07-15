@@ -103,9 +103,13 @@ export default function HorrorPortalButton() {
 
       <motion.a
         href="#"
+        initial={{ opacity: 0, y: 50 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: false, amount: 0.2 }}
+        transition={{ duration: 0.8 }}
         whileHover={{ y: -5 }}
         whileTap={{ scale: 0.98 }}
-        className="w-full max-w-4xl border border-red-900/30 bg-transparent rounded-2xl p-8 md:p-12 flex flex-col md:flex-row items-center justify-between gap-8 group transition-all duration-500 hover:border-red-800/60 hover:bg-red-950/10 hover:shadow-[0_10px_40px_rgba(153,27,27,0.15)] relative z-20"
+        className="w-full max-w-4xl border border-red-900/30 bg-transparent rounded-2xl p-8 md:p-12 flex flex-col md:flex-row items-center justify-between gap-8 group transition-all hover:border-red-800/60 hover:bg-red-950/10 hover:shadow-[0_10px_40px_rgba(153,27,27,0.15)] relative z-20"
       >
         <div className="flex items-center gap-6 z-10 text-center md:text-left flex-col md:flex-row">
           <div className="w-16 h-16 rounded-full bg-red-950/50 border border-red-900/50 flex items-center justify-center group-hover:scale-110 group-hover:rotate-6 transition-all duration-500 shrink-0 shadow-[inset_0_0_10px_rgba(0,0,0,0.5)]">

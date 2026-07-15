@@ -19,7 +19,7 @@ export default function Footer() {
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
+            viewport={{ once: false }}
             transition={{ duration: 0.8 }}
             className="mb-8 relative"
           >
@@ -42,7 +42,7 @@ export default function Footer() {
           <motion.h2 
             initial={{ opacity: 0, x: -20 }}
             whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
+            viewport={{ once: false }}
             transition={{ duration: 0.8, delay: 0.2 }}
             className="font-[family-name:var(--font-pixel)] text-3xl md:text-5xl text-amber-100/90 mb-4 tracking-widest uppercase"
           >
@@ -52,7 +52,7 @@ export default function Footer() {
           <motion.p 
             initial={{ opacity: 0, x: -20 }}
             whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
+            viewport={{ once: false }}
             transition={{ duration: 0.8, delay: 0.3 }}
             className="text-slate-400 max-w-sm text-sm leading-relaxed"
           >
@@ -65,7 +65,7 @@ export default function Footer() {
         <motion.div 
           initial={{ opacity: 0, scale: 0.95 }}
           whileInView={{ opacity: 1, scale: 1 }}
-          viewport={{ once: true }}
+          viewport={{ once: false }}
           transition={{ duration: 0.8, delay: 0.4 }}
           className="flex-1 w-full max-w-xl grid grid-cols-1 md:grid-cols-2 gap-4 relative"
         >
