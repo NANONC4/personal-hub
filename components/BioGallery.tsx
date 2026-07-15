@@ -38,7 +38,7 @@ export default function BioGallery({ projects, isDrawerMode }: BioGalleryProps) 
         <motion.div 
           initial={{ opacity: 0, x: -30 }} 
           whileInView={{ opacity: 1, x: 0 }} 
-          viewport={{ once: true, margin: "-50px" }} 
+          viewport={{ once: false, margin: "-50px" }} 
           transition={{ duration: 0.6, ease: "easeOut" }}
           className={`w-full md:w-80 lg:w-[400px] xl:w-[450px] p-6 md:p-8 lg:p-10 relative z-10 flex flex-col border-b-4 md:border-b-0 md:border-r-4 bg-[#0a0f1c]/90 backdrop-blur-md h-full overflow-hidden shrink-0 transition-all duration-500 ${activeProject.id === 'bio-lemony' ? 'border-sky-500/80 shadow-[4px_0_20px_rgba(14,165,233,0.3)]' : activeProject.id === 'bio-dinino' ? 'border-pink-500/80 shadow-[4px_0_20px_rgba(236,72,153,0.3)]' : 'border-fuchsia-500/80 shadow-[4px_0_20px_rgba(217,70,239,0.3)]'}`}
         >
@@ -113,7 +113,7 @@ export default function BioGallery({ projects, isDrawerMode }: BioGalleryProps) 
         <motion.div 
           initial="hidden" 
           whileInView="show" 
-          viewport={{ once: true, margin: "-50px" }} 
+          viewport={{ once: false, margin: "-50px" }} 
           variants={{ hidden: { opacity: 0 }, show: { opacity: 1, transition: { staggerChildren: 0.15, delayChildren: 0.1 } } }} 
           className="w-full max-w-5xl flex flex-col md:flex-row items-stretch justify-center gap-6 lg:gap-10 relative z-10 h-full"
         >
