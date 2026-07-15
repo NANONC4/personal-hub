@@ -11,7 +11,7 @@ interface PixelTransitionProps {
 
 export default function PixelTransition({ isActive, onCovered, onComplete }: PixelTransitionProps) {
   const [shouldRender, setShouldRender] = useState(false);
-  const [phase, setPhase] = useState<"idle" | "in" | "out">("idle");
+  const [phase, setPhase] = useState<"idle" | "in" | "hold" | "out">("idle");
 
   const rows = 8;
   const cols = 12;
@@ -29,14 +29,19 @@ export default function PixelTransition({ isActive, onCovered, onComplete }: Pix
       
       setTimeout(() => {
         onCovered();
-        setPhase("out");
+        setPhase("hold");
         
+        // Wait 400ms for DOM to render and scroll to happen while screen is black
         setTimeout(() => {
-          setPhase("idle");
-          setShouldRender(false);
-          onComplete();
-        }, maxInDuration + 100);
-      }, maxInDuration);
+          setPhase("out");
+          
+          setTimeout(() => {
+            setPhase("idle");
+            setShouldRender(false);
+            onComplete();
+          }, maxInDuration + 100);
+        }, 400);
+      }, maxInDuration + 50);
     }
   }, [isActive, phase, onCovered, onComplete, cols, rows]);
 
@@ -54,7 +59,7 @@ export default function PixelTransition({ isActive, onCovered, onComplete }: Pix
                 className="flex-1 bg-slate-900 border-none will-change-transform"
                 initial={{ scale: 0, opacity: 0 }}
                 animate={
-                  phase === "in" 
+                  (phase === "in" || phase === "hold") 
                     ? { scale: 1.05, opacity: 1 }
                     : { scale: 0, opacity: 0 }
                 }

@@ -22,6 +22,7 @@ import { PixelMail, PixelPhone, PixelHeart } from "@/components/PixelIcons";
 import { Code, Link, Globe } from "lucide-react";
 import { projects } from "@/data/projects";
 import { getPattern } from "@/lib/patterns";
+import { useLenis } from 'lenis/react';
 
 type Theme = "light" | "dark" | "gray";
 
@@ -42,6 +43,7 @@ export default function Home() {
   const [activeDrawer, setActiveDrawer] = useState<string | null>(null); // For projects
   const [activeDrawerCategory, setActiveDrawerCategory] = useState<string | null>(null); // For categories
   const [activeCategory, setActiveCategory] = useState("all");
+  const lenis = useLenis();
 
   const handleToggleMode = (mode: boolean) => {
     setIsDrawerMode(mode);
@@ -61,8 +63,13 @@ export default function Home() {
   const onTransitionCovered = () => {
     setIsLocked(false);
     setTimeout(() => {
-      document.getElementById("intro")?.scrollIntoView({ behavior: "auto" });
-    }, 50);
+      if (lenis) {
+        lenis.scrollTo('#intro', { immediate: true });
+      } else {
+        const el = document.getElementById("intro");
+        if (el) window.scrollTo({ top: el.offsetTop, behavior: 'instant' as any });
+      }
+    }, 100);
   };
 
   // Grouping logic for dynamic rendering
