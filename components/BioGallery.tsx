@@ -35,7 +35,13 @@ export default function BioGallery({ projects, isDrawerMode }: BioGalleryProps) 
       <div className="w-full max-w-[1600px] h-full flex flex-col md:flex-row relative z-10">
         
         {/* LEFT: Character Select Grid */}
-        <div className={`w-full md:w-80 lg:w-[400px] xl:w-[450px] p-6 md:p-8 lg:p-10 relative z-10 flex flex-col border-b-4 md:border-b-0 md:border-r-4 bg-[#0a0f1c]/90 backdrop-blur-md h-full overflow-hidden shrink-0 transition-all duration-500 ${activeProject.id === 'bio-lemony' ? 'border-sky-500/80 shadow-[4px_0_20px_rgba(14,165,233,0.3)]' : activeProject.id === 'bio-dinino' ? 'border-pink-500/80 shadow-[4px_0_20px_rgba(236,72,153,0.3)]' : 'border-fuchsia-500/80 shadow-[4px_0_20px_rgba(217,70,239,0.3)]'}`}>
+        <motion.div 
+          initial={{ opacity: 0, x: -30 }} 
+          whileInView={{ opacity: 1, x: 0 }} 
+          viewport={{ once: true, margin: "-50px" }} 
+          transition={{ duration: 0.6, ease: "easeOut" }}
+          className={`w-full md:w-80 lg:w-[400px] xl:w-[450px] p-6 md:p-8 lg:p-10 relative z-10 flex flex-col border-b-4 md:border-b-0 md:border-r-4 bg-[#0a0f1c]/90 backdrop-blur-md h-full overflow-hidden shrink-0 transition-all duration-500 ${activeProject.id === 'bio-lemony' ? 'border-sky-500/80 shadow-[4px_0_20px_rgba(14,165,233,0.3)]' : activeProject.id === 'bio-dinino' ? 'border-pink-500/80 shadow-[4px_0_20px_rgba(236,72,153,0.3)]' : 'border-fuchsia-500/80 shadow-[4px_0_20px_rgba(217,70,239,0.3)]'}`}
+        >
         <div className="mb-6 shrink-0 relative">
           <PixelStar color="#818cf8" className="absolute -top-4 -right-2 w-6 h-6 animate-bounce" />
           <h3 className="font-[family-name:var(--font-pixel)] text-pink-400 text-sm tracking-[0.3em] uppercase mb-2 drop-shadow-[0_0_8px_rgba(244,114,182,0.6)]">
@@ -95,7 +101,7 @@ export default function BioGallery({ projects, isDrawerMode }: BioGalleryProps) 
             );
           })}
         </div>
-      </div>
+      </motion.div>
 
       {/* RIGHT: Live Preview Area */}
       <div className="flex-1 p-6 md:p-8 lg:p-12 relative z-10 flex items-center justify-center h-full overflow-y-auto [&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar-thumb]:bg-slate-700 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-track]:bg-transparent">
@@ -104,13 +110,19 @@ export default function BioGallery({ projects, isDrawerMode }: BioGalleryProps) 
         <PixelSparkle color="#818cf8" className="absolute top-10 left-10 w-6 h-6 opacity-30 animate-pulse" />
         <PixelSparkle color="#38bdf8" className="absolute bottom-20 right-10 w-8 h-8 opacity-20 animate-bounce" />
 
-        <div className="w-full max-w-5xl flex flex-col md:flex-row items-stretch justify-center gap-6 lg:gap-10 relative z-10 h-full">
+        <motion.div 
+          initial="hidden" 
+          whileInView="show" 
+          viewport={{ once: true, margin: "-50px" }} 
+          variants={{ hidden: { opacity: 0 }, show: { opacity: 1, transition: { staggerChildren: 0.15, delayChildren: 0.1 } } }} 
+          className="w-full max-w-5xl flex flex-col md:flex-row items-stretch justify-center gap-6 lg:gap-10 relative z-10 h-full"
+        >
           
           {/* Left Column (Desktop Mockup + Meta Info) */}
           <div className="w-full md:w-3/5 flex flex-col gap-6 justify-between">
             
             {/* Desktop Mockup (Pixel Art Style) */}
-            <div className="relative w-full group">
+            <motion.div variants={{ hidden: { opacity: 0, y: 30 }, show: { opacity: 1, y: 0, transition: { duration: 0.6, ease: "easeOut" } } }} className="relative w-full group">
               <div className="absolute -inset-1 bg-gradient-to-r from-indigo-500 to-purple-600 rounded-none blur opacity-10 group-hover:opacity-30 transition duration-1000" />
               <div className="relative bg-slate-900 border-8 border-indigo-500 rounded-xl shadow-[8px_8px_0_0_#312e81] flex flex-col group-hover:-translate-y-1 transition-transform duration-300">
                 {/* Pixel Browser Bar */}
@@ -143,10 +155,10 @@ export default function BioGallery({ projects, isDrawerMode }: BioGalleryProps) 
                   </AnimatePresence>
                 </div>
               </div>
-            </div>
+            </motion.div>
 
             {/* Project Meta Info */}
-            <div className="relative group w-full flex-grow flex">
+            <motion.div variants={{ hidden: { opacity: 0, y: 30 }, show: { opacity: 1, y: 0, transition: { duration: 0.6, ease: "easeOut" } } }} className="relative group w-full flex-grow flex">
                <div className="absolute -inset-1 bg-gradient-to-r from-blue-500 to-cyan-500 rounded-none blur opacity-5 group-hover:opacity-10 transition duration-1000" />
                <div className="relative bg-slate-900/90 border-4 border-purple-500 rounded-xl p-5 md:p-6 shadow-[6px_6px_0_0_#4c1d95] w-full flex flex-col justify-center overflow-hidden">
                   
@@ -189,11 +201,11 @@ export default function BioGallery({ projects, isDrawerMode }: BioGalleryProps) 
                     </motion.div>
                   </AnimatePresence>
                 </div>
-            </div>
+            </motion.div>
           </div>
 
           {/* Right Column (Mobile Mockup) */}
-          <div className="w-full md:w-2/5 flex items-center justify-center group relative mt-6 md:mt-0">
+          <motion.div variants={{ hidden: { opacity: 0, x: 30 }, show: { opacity: 1, x: 0, transition: { duration: 0.6, ease: "easeOut" } } }} className="w-full md:w-2/5 flex items-center justify-center group relative mt-6 md:mt-0">
              <div className={`relative bg-slate-900 border-[4px] md:border-[6px] ${activeProject.id === 'bio-lemony' ? 'border-sky-400 shadow-[0_0_25px_rgba(56,189,248,0.5)]' : activeProject.id === 'bio-dinino' ? 'border-pink-400 shadow-[0_0_25px_rgba(244,114,182,0.5)]' : 'border-fuchsia-500 shadow-[0_0_25px_rgba(217,70,239,0.5)]'} rounded-[2rem] aspect-[9/16] w-[75%] md:w-full max-w-[340px] xl:max-w-[360px] h-auto flex flex-col group-hover:-translate-y-2 transition-all duration-300`}>
                 {/* Pixel Notch */}
                 <div className={`absolute top-0 left-1/2 -translate-x-1/2 w-1/3 h-4 md:h-5 ${activeProject.id === 'bio-lemony' ? 'bg-sky-400' : activeProject.id === 'bio-dinino' ? 'bg-pink-400' : 'bg-fuchsia-500'} rounded-b-xl z-50 flex justify-center items-center transition-colors duration-300`}>
@@ -223,9 +235,9 @@ export default function BioGallery({ projects, isDrawerMode }: BioGalleryProps) 
                   </AnimatePresence>
                 </div>
              </div>
-          </div>
+          </motion.div>
           
-        </div>
+        </motion.div>
       </div>
       
       {/* End Centered App Container */}
