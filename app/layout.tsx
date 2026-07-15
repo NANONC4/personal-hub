@@ -7,8 +7,8 @@ const silkscreen = Silkscreen({ weight: "400", subsets: ["latin"], variable: "--
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Premium Personal Hub",
-  description: "Digital business card and portfolio hub.",
+  title: "Nanonc4 Portfolio",
+  description: "Welcome to my portfolio! A chill space where I share my work, projects, and creative journey.",
 };
 
 import SmoothScroll from "@/components/SmoothScroll";
