@@ -15,6 +15,7 @@ export interface Project {
   type: "web" | "game" | "bio";
   bgClass: string;
   theme: "light" | "dark" | "blue" | "horror";
+  role?: string;
 }
 
 export const projects: Project[] = [
