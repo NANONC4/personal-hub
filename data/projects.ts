@@ -82,8 +82,8 @@ export const projects: Project[] = [
     theme: "horror"
   },
   {
-    id: "bio-retro",
-    title: "RETRO PIXEL BIO",
+    id: "bio-lemony",
+    title: "LEMONY",
     category: "Bio Portfolio",
     description: "ออกแบบหน้าลิงก์ไบโอสไตล์เกมยุค 90s สีสันสดใส เน้นความเป็น Pixel Art ที่เข้ากับยุคสมัยให้กับคุณ Lemony",
     stack: ["Next.js", "Tailwind CSS"],
@@ -91,106 +91,26 @@ export const projects: Project[] = [
       "/จอยาว.png",
       "/จอตั้ง.png"
     ],
-    avatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=Lemony&backgroundColor=0ea5e9",
+    avatar: "/จอตั้ง.png",
     links: { demo: "#" },
     type: "bio",
-    bgClass: "bg-sky-200",
-    theme: "light"
+    bgClass: "bg-blue-400",
+    theme: "blue"
   },
   {
-    id: "bio-minimal",
-    title: "MINIMALIST BIO",
+    id: "bio-dinino",
+    title: "DININO",
     category: "Bio Portfolio",
-    description: "หน้าไบโอที่เรียบง่าย หรูหรา สไตล์ Minimalist เหมาะสำหรับสาย Creative จัดทำให้กับลูกค้าสตูดิโอถ่ายภาพ",
+    description: "หน้าไบโอสไตล์หวานๆ น่ารักละมุนๆ ด้วยโทนสีชมพูพาสเทล",
     stack: ["React", "CSS"],
     gallery: [
       "/จอยาว.png",
       "/จอตั้ง.png"
     ],
-    avatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=Studio&backgroundColor=94a3b8",
+    avatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=Dinino&backgroundColor=fbcfe8",
     links: { demo: "#" },
     type: "bio",
-    bgClass: "bg-slate-200",
-    theme: "light"
-  },
-  {
-    id: "bio-neon",
-    title: "NEON CYBER",
-    category: "Bio Portfolio",
-    description: "ลูกค้าสตรีมเมอร์อยากได้ธีมไซเบอร์พังก์เรืองแสง โดดเด่นด้วยแสงนีออน สีสันเจ็บปวดกระแทกตา!",
-    stack: ["Framer Motion", "Tailwind"],
-    gallery: [
-      "/จอยาว.png",
-      "/จอตั้ง.png"
-    ],
-    avatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=Cyber&backgroundColor=f472b6",
-    links: { demo: "#" },
-    type: "bio",
-    bgClass: "bg-pink-400",
-    theme: "dark"
-  },
-  {
-    id: "bio-forest",
-    title: "MYSTIC FOREST",
-    category: "Bio Portfolio",
-    description: "ธีมธรรมชาติ โทนสีเขียวสบายตา สไตล์ป่าลึกลับ ออกแบบให้กับแบรนด์สินค้าออร์แกนิค",
-    stack: ["Next.js", "CSS"],
-    gallery: [
-      "/จอยาว.png",
-      "/จอตั้ง.png"
-    ],
-    avatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=Forest&backgroundColor=34d399",
-    links: { demo: "#" },
-    type: "bio",
-    bgClass: "bg-emerald-400",
-    theme: "dark"
-  },
-  {
-    id: "bio-sunset",
-    title: "VAPORWAVE SUNSET",
-    category: "Bio Portfolio",
-    description: "สไตล์ Vaporwave ยุค 80s ไล่สีพระอาทิตย์ตกดิน ส่งมอบให้กับวงดนตรีอินดี้",
-    stack: ["React", "Styled Components"],
-    gallery: [
-      "/จอยาว.png",
-      "/จอตั้ง.png"
-    ],
-    avatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=Sunset&backgroundColor=fb923c",
-    links: { demo: "#" },
-    type: "bio",
-    bgClass: "bg-orange-400",
-    theme: "light"
-  },
-  {
-    id: "bio-royal",
-    title: "ROYAL VELVET",
-    category: "Bio Portfolio",
-    description: "ธีมหรูหราอลังการ โทนสีม่วงทอง ดูแพงสุดๆ สำหรับแบรนด์เครื่องสำอางไฮเอนด์",
-    stack: ["HTML", "Tailwind CSS"],
-    gallery: [
-      "/จอยาว.png",
-      "/จอตั้ง.png"
-    ],
-    avatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=Royal&backgroundColor=a855f7",
-    links: { demo: "#" },
-    type: "bio",
-    bgClass: "bg-purple-500",
-    theme: "dark"
-  },
-  {
-    id: "bio-ocean",
-    title: "DEEP OCEAN",
-    category: "Bio Portfolio",
-    description: "ธีมใต้น้ำลึก โทนสีฟ้าคราม เย็นสบายตา หน้าต่างนำเสนอบริการดำน้ำ",
-    stack: ["Next.js", "Framer Motion"],
-    gallery: [
-      "/จอยาว.png",
-      "/จอตั้ง.png"
-    ],
-    avatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=Ocean&backgroundColor=60a5fa",
-    links: { demo: "#" },
-    type: "bio",
-    bgClass: "bg-blue-400",
+    bgClass: "bg-pink-300",
     theme: "light"
   }
 ];

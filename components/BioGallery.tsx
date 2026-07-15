@@ -182,10 +182,10 @@ export default function BioGallery({ projects, isDrawerMode }: BioGalleryProps) 
 
           {/* Right Column (Mobile Mockup) */}
           <div className="w-full md:w-2/5 flex items-center justify-center group relative mt-6 md:mt-0">
-             <div className="relative bg-slate-900 border-[8px] md:border-[12px] border-cyan-500 rounded-[2rem] shadow-[8px_8px_0_0_#164e63] aspect-[9/19] w-[60%] md:w-full max-w-[280px] h-auto flex flex-col group-hover:-translate-y-2 transition-transform duration-300">
+             <div className="relative bg-slate-900 border-[8px] md:border-[12px] border-violet-600 rounded-[2rem] shadow-[8px_8px_0_0_#4c1d95] aspect-[9/19] w-[60%] md:w-full max-w-[280px] h-auto flex flex-col group-hover:-translate-y-2 transition-transform duration-300">
                 {/* Pixel Notch */}
-                <div className="absolute top-0 left-1/2 -translate-x-1/2 w-1/3 h-4 md:h-5 bg-cyan-500 rounded-b-xl z-10 flex justify-center items-center">
-                   <div className="w-1/2 h-1.5 bg-cyan-900 rounded-full"></div>
+                <div className="absolute top-0 left-1/2 -translate-x-1/2 w-1/3 h-4 md:h-5 bg-violet-600 rounded-b-xl z-10 flex justify-center items-center">
+                   <div className="w-1/2 h-1.5 bg-violet-900 rounded-full"></div>
                 </div>
                 {/* Mobile Screen Content */}
                 <div className="flex-1 bg-slate-950 rounded-[1.5rem] relative overflow-hidden flex items-center justify-center">
