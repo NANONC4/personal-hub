@@ -19,7 +19,7 @@ export default function BioGallery({ projects, isDrawerMode }: BioGalleryProps) 
   const activeProject = projects[activeIndex];
 
   return (
-    <div className={`w-full ${isDrawerMode ? "h-[70vh]" : "h-screen"} bg-[#0a0f1c] relative flex justify-center overflow-hidden border-y-8 border-indigo-950`}>
+    <div id="bio-gallery" className={`w-full ${isDrawerMode ? "h-[70vh]" : "h-screen"} bg-[#0a0f1c] relative flex justify-center overflow-hidden border-y-4 transition-all duration-500 ${activeProject.id === 'bio-lemony' ? 'border-sky-500/60 shadow-[0_0_30px_rgba(14,165,233,0.2)_inset]' : activeProject.id === 'bio-dinino' ? 'border-pink-500/60 shadow-[0_0_30px_rgba(236,72,153,0.2)_inset]' : 'border-fuchsia-500/60 shadow-[0_0_30px_rgba(217,70,239,0.2)_inset]'}`}>
       
       {/* Background Decor */}
       <div 
@@ -35,7 +35,7 @@ export default function BioGallery({ projects, isDrawerMode }: BioGalleryProps) 
       <div className="w-full max-w-[1600px] h-full flex flex-col md:flex-row relative z-10">
         
         {/* LEFT: Character Select Grid */}
-        <div className="w-full md:w-80 lg:w-[400px] xl:w-[450px] p-6 md:p-8 lg:p-10 relative z-10 flex flex-col border-b-4 md:border-b-0 md:border-r-8 border-indigo-950 bg-[#0a0f1c]/90 backdrop-blur-md shadow-[8px_0_0_0_rgba(30,27,75,0.8)] h-full overflow-hidden shrink-0">
+        <div className={`w-full md:w-80 lg:w-[400px] xl:w-[450px] p-6 md:p-8 lg:p-10 relative z-10 flex flex-col border-b-4 md:border-b-0 md:border-r-4 bg-[#0a0f1c]/90 backdrop-blur-md h-full overflow-hidden shrink-0 transition-all duration-500 ${activeProject.id === 'bio-lemony' ? 'border-sky-500/80 shadow-[4px_0_20px_rgba(14,165,233,0.3)]' : activeProject.id === 'bio-dinino' ? 'border-pink-500/80 shadow-[4px_0_20px_rgba(236,72,153,0.3)]' : 'border-fuchsia-500/80 shadow-[4px_0_20px_rgba(217,70,239,0.3)]'}`}>
         <div className="mb-6 shrink-0 relative">
           <PixelStar color="#818cf8" className="absolute -top-4 -right-2 w-6 h-6 animate-bounce" />
           <h3 className="font-[family-name:var(--font-pixel)] text-pink-400 text-sm tracking-[0.3em] uppercase mb-2 drop-shadow-[0_0_8px_rgba(244,114,182,0.6)]">
