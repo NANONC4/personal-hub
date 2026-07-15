@@ -9,7 +9,7 @@ export default function Preloader({ onComplete }: { onComplete?: () => void }) {
   const [isMounted, setIsMounted] = useState(false);
 
   useEffect(() => {
-    setIsMounted(true);
+    setTimeout(() => setIsMounted(true), 0);
     // Show preloader for 2.5 seconds
     const timer = setTimeout(() => {
       setIsVisible(false);

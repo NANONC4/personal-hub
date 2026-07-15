@@ -24,7 +24,7 @@ export default function BioGallery({ projects, isDrawerMode }: BioGalleryProps) 
       {/* Background Decor */}
       <div 
         className="absolute inset-0 z-0 opacity-[0.03] pointer-events-none mix-blend-screen" 
-        style={{ ...getPattern(0), backgroundAttachment: "fixed" }}
+        style={{ ...getPattern(0), backgroundAttachment: "scroll" }}
       />
       
       <PixelCloud color="#1e293b" className="absolute top-10 left-[10%] w-20 h-10 opacity-50 animate-pulse" />

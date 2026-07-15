@@ -19,7 +19,7 @@ export default function HorizontalScrollWrapper({
   const trackRef = useRef<HTMLDivElement>(null);
   const [isLocked, setIsLocked] = useState(false);
   const [isDesktop, setIsDesktop] = useState(true);
-  const maxScrollRef = useRef(0);
+  const [maxScroll, setMaxScroll] = useState(0);
   const lenis = useLenis();
 
   // Use Framer Motion spring for buttery smooth horizontal movement
@@ -30,7 +30,7 @@ export default function HorizontalScrollWrapper({
       const desktop = window.innerWidth >= 1024;
       setIsDesktop(desktop);
       if (desktop && containerRef.current && trackRef.current) {
-        maxScrollRef.current = trackRef.current.scrollWidth - containerRef.current.offsetWidth;
+        setMaxScroll(trackRef.current.scrollWidth - containerRef.current.offsetWidth);
       }
     };
     handleResize();
@@ -63,9 +63,9 @@ export default function HorizontalScrollWrapper({
         if (currentX === 0 && e.deltaY < 0) {
           toggleLock(); // Reached start, scrolling up -> unlock
         }
-      } else if (newX < -maxScrollRef.current) {
-        newX = -maxScrollRef.current;
-        if (currentX === -maxScrollRef.current && e.deltaY > 0) {
+      } else if (newX < -maxScroll) {
+        newX = -maxScroll;
+        if (currentX === -maxScroll && e.deltaY > 0) {
           toggleLock(); // Reached end, scrolling down -> unlock
         }
       }
@@ -85,7 +85,7 @@ export default function HorizontalScrollWrapper({
     };
   }, [isLocked, xSpring, lenis, isDesktop]);
 
-  const toggleLock = () => {
+  function toggleLock() {
     if (!isDesktop) return; // Don't lock on mobile
 
     if (isLocked) {
@@ -124,7 +124,7 @@ export default function HorizontalScrollWrapper({
         ref={trackRef}
         style={{ x: isDesktop ? xSpring : 0 }} 
         drag={isLocked && isDesktop ? "x" : false}
-        dragConstraints={{ right: 0, left: -maxScrollRef.current }}
+        dragConstraints={{ right: 0, left: -maxScroll }}
         dragElastic={0.05}
         dragTransition={{ bounceStiffness: 400, bounceDamping: 30 }}
         className="flex flex-col lg:flex-row h-auto lg:h-full relative lg:absolute left-0 top-0 will-change-transform items-center py-24 lg:py-0 px-6 lg:px-24 gap-16 lg:gap-0 w-full lg:w-auto lg:cursor-grab lg:active:cursor-grabbing"

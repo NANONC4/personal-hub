@@ -33,7 +33,7 @@ export default function CategoryGroup({ title, isDrawerMode, isOpen, setIsOpen, 
               className="absolute inset-0 z-0 opacity-40 pointer-events-none mix-blend-screen" 
               style={{
                 ...getPattern(3),
-                backgroundAttachment: "fixed"
+                backgroundAttachment: "scroll"
               }}
             />
             <PixelSparkle color="#818cf8" className="absolute top-4 right-20 w-4 h-4 opacity-0 group-hover:opacity-40 transition-opacity duration-300 pointer-events-none" />

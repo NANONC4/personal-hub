@@ -164,7 +164,7 @@ export default function SectionDivider({
           className="absolute inset-0 z-0 opacity-60 pointer-events-none" 
           style={{
             ...getPattern(index + 1),
-            backgroundAttachment: `fixed`
+            backgroundAttachment: `scroll`
           }}
         />
         
@@ -193,7 +193,7 @@ export default function SectionDivider({
                 className="absolute inset-0 z-0 opacity-60 pointer-events-none" 
                 style={{
                   ...getPattern(index),
-                  backgroundAttachment: `fixed`
+                  backgroundAttachment: `scroll`
                 }}
               />
             )}

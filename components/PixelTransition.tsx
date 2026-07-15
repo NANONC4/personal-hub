@@ -19,8 +19,10 @@ export default function PixelTransition({ isActive, onCovered, onComplete }: Pix
 
   useEffect(() => {
     if (isActive && phase === "idle") {
-      setShouldRender(true);
-      setPhase("in");
+      setTimeout(() => {
+        setShouldRender(true);
+        setPhase("in");
+      }, 0);
       
       // Calculate max delay time (cols + rows) * 0.04s + 0.3s base duration
       const maxInDuration = ((cols + rows) * 40) + 300;
