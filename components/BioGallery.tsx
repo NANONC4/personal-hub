@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Project } from "@/lib/portfolioData";
+import { Project } from "@/data/projects";
 import { PixelStar, PixelSparkle, PixelCloud, PixelHeart } from "./PixelIcons";
 import { getPattern } from "@/lib/patterns";
 
