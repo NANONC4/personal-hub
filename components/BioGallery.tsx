@@ -56,29 +56,41 @@ export default function BioGallery({ projects, isDrawerMode }: BioGalleryProps) 
               <button
                 key={project.id}
                 onClick={() => setActiveIndex(idx)}
-                className={`relative group aspect-square py-3 rounded-xl border-4 transition-all duration-300 overflow-hidden flex flex-col items-center justify-center px-2
+                className={`relative group aspect-square rounded-xl border-4 transition-all duration-300 overflow-hidden flex flex-col items-center p-0
                   ${isActive 
-                    ? `border-indigo-500 bg-indigo-950/40 shadow-[0_0_15px_rgba(99,102,241,0.5)] scale-105 z-20` 
-                    : `border-slate-800/80 bg-slate-900/50 hover:border-indigo-500/50 hover:bg-indigo-950/30 hover:-translate-y-1`
+                    ? (project.id === 'bio-lemony' ? 'border-sky-300 shadow-[0_0_15px_rgba(125,211,252,0.6)] scale-105 z-20' : 
+                       project.id === 'bio-dinino' ? 'border-pink-300 shadow-[0_0_15px_rgba(249,168,212,0.6)] scale-105 z-20' : 
+                       'border-indigo-500 shadow-[0_0_15px_rgba(99,102,241,0.5)] scale-105 z-20')
+                    : (project.id === 'bio-lemony' ? 'border-slate-800/80 hover:border-sky-400/50 hover:shadow-[0_0_10px_rgba(125,211,252,0.2)] hover:-translate-y-1' :
+                       project.id === 'bio-dinino' ? 'border-slate-800/80 hover:border-pink-400/50 hover:shadow-[0_0_10px_rgba(249,168,212,0.2)] hover:-translate-y-1' :
+                       'border-slate-800/80 hover:border-indigo-500/50 hover:-translate-y-1')
                   }`}
               >
+                {/* Background Image */}
+                {project.avatar ? (
+                  <img src={project.avatar} alt={project.title} className={`absolute inset-0 w-full h-full object-cover z-0 transition-all duration-500 ${isActive ? 'opacity-100 scale-110' : 'opacity-70 group-hover:opacity-90 group-hover:scale-105'}`} />
+                ) : (
+                  <div className={`absolute inset-0 w-full h-full ${project.bgClass} opacity-80`} />
+                )}
                 
-                <div className={`w-10 h-10 rounded-full mb-2 shadow-[0_4px_10px_rgba(0,0,0,0.5)] border-2 ${isActive ? "border-indigo-400" : "border-slate-700"} ${project.bgClass} flex items-center justify-center overflow-hidden relative z-10`}>
-                   {project.avatar ? (
-                     <img src={project.avatar} alt={project.title} className="w-full h-full object-cover" />
-                   ) : (
-                     <div className="w-full h-full bg-black/20 flex flex-col items-center justify-end p-1">
-                       <div className="w-1/2 h-1/2 bg-white/40 rounded-t-sm" />
-                     </div>
-                   )}
-                   {isActive && <PixelStar color="#ffffff" className="absolute inset-0 m-auto w-5 h-5 animate-pulse drop-shadow-md" />}
+                {/* Dark Gradient Overlay for Text Readability */}
+                <div className="absolute inset-x-0 bottom-0 h-2/3 bg-gradient-to-t from-[#020617] via-[#020617]/70 to-transparent z-10 pointer-events-none" />
+                
+                {/* Active Inner Glow */}
+                {isActive && (
+                  <div className={`absolute inset-0 border-2 ${project.id === 'bio-lemony' ? 'border-sky-200/50' : 'border-pink-200/50'} rounded-lg z-10 pointer-events-none mix-blend-overlay`} />
+                )}
+
+                {/* Project Title */}
+                <div className="relative z-20 mt-auto w-full p-2 pb-3 text-center">
+                  <span className={`font-[family-name:var(--font-pixel)] text-[10px] sm:text-[11px] tracking-wider drop-shadow-md
+                    ${isActive 
+                      ? (project.id === 'bio-lemony' ? 'text-sky-200 font-bold' : project.id === 'bio-dinino' ? 'text-pink-200 font-bold' : 'text-indigo-200 font-bold') 
+                      : 'text-slate-300 group-hover:text-white'}
+                  `}>
+                    {project.title}
+                  </span>
                 </div>
-                
-                <span className={`relative z-10 font-[family-name:var(--font-pixel)] text-[9px] text-center tracking-wider px-1
-                  ${isActive ? "text-indigo-200 font-bold" : "text-slate-400 group-hover:text-slate-300"}
-                `}>
-                  {project.title}
-                </span>
               </button>
             );
           })}
