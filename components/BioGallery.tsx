@@ -38,13 +38,13 @@ export default function BioGallery({ projects, isDrawerMode }: BioGalleryProps) 
         <div className="w-full md:w-80 lg:w-[400px] xl:w-[450px] p-6 md:p-8 lg:p-10 relative z-10 flex flex-col border-b-4 md:border-b-0 md:border-r-8 border-indigo-950 bg-[#0a0f1c]/90 backdrop-blur-md shadow-[8px_0_0_0_rgba(30,27,75,0.8)] h-full overflow-hidden shrink-0">
         <div className="mb-6 shrink-0 relative">
           <PixelStar color="#818cf8" className="absolute -top-4 -right-2 w-6 h-6 animate-bounce" />
-          <h3 className="font-[family-name:var(--font-pixel)] text-indigo-400 text-sm tracking-[0.3em] uppercase mb-2">
+          <h3 className="font-[family-name:var(--font-pixel)] text-pink-400 text-sm tracking-[0.3em] uppercase mb-2 drop-shadow-[0_0_8px_rgba(244,114,182,0.6)]">
             - BIO SHOWCASE -
           </h3>
-          <h2 className="font-[family-name:var(--font-pixel)] text-2xl text-white tracking-widest uppercase drop-shadow-[2px_2px_0_#020617]">
+          <h2 className="font-[family-name:var(--font-pixel)] text-2xl text-white tracking-widest uppercase drop-shadow-[0_0_10px_rgba(255,255,255,0.3)]">
             BIO PORTFOLIOS
           </h2>
-          <p className="text-slate-400 font-medium text-xs mt-2 leading-relaxed">
+          <p className="text-sky-200 font-medium text-xs mt-2 leading-relaxed">
             Explore bio websites we've crafted for our amazing clients.
           </p>
         </div>
@@ -194,10 +194,10 @@ export default function BioGallery({ projects, isDrawerMode }: BioGalleryProps) 
 
           {/* Right Column (Mobile Mockup) */}
           <div className="w-full md:w-2/5 flex items-center justify-center group relative mt-6 md:mt-0">
-             <div className="relative bg-slate-900 border-[8px] md:border-[12px] border-violet-600 rounded-[2rem] shadow-[8px_8px_0_0_#4c1d95] aspect-[9/19] w-[60%] md:w-full max-w-[280px] h-auto flex flex-col group-hover:-translate-y-2 transition-transform duration-300">
+             <div className={`relative bg-slate-900 border-[4px] md:border-[6px] ${activeProject.id === 'bio-lemony' ? 'border-sky-400 shadow-[0_0_25px_rgba(56,189,248,0.5)]' : activeProject.id === 'bio-dinino' ? 'border-pink-400 shadow-[0_0_25px_rgba(244,114,182,0.5)]' : 'border-fuchsia-500 shadow-[0_0_25px_rgba(217,70,239,0.5)]'} rounded-[2rem] aspect-[9/19] w-[60%] md:w-full max-w-[280px] h-auto flex flex-col group-hover:-translate-y-2 transition-all duration-300`}>
                 {/* Pixel Notch */}
-                <div className="absolute top-0 left-1/2 -translate-x-1/2 w-1/3 h-4 md:h-5 bg-violet-600 rounded-b-xl z-10 flex justify-center items-center">
-                   <div className="w-1/2 h-1.5 bg-violet-900 rounded-full"></div>
+                <div className={`absolute top-0 left-1/2 -translate-x-1/2 w-1/3 h-4 md:h-5 ${activeProject.id === 'bio-lemony' ? 'bg-sky-400' : activeProject.id === 'bio-dinino' ? 'bg-pink-400' : 'bg-fuchsia-500'} rounded-b-xl z-10 flex justify-center items-center transition-colors duration-300`}>
+                   <div className={`w-1/2 h-1.5 ${activeProject.id === 'bio-lemony' ? 'bg-sky-900' : activeProject.id === 'bio-dinino' ? 'bg-pink-900' : 'bg-fuchsia-900'} rounded-full transition-colors duration-300`}></div>
                 </div>
                 {/* Mobile Screen Content */}
                 <div className="flex-1 bg-slate-950 rounded-[1.5rem] relative overflow-hidden flex items-center justify-center">
