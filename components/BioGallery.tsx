@@ -58,12 +58,12 @@ export default function BioGallery({ projects, isDrawerMode }: BioGalleryProps) 
                 onClick={() => setActiveIndex(idx)}
                 className={`relative group aspect-square rounded-xl border-4 transition-all duration-300 overflow-hidden flex flex-col items-center p-0
                   ${isActive 
-                    ? (project.id === 'bio-lemony' ? 'border-sky-300 shadow-[0_0_15px_rgba(125,211,252,0.6)] scale-105 z-20' : 
-                       project.id === 'bio-dinino' ? 'border-pink-300 shadow-[0_0_15px_rgba(249,168,212,0.6)] scale-105 z-20' : 
-                       'border-indigo-500 shadow-[0_0_15px_rgba(99,102,241,0.5)] scale-105 z-20')
-                    : (project.id === 'bio-lemony' ? 'border-slate-800/80 hover:border-sky-400/50 hover:shadow-[0_0_10px_rgba(125,211,252,0.2)] hover:-translate-y-1' :
-                       project.id === 'bio-dinino' ? 'border-slate-800/80 hover:border-pink-400/50 hover:shadow-[0_0_10px_rgba(249,168,212,0.2)] hover:-translate-y-1' :
-                       'border-slate-800/80 hover:border-indigo-500/50 hover:-translate-y-1')
+                    ? (project.id === 'bio-lemony' ? 'border-sky-300 shadow-[0_0_25px_rgba(125,211,252,0.8)] scale-105 z-20' : 
+                       project.id === 'bio-dinino' ? 'border-pink-300 shadow-[0_0_25px_rgba(249,168,212,0.8)] scale-105 z-20' : 
+                       'border-indigo-400 shadow-[0_0_25px_rgba(99,102,241,0.8)] scale-105 z-20')
+                    : (project.id === 'bio-lemony' ? 'border-sky-400/60 shadow-[0_0_8px_rgba(125,211,252,0.3)] hover:border-sky-300 hover:shadow-[0_0_15px_rgba(125,211,252,0.5)] hover:-translate-y-1' :
+                       project.id === 'bio-dinino' ? 'border-pink-400/60 shadow-[0_0_8px_rgba(249,168,212,0.3)] hover:border-pink-300 hover:shadow-[0_0_15px_rgba(249,168,212,0.5)] hover:-translate-y-1' :
+                       'border-indigo-500/60 shadow-[0_0_8px_rgba(99,102,241,0.3)] hover:border-indigo-400 hover:shadow-[0_0_15px_rgba(99,102,241,0.5)] hover:-translate-y-1')
                   }`}
               >
                 {/* Background Image */}
