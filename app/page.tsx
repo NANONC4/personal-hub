@@ -63,13 +63,15 @@ export default function Home() {
   const onTransitionCovered = () => {
     setIsLocked(false);
     setTimeout(() => {
+      const el = document.getElementById("intro");
+      if (!el) return;
+      
       if (lenis) {
-        lenis.scrollTo('#intro', { immediate: true });
+        lenis.scrollTo(el, { immediate: true });
       } else {
-        const el = document.getElementById("intro");
-        if (el) window.scrollTo({ top: el.offsetTop, behavior: 'instant' as any });
+        el.scrollIntoView({ behavior: "instant" as any });
       }
-    }, 100);
+    }, 200); // Give React 200ms to fully mount the components
   };
 
   // Grouping logic for dynamic rendering
