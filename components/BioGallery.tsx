@@ -49,7 +49,7 @@ export default function BioGallery({ projects, isDrawerMode }: BioGalleryProps) 
           </p>
         </div>
 
-        <div className="grid grid-cols-2 gap-3 flex-1 overflow-y-auto p-2 -m-2 pr-4 [&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar-thumb]:bg-slate-700 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-track]:bg-slate-900/50">
+        <div className="grid grid-cols-2 gap-3 flex-1 overflow-y-auto p-2 -m-2 pr-4 content-start [&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar-thumb]:bg-slate-700 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-track]:bg-slate-900/50">
           {projects.map((project, idx) => {
             const isActive = idx === activeIndex;
             return (
