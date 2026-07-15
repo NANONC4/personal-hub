@@ -6,7 +6,7 @@ export const categories = [
   { id: "all", label: "ALL WORK" },
   { id: "web", label: "WEB APPS" },
   { id: "game", label: "GAMES" },
-  { id: "bio", label: "TEMPLATES" }
+  { id: "bio", label: "LinkBio" }
 ];
 
 interface PortfolioFilterProps {

@@ -101,10 +101,18 @@ export default function Home() {
               <div className="relative z-30">
                 {/* Section header for continuous mode, since BioGallery replaces SectionDivider */}
                 {!isDrawerMode && (
-                  <div className="w-full bg-slate-950 py-12 flex justify-center border-t-8 border-slate-900 shadow-2xl relative z-10">
-                    <h2 className="font-[family-name:var(--font-pixel)] text-indigo-300 tracking-widest text-xl">
-                      - {categoryLabel} -
-                    </h2>
+                  <div className="w-full bg-[#0a0f1c] py-16 flex justify-center border-y-2 border-indigo-500/40 shadow-[0_0_30px_rgba(99,102,241,0.15)_inset] relative z-10 overflow-hidden">
+                    {/* Retro Grid Background */}
+                    <div className="absolute inset-0 bg-[linear-gradient(to_right,#312e81_1px,transparent_1px),linear-gradient(to_bottom,#312e81_1px,transparent_1px)] bg-[size:3rem_3rem] [mask-image:radial-gradient(ellipse_80%_50%_at_50%_50%,#000_70%,transparent_100%)] opacity-30 pointer-events-none"></div>
+                    
+                    <div className="relative z-10 flex flex-col items-center gap-2">
+                       <span className="font-[family-name:var(--font-pixel)] text-pink-400 text-[10px] md:text-xs tracking-[0.4em] uppercase drop-shadow-[0_0_8px_rgba(244,114,182,0.8)] opacity-90">
+                         - CATEGORY -
+                       </span>
+                       <h2 className="font-[family-name:var(--font-pixel)] text-white tracking-[0.15em] text-2xl md:text-4xl uppercase drop-shadow-[0_0_15px_rgba(255,255,255,0.3)] mt-2">
+                         {categoryLabel}
+                       </h2>
+                    </div>
                   </div>
                 )}
                 {bioGalleryNode}
