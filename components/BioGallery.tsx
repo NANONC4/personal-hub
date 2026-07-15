@@ -56,7 +56,7 @@ export default function BioGallery({ projects, isDrawerMode }: BioGalleryProps) 
               <button
                 key={project.id}
                 onClick={() => setActiveIndex(idx)}
-                className={`relative group min-h-[110px] h-auto py-3 rounded-xl border-4 transition-all duration-300 overflow-hidden flex flex-col items-center justify-center px-2
+                className={`relative group aspect-square py-3 rounded-xl border-4 transition-all duration-300 overflow-hidden flex flex-col items-center justify-center px-2
                   ${isActive 
                     ? `border-indigo-500 bg-indigo-950/40 shadow-[0_0_15px_rgba(99,102,241,0.5)] scale-105 z-20` 
                     : `border-slate-800/80 bg-slate-900/50 hover:border-indigo-500/50 hover:bg-indigo-950/30 hover:-translate-y-1`
