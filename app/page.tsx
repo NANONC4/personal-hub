@@ -67,11 +67,14 @@ export default function Home() {
       if (!el) return;
       
       if (lenis) {
+        // Force Lenis to recalculate page height after the new DOM is injected
+        lenis.resize();
         lenis.scrollTo(el, { immediate: true });
-      } else {
-        el.scrollIntoView({ behavior: "instant" as any });
       }
-    }, 200); // Give React 200ms to fully mount the components
+      // Native fallback to guarantee the jump
+      window.scrollTo({ top: el.offsetTop, behavior: "instant" as any });
+      
+    }, 300); // Wait 300ms (curtain holds for 400ms) to ensure DOM & Layout are fully ready
   };
 
   // Grouping logic for dynamic rendering
