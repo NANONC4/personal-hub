@@ -196,7 +196,7 @@ export default function BioGallery({ projects, isDrawerMode }: BioGalleryProps) 
           <div className="w-full md:w-2/5 flex items-center justify-center group relative mt-6 md:mt-0">
              <div className={`relative bg-slate-900 border-[4px] md:border-[6px] ${activeProject.id === 'bio-lemony' ? 'border-sky-400 shadow-[0_0_25px_rgba(56,189,248,0.5)]' : activeProject.id === 'bio-dinino' ? 'border-pink-400 shadow-[0_0_25px_rgba(244,114,182,0.5)]' : 'border-fuchsia-500 shadow-[0_0_25px_rgba(217,70,239,0.5)]'} rounded-[2rem] aspect-[9/16] w-[75%] md:w-full max-w-[340px] xl:max-w-[360px] h-auto flex flex-col group-hover:-translate-y-2 transition-all duration-300`}>
                 {/* Pixel Notch */}
-                <div className={`absolute top-0 left-1/2 -translate-x-1/2 w-1/3 h-4 md:h-5 ${activeProject.id === 'bio-lemony' ? 'bg-sky-400' : activeProject.id === 'bio-dinino' ? 'bg-pink-400' : 'bg-fuchsia-500'} rounded-b-xl z-10 flex justify-center items-center transition-colors duration-300`}>
+                <div className={`absolute top-0 left-1/2 -translate-x-1/2 w-1/3 h-4 md:h-5 ${activeProject.id === 'bio-lemony' ? 'bg-sky-400' : activeProject.id === 'bio-dinino' ? 'bg-pink-400' : 'bg-fuchsia-500'} rounded-b-xl z-50 flex justify-center items-center transition-colors duration-300`}>
                    <div className={`w-1/2 h-1.5 ${activeProject.id === 'bio-lemony' ? 'bg-sky-900' : activeProject.id === 'bio-dinino' ? 'bg-pink-900' : 'bg-fuchsia-900'} rounded-full transition-colors duration-300`}></div>
                 </div>
                 {/* Mobile Screen Content */}
