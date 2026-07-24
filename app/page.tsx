@@ -7,11 +7,17 @@ import SocialLinkButton from "@/components/SocialLinkButton";
 import IntroSection from "@/components/IntroSection";
 import AboutMeSection from "@/components/AboutMeSection";
 import Footer from "@/components/Footer";
-import ShopSection from "@/components/ShopSection";
-import LemonyShopPro from "@/components/projects/LemonyShopPro";
-import LemonyShop from "@/components/projects/LemonyShop";
-import RulesOfHorror from "@/components/projects/RulesOfHorror";
-import SectionDivider from "@/components/SectionDivider";
+import PortfolioToggle from "@/components/PortfolioToggle";
+import PixelSky from "@/components/PixelSky";
+import HorizontalScrollCarousel from "@/components/HorizontalScrollCarousel";
+
+// Dynamic Imports for Heavy Below-the-fold Components
+import dynamic from 'next/dynamic';
+const ShopSection = dynamic(() => import("@/components/ShopSection"), { ssr: false });
+const LemonyShopPro = dynamic(() => import("@/components/projects/LemonyShopPro"), { ssr: false });
+const LemonyShop = dynamic(() => import("@/components/projects/LemonyShop"), { ssr: false });
+const RulesOfHorror = dynamic(() => import("@/components/projects/RulesOfHorror"), { ssr: false });
+const SectionDivider = dynamic(() => import("@/components/SectionDivider"), { ssr: false });
 import PortfolioToggle from "@/components/PortfolioToggle";
 import PixelSky from "@/components/PixelSky";
 import HorizontalScrollCarousel from "@/components/HorizontalScrollCarousel";
@@ -34,7 +40,7 @@ const getTheme = (index: number): Theme => {
 
 import CategoryGroup from "@/components/CategoryGroup";
 import PortfolioFilter, { categories } from "@/components/PortfolioFilter";
-import BioGallery from "@/components/BioGallery";
+const BioGallery = dynamic(() => import("@/components/BioGallery"), { ssr: false });
 
 // ... existing code ...
 

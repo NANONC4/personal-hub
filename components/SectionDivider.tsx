@@ -207,11 +207,11 @@ export default function SectionDivider({
           {categoryName && !isDrawerMode && (
             <motion.div 
               style={{ x: categoryBoxX, top: "15vh" }} 
-              className={`absolute w-[150%] h-[15vh] bg-gradient-to-b from-indigo-950 to-slate-900 flex flex-col items-center justify-center shadow-[inset_0_-10px_20px_rgba(0,0,0,0.5)] border-y-8 border-slate-800 will-change-transform pointer-events-auto overflow-hidden`}
+              className={`absolute w-[150%] h-[15vh] bg-gradient-to-b from-indigo-950 to-slate-900 flex flex-col items-center justify-center shadow-[inset_0_-10px_20px_rgba(0,0,0,0.5)] border-y-8 border-slate-800 pointer-events-auto overflow-hidden`}
             >
               {/* Category GPU Accelerated Parallax Background */}
               <motion.div 
-                className="absolute z-0 opacity-20 pointer-events-none will-change-transform" 
+                className="absolute z-0 opacity-20 pointer-events-none" 
                 style={{
                   top: "-1000px", bottom: "-1000px", left: "-300vw", right: "-300vw",
                   ...getPattern(3), // Dark Pixel Sparkles pattern
@@ -239,11 +239,11 @@ export default function SectionDivider({
               top: isDrawerMode ? "50%" : (categoryName && !isDrawerMode ? "30vh" : "15vh"),
               y: isDrawerMode ? "-50%" : "0%"
             }}
-            className={`absolute w-[150%] h-[30vh] ${currentTheme.bg} flex flex-col items-center justify-center shadow-[0_20px_0_0_rgba(0,0,0,0.5)] border-y-8 border-slate-800 will-change-transform pointer-events-auto overflow-hidden`}
+            className={`absolute w-[150%] h-[30vh] ${currentTheme.bg} flex flex-col items-center justify-center shadow-[0_20px_0_0_rgba(0,0,0,0.5)] border-y-8 border-slate-800 pointer-events-auto overflow-hidden`}
           >
             {/* GPU Accelerated Parallax Background */}
             <motion.div 
-              className="absolute z-0 opacity-60 pointer-events-none will-change-transform" 
+              className="absolute z-0 opacity-60 pointer-events-none" 
               style={{
                 // Oversize the div so moving it doesn't reveal empty edges.
                 // Modulo 960 keeps Y within 960px. X is bounded by 300vw.
@@ -295,7 +295,7 @@ export default function SectionDivider({
             exit={isDrawerMode ? { opacity: 0 } : undefined}
             transition={{ duration: 0.4 }}
             style={{ y: lowerBgY }} 
-            className={`w-full z-10 will-change-transform relative`}
+            className={`w-full z-10 relative`}
           >
             {/* Slanted Top Edge for the Next Section to dock with the Top Piece */}
             {!isDrawerMode && (

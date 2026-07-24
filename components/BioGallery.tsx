@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import Image from "next/image";
 import { Project } from "@/data/projects";
 import { PixelStar, PixelSparkle, PixelCloud, PixelHeart } from "./PixelIcons";
 import { getPattern } from "@/lib/patterns";
@@ -74,7 +75,7 @@ export default function BioGallery({ projects, isDrawerMode }: BioGalleryProps) 
               >
                 {/* Background Image */}
                 {project.avatar ? (
-                  <img src={project.avatar} alt={project.title} className={`absolute inset-0 w-full h-full object-cover z-0 transition-all duration-500 ${isActive ? 'opacity-100 scale-110' : 'opacity-70 group-hover:opacity-90 group-hover:scale-105'}`} />
+                  <Image src={project.avatar} alt={project.title} fill sizes="(max-width: 768px) 150px, 200px" className={`object-cover z-0 transition-all duration-500 ${isActive ? 'opacity-100 scale-110' : 'opacity-70 group-hover:opacity-90 group-hover:scale-105'}`} />
                 ) : (
                   <div className={`absolute inset-0 w-full h-full ${project.bgClass} opacity-80`} />
                 )}
@@ -139,19 +140,22 @@ export default function BioGallery({ projects, isDrawerMode }: BioGalleryProps) 
                   </div>
                   
                   <AnimatePresence mode="wait">
-                    <motion.img
+                    <motion.div
                       key={`desktop-${activeProject.id}`}
-                      src={activeProject.gallery[0]}
-                      alt={activeProject.title}
                       initial={{ opacity: 0 }}
                       animate={{ opacity: 1 }}
                       exit={{ opacity: 0 }}
                       transition={{ duration: 0.3 }}
-                      className="w-full h-auto min-h-full object-cover object-top z-10"
-                      onError={(e) => {
-                        e.currentTarget.style.opacity = '0';
-                      }}
-                    />
+                      className="absolute inset-0 z-10"
+                    >
+                      <Image
+                        src={activeProject.gallery[0]}
+                        alt={activeProject.title}
+                        fill
+                        sizes="(max-width: 768px) 100vw, 50vw"
+                        className="object-cover object-top"
+                      />
+                    </motion.div>
                   </AnimatePresence>
                 </div>
               </div>
@@ -219,19 +223,22 @@ export default function BioGallery({ projects, isDrawerMode }: BioGalleryProps) 
                   </div>
                   
                   <AnimatePresence mode="wait">
-                    <motion.img
+                    <motion.div
                       key={`mobile-${activeProject.id}`}
-                      src={activeProject.gallery[1]}
-                      alt={activeProject.title}
                       initial={{ opacity: 0 }}
                       animate={{ opacity: 1 }}
                       exit={{ opacity: 0 }}
                       transition={{ duration: 0.3 }}
-                      className="w-full h-full object-cover object-top z-10"
-                      onError={(e) => {
-                        e.currentTarget.style.opacity = '0';
-                      }}
-                    />
+                      className="absolute inset-0 z-10"
+                    >
+                      <Image
+                        src={activeProject.gallery[1]}
+                        alt={activeProject.title}
+                        fill
+                        sizes="(max-width: 768px) 50vw, 30vw"
+                        className="object-cover object-top"
+                      />
+                    </motion.div>
                   </AnimatePresence>
                 </div>
              </div>

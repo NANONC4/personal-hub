@@ -15,7 +15,7 @@ const renderGrid = (grid: string[], colorMap: Record<string, string>) => {
   );
 };
 
-export function PixelMail({ color = "#1e293b", ...props }: PixelIconProps) {
+export const PixelMail = React.memo(function PixelMail({ color = "#1e293b", ...props }: PixelIconProps) {
   const grid = [
     "................",
     "................",
@@ -44,9 +44,9 @@ export function PixelMail({ color = "#1e293b", ...props }: PixelIconProps) {
       {renderGrid(grid, colors)}
     </svg>
   );
-}
+});
 
-export function PixelPhone({ color = "#1e293b", ...props }: PixelIconProps) {
+export const PixelPhone = React.memo(function PixelPhone({ color = "#1e293b", ...props }: PixelIconProps) {
   const grid = [
     "................",
     "....bbbbbbbb....",
@@ -75,9 +75,9 @@ export function PixelPhone({ color = "#1e293b", ...props }: PixelIconProps) {
       {renderGrid(grid, colors)}
     </svg>
   );
-}
+});
 
-export function PixelHeart({ color = "#1e293b", ...props }: PixelIconProps) {
+export const PixelHeart = React.memo(function PixelHeart({ color = "#1e293b", ...props }: PixelIconProps) {
   const grid = [
     "................",
     "................",
@@ -106,9 +106,9 @@ export function PixelHeart({ color = "#1e293b", ...props }: PixelIconProps) {
       {renderGrid(grid, colors)}
     </svg>
   );
-}
+});
 
-export function PixelStar({ color = "#1e293b", ...props }: PixelIconProps) {
+export const PixelStar = React.memo(function PixelStar({ color = "#1e293b", ...props }: PixelIconProps) {
   const grid = [
     "................",
     ".......bb.......",
@@ -133,9 +133,9 @@ export function PixelStar({ color = "#1e293b", ...props }: PixelIconProps) {
       {renderGrid(grid, colors)}
     </svg>
   );
-}
+});
 
-export function PixelSparkle({ color = "#1e293b", ...props }: PixelIconProps) {
+export const PixelSparkle = React.memo(function PixelSparkle({ color = "#1e293b", ...props }: PixelIconProps) {
   const grid = [
     "................",
     ".......bb.......",
@@ -160,9 +160,9 @@ export function PixelSparkle({ color = "#1e293b", ...props }: PixelIconProps) {
       {renderGrid(grid, colors)}
     </svg>
   );
-}
+});
 
-export function PixelCloud({ color = "#ffffff", ...props }: PixelIconProps) {
+export const PixelCloud = React.memo(function PixelCloud({ color = "#ffffff", ...props }: PixelIconProps) {
   const grid = [
     "........................",
     "..........bbbb..........",
@@ -183,9 +183,9 @@ export function PixelCloud({ color = "#ffffff", ...props }: PixelIconProps) {
       {renderGrid(grid, colors)}
     </svg>
   );
-}
+});
 
-export function PixelMoon({ color = "#fef08a", ...props }: PixelIconProps) {
+export const PixelMoon = React.memo(function PixelMoon({ color = "#fef08a", ...props }: PixelIconProps) {
   const grid = [
     "......ww........",
     "....wwwwww......",
@@ -210,9 +210,9 @@ export function PixelMoon({ color = "#fef08a", ...props }: PixelIconProps) {
       {renderGrid(grid, colors)}
     </svg>
   );
-}
+});
 
-export function PixelCoffee({ color = "#d4d4d8", ...props }: PixelIconProps) {
+export const PixelCoffee = React.memo(function PixelCoffee({ color = "#d4d4d8", ...props }: PixelIconProps) {
   const grid = [
     "......ss........",
     ".......s........",
@@ -237,9 +237,9 @@ export function PixelCoffee({ color = "#d4d4d8", ...props }: PixelIconProps) {
       {renderGrid(grid, colors)}
     </svg>
   );
-}
+});
 
-export function PixelCoin({ color = "#facc15", ...props }: PixelIconProps) {
+export const PixelCoin = React.memo(function PixelCoin({ color = "#facc15", ...props }: PixelIconProps) {
   const grid = [
     "................",
     "......yyyy......",
@@ -264,4 +264,4 @@ export function PixelCoin({ color = "#facc15", ...props }: PixelIconProps) {
       {renderGrid(grid, colors)}
     </svg>
   );
-}
+});
