@@ -10,7 +10,7 @@ export default function ShopSection() {
       
       {/* Background Decor */}
       <div 
-        className="absolute inset-0 z-0 opacity-10 pointer-events-none mix-blend-screen" 
+        className="absolute inset-0 z-0 opacity-10 pointer-events-none" 
         style={{ ...getPattern(1), backgroundAttachment: "scroll" }}
       />
       
@@ -25,7 +25,7 @@ export default function ShopSection() {
           className="w-full lg:w-[55%] max-w-[700px] flex-shrink-0"
         >
           {/* Retro Picture Frame Container */}
-          <div className="w-full bg-[#0a0f1c]/90 backdrop-blur-md rounded-2xl overflow-hidden shadow-[12px_12px_0_0_rgba(56,189,248,0.2)] border-8 border-sky-400/60 relative group p-2">
+          <div className="w-full bg-[#0a0f1c] rounded-2xl overflow-hidden shadow-[12px_12px_0_0_rgba(56,189,248,0.2)] border-8 border-sky-400/60 relative group p-2">
 
             {/* Empty Cover Photo Frame */}
             <div className="w-full h-[220px] md:h-[260px] bg-slate-900 border-4 border-dashed border-slate-700 flex flex-col items-center justify-center relative rounded-t-lg">

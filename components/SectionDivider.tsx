@@ -211,7 +211,7 @@ export default function SectionDivider({
             >
               {/* Category GPU Accelerated Parallax Background */}
               <motion.div 
-                className="absolute z-0 opacity-40 pointer-events-none will-change-transform mix-blend-screen" 
+                className="absolute z-0 opacity-20 pointer-events-none will-change-transform" 
                 style={{
                   top: "-1000px", bottom: "-1000px", left: "-300vw", right: "-300vw",
                   ...getPattern(3), // Dark Pixel Sparkles pattern

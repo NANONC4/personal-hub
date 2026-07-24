@@ -23,7 +23,7 @@ export default function BioGallery({ projects, isDrawerMode }: BioGalleryProps) 
       
       {/* Background Decor */}
       <div 
-        className="absolute inset-0 z-0 opacity-[0.03] pointer-events-none mix-blend-screen" 
+        className="absolute inset-0 z-0 opacity-10 pointer-events-none" 
         style={{ ...getPattern(0), backgroundAttachment: "scroll" }}
       />
       
@@ -40,7 +40,7 @@ export default function BioGallery({ projects, isDrawerMode }: BioGalleryProps) 
           whileInView={{ opacity: 1, x: 0 }} 
           viewport={{ once: false, margin: "-50px" }} 
           transition={{ duration: 0.6, ease: "easeOut" }}
-          className={`w-full md:w-80 lg:w-[400px] xl:w-[450px] p-6 md:p-8 lg:p-10 relative z-10 flex flex-col border-b-4 md:border-b-0 md:border-r-4 bg-[#0a0f1c]/90 backdrop-blur-md h-full overflow-hidden shrink-0 transition-all duration-500 ${activeProject.id === 'bio-lemony' ? 'border-sky-500/80 shadow-[4px_0_20px_rgba(14,165,233,0.3)]' : activeProject.id === 'bio-dinino' ? 'border-pink-500/80 shadow-[4px_0_20px_rgba(236,72,153,0.3)]' : 'border-fuchsia-500/80 shadow-[4px_0_20px_rgba(217,70,239,0.3)]'}`}
+          className={`w-full md:w-80 lg:w-[400px] xl:w-[450px] p-6 md:p-8 lg:p-10 relative z-10 flex flex-col border-b-4 md:border-b-0 md:border-r-4 bg-[#0a0f1c] h-full overflow-hidden shrink-0 transition-all duration-500 ${activeProject.id === 'bio-lemony' ? 'border-sky-500/80 shadow-[4px_0_20px_rgba(14,165,233,0.3)]' : activeProject.id === 'bio-dinino' ? 'border-pink-500/80 shadow-[4px_0_20px_rgba(236,72,153,0.3)]' : 'border-fuchsia-500/80 shadow-[4px_0_20px_rgba(217,70,239,0.3)]'}`}
         >
         <div className="mb-6 shrink-0 relative">
           <PixelStar color="#818cf8" className="absolute -top-4 -right-2 w-6 h-6 animate-bounce" />
@@ -84,7 +84,7 @@ export default function BioGallery({ projects, isDrawerMode }: BioGalleryProps) 
                 
                 {/* Active Inner Glow */}
                 {isActive && (
-                  <div className={`absolute inset-0 border-2 ${project.id === 'bio-lemony' ? 'border-sky-200/50' : 'border-pink-200/50'} rounded-lg z-10 pointer-events-none mix-blend-overlay`} />
+                  <div className={`absolute inset-0 border-2 ${project.id === 'bio-lemony' ? 'border-sky-200/50' : 'border-pink-200/50'} rounded-lg z-10 pointer-events-none opacity-50`} />
                 )}
 
                 {/* Project Title */}

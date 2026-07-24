@@ -30,7 +30,7 @@ export default function CategoryGroup({ title, isDrawerMode, isOpen, setIsOpen, 
           >
             {/* Ambient decorations & Pattern */}
             <div 
-              className="absolute inset-0 z-0 opacity-40 pointer-events-none mix-blend-screen" 
+              className="absolute inset-0 z-0 opacity-20 pointer-events-none" 
               style={{
                 ...getPattern(3),
                 backgroundAttachment: "scroll"
