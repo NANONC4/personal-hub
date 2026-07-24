@@ -24,19 +24,11 @@ export default function ShopSection() {
           transition={{ duration: 0.6, type: "spring", bounce: 0.4 }}
           className="w-full lg:w-[55%] max-w-[700px] flex-shrink-0"
         >
-          {/* Retro Window Container */}
-          <div className="w-full bg-[#0a0f1c]/90 backdrop-blur-md rounded-xl overflow-hidden shadow-[8px_8px_0_0_rgba(56,189,248,0.3)] border-4 border-sky-400/50 relative group">
-            
-            {/* Window Header */}
-            <div className="h-8 border-b-4 border-sky-400/50 bg-[#050B14] flex items-center px-4 gap-2">
-              <div className="w-3 h-3 bg-red-500 rounded-sm"></div>
-              <div className="w-3 h-3 bg-yellow-500 rounded-sm"></div>
-              <div className="w-3 h-3 bg-green-500 rounded-sm"></div>
-              <span className="ml-2 font-[family-name:var(--font-pixel)] text-[10px] text-sky-300/80 uppercase">shop.exe</span>
-            </div>
+          {/* Retro Picture Frame Container */}
+          <div className="w-full bg-[#0a0f1c]/90 backdrop-blur-md rounded-2xl overflow-hidden shadow-[12px_12px_0_0_rgba(56,189,248,0.2)] border-8 border-sky-400/60 relative group p-2">
 
             {/* Empty Cover Photo Frame */}
-            <div className="w-full h-[220px] md:h-[260px] bg-slate-900 border-b-4 border-dashed border-slate-700 flex flex-col items-center justify-center relative">
+            <div className="w-full h-[220px] md:h-[260px] bg-slate-900 border-4 border-dashed border-slate-700 flex flex-col items-center justify-center relative rounded-t-lg">
                <span className="font-[family-name:var(--font-pixel)] text-slate-600 text-sm tracking-widest uppercase">
                  [ COVER IMAGE SLOT ]
                </span>
