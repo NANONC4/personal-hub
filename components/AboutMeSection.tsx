@@ -124,7 +124,7 @@ export default function AboutMeSection() {
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 1 }}
-          viewport={{ once: false, margin: "-100px" }}
+          viewport={{ once: true, margin: "-100px" }}
           className="bg-slate-900/95 border border-slate-700/50 p-8 md:p-12 rounded-xl text-center w-full max-w-3xl mb-24 shadow-2xl relative overflow-hidden"
         >
           {/* Animated Element inside Midnight Thoughts */}
@@ -159,7 +159,7 @@ export default function AboutMeSection() {
                 initial={{ opacity: 0, y: 30 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.8, delay: idx * 0.2 }}
-                viewport={{ once: false, margin: "-100px" }}
+                viewport={{ once: true, margin: "-100px" }}
                 className={`flex flex-col bg-gradient-to-br ${category.bgGradient} border ${category.borderColor} p-6 md:p-8 rounded-xl shadow-2xl ${category.hoverBorder} ${category.glowShadow} transition-all duration-500 hover:-translate-y-2 group relative overflow-hidden h-full`}
               >
                 {/* Internal Sky Element */}

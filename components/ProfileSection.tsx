@@ -58,7 +58,7 @@ export default function ProfileSection() {
     <motion.div 
       initial={{ opacity: 0, y: 50 }}
       whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: false, amount: 0.2 }}
+      viewport={{ once: true, amount: 0.2 }}
       transition={{ duration: 0.8, ease: "easeOut" }}
       className="flex flex-col lg:flex-row items-center lg:items-center text-center lg:text-left gap-6 lg:gap-10 w-full lg:w-auto lg:sticky lg:top-24 z-10 relative"
     >

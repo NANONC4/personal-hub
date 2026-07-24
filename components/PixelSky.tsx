@@ -109,7 +109,7 @@ export default function PixelSky({ className = "absolute inset-0 z-0 overflow-hi
 
     // Initialize 100 stars (good density for full screen, not too cluttered)
     let stars: Star[] = [];
-    const maxStars = 100;
+    const maxStars = 50;
     for (let i = 0; i < maxStars; i++) {
       stars.push(new Star(true));
     }
