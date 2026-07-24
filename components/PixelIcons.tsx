@@ -238,3 +238,30 @@ export function PixelCoffee({ color = "#d4d4d8", ...props }: PixelIconProps) {
     </svg>
   );
 }
+
+export function PixelCoin({ color = "#facc15", ...props }: PixelIconProps) {
+  const grid = [
+    "................",
+    "......yyyy......",
+    "....yyywwyyy....",
+    "...yywwwwwyyy...",
+    "..yywwwwwwwyyy..",
+    "..ywwwwwwwwwyy..",
+    ".yywwwyyywwwyyy.",
+    ".yywwyyyyywwyyy.",
+    ".yywwyyyyywwyyy.",
+    ".yywwwyyywwwyyy.",
+    "..ywwwwwwwwwyy..",
+    "..yywwwwwwwyyy..",
+    "...yywwwwwyyy...",
+    "....yyywwyyy....",
+    "......yyyy......",
+    "................"
+  ];
+  const colors = { 'y': color, 'w': '#fef08a' };
+  return (
+    <svg viewBox="0 0 16 16" className="w-16 h-16 drop-shadow-[0_0_15px_rgba(250,204,21,0.5)]" {...props}>
+      {renderGrid(grid, colors)}
+    </svg>
+  );
+}

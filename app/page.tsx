@@ -7,6 +7,7 @@ import SocialLinkButton from "@/components/SocialLinkButton";
 import IntroSection from "@/components/IntroSection";
 import AboutMeSection from "@/components/AboutMeSection";
 import Footer from "@/components/Footer";
+import ShopSection from "@/components/ShopSection";
 import LemonyShopPro from "@/components/projects/LemonyShopPro";
 import LemonyShop from "@/components/projects/LemonyShop";
 import RulesOfHorror from "@/components/projects/RulesOfHorror";
@@ -351,12 +352,15 @@ export default function Home() {
 
       </section>
 
-          {/* 4. HORROR PORTAL */}
-          <section className="relative z-10 w-full">
-             <HorrorPortalButton />
-          </section>
+          {/* 5. SHOP SECTION */}
+          <ShopSection />
 
-          {/* 5. FOOTER / CONTACT SECTION (Midnight Cafe) */}
+          {/* 6. HORROR PORTAL */}
+          <div className="py-20 flex justify-center bg-black">
+            <HorrorPortalButton />
+          </div>
+
+          {/* 7. FOOTER */}
           <div id="contact">
             <Footer />
           </div>
