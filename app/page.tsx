@@ -18,9 +18,7 @@ const LemonyShopPro = dynamic(() => import("@/components/projects/LemonyShopPro"
 const LemonyShop = dynamic(() => import("@/components/projects/LemonyShop"), { ssr: false });
 const RulesOfHorror = dynamic(() => import("@/components/projects/RulesOfHorror"), { ssr: false });
 const SectionDivider = dynamic(() => import("@/components/SectionDivider"), { ssr: false });
-import PortfolioToggle from "@/components/PortfolioToggle";
-import PixelSky from "@/components/PixelSky";
-import HorizontalScrollCarousel from "@/components/HorizontalScrollCarousel";
+
 import HorrorPortalButton from "@/components/HorrorPortalButton";
 import PixelTransition from "@/components/PixelTransition";
 import Preloader from "@/components/Preloader";
