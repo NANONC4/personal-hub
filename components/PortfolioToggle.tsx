@@ -38,7 +38,7 @@ export default function PortfolioToggle({ isDrawerMode, onToggle }: PortfolioTog
         {/* Option 1: Scroll */}
         <button
           onClick={() => onToggle(false)}
-          className={`flex-1 py-2 relative z-10 font-[family-name:var(--font-pixel)] text-[10px] md:text-xs uppercase tracking-wide transition-colors duration-200 ${
+          className={`flex-1 py-2 relative z-10 font-[family-name:var(--font-pixel)] text-[10px] md:text-xs uppercase tracking-wide transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-400 focus-visible:ring-offset-2 focus-visible:ring-offset-slate-900 rounded ${
             !isDrawerMode ? "text-indigo-200 drop-shadow-[1px_1px_0_rgba(0,0,0,0.8)]" : "text-slate-500 hover:text-indigo-300"
           }`}
         >
@@ -48,7 +48,7 @@ export default function PortfolioToggle({ isDrawerMode, onToggle }: PortfolioTog
         {/* Option 2: Drawer */}
         <button
           onClick={() => onToggle(true)}
-          className={`flex-1 py-2 relative z-10 font-[family-name:var(--font-pixel)] text-[10px] md:text-xs uppercase tracking-wide transition-colors duration-200 ${
+          className={`flex-1 py-2 relative z-10 font-[family-name:var(--font-pixel)] text-[10px] md:text-xs uppercase tracking-wide transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-400 focus-visible:ring-offset-2 focus-visible:ring-offset-slate-900 rounded ${
             isDrawerMode ? "text-indigo-200 drop-shadow-[1px_1px_0_rgba(0,0,0,0.8)]" : "text-slate-500 hover:text-indigo-300"
           }`}
         >

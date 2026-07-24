@@ -58,7 +58,8 @@ export default function SocialLinkButton({ title, subtitle, icon, href, highligh
       onClick={handleClick}
       target="_blank"
       rel="noopener noreferrer"
-      className={`group relative flex items-center p-4 lg:p-5 w-full overflow-hidden transition-all duration-150 border-4 rounded-xl
+      aria-label={title}
+      className={`group relative flex items-center p-4 lg:p-5 w-full overflow-hidden transition-all duration-150 border-4 rounded-xl focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-pink-500 focus-visible:ring-offset-4 focus-visible:ring-offset-slate-900
         ${theme === "midnight"
           ? 'bg-[#0f172a] border-slate-800 shadow-[6px_6px_0_0_#020617] hover:shadow-[0px_0px_0_0_#020617] hover:translate-x-[6px] hover:translate-y-[6px]'
           : theme === "dark"

@@ -1,5 +1,6 @@
 "use client";
 import { motion, AnimatePresence } from "framer-motion";
+import Image from "next/image";
 import { useState } from "react";
 
 export default function ProfileSection() {
@@ -86,7 +87,7 @@ export default function ProfileSection() {
               {/* Shine Sweep Effect */}
               <div className="absolute top-0 bottom-0 w-16 bg-white/60 blur-[6px] -skew-x-12 -translate-x-[150%] group-hover:animate-sweep z-10 pointer-events-none" />
               
-              <img src="/profile.png" alt="Profile" className="w-full h-full object-cover z-0" />
+              <Image src="/profile.png" alt="Profile" priority fill sizes="(max-width: 1024px) 128px, 300px" className="object-cover z-0" />
             </div>
           </div>
         </div>

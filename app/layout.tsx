@@ -7,8 +7,49 @@ const silkscreen = Silkscreen({ weight: "400", subsets: ["latin"], variable: "--
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Nanonc4 Portfolio",
-  description: "Welcome to my portfolio! A chill space where I share my work, projects, and creative journey.",
+  metadataBase: new URL("https://nanonc4-portfolio.vercel.app"),
+  title: {
+    default: "Chatchai Danrungruang | Creative Developer",
+    template: "%s | Chatchai Danrungruang",
+  },
+  description: "Welcome to my interactive portfolio! A chill space where I share my creative web development, games, and UI/UX projects.",
+  keywords: ["Frontend Developer", "React", "Next.js", "Web Development", "Game Developer", "Portfolio", "Pixel Art"],
+  authors: [{ name: "Chatchai Danrungruang" }],
+  creator: "Chatchai Danrungruang",
+  openGraph: {
+    type: "website",
+    locale: "en_US",
+    url: "https://nanonc4-portfolio.vercel.app",
+    title: "Chatchai Danrungruang | Creative Developer",
+    description: "Welcome to my interactive portfolio! A chill space where I share my creative web development, games, and UI/UX projects.",
+    siteName: "Chatchai's Portfolio",
+    images: [
+      {
+        url: "/og-image.png",
+        width: 1200,
+        height: 630,
+        alt: "Chatchai Danrungruang Portfolio Preview",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Chatchai Danrungruang | Creative Developer",
+    description: "Welcome to my interactive portfolio! A chill space where I share my creative web development, games, and UI/UX projects.",
+    images: ["/og-image.png"],
+    creator: "@nanonc4",
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-video-preview": -1,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+    },
+  },
 };
 
 import SmoothScroll from "@/components/SmoothScroll";
