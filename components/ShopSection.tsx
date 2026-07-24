@@ -25,14 +25,14 @@ export default function ShopSection() {
           className="w-full lg:w-[55%] max-w-[700px] flex-shrink-0"
         >
           {/* Retro Window Container */}
-          <div className="w-full bg-[#0a0f1c]/90 backdrop-blur-md rounded-xl overflow-hidden shadow-[8px_8px_0_0_rgba(245,158,11,0.3)] border-4 border-yellow-500/50 relative group">
+          <div className="w-full bg-[#0a0f1c]/90 backdrop-blur-md rounded-xl overflow-hidden shadow-[8px_8px_0_0_rgba(56,189,248,0.3)] border-4 border-sky-400/50 relative group">
             
             {/* Window Header */}
-            <div className="h-8 border-b-4 border-yellow-500/50 bg-[#050B14] flex items-center px-4 gap-2">
+            <div className="h-8 border-b-4 border-sky-400/50 bg-[#050B14] flex items-center px-4 gap-2">
               <div className="w-3 h-3 bg-red-500 rounded-sm"></div>
               <div className="w-3 h-3 bg-yellow-500 rounded-sm"></div>
               <div className="w-3 h-3 bg-green-500 rounded-sm"></div>
-              <span className="ml-2 font-[family-name:var(--font-pixel)] text-[10px] text-yellow-500/80 uppercase">shop.exe</span>
+              <span className="ml-2 font-[family-name:var(--font-pixel)] text-[10px] text-sky-300/80 uppercase">shop.exe</span>
             </div>
 
             {/* Empty Cover Photo Frame */}
@@ -57,7 +57,7 @@ export default function ShopSection() {
                   </div>
                   
                   <div className="mb-4">
-                    <h4 className="font-[family-name:var(--font-pixel)] text-3xl md:text-4xl text-yellow-400 drop-shadow-[0_2px_4px_rgba(250,204,21,0.4)] uppercase tracking-wider">
+                    <h4 className="font-[family-name:var(--font-pixel)] text-3xl md:text-4xl text-sky-300 drop-shadow-[0_2px_4px_rgba(125,211,252,0.4)] uppercase tracking-wider">
                       Lemony
                     </h4>
                   </div>
@@ -79,20 +79,20 @@ export default function ShopSection() {
         >
           {/* Badge */}
           <div className="inline-flex items-center gap-3 mb-6 opacity-80">
-            <PixelStar color="#facc15" className="w-5 h-5 animate-bounce" />
-            <span className="font-[family-name:var(--font-pixel)] text-yellow-400 text-base tracking-[0.3em] uppercase">
+            <PixelStar color="#7dd3fc" className="w-5 h-5 animate-bounce" />
+            <span className="font-[family-name:var(--font-pixel)] text-sky-300 text-base tracking-[0.3em] uppercase">
               - SPONSORED -
             </span>
           </div>
           
           {/* Main Title */}
-          <h2 className="font-[family-name:var(--font-pixel)] text-6xl md:text-[6rem] leading-none font-black mb-8 tracking-widest uppercase text-white drop-shadow-[6px_6px_0_rgba(245,158,11,0.5)]">
+          <h2 className="font-[family-name:var(--font-pixel)] text-6xl md:text-[6rem] leading-none font-black mb-8 tracking-widest uppercase text-white drop-shadow-[6px_6px_0_rgba(56,189,248,0.5)]">
             LEMONY
           </h2>
           
           {/* User's Original Text */}
-          <p className="text-slate-300 text-xl md:text-2xl leading-relaxed w-full mb-12 font-medium bg-slate-900/50 p-8 md:p-10 rounded-2xl border-2 border-slate-800/80 shadow-[inset_0_4px_15px_rgba(0,0,0,0.5)]">
-            "ขอฝากร้านไว้ตรงนี้นะครับ หากใครสนใจแวะมาใช้บริการได้เลย"
+          <p className="text-slate-300 text-xl md:text-2xl leading-relaxed w-full mb-12 font-[family-name:var(--font-pixel)] uppercase tracking-wide bg-slate-900/50 p-8 md:p-10 rounded-2xl border-2 border-slate-800/80 shadow-[inset_0_4px_15px_rgba(0,0,0,0.5)]">
+            "LEAVING MY SHOP HERE! IF YOU'RE INTERESTED, FEEL FREE TO DROP BY AND USE OUR SERVICES!"
           </p>
           
           {/* CTA Button */}
@@ -101,12 +101,12 @@ export default function ShopSection() {
               href="#" 
               target="_blank" 
               rel="noopener noreferrer"
-              className="inline-flex items-center justify-center gap-4 px-10 py-5 bg-gradient-to-r from-blue-600 to-blue-500 hover:from-blue-500 hover:to-blue-400 text-white rounded-2xl font-[family-name:var(--font-pixel)] text-lg md:text-xl tracking-wider uppercase transition-all shadow-[6px_6px_0_0_rgba(59,130,246,0.3)] hover:shadow-[8px_8px_0_0_rgba(59,130,246,0.4)] hover:-translate-y-1 active:translate-y-0 active:shadow-[2px_2px_0_0_rgba(59,130,246,0.4)]"
+              className="inline-flex items-center justify-center gap-4 px-10 py-5 bg-gradient-to-r from-sky-500 to-blue-600 hover:from-sky-400 hover:to-blue-500 text-white rounded-2xl font-[family-name:var(--font-pixel)] text-lg md:text-xl tracking-wider uppercase transition-all shadow-[6px_6px_0_0_rgba(56,189,248,0.3)] hover:shadow-[8px_8px_0_0_rgba(56,189,248,0.4)] hover:-translate-y-1 active:translate-y-0 active:shadow-[2px_2px_0_0_rgba(56,189,248,0.4)]"
             >
               <svg className="w-6 h-6 fill-current" viewBox="0 0 24 24">
                 <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.469h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.469h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
               </svg>
-              ไปที่หน้าร้าน
+              VISIT SHOP
             </a>
           </div>
           
