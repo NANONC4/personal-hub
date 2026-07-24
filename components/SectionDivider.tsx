@@ -211,12 +211,11 @@ export default function SectionDivider({
             >
               {/* Category GPU Accelerated Parallax Background */}
               <motion.div 
-                className="absolute z-0 opacity-20 pointer-events-none" 
+                className="absolute inset-0 z-0 opacity-20 pointer-events-none" 
                 style={{
-                  top: "-1000px", bottom: "-1000px", left: "-300vw", right: "-300vw",
                   ...getPattern(3), // Dark Pixel Sparkles pattern
-                  x: categoryBgXVw,
-                  y: bgYPx
+                  backgroundPositionX: categoryBgXVw,
+                  backgroundPositionY: bgYPx
                 }}
               />
               
@@ -243,14 +242,11 @@ export default function SectionDivider({
           >
             {/* GPU Accelerated Parallax Background */}
             <motion.div 
-              className="absolute z-0 opacity-60 pointer-events-none" 
+              className="absolute inset-0 z-0 opacity-60 pointer-events-none" 
               style={{
-                // Oversize the div so moving it doesn't reveal empty edges.
-                // Modulo 960 keeps Y within 960px. X is bounded by 300vw.
-                top: "-1000px", bottom: "-1000px", left: "-300vw", right: "-300vw",
                 ...getPattern(index + 2),
-                x: bgXVw,
-                y: bgYPx
+                backgroundPositionX: bgXVw,
+                backgroundPositionY: bgYPx
               }}
             />
 

@@ -1,5 +1,6 @@
 "use client";
 import { Project } from "@/data/projects";
+import Image from "next/image";
 import { motion, useSpring, useTransform } from "framer-motion";
 import { useRef, useState, useEffect } from "react";
 import StoryContentBlock from "./StoryContentBlock";
@@ -118,7 +119,7 @@ export default function HorizontalScrollCarousel({ project, theme = "light" }: H
           dragConstraints={{ right: 0, left: -maxScrollRef.current }}
           dragElastic={0.05}
           dragTransition={{ bounceStiffness: 400, bounceDamping: 30 }}
-          className="flex h-full absolute left-0 top-0 will-change-transform items-center px-12 md:px-24 cursor-grab active:cursor-grabbing"
+          className="flex h-full absolute left-0 top-0 items-center px-12 md:px-24 cursor-grab active:cursor-grabbing"
         >
           {/* Slide 1: Content */}
           <div className="w-[80vw] max-w-5xl flex-shrink-0 flex flex-col justify-center h-full mr-24 relative">
@@ -142,14 +143,14 @@ export default function HorizontalScrollCarousel({ project, theme = "light" }: H
           {project.gallery?.map((img, idx) => (
             <motion.div 
               key={idx} 
-              initial={{ opacity: 0, scale: 0.8, filter: "blur(10px)" }}
-              whileInView={{ opacity: 1, scale: 1, filter: "blur(0px)" }}
-              transition={{ duration: 0.8, delay: 0.1, ease: "easeOut" }}
+              initial={{ opacity: 0, scale: 0.9 }}
+              whileInView={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.6, delay: 0.1, ease: "easeOut" }}
               viewport={{ amount: 0.3 }}
               className="w-[70vw] md:w-[50vw] max-w-4xl h-[70vh] flex-shrink-0 flex items-center justify-center px-4 md:px-8"
             >
               <div className="w-full h-full rounded-2xl overflow-hidden shadow-2xl relative group">
-                <img src={img} alt={`${project.title} gallery ${idx + 1}`} className="w-full h-full object-cover" />
+                <Image src={img} alt={`${project.title} gallery ${idx + 1}`} fill sizes="(max-width: 768px) 70vw, 50vw" className="object-cover" />
               </div>
             </motion.div>
           ))}
