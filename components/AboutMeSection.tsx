@@ -124,8 +124,8 @@ export default function AboutMeSection() {
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 1 }}
-          viewport={{ once: true, margin: "-100px" }}
-          className="bg-slate-900/95 border border-slate-700/50 p-8 md:p-12 rounded-xl text-center w-full max-w-3xl mb-24 shadow-2xl relative overflow-hidden"
+          viewport={{ once: false, margin: "-100px" }}
+          className="bg-slate-900/95 border border-slate-700/50 p-8 md:p-12 rounded-xl text-center w-full max-w-3xl mb-24 shadow-2xl relative overflow-hidden will-change-transform will-change-opacity"
         >
           {/* Animated Element inside Midnight Thoughts */}
           <PixelStar color="#818cf8" className="absolute top-6 left-6 w-8 h-8 opacity-20 animate-[float-sparkle-1_3s_ease-in-out_infinite] pointer-events-none" />
@@ -159,8 +159,8 @@ export default function AboutMeSection() {
                 initial={{ opacity: 0, y: 30 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.8, delay: idx * 0.2 }}
-                viewport={{ once: true, margin: "-100px" }}
-                className={`flex flex-col bg-gradient-to-br ${category.bgGradient} border ${category.borderColor} p-6 md:p-8 rounded-xl shadow-2xl ${category.hoverBorder} ${category.glowShadow} transition-all duration-500 hover:-translate-y-2 group relative overflow-hidden h-full`}
+                viewport={{ once: false, margin: "-100px" }}
+                className={`flex flex-col bg-gradient-to-br ${category.bgGradient} border ${category.borderColor} p-6 md:p-8 rounded-xl shadow-2xl ${category.hoverBorder} ${category.glowShadow} transition-all duration-500 hover:-translate-y-2 group relative overflow-hidden h-full will-change-transform will-change-opacity`}
               >
                 {/* Internal Sky Element */}
                 {category.icon}

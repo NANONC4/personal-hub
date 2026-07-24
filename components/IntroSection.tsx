@@ -28,7 +28,7 @@ export default function IntroSection() {
         <motion.p 
           initial={{ opacity: 0, x: -40 }}
           whileInView={{ opacity: 1, x: 0 }}
-          viewport={{ margin: "-100px", once: true }}
+          viewport={{ margin: "-100px", once: false }}
           transition={{ duration: 0.8, ease: "easeOut" }}
           className="text-indigo-300 font-[family-name:var(--font-pixel)] tracking-widest text-lg uppercase mb-10 bg-[#1e1b4b]/90 px-6 py-2 rounded-full inline-block border-2 border-indigo-500/30"
         >
@@ -39,7 +39,7 @@ export default function IntroSection() {
           <motion.span
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ margin: "-100px", once: true }}
+            viewport={{ margin: "-100px", once: false }}
             transition={{ duration: 1, delay: 0.2 }}
           >
             Crafting digital
@@ -47,7 +47,7 @@ export default function IntroSection() {
           <motion.span
             initial={{ opacity: 0, scale: 0.8 }}
             whileInView={{ opacity: 1, scale: 1 }}
-            viewport={{ margin: "-100px", once: true }}
+            viewport={{ margin: "-100px", once: false }}
             transition={{ duration: 1, delay: 0.5, type: "spring" }}
             className="mx-2 bg-gradient-to-r from-sky-300 via-pink-300 to-purple-300 bg-clip-text text-transparent animate-gradient-text"
           >
@@ -56,7 +56,7 @@ export default function IntroSection() {
           <motion.span
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ margin: "-100px", once: true }}
+            viewport={{ margin: "-100px", once: false }}
             transition={{ duration: 1, delay: 0.7 }}
           >
             with magic.
@@ -66,17 +66,17 @@ export default function IntroSection() {
         <motion.p 
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ margin: "-100px", once: true }}
+          viewport={{ margin: "-100px", once: false }}
           transition={{ duration: 0.8, delay: 0.8 }}
           className="mt-8 text-slate-300 text-lg md:text-2xl max-w-2xl mx-auto font-medium"
         >
           Building immersive and interactive web experiences by blending code with creativity and a touch of retro charm.
         </motion.p>        <motion.div 
-          initial={{ opacity: 0, height: 0 }}
-          whileInView={{ opacity: 1, height: 60 }}
-          viewport={{ once: true }}
+          initial={{ opacity: 0, scaleY: 0 }}
+          whileInView={{ opacity: 1, scaleY: 1 }}
+          viewport={{ once: false }}
           transition={{ duration: 1.5, delay: 0.8, ease: "circOut" }}
-          className="mt-16 w-[4px] border-l-4 border-dashed border-pink-400 mx-auto opacity-50"
+          className="mt-16 w-[4px] h-[60px] origin-top border-l-4 border-dashed border-pink-400 mx-auto opacity-50"
         />
       </div>
     </section>
