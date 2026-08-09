@@ -53,12 +53,14 @@ export const metadata: Metadata = {
 };
 
 import SmoothScroll from "@/components/SmoothScroll";
+import TopNavbar from "@/components/TopNavbar";
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en">
       <body className={`${inter.variable} ${silkscreen.variable} ${inter.className} bg-black text-white antialiased`}>
         <SmoothScroll>
+          <TopNavbar />
           {children}
         </SmoothScroll>
       </body>
