@@ -1,12 +1,12 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { motion, Variants } from "framer-motion";
 import Footer from "@/components/Footer";
 import { PixelStar, PixelSparkle } from "@/components/PixelIcons";
 import { Code, Gamepad2, LayoutPanelLeft, Clock, CheckCircle2 } from "lucide-react";
 
 export default function ServicesPage() {
-  const containerVariants = {
+  const containerVariants: Variants = {
     hidden: { opacity: 0 },
     show: {
       opacity: 1,
@@ -14,7 +14,7 @@ export default function ServicesPage() {
     }
   };
 
-  const itemVariants = {
+  const itemVariants: Variants = {
     hidden: { opacity: 0, y: 30 },
     show: { opacity: 1, y: 0, transition: { type: "spring", bounce: 0.4 } }
   };
