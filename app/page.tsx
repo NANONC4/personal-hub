@@ -13,6 +13,11 @@ import { Lens } from "@/components/Lens";
 import { BentoGrid, BentoCard } from "@/components/BentoGrid";
 import { WebDevBackground, GamesBackground, QueueBackground, CommunityBackground } from "@/components/BentoAnimations";
 import { Code2, Gamepad2, CalendarDays } from "lucide-react";
+import { InteractiveHoverButton } from "@/components/InteractiveHoverButton";
+import { KineticText } from "@/components/KineticText";
+import { PixelImage } from "@/components/PixelImage";
+import { DiaTextReveal } from "@/components/DiaTextReveal";
+import { IconCloud } from "@/components/IconCloud";
 
 const features = [
   {
@@ -79,18 +84,26 @@ export default function HomePage() {
               <span className="font-mono text-sm tracking-widest text-slate-300 uppercase">Welcome to my digital space</span>
             </div>
 
-            <h1 className="text-5xl md:text-7xl lg:text-8xl font-black tracking-tighter leading-[1.1] text-white mb-8 drop-shadow-lg">
-              Hi, I'm <span className="text-transparent bg-clip-text bg-gradient-to-r from-sky-400 via-pink-400 to-purple-400 animate-gradient-text">Dia.</span>
-            </h1>
+            <div className="mb-8">
+              <h1 className="text-5xl md:text-7xl lg:text-8xl font-black tracking-tighter leading-[1.1] text-foreground drop-shadow-lg flex items-end gap-4">
+                <KineticText text="Hi, I'm" />
+                <span className="text-transparent bg-clip-text bg-gradient-to-r from-sky-400 via-pink-400 to-purple-400 animate-gradient-text inline-block">
+                  <KineticText text="Dia." />
+                </span>
+              </h1>
+            </div>
             
             <p className="text-xl md:text-2xl text-slate-400 max-w-2xl font-medium leading-relaxed mb-12">
               นักพัฒนาที่หลงใหลในศิลปะ <span className="text-pink-400 font-[family-name:var(--font-pixel)] tracking-widest">Pixel Art</span> สร้างสรรค์ประสบการณ์บนเว็บไซต์และมินิเกม เพื่อเปลี่ยนไอเดียให้กลายเป็นโค้ดที่จับต้องได้
             </p>
 
             <div className="flex flex-wrap items-center gap-6">
-              <Link href="#about" className="group px-8 py-4 bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-600 font-mono font-bold tracking-widest uppercase rounded-lg transition-all hover:scale-105">
-                Read My Story
-              </Link>
+              <InteractiveHoverButton 
+                asLink 
+                href="#about" 
+                text="Read My Story" 
+                className="w-56"
+              />
             </div>
           </motion.div>
         </section>
@@ -98,20 +111,19 @@ export default function HomePage() {
         {/* =========================================
             2. MY PURPOSE & JOURNEY (About Me)
             ========================================= */}
-        <section id="about" className="w-full bg-[#0a0f1c] border-y border-slate-800 py-32 md:py-48 relative z-20">
+        <section id="about" className="w-full bg-background border-y border-slate-200 dark:border-slate-800 py-32 md:py-48 relative z-20 transition-colors duration-300">
           <div className="max-w-5xl mx-auto px-6 flex flex-col md:flex-row gap-16 md:gap-32 items-center">
             
             <motion.div 
               initial={{ opacity: 0, scale: 0.9 }}
               whileInView={{ opacity: 1, scale: 1 }}
               viewport={{ once: true, margin: "-100px" }}
-              className="w-48 h-48 md:w-64 md:h-64 shrink-0 rounded-3xl overflow-hidden border-4 border-slate-800 shadow-[20px_20px_0_0_rgba(15,23,42,1)] bg-slate-900 relative"
+              className="w-48 h-48 md:w-64 md:h-64 shrink-0 rounded-3xl overflow-hidden border-4 border-slate-200 dark:border-slate-800 shadow-[20px_20px_0_0_rgba(15,23,42,0.1)] dark:shadow-[20px_20px_0_0_rgba(15,23,42,1)] bg-slate-100 dark:bg-slate-900 relative transition-all duration-300"
             >
-              <Image 
+              <PixelImage 
                 src="/จอตั้ง.png" 
                 alt="Dia Avatar"
-                fill
-                className="object-cover object-top opacity-90"
+                className="w-full h-full"
               />
             </motion.div>
 
@@ -121,10 +133,10 @@ export default function HomePage() {
               viewport={{ once: true, margin: "-100px" }}
               className="flex-1"
             >
-              <h2 className="text-3xl md:text-5xl font-[family-name:var(--font-pixel)] text-white mb-8 uppercase tracking-wider">
-                Who am I?
-              </h2>
-              <div className="space-y-6 text-slate-400 text-lg md:text-xl leading-loose font-medium">
+              <div className="text-3xl md:text-5xl font-[family-name:var(--font-pixel)] mb-8 uppercase tracking-wider h-16">
+                <DiaTextReveal text="Who am I?" />
+              </div>
+              <div className="space-y-6 text-slate-600 dark:text-slate-400 text-lg md:text-xl leading-loose font-medium transition-colors duration-300">
                 <p>
                   ผมเป็น <strong>Creative Developer</strong> ที่เชื่อว่าเว็บไซต์ไม่ควรเป็นแค่หน้ากระดาษแบนๆ แต่ควรเป็น "พื้นที่" (Space) ที่ให้ความรู้สึกเหมือนมีชีวิต
                 </p>
@@ -140,7 +152,33 @@ export default function HomePage() {
         </section>
 
         {/* =========================================
-            3. WHAT I'M BUILDING (Recent Explorations)
+            3. MY ARSENAL (Tech Stack Icon Cloud)
+            ========================================= */}
+        <section className="w-full bg-slate-100 dark:bg-slate-950/50 py-24 md:py-32 relative z-20 border-b border-slate-200 dark:border-slate-800 transition-colors duration-300 overflow-hidden">
+          <div className="max-w-6xl mx-auto px-6">
+            <div className="text-center mb-16">
+              <h2 className="text-3xl md:text-5xl font-[family-name:var(--font-pixel)] text-foreground mb-4 uppercase tracking-wider">
+                My Arsenal
+              </h2>
+              <p className="text-slate-500 dark:text-slate-400 font-mono text-sm tracking-widest uppercase">
+                Tools & Technologies I use to build digital spaces
+              </p>
+            </div>
+            
+            <div className="h-[400px] md:h-[500px] w-full rounded-[2rem] border border-slate-200 dark:border-slate-800 bg-white dark:bg-[#0a0f1c] shadow-xl dark:shadow-[0_0_50px_-12px_rgba(236,72,153,0.1)] flex items-center justify-center relative overflow-hidden transition-all duration-300">
+              <IconCloud 
+                slugs={[
+                  "react", "nextdotjs", "typescript", "javascript", "nodedotjs",
+                  "tailwindcss", "framer", "figma", "github", "git",
+                  "vercel", "visualstudiocode", "unity", "csharp", "html5", "css3"
+                ]} 
+              />
+            </div>
+          </div>
+        </section>
+
+        {/* =========================================
+            4. CREATIVE SANDBOX (Projects)
             ========================================= */}
         <section className="max-w-6xl mx-auto px-6 py-32 md:py-48">
           <motion.div 

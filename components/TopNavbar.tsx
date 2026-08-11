@@ -4,7 +4,8 @@ import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
-import { PixelStar } from './PixelIcons'; // using an existing icon
+import { PixelStar } from './PixelIcons';
+import { AnimatedThemeToggler } from './AnimatedThemeToggler';
 
 const links = [
   { name: 'Home', href: '/' },
@@ -78,27 +79,32 @@ export default function TopNavbar() {
             })}
           </nav>
 
-          {/* Mobile Hamburger Toggle */}
-          <button 
-            onClick={() => setIsOpen(!isOpen)}
-            className="lg:hidden z-50 relative p-2 -mr-2 outline-none focus-visible:ring-2 focus-visible:ring-pink-500 rounded-md text-slate-300 hover:text-white transition-colors"
-            aria-label="Toggle Menu"
-          >
-            <div className="w-6 flex flex-col items-end gap-1.5">
-              <motion.span 
-                animate={isOpen ? { rotate: 45, y: 8, backgroundColor: "#f472b6" } : { rotate: 0, y: 0 }}
-                className="w-full h-0.5 bg-current block transition-colors"
-              />
-              <motion.span 
-                animate={isOpen ? { opacity: 0 } : { opacity: 1 }}
-                className="w-4/5 h-0.5 bg-current block"
-              />
-              <motion.span 
-                animate={isOpen ? { rotate: -45, y: -8, width: "100%", backgroundColor: "#f472b6" } : { rotate: 0, y: 0, width: "100%" }}
-                className="h-0.5 bg-current block transition-colors"
-              />
-            </div>
-          </button>
+          {/* Right Side: Theme + Mobile Toggle */}
+          <div className="flex items-center gap-4 z-50 relative">
+            <AnimatedThemeToggler />
+            
+            {/* Mobile Hamburger Toggle */}
+            <button 
+              onClick={() => setIsOpen(!isOpen)}
+              className="lg:hidden p-2 -mr-2 outline-none focus-visible:ring-2 focus-visible:ring-pink-500 rounded-md text-slate-500 hover:text-slate-900 dark:text-slate-300 dark:hover:text-white transition-colors"
+              aria-label="Toggle Menu"
+            >
+              <div className="w-6 flex flex-col items-end gap-1.5">
+                <motion.span 
+                  animate={isOpen ? { rotate: 45, y: 8, backgroundColor: "#f472b6" } : { rotate: 0, y: 0 }}
+                  className="w-full h-0.5 bg-current block transition-colors"
+                />
+                <motion.span 
+                  animate={isOpen ? { opacity: 0 } : { opacity: 1 }}
+                  className="w-4/5 h-0.5 bg-current block"
+                />
+                <motion.span 
+                  animate={isOpen ? { rotate: -45, y: -8, width: "100%", backgroundColor: "#f472b6" } : { rotate: 0, y: 0, width: "100%" }}
+                  className="h-0.5 bg-current block transition-colors"
+                />
+              </div>
+            </button>
+          </div>
         </div>
       </header>
 
