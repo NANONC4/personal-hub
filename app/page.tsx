@@ -32,7 +32,7 @@ export default function HomePage() {
             transition={{ duration: 1, ease: "easeOut" }}
             className="w-full"
           >
-            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-slate-800/80 border border-slate-700/50 mb-8 backdrop-blur-sm">
+            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-slate-800/80 border border-slate-700/50 mb-8">
               <span className="animate-pulse">👾</span>
               <span className="font-mono text-sm tracking-widest text-slate-300 uppercase">Welcome to my digital space</span>
             </div>
@@ -46,7 +46,7 @@ export default function HomePage() {
             </p>
 
             <div className="flex flex-wrap items-center gap-6">
-              <Link href="#about" className="group px-8 py-4 bg-slate-800/80 hover:bg-slate-700 text-slate-200 border border-slate-600 font-mono font-bold tracking-widest uppercase rounded-lg transition-all hover:scale-105 backdrop-blur-md">
+              <Link href="#about" className="group px-8 py-4 bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-600 font-mono font-bold tracking-widest uppercase rounded-lg transition-all hover:scale-105">
                 Read My Story
               </Link>
             </div>
@@ -56,7 +56,7 @@ export default function HomePage() {
         {/* =========================================
             2. MY PURPOSE & JOURNEY (About Me)
             ========================================= */}
-        <section id="about" className="w-full bg-[#0a0f1c]/90 backdrop-blur-md border-y border-slate-800 py-24">
+        <section id="about" className="w-full bg-[#0a0f1c] border-y border-slate-800 py-24 relative z-20">
           <div className="max-w-5xl mx-auto px-6 flex flex-col md:flex-row gap-12 md:gap-20 items-center">
             
             <motion.div 
