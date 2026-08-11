@@ -25,7 +25,7 @@ export default function HomePage() {
         {/* =========================================
             1. THE WELCOME (Hero Section)
             ========================================= */}
-        <section className="max-w-5xl mx-auto px-6 py-20 lg:py-32 flex flex-col items-start min-h-[70vh] justify-center">
+        <section className="max-w-5xl mx-auto px-6 py-20 lg:py-32 flex flex-col items-start min-h-[90vh] justify-center pb-32">
           <motion.div 
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
@@ -56,8 +56,8 @@ export default function HomePage() {
         {/* =========================================
             2. MY PURPOSE & JOURNEY (About Me)
             ========================================= */}
-        <section id="about" className="w-full bg-[#0a0f1c] border-y border-slate-800 py-24 relative z-20">
-          <div className="max-w-5xl mx-auto px-6 flex flex-col md:flex-row gap-12 md:gap-20 items-center">
+        <section id="about" className="w-full bg-[#0a0f1c] border-y border-slate-800 py-32 md:py-48 relative z-20">
+          <div className="max-w-5xl mx-auto px-6 flex flex-col md:flex-row gap-16 md:gap-32 items-center">
             
             <motion.div 
               initial={{ opacity: 0, scale: 0.9 }}
@@ -79,10 +79,10 @@ export default function HomePage() {
               viewport={{ once: true, margin: "-100px" }}
               className="flex-1"
             >
-              <h2 className="text-3xl md:text-4xl font-[family-name:var(--font-pixel)] text-white mb-6 uppercase tracking-wider">
+              <h2 className="text-3xl md:text-5xl font-[family-name:var(--font-pixel)] text-white mb-8 uppercase tracking-wider">
                 Who am I?
               </h2>
-              <div className="space-y-4 text-slate-400 text-lg leading-relaxed font-medium">
+              <div className="space-y-6 text-slate-400 text-lg md:text-xl leading-loose font-medium">
                 <p>
                   ผมเป็น <strong>Creative Developer</strong> ที่เชื่อว่าเว็บไซต์ไม่ควรเป็นแค่หน้ากระดาษแบนๆ แต่ควรเป็น "พื้นที่" (Space) ที่ให้ความรู้สึกเหมือนมีชีวิต
                 </p>
@@ -100,12 +100,12 @@ export default function HomePage() {
         {/* =========================================
             3. WHAT I'M BUILDING (Recent Explorations)
             ========================================= */}
-        <section className="max-w-5xl mx-auto px-6 py-32">
+        <section className="max-w-6xl mx-auto px-6 py-32 md:py-48">
           <motion.div 
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            className="flex flex-col md:flex-row justify-between items-end mb-12 gap-6"
+            className="flex flex-col md:flex-row justify-between items-end mb-20 gap-6"
           >
             <div>
               <div className="inline-flex items-center gap-2 mb-4">
@@ -130,10 +130,10 @@ export default function HomePage() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ delay: idx * 0.15 }}
-                className="group relative flex flex-col bg-slate-900/60 rounded-2xl overflow-hidden border border-slate-800 hover:border-sky-500/50 transition-all hover:-translate-y-2 shadow-lg"
+                className="group relative flex flex-col bg-slate-900/60 rounded-3xl overflow-hidden border border-slate-800 hover:border-sky-500/50 transition-all hover:-translate-y-2 shadow-lg"
               >
-                <div className="relative h-48 w-full bg-slate-950">
-                  <Lens zoomFactor={1.8} lensSize={140}>
+                <div className="relative h-56 md:h-64 w-full bg-slate-950">
+                  <Lens zoomFactor={1.8} lensSize={160}>
                     <div className="relative w-full h-full">
                       <Image
                         src={project.gallery[0]}
@@ -145,11 +145,11 @@ export default function HomePage() {
                     </div>
                   </Lens>
                 </div>
-                <div className="p-6 flex flex-col flex-grow relative z-10 bg-slate-900/60">
-                  <h3 className="text-lg font-bold text-white mb-2 font-[family-name:var(--font-pixel)] uppercase tracking-wide">
+                <div className="p-8 md:p-10 flex flex-col flex-grow relative z-10 bg-slate-900/60">
+                  <h3 className="text-xl font-bold text-white mb-4 font-[family-name:var(--font-pixel)] uppercase tracking-wide">
                     {project.title}
                   </h3>
-                  <p className="text-sm text-slate-400 line-clamp-2 mb-4 flex-grow">
+                  <p className="text-sm md:text-base text-slate-400 line-clamp-3 mb-6 flex-grow leading-relaxed">
                     {project.description}
                   </p>
                   <div className="flex flex-wrap gap-2">
@@ -176,17 +176,17 @@ export default function HomePage() {
         {/* =========================================
             4. COMMUNITY & SERVICES (The Funnel)
             ========================================= */}
-        <section className="max-w-5xl mx-auto px-6 pb-32">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <section className="max-w-6xl mx-auto px-6 pb-32 md:pb-48">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 md:gap-12">
             
             {/* Left: Community */}
             <motion.div 
               initial={{ opacity: 0, x: -30 }}
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
-              className="bg-amber-100/10 border-2 border-amber-100/30 rounded-3xl p-8 md:p-12 relative overflow-hidden flex flex-col justify-between"
+              className="bg-amber-100/10 border-2 border-amber-100/30 rounded-[2rem] p-10 md:p-16 relative overflow-hidden flex flex-col justify-between"
             >
-              <div className="absolute top-0 right-0 w-64 h-64 bg-amber-500/10 rounded-full blur-[80px] pointer-events-none" />
+              <div className="absolute top-0 right-0 w-80 h-80 bg-amber-500/10 rounded-full blur-[100px] pointer-events-none" />
               
               <div className="relative z-10 mb-12">
                 <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-amber-900/30 border border-amber-800/50 mb-6">
@@ -212,9 +212,9 @@ export default function HomePage() {
               initial={{ opacity: 0, x: 30 }}
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
-              className="bg-sky-900/20 border-2 border-sky-500/30 rounded-3xl p-8 md:p-12 relative overflow-hidden flex flex-col justify-between"
+              className="bg-sky-900/20 border-2 border-sky-500/30 rounded-[2rem] p-10 md:p-16 relative overflow-hidden flex flex-col justify-between"
             >
-              <div className="absolute top-0 left-0 w-64 h-64 bg-sky-500/10 rounded-full blur-[80px] pointer-events-none" />
+              <div className="absolute top-0 left-0 w-80 h-80 bg-sky-500/10 rounded-full blur-[100px] pointer-events-none" />
               
               <div className="relative z-10 mb-12">
                 <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-sky-900/50 border border-sky-800/50 mb-6">
