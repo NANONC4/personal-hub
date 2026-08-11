@@ -43,7 +43,7 @@ export const DiaTextReveal = ({
       variants={container}
       initial="hidden"
       whileInView="visible"
-      viewport={{ once: true, margin: "-50px" }}
+      viewport={{ once: true, margin: "-20% 0px -20% 0px" }}
       className={cn("flex flex-wrap gap-x-3 gap-y-2 relative z-0", className)}
     >
       {words.map((word, i) => {
