@@ -9,6 +9,8 @@ import { projects } from "@/data/projects";
 import Footer from "@/components/Footer";
 import { ArrowRight, MessageSquare, Terminal } from "lucide-react";
 
+import { Lens } from "@/components/Lens";
+
 export default function HomePage() {
   // Select top 3 projects to showcase
   const topProjects = projects.slice(0, 3);
@@ -130,16 +132,20 @@ export default function HomePage() {
                 transition={{ delay: idx * 0.15 }}
                 className="group relative flex flex-col bg-slate-900/60 rounded-2xl overflow-hidden border border-slate-800 hover:border-sky-500/50 transition-all hover:-translate-y-2 shadow-lg"
               >
-                <div className="relative h-48 w-full overflow-hidden bg-slate-950">
-                  <Image
-                    src={project.gallery[0]}
-                    alt={project.title}
-                    fill
-                    className="object-cover transition-transform duration-700 group-hover:scale-110 opacity-70 group-hover:opacity-100"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-slate-900 via-transparent to-transparent opacity-90" />
+                <div className="relative h-48 w-full bg-slate-950">
+                  <Lens zoomFactor={1.8} lensSize={140}>
+                    <div className="relative w-full h-full">
+                      <Image
+                        src={project.gallery[0]}
+                        alt={project.title}
+                        fill
+                        className="object-cover transition-transform duration-700 group-hover:scale-110 opacity-70 group-hover:opacity-100"
+                      />
+                      <div className="absolute inset-0 bg-gradient-to-t from-slate-900 via-transparent to-transparent opacity-90" />
+                    </div>
+                  </Lens>
                 </div>
-                <div className="p-6 flex flex-col flex-grow">
+                <div className="p-6 flex flex-col flex-grow relative z-10 bg-slate-900/60">
                   <h3 className="text-lg font-bold text-white mb-2 font-[family-name:var(--font-pixel)] uppercase tracking-wide">
                     {project.title}
                   </h3>

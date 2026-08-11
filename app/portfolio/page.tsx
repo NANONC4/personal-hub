@@ -8,6 +8,7 @@ import { projects } from "@/data/projects";
 import PortfolioFilter, { categories } from "@/components/PortfolioFilter";
 import { ExternalLink, FileText, ArrowRight } from "lucide-react";
 import Footer from "@/components/Footer";
+import { Lens } from "@/components/Lens";
 
 export default function PortfolioPage() {
   const [activeCategory, setActiveCategory] = useState("all");
@@ -76,19 +77,23 @@ export default function PortfolioPage() {
                 className="group relative flex flex-col bg-slate-900/60 rounded-2xl overflow-hidden border border-slate-800 hover:border-pink-500/50 transition-colors shadow-lg hover:shadow-[0_0_30px_rgba(236,72,153,0.15)]"
               >
                 {/* Image Container */}
-                <div className="relative h-56 w-full overflow-hidden bg-slate-950">
-                  <Image
-                    src={project.gallery[0]}
-                    alt={project.title}
-                    fill
-                    className="object-cover transition-transform duration-700 group-hover:scale-110 opacity-80 group-hover:opacity-100"
-                  />
-                  {/* Category Badge */}
-                  <div className="absolute top-4 left-4 z-10 px-3 py-1 bg-black/60 backdrop-blur-md rounded-full border border-white/10 font-mono text-xs uppercase tracking-widest text-slate-200">
-                    {project.category}
-                  </div>
-                  {/* Overlay Gradient */}
-                  <div className="absolute inset-0 bg-gradient-to-t from-slate-900 via-transparent to-transparent opacity-80" />
+                <div className="relative h-56 w-full bg-slate-950">
+                  <Lens zoomFactor={1.8} lensSize={160}>
+                    <div className="relative w-full h-full">
+                      <Image
+                        src={project.gallery[0]}
+                        alt={project.title}
+                        fill
+                        className="object-cover transition-transform duration-700 group-hover:scale-110 opacity-80 group-hover:opacity-100"
+                      />
+                      {/* Category Badge */}
+                      <div className="absolute top-4 left-4 z-10 px-3 py-1 bg-black/60 backdrop-blur-md rounded-full border border-white/10 font-mono text-xs uppercase tracking-widest text-slate-200">
+                        {project.category}
+                      </div>
+                      {/* Overlay Gradient */}
+                      <div className="absolute inset-0 bg-gradient-to-t from-slate-900 via-transparent to-transparent opacity-80" />
+                    </div>
+                  </Lens>
                 </div>
 
                 {/* Content */}
