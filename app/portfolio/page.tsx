@@ -6,7 +6,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { projects } from "@/data/projects";
 import PortfolioFilter, { categories } from "@/components/PortfolioFilter";
-import { ExternalLink, Github, FileText, ArrowRight } from "lucide-react";
+import { ExternalLink, FileText, ArrowRight } from "lucide-react";
 import Footer from "@/components/Footer";
 
 export default function PortfolioPage() {
@@ -132,7 +132,7 @@ export default function PortfolioPage() {
                         className="p-2 bg-slate-800 hover:bg-slate-700 text-slate-300 rounded-lg transition-colors border border-slate-700"
                         title="View Source"
                       >
-                        <Github className="w-5 h-5" />
+                        <img src="/github-142-svgrepo-com.svg" alt="GitHub" className="w-5 h-5 invert opacity-70" />
                       </Link>
                     )}
                     {project.links.document && (
