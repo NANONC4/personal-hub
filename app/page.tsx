@@ -10,6 +10,48 @@ import Footer from "@/components/Footer";
 import { ArrowRight, MessageSquare, Terminal } from "lucide-react";
 
 import { Lens } from "@/components/Lens";
+import { BentoGrid, BentoCard } from "@/components/BentoGrid";
+import { WebDevBackground, GamesBackground, QueueBackground, CommunityBackground } from "@/components/BentoAnimations";
+import { Code2, Gamepad2, CalendarDays } from "lucide-react";
+
+const features = [
+  {
+    Icon: Code2,
+    name: "Web Development",
+    description: "รับทำเว็บไซต์ระดับพรีเมียม ใส่ใจทั้งเรื่อง Code Performance และงาน UI/UX",
+    href: "/services",
+    cta: "View Service",
+    className: "col-span-1 md:col-span-2",
+    background: <WebDevBackground />,
+  },
+  {
+    Icon: Gamepad2,
+    name: "Mini Games",
+    description: "สร้างเกมบนเว็บและประสบการณ์ Interactive ด้วย Pixel Art",
+    href: "/services",
+    cta: "View Service",
+    className: "col-span-1",
+    background: <GamesBackground />,
+  },
+  {
+    Icon: CalendarDays,
+    name: "Queue Status",
+    description: "Available - ตอนนี้คิวว่าง พร้อมรับโปรเจกต์ใหม่!",
+    href: "/services",
+    cta: "Book Now",
+    className: "col-span-1",
+    background: <QueueBackground />,
+  },
+  {
+    Icon: MessageSquare,
+    name: "Midnight Cafe",
+    description: "แวะมาจิบกาแฟ คุยเรื่องโค้ด เรื่องเกม หรือหาเพื่อนทำโปรเจกต์ด้วยกัน",
+    href: "https://discord.gg/",
+    cta: "Join Discord",
+    className: "col-span-1 md:col-span-2",
+    background: <CommunityBackground />,
+  },
+];
 
 export default function HomePage() {
   // Select top 3 projects to showcase
@@ -174,68 +216,14 @@ export default function HomePage() {
         </section>
 
         {/* =========================================
-            4. COMMUNITY & SERVICES (The Funnel)
+            4. SERVICES & COMMUNITY (Bento Grid)
             ========================================= */}
         <section className="max-w-6xl mx-auto px-6 pb-32 md:pb-48">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 md:gap-12">
-            
-            {/* Left: Community */}
-            <motion.div 
-              initial={{ opacity: 0, x: -30 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true }}
-              className="bg-amber-100/10 border-2 border-amber-100/30 rounded-[2rem] p-10 md:p-16 relative overflow-hidden flex flex-col justify-between"
-            >
-              <div className="absolute top-0 right-0 w-80 h-80 bg-amber-500/10 rounded-full blur-[100px] pointer-events-none" />
-              
-              <div className="relative z-10 mb-12">
-                <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-amber-900/30 border border-amber-800/50 mb-6">
-                  <span className="font-mono text-xs tracking-widest text-amber-300 uppercase">Community</span>
-                </div>
-                <h3 className="text-3xl md:text-4xl font-[family-name:var(--font-pixel)] text-amber-100/90 mb-4 tracking-widest uppercase">
-                  Midnight Cafe
-                </h3>
-                <p className="text-slate-400 text-lg leading-relaxed">
-                  อยากคุยเรื่องโค้ด เรื่องเกม หรือหาเพื่อนทำโปรเจกต์สนุกๆ? แวะมาจิบกาแฟพูดคุยกันในคอมมูนิตี้ของเราได้นะครับ เปิดรับทุกคนเลย!
-                </p>
-              </div>
-
-              <div className="relative z-10 flex flex-col sm:flex-row gap-4">
-                <a href="https://discord.gg/" target="_blank" rel="noopener noreferrer" className="flex items-center justify-center gap-3 px-6 py-4 bg-[#5865F2] hover:bg-[#4752C4] text-white font-mono font-bold tracking-widest uppercase rounded-xl transition-all shadow-[0_0_15px_rgba(88,101,242,0.4)]">
-                  <MessageSquare className="w-5 h-5" /> Join Discord
-                </a>
-              </div>
-            </motion.div>
-
-            {/* Right: Hire Me */}
-            <motion.div 
-              initial={{ opacity: 0, x: 30 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true }}
-              className="bg-sky-900/20 border-2 border-sky-500/30 rounded-[2rem] p-10 md:p-16 relative overflow-hidden flex flex-col justify-between"
-            >
-              <div className="absolute top-0 left-0 w-80 h-80 bg-sky-500/10 rounded-full blur-[100px] pointer-events-none" />
-              
-              <div className="relative z-10 mb-12">
-                <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-sky-900/50 border border-sky-800/50 mb-6">
-                  <span className="font-mono text-xs tracking-widest text-sky-300 uppercase">Freelance</span>
-                </div>
-                <h3 className="text-3xl md:text-4xl font-[family-name:var(--font-pixel)] text-sky-100/90 mb-4 tracking-widest uppercase">
-                  Let's Work Together
-                </h3>
-                <p className="text-slate-400 text-lg leading-relaxed">
-                  มีโปรเจกต์เจ๋งๆ ที่อยากให้ผมช่วยเนรมิตให้เป็นจริงไหม? ลองเข้ามาดูแพ็กเกจรับทำเว็บ มินิเกม หรือคุยเรื่องไอเดียกันได้เลย
-                </p>
-              </div>
-
-              <div className="relative z-10 flex flex-col sm:flex-row gap-4">
-                <Link href="/services" className="flex items-center justify-center gap-3 px-6 py-4 bg-sky-500 hover:bg-sky-400 text-slate-950 font-mono font-bold tracking-widest uppercase rounded-xl transition-all shadow-[0_0_15px_rgba(14,165,233,0.4)]">
-                  <ArrowRight className="w-5 h-5" /> View Services
-                </Link>
-              </div>
-            </motion.div>
-
-          </div>
+          <BentoGrid>
+            {features.map((feature, idx) => (
+              <BentoCard key={idx} {...feature} />
+            ))}
+          </BentoGrid>
         </section>
 
       </div>
