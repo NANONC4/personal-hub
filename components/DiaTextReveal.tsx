@@ -1,6 +1,6 @@
 "use client";
 
-import { motion, Variants } from "framer-motion";
+import { motion } from "framer-motion";
 import { cn } from "@/lib/utils";
 
 interface DiaTextRevealProps {
@@ -14,26 +14,14 @@ export const DiaTextReveal = ({
   className,
   colors = ["#38bdf8", "#f472b6", "#c084fc"],
 }: DiaTextRevealProps) => {
-  const words = text.split(" ");
+  const characters = text.split("");
 
   const container = {
     hidden: { opacity: 0 },
-    visible: (i = 1) => ({
-      opacity: 1,
-      transition: { staggerChildren: 0.1, delayChildren: 0.1 * i },
-    }),
-  };
-
-  const child: Variants = {
-    hidden: { opacity: 0, filter: "blur(10px)", y: 20 },
     visible: {
       opacity: 1,
-      filter: "blur(0px)",
-      y: 0,
       transition: {
-        type: "spring",
-        damping: 12,
-        stiffness: 100,
+        staggerChildren: 0.1, // Stagger from left to right
       },
     },
   };
@@ -44,19 +32,39 @@ export const DiaTextReveal = ({
       initial="hidden"
       whileInView="visible"
       viewport={{ once: true, margin: "-20% 0px -20% 0px" }}
-      className={cn("flex flex-wrap gap-x-3 gap-y-2 relative z-0", className)}
+      className={cn("flex flex-wrap relative z-0", className)}
     >
-      {words.map((word, i) => {
-        // Randomly assign a color to the text shadow for the premium feel
+      {characters.map((char, i) => {
         const color = colors[i % colors.length];
+        
         return (
           <motion.span
             key={i}
-            variants={child}
-            className="relative text-foreground font-black tracking-tight drop-shadow-md"
-            style={{ textShadow: `0 0 20px ${color}80` }}
+            variants={{
+              hidden: { 
+                opacity: 0, 
+                textShadow: `0 0 0px transparent` 
+              },
+              visible: {
+                opacity: 1,
+                textShadow: [
+                  `0 0 0px transparent`,
+                  `0 0 40px ${color}, 0 0 20px ${color}`, // intense glow flash
+                  `0 0 10px ${color}40`, // settles to subtle shadow
+                ],
+                transition: {
+                  duration: 1.5,
+                  times: [0, 0.4, 1], // The glow flashes in the middle then fades
+                  ease: "easeOut",
+                }
+              },
+            }}
+            className={cn(
+              "relative text-foreground font-black tracking-tight",
+              char === " " ? "w-3" : "" // preserve spaces
+            )}
           >
-            {word}
+            {char}
           </motion.span>
         );
       })}

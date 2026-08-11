@@ -13,8 +13,8 @@ interface PixelImageProps {
 
 export function PixelImage({ src, alt, className }: PixelImageProps) {
   const ref = useRef(null);
-  // trigger only when the image is near the middle of the viewport
-  const isInView = useInView(ref, { once: false, margin: "-30% 0px -30% 0px" });
+  // trigger only when the image reaches the center 20% of the screen
+  const isInView = useInView(ref, { once: false, margin: "-40% 0px -40% 0px" });
 
   return (
     <div 
