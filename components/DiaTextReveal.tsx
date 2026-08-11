@@ -1,7 +1,6 @@
 "use client";
 
-import { motion, useScroll, useTransform } from "framer-motion";
-import { useRef } from "react";
+import { motion, Variants } from "framer-motion";
 import { cn } from "@/lib/utils";
 
 interface DiaTextRevealProps {
@@ -15,43 +14,52 @@ export const DiaTextReveal = ({
   className,
   colors = ["#38bdf8", "#f472b6", "#c084fc"],
 }: DiaTextRevealProps) => {
-  const targetRef = useRef<HTMLDivElement | null>(null);
-
-  const { scrollYProgress } = useScroll({
-    target: targetRef,
-    offset: ["start 80%", "end 50%"],
-  });
-
   const words = text.split(" ");
 
-  return (
-    <div ref={targetRef} className={cn("relative z-0", className)}>
-      <p className="flex flex-wrap gap-x-3 gap-y-2">
-        {words.map((word, i) => {
-          const start = i / words.length;
-          const end = start + 1 / words.length;
-          return (
-            <Word key={i} progress={scrollYProgress} range={[start, end]} colors={colors}>
-              {word}
-            </Word>
-          );
-        })}
-      </p>
-    </div>
-  );
-};
+  const container = {
+    hidden: { opacity: 0 },
+    visible: (i = 1) => ({
+      opacity: 1,
+      transition: { staggerChildren: 0.1, delayChildren: 0.1 * i },
+    }),
+  };
 
-const Word = ({ children, progress, range, colors }: any) => {
-  const opacity = useTransform(progress, range, [0.2, 1]);
-  // Use colors array to create a static text shadow or gradient mapping
-  const color = colors[Math.floor(Math.random() * colors.length)];
+  const child: Variants = {
+    hidden: { opacity: 0, filter: "blur(10px)", y: 20 },
+    visible: {
+      opacity: 1,
+      filter: "blur(0px)",
+      y: 0,
+      transition: {
+        type: "spring",
+        damping: 12,
+        stiffness: 100,
+      },
+    },
+  };
 
   return (
-    <span className="relative">
-      <span className="absolute opacity-20">{children}</span>
-      <motion.span style={{ opacity }} className="relative text-foreground drop-shadow-md">
-        {children}
-      </motion.span>
-    </span>
+    <motion.div
+      variants={container}
+      initial="hidden"
+      whileInView="visible"
+      viewport={{ once: true, margin: "-50px" }}
+      className={cn("flex flex-wrap gap-x-3 gap-y-2 relative z-0", className)}
+    >
+      {words.map((word, i) => {
+        // Randomly assign a color to the text shadow for the premium feel
+        const color = colors[i % colors.length];
+        return (
+          <motion.span
+            key={i}
+            variants={child}
+            className="relative text-foreground font-black tracking-tight drop-shadow-md"
+            style={{ textShadow: `0 0 20px ${color}80` }}
+          >
+            {word}
+          </motion.span>
+        );
+      })}
+    </motion.div>
   );
 };

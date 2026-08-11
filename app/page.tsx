@@ -84,15 +84,21 @@ export default function HomePage() {
               <span className="font-mono text-sm tracking-widest text-slate-300 uppercase">Welcome to my digital space</span>
             </div>
 
-            <div className="mb-8">
-              <h1 className="text-5xl md:text-7xl lg:text-8xl font-black tracking-tighter leading-[1.1] text-foreground drop-shadow-lg flex items-end gap-4">
-                <KineticText text="Hi, I'm" />
+            <div className="mb-8 flex flex-wrap items-end gap-3 md:gap-4">
+              <h1 className="text-5xl md:text-7xl lg:text-8xl font-black tracking-tighter leading-[1.1] text-foreground drop-shadow-lg flex flex-wrap items-end gap-3 md:gap-4">
+                <KineticText text="Hi," />
+                <KineticText text="I'm" />
                 <span className="text-transparent bg-clip-text bg-gradient-to-r from-sky-400 via-pink-400 to-purple-400 animate-gradient-text inline-block">
                   <KineticText text="Dia." />
                 </span>
               </h1>
             </div>
             
+            <div className="mb-12 flex flex-wrap items-center gap-4 text-3xl md:text-5xl font-[family-name:var(--font-pixel)] drop-shadow-lg">
+              <KineticText text="Creative" className="text-pink-400" />
+              <KineticText text="Developer" className="text-sky-400" />
+            </div>
+
             <p className="text-xl md:text-2xl text-slate-400 max-w-2xl font-medium leading-relaxed mb-12">
               นักพัฒนาที่หลงใหลในศิลปะ <span className="text-pink-400 font-[family-name:var(--font-pixel)] tracking-widest">Pixel Art</span> สร้างสรรค์ประสบการณ์บนเว็บไซต์และมินิเกม เพื่อเปลี่ยนไอเดียให้กลายเป็นโค้ดที่จับต้องได้
             </p>
