@@ -4,6 +4,7 @@ import { motion } from "framer-motion";
 import Footer from "@/components/Footer";
 import { PixelStar, PixelMail, PixelCoffee } from "@/components/PixelIcons";
 import { Star, ExternalLink } from "lucide-react";
+import PixelSky from "@/components/PixelSky";
 
 const reviews = [
   {
@@ -32,6 +33,8 @@ const reviews = [
 export default function ContactPage() {
   return (
     <main className="min-h-screen bg-[#050B14] text-slate-200 font-[family-name:var(--font-geist-sans)] pt-24 selection:bg-pink-500/30 overflow-x-hidden flex flex-col">
+      {/* Background */}
+      <PixelSky className="fixed inset-0 z-0 opacity-40 pointer-events-none" />
       
       {/* Header */}
       <section className="max-w-4xl mx-auto px-6 py-12 lg:py-16 flex flex-col items-center text-center">

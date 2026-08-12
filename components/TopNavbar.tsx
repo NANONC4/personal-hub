@@ -5,7 +5,6 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
 import { PixelStar } from './PixelIcons';
-import { AnimatedThemeToggler } from './AnimatedThemeToggler';
 
 const links = [
   { name: 'Home', href: '/' },
@@ -79,9 +78,8 @@ export default function TopNavbar() {
             })}
           </nav>
 
-          {/* Right Side: Theme + Mobile Toggle */}
+          {/* Right Side: Mobile Toggle */}
           <div className="flex items-center gap-4 z-50 relative">
-            <AnimatedThemeToggler />
             
             {/* Mobile Hamburger Toggle */}
             <button 

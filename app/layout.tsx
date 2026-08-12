@@ -52,7 +52,6 @@ export const metadata: Metadata = {
   },
 };
 
-import { ThemeProvider } from "@/components/ThemeProvider";
 import SmoothScroll from "@/components/SmoothScroll";
 import TopNavbar from "@/components/TopNavbar";
 
@@ -60,12 +59,14 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="en" suppressHydrationWarning>
       <body className={`${inter.variable} ${silkscreen.variable} ${inter.className} bg-background text-foreground antialiased`}>
-        <ThemeProvider attribute="class" defaultTheme="dark" enableSystem disableTransitionOnChange>
-          <SmoothScroll>
+        <SmoothScroll>
+          <div className="relative flex min-h-screen flex-col">
             <TopNavbar />
-            {children}
-          </SmoothScroll>
-        </ThemeProvider>
+            <div className="flex-1">
+              {children}
+            </div>
+          </div>
+        </SmoothScroll>
       </body>
     </html>
   );

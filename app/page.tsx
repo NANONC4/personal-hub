@@ -117,14 +117,14 @@ export default function HomePage() {
         {/* =========================================
             2. MY PURPOSE & JOURNEY (About Me)
             ========================================= */}
-        <section id="about" className="w-full bg-background border-y border-slate-200 dark:border-slate-800 py-32 md:py-48 relative z-20 transition-colors duration-300">
+        <section id="about" className="w-full bg-[#0a0f1c] border-y border-slate-800 py-32 md:py-48 relative z-20 transition-colors duration-300">
           <div className="max-w-5xl mx-auto px-6 flex flex-col md:flex-row gap-16 md:gap-32 items-center">
             
             <motion.div 
               initial={{ opacity: 0, scale: 0.9 }}
               whileInView={{ opacity: 1, scale: 1 }}
               viewport={{ once: true, margin: "-100px" }}
-              className="w-48 h-48 md:w-64 md:h-64 shrink-0 rounded-3xl overflow-hidden border-4 border-slate-200 dark:border-slate-800 shadow-[20px_20px_0_0_rgba(15,23,42,0.1)] dark:shadow-[20px_20px_0_0_rgba(15,23,42,1)] bg-slate-100 dark:bg-slate-900 relative transition-all duration-300"
+              className="w-48 h-48 md:w-64 md:h-64 shrink-0 rounded-3xl overflow-hidden border-4 border-slate-800 shadow-[20px_20px_0_0_rgba(15,23,42,1)] bg-slate-900 relative transition-all duration-300"
             >
               <PixelImage 
                 src="/จอตั้ง.png" 
@@ -142,7 +142,7 @@ export default function HomePage() {
               <div className="text-3xl md:text-5xl font-[family-name:var(--font-pixel)] mb-8 uppercase tracking-wider h-16">
                 <DiaTextReveal text="Who am I?" />
               </div>
-              <div className="space-y-6 text-slate-600 dark:text-slate-400 text-lg md:text-xl leading-loose font-medium transition-colors duration-300">
+              <div className="space-y-6 text-slate-400 text-lg md:text-xl leading-loose font-medium transition-colors duration-300">
                 <p>
                   ผมเป็น <strong>Creative Developer</strong> ที่เชื่อว่าเว็บไซต์ไม่ควรเป็นแค่หน้ากระดาษแบนๆ แต่ควรเป็น "พื้นที่" (Space) ที่ให้ความรู้สึกเหมือนมีชีวิต
                 </p>
@@ -160,18 +160,18 @@ export default function HomePage() {
         {/* =========================================
             3. MY ARSENAL (Tech Stack Icon Cloud)
             ========================================= */}
-        <section className="w-full bg-slate-100 dark:bg-slate-950/50 py-24 md:py-32 relative z-20 border-b border-slate-200 dark:border-slate-800 transition-colors duration-300 overflow-hidden">
+        <section className="w-full bg-slate-950/50 py-24 md:py-32 relative z-20 border-b border-slate-800 transition-colors duration-300 overflow-hidden">
           <div className="max-w-6xl mx-auto px-6">
             <div className="text-center mb-16">
-              <h2 className="text-3xl md:text-5xl font-[family-name:var(--font-pixel)] text-foreground mb-4 uppercase tracking-wider">
+              <h2 className="text-3xl md:text-5xl font-[family-name:var(--font-pixel)] text-white mb-4 uppercase tracking-wider">
                 My Arsenal
               </h2>
-              <p className="text-slate-500 dark:text-slate-400 font-mono text-sm tracking-widest uppercase">
+              <p className="text-slate-400 font-mono text-sm tracking-widest uppercase">
                 Tools & Technologies I use to build digital spaces
               </p>
             </div>
             
-            <div className="h-[400px] md:h-[500px] w-full rounded-[2rem] border border-slate-200 dark:border-slate-800 bg-white dark:bg-[#0a0f1c] shadow-xl dark:shadow-[0_0_50px_-12px_rgba(236,72,153,0.1)] flex items-center justify-center relative overflow-hidden transition-all duration-300">
+            <div className="h-[400px] md:h-[500px] w-full rounded-[2rem] border border-slate-800 bg-[#0a0f1c] shadow-[0_0_50px_-12px_rgba(236,72,153,0.1)] flex items-center justify-center relative overflow-hidden transition-all duration-300">
               <IconCloud 
                 slugs={[
                   "react", "nextdotjs", "typescript", "javascript", "nodedotjs",
