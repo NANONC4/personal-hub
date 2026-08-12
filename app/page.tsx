@@ -171,7 +171,7 @@ export default function HomePage() {
         {/* =========================================
             3. MY ARSENAL (Tech Stack Icon Cloud)
             ========================================= */}
-        <section className="w-full bg-slate-950/50 py-32 md:py-48 relative z-20 border-b border-slate-800 transition-colors duration-300 overflow-hidden">
+        <section className="w-full py-32 md:py-48 relative z-20 transition-colors duration-300 overflow-hidden">
           <div className="w-full">
             <div className="text-center mb-16">
               <h2 className="text-4xl md:text-6xl font-[family-name:var(--font-pixel)] text-white mb-6 uppercase tracking-wider">
@@ -182,7 +182,7 @@ export default function HomePage() {
               </p>
             </div>
             
-            <div className="h-[400px] md:h-[600px] w-full border-y border-slate-800 bg-[#0a0f1c] shadow-[0_0_100px_-20px_rgba(236,72,153,0.1)] flex items-center justify-center relative overflow-hidden transition-all duration-300">
+            <div className="h-[400px] md:h-[600px] w-full flex items-center justify-center relative overflow-hidden transition-all duration-300">
               <IconCloud 
                 slugs={[
                   "react", "nextdotjs", "typescript", "javascript", "nodedotjs",
@@ -197,7 +197,8 @@ export default function HomePage() {
         {/* =========================================
             4. CREATIVE SANDBOX (Projects)
             ========================================= */}
-        <section className="max-w-7xl mx-auto px-6 py-48 md:py-64">
+        <section className="w-full bg-[#050810] border-y border-slate-800 relative z-20 py-32 md:py-48 mb-32">
+          <div className="max-w-7xl mx-auto px-6">
           <motion.div 
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -261,17 +262,18 @@ export default function HomePage() {
             ))}
           </div>
           
-          <div className="mt-12 flex justify-center">
+          <div className="mt-16 flex justify-center">
             <Link href="/showreel" className="group relative px-8 py-4 bg-transparent border-2 border-pink-500/50 hover:bg-pink-500 text-pink-400 hover:text-white font-mono font-bold tracking-widest uppercase rounded-lg transition-all">
               <span className="flex items-center gap-2">
                 Experience Full Showreel <PixelHeart className="w-5 h-5 opacity-70 group-hover:opacity-100 transition-opacity" />
               </span>
             </Link>
           </div>
+          </div>
         </section>
 
         {/* =========================================
-            4. SERVICES & COMMUNITY (Bento Grid)
+            5. SERVICES & COMMUNITY (Bento Grid)
             ========================================= */}
         <section className="max-w-6xl mx-auto px-6 pb-32 md:pb-48">
           <BentoGrid>
