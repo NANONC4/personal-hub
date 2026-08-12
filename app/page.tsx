@@ -117,8 +117,7 @@ export default function HomePage() {
         {/* =========================================
             2. MY PURPOSE & JOURNEY (About Me)
             ========================================= */}
-        <section id="about" className="w-full bg-[#050810] border-y border-slate-800 relative z-20 transition-colors duration-300 overflow-hidden py-24 lg:py-32">
-          {/* Subtle unified background grid */}
+        <section id="about" className="w-full relative z-20 transition-colors duration-300 overflow-hidden min-h-screen flex flex-col justify-center bg-[#0a0f1c]/80 backdrop-blur-2xl border-y border-slate-800/60 py-24">
           <div className="absolute inset-0 bg-[linear-gradient(to_right,#8080800a_1px,transparent_1px),linear-gradient(to_bottom,#8080800a_1px,transparent_1px)] bg-[size:32px_32px]" />
           
           <div className="max-w-6xl mx-auto px-6 flex flex-col lg:flex-row items-center justify-center gap-16 lg:gap-24 relative z-10">
@@ -197,7 +196,7 @@ export default function HomePage() {
         {/* =========================================
             4. CREATIVE SANDBOX (Projects)
             ========================================= */}
-        <section className="w-full bg-[#050810] border-y border-slate-800 relative z-20 py-32 md:py-48 mb-32">
+        <section className="w-full bg-[#0a0f1c]/80 backdrop-blur-2xl border-y border-slate-800/60 relative z-20 py-32 md:py-48 mb-32">
           <div className="max-w-7xl mx-auto px-6">
           <motion.div 
             initial={{ opacity: 0, y: 30 }}
