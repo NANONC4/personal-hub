@@ -117,20 +117,23 @@ export default function HomePage() {
         {/* =========================================
             2. MY PURPOSE & JOURNEY (About Me)
             ========================================= */}
-        <section id="about" className="w-full bg-[#050810] border-y border-slate-800 relative z-20 transition-colors duration-300 overflow-hidden">
-          <div className="flex flex-col lg:flex-row w-full items-stretch">
+        <section id="about" className="w-full bg-[#050810] border-y border-slate-800 relative z-20 transition-colors duration-300 overflow-hidden py-24 lg:py-32">
+          {/* Subtle unified background grid */}
+          <div className="absolute inset-0 bg-[linear-gradient(to_right,#8080800a_1px,transparent_1px),linear-gradient(to_bottom,#8080800a_1px,transparent_1px)] bg-[size:32px_32px]" />
+          
+          <div className="max-w-6xl mx-auto px-6 flex flex-col lg:flex-row items-center justify-center gap-16 lg:gap-24 relative z-10">
             
-            {/* Left side: Avatar (Edge-to-Edge) */}
+            {/* Left side: Avatar (Floating & Unified) */}
             <motion.div 
-              initial={{ opacity: 0, x: -50 }}
-              whileInView={{ opacity: 1, x: 0 }}
+              initial={{ opacity: 0, y: 50 }}
+              whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "-100px" }}
-              className="w-full lg:w-1/2 min-h-[400px] lg:min-h-[80vh] bg-slate-900/50 border-b lg:border-b-0 lg:border-r border-slate-800 flex items-center justify-center p-12 relative"
+              className="relative group shrink-0"
             >
-              {/* Decorative background grid in avatar section */}
-              <div className="absolute inset-0 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:24px_24px]" />
+              {/* Soft glow behind the avatar */}
+              <div className="absolute -inset-4 bg-gradient-to-r from-sky-500/20 to-purple-500/20 blur-2xl rounded-full opacity-50 group-hover:opacity-80 transition-opacity duration-700" />
               
-              <div className="w-56 h-56 md:w-72 md:h-72 xl:w-80 xl:h-80 shrink-0 rounded-[2rem] overflow-hidden border-4 border-slate-800 shadow-[20px_20px_0_0_rgba(15,23,42,1)] bg-[#0a0f1c] relative z-10 transition-transform hover:scale-105 duration-500">
+              <div className="w-64 h-64 md:w-72 md:h-72 lg:w-80 lg:h-80 xl:w-96 xl:h-96 shrink-0 rounded-3xl overflow-hidden border-2 border-slate-700/50 shadow-[0_0_40px_rgba(0,0,0,0.5)] bg-[#0a0f1c] relative z-10 transition-all hover:scale-[1.02] duration-500 hover:border-slate-500/50 hover:shadow-[0_0_50px_rgba(56,189,248,0.15)]">
                 <PixelImage 
                   src="/จอตั้ง.png" 
                   alt="Dia Avatar"
@@ -139,25 +142,26 @@ export default function HomePage() {
               </div>
             </motion.div>
 
-            {/* Right side: Text (Breathing Room) */}
+            {/* Right side: Text (Elegant Typography) */}
             <motion.div 
-              initial={{ opacity: 0, x: 50 }}
+              initial={{ opacity: 0, x: 30 }}
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true, margin: "-100px" }}
-              className="w-full lg:w-1/2 flex flex-col justify-center px-8 py-16 lg:px-20 xl:px-24"
+              className="flex flex-col justify-center max-w-xl text-left"
             >
-              <div className="text-3xl md:text-5xl font-[family-name:var(--font-pixel)] mb-8 uppercase tracking-wider h-16 text-white">
+              <div className="text-3xl md:text-5xl font-[family-name:var(--font-pixel)] mb-8 uppercase tracking-wider text-white relative">
                 <DiaTextReveal text="Who am I?" />
+                <div className="absolute -left-6 top-1/2 -translate-y-1/2 w-1 h-12 bg-gradient-to-b from-sky-400 to-pink-500 rounded-full hidden md:block" />
               </div>
-              <div className="space-y-6 text-slate-400 text-lg md:text-xl leading-relaxed font-medium">
+              <div className="space-y-6 text-slate-300 text-lg md:text-xl leading-relaxed font-medium">
                 <p>
-                  ผมเป็น <strong className="text-white">Creative Developer</strong> ที่เชื่อว่าเว็บไซต์ไม่ควรเป็นแค่หน้ากระดาษแบนๆ แต่ควรเป็น "พื้นที่" (Space) ที่ให้ความรู้สึกเหมือนมีชีวิต
+                  ผมเป็น <strong className="text-white font-bold">Creative Developer</strong> ที่เชื่อว่าเว็บไซต์ไม่ควรเป็นแค่หน้ากระดาษแบนๆ แต่ควรเป็น "พื้นที่" (Space) ที่ให้ความรู้สึกเหมือนมีชีวิต
                 </p>
                 <p>
-                  จุดเริ่มต้นของผมมาจากการชอบเล่นเกมยุค 90s และความหลงใหลในความคลาสสิกของ Pixel Art ผมจึงตั้งใจนำกลิ่นอายความ Nostalgia เหล่านั้น มาผสมผสานกับเทคโนโลยีเว็บสมัยใหม่ เพื่อสร้างประสบการณ์ที่ทำให้คนที่เข้ามาดูรู้สึก "ว้าว"
+                  จุดเริ่มต้นของผมมาจากการชอบเล่นเกมยุค 90s และความหลงใหลในความคลาสสิกของ <span className="text-pink-400 font-[family-name:var(--font-pixel)] tracking-widest text-sm uppercase">Pixel Art</span> ผมจึงตั้งใจนำกลิ่นอายความ Nostalgia เหล่านั้น มาผสมผสานกับเทคโนโลยีเว็บสมัยใหม่ เพื่อสร้างประสบการณ์ที่ทำให้คนที่เข้ามาดูรู้สึก "ว้าว"
                 </p>
-                <p>
-                  เป้าหมายของผมคือการ <strong className="text-white">"ทลายขอบเขตระหว่างงานศิลปะและการเขียนโค้ด"</strong> ทุกบรรทัดที่ผมเขียน คือความพยายามในการสร้างโลกใบเล็กๆ ที่มีเอกลักษณ์เฉพาะตัวให้ทุกคนได้สัมผัสครับ
+                <p className="border-l-2 border-slate-700 pl-4 text-slate-400 italic">
+                  เป้าหมายของผมคือการ <strong className="text-white not-italic font-bold">"ทลายขอบเขตระหว่างงานศิลปะและการเขียนโค้ด"</strong> ทุกบรรทัดที่ผมเขียน คือความพยายามในการสร้างโลกใบเล็กๆ ที่มีเอกลักษณ์เฉพาะตัวให้ทุกคนได้สัมผัสครับ
                 </p>
               </div>
             </motion.div>
