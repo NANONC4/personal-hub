@@ -18,6 +18,7 @@ import { KineticText } from "@/components/KineticText";
 import { PixelImage } from "@/components/PixelImage";
 import { DiaTextReveal } from "@/components/DiaTextReveal";
 import { IconCloud } from "@/components/IconCloud";
+import { SpaceShooterMiniGame } from "@/components/SpaceShooterMiniGame";
 
 const features = [
   {
@@ -122,23 +123,13 @@ export default function HomePage() {
           
           <div className="max-w-6xl mx-auto px-6 flex flex-col lg:flex-row items-center justify-center gap-16 lg:gap-24 relative z-10">
             
-            {/* Left side: Avatar (Floating & Unified) */}
+            {/* Left side: Space Shooter Mini-Game */}
             <motion.div 
               initial={{ opacity: 0, y: 50 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "-100px" }}
-              className="relative group shrink-0"
             >
-              {/* Soft glow behind the avatar */}
-              <div className="absolute -inset-4 bg-gradient-to-r from-sky-500/20 to-purple-500/20 blur-2xl rounded-full opacity-50 group-hover:opacity-80 transition-opacity duration-700" />
-              
-              <div className="w-64 h-64 md:w-72 md:h-72 lg:w-80 lg:h-80 xl:w-96 xl:h-96 shrink-0 rounded-3xl overflow-hidden border-2 border-slate-700/50 shadow-[0_0_40px_rgba(0,0,0,0.5)] bg-[#0a0f1c] relative z-10 transition-all hover:scale-[1.02] duration-500 hover:border-slate-500/50 hover:shadow-[0_0_50px_rgba(56,189,248,0.15)]">
-                <PixelImage 
-                  src="/จอตั้ง.png" 
-                  alt="Dia Avatar"
-                  className="w-full h-full object-cover"
-                />
-              </div>
+              <SpaceShooterMiniGame />
             </motion.div>
 
             {/* Right side: Text (Elegant Typography) */}
