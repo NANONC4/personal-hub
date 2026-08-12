@@ -3,7 +3,7 @@
 import { motion, Variants } from "framer-motion";
 import Footer from "@/components/Footer";
 import { PixelStar, PixelSparkle } from "@/components/PixelIcons";
-import PixelSky from "@/components/PixelSky";
+import AuroraBackground from "@/components/AuroraBackground";
 import { Code, Gamepad2, LayoutPanelLeft, Clock, CheckCircle2 } from "lucide-react";
 
 export default function ServicesPage() {
@@ -23,7 +23,7 @@ export default function ServicesPage() {
   return (
     <main className="min-h-screen bg-[#050B14] text-slate-200 font-[family-name:var(--font-geist-sans)] pt-24 selection:bg-sky-500/30 overflow-x-hidden">
       {/* Background */}
-      <PixelSky className="fixed inset-0 z-0 opacity-40 pointer-events-none" />
+      <AuroraBackground className="fixed inset-0 z-0 opacity-80 pointer-events-none" />
       
       {/* Header Section */}
       <section className="max-w-7xl mx-auto px-6 py-12 lg:py-16 flex flex-col items-center text-center">
