@@ -72,20 +72,20 @@ export default function HomePage() {
         {/* =========================================
             1. THE WELCOME (Hero Section)
             ========================================= */}
-        <section className="max-w-7xl mx-auto px-6 py-32 lg:py-48 flex flex-col items-start min-h-screen justify-center">
+        <section className="max-w-6xl mx-auto px-6 py-20 lg:py-32 flex flex-col items-start min-h-[90vh] justify-center pb-20">
           <motion.div 
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 1, ease: "easeOut" }}
             className="w-full"
           >
-            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-slate-800/80 border border-slate-700/50 mb-12">
+            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-slate-800/80 border border-slate-700/50 mb-10">
               <span className="animate-pulse">👾</span>
               <span className="font-mono text-sm tracking-widest text-slate-300 uppercase">Welcome to my digital space</span>
             </div>
 
             <div className="mb-10 flex flex-wrap items-end gap-3 md:gap-4">
-              <h1 className="text-6xl md:text-8xl lg:text-9xl font-black tracking-tighter leading-[1] text-foreground drop-shadow-lg flex flex-wrap items-end gap-3 md:gap-4">
+              <h1 className="text-5xl md:text-7xl lg:text-8xl font-black tracking-tighter leading-[1] text-foreground drop-shadow-lg flex flex-wrap items-end gap-3 md:gap-4">
                 <KineticText text="Hi," />
                 <KineticText text="I'm" />
                 <span className="text-transparent bg-clip-text bg-gradient-to-r from-sky-400 via-pink-400 to-purple-400 animate-gradient-text inline-block">
@@ -94,12 +94,12 @@ export default function HomePage() {
               </h1>
             </div>
             
-            <div className="mb-16 flex flex-wrap items-center gap-6 text-4xl md:text-6xl font-[family-name:var(--font-pixel)] drop-shadow-lg">
+            <div className="mb-12 flex flex-wrap items-center gap-4 text-3xl md:text-5xl font-[family-name:var(--font-pixel)] drop-shadow-lg">
               <KineticText text="Creative" className="text-pink-400" />
               <KineticText text="Developer" className="text-sky-400" />
             </div>
 
-            <p className="text-2xl md:text-3xl text-slate-400 max-w-3xl font-medium leading-relaxed mb-16">
+            <p className="text-xl md:text-2xl text-slate-400 max-w-2xl font-medium leading-relaxed mb-12">
               นักพัฒนาที่หลงใหลในศิลปะ <span className="text-pink-400 font-[family-name:var(--font-pixel)] tracking-widest">Pixel Art</span> สร้างสรรค์ประสบการณ์บนเว็บไซต์และมินิเกม เพื่อเปลี่ยนไอเดียให้กลายเป็นโค้ดที่จับต้องได้
             </p>
 
@@ -108,7 +108,7 @@ export default function HomePage() {
                 asLink 
                 href="#about" 
                 text="Read My Story" 
-                className="w-64 h-14 text-lg"
+                className="w-56 h-12 text-base"
               />
             </div>
           </motion.div>
@@ -125,12 +125,12 @@ export default function HomePage() {
               initial={{ opacity: 0, x: -50 }}
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true, margin: "-100px" }}
-              className="w-full lg:w-1/2 min-h-[500px] lg:min-h-screen bg-slate-900/50 border-b lg:border-b-0 lg:border-r border-slate-800 flex items-center justify-center p-12 relative"
+              className="w-full lg:w-1/2 min-h-[400px] lg:min-h-[80vh] bg-slate-900/50 border-b lg:border-b-0 lg:border-r border-slate-800 flex items-center justify-center p-12 relative"
             >
               {/* Decorative background grid in avatar section */}
               <div className="absolute inset-0 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:24px_24px]" />
               
-              <div className="w-64 h-64 md:w-80 md:h-80 xl:w-96 xl:h-96 shrink-0 rounded-[2rem] overflow-hidden border-4 border-slate-800 shadow-[30px_30px_0_0_rgba(15,23,42,1)] bg-[#0a0f1c] relative z-10 transition-transform hover:scale-105 duration-500">
+              <div className="w-56 h-56 md:w-72 md:h-72 xl:w-80 xl:h-80 shrink-0 rounded-[2rem] overflow-hidden border-4 border-slate-800 shadow-[20px_20px_0_0_rgba(15,23,42,1)] bg-[#0a0f1c] relative z-10 transition-transform hover:scale-105 duration-500">
                 <PixelImage 
                   src="/จอตั้ง.png" 
                   alt="Dia Avatar"
@@ -144,12 +144,12 @@ export default function HomePage() {
               initial={{ opacity: 0, x: 50 }}
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true, margin: "-100px" }}
-              className="w-full lg:w-1/2 flex flex-col justify-center px-8 py-24 lg:px-24 xl:px-32"
+              className="w-full lg:w-1/2 flex flex-col justify-center px-8 py-16 lg:px-20 xl:px-24"
             >
-              <div className="text-4xl md:text-6xl font-[family-name:var(--font-pixel)] mb-12 uppercase tracking-wider h-20 text-white">
+              <div className="text-3xl md:text-5xl font-[family-name:var(--font-pixel)] mb-8 uppercase tracking-wider h-16 text-white">
                 <DiaTextReveal text="Who am I?" />
               </div>
-              <div className="space-y-8 text-slate-400 text-xl md:text-2xl leading-relaxed font-medium">
+              <div className="space-y-6 text-slate-400 text-lg md:text-xl leading-relaxed font-medium">
                 <p>
                   ผมเป็น <strong className="text-white">Creative Developer</strong> ที่เชื่อว่าเว็บไซต์ไม่ควรเป็นแค่หน้ากระดาษแบนๆ แต่ควรเป็น "พื้นที่" (Space) ที่ให้ความรู้สึกเหมือนมีชีวิต
                 </p>
