@@ -57,30 +57,32 @@ export default function PortfolioPage() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.3 }}
-          className="w-full max-w-xl mx-auto bg-slate-900/50 border border-slate-800 p-2 rounded-xl backdrop-blur-sm"
+          className="w-full max-w-2xl mx-auto bg-slate-900/40 border border-slate-800 p-3 rounded-2xl backdrop-blur-md mb-24"
         >
-          <div className="flex flex-wrap justify-center gap-2 w-full">
+          <div className="flex flex-wrap justify-center gap-3 w-full">
              <PortfolioFilter activeCategory={activeCategory} onSelectCategory={setActiveCategory} />
           </div>
         </motion.div>
       </section>
 
       {/* Grid Section */}
-      <section className="max-w-7xl mx-auto px-6 pb-32">
-        <motion.div layout className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+      <section className="max-w-7xl mx-auto px-6 pb-48">
+        <motion.div layout className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-10 lg:gap-16 items-start">
           <AnimatePresence mode="popLayout">
             {filteredProjects.map((project, index) => (
               <motion.div
                 key={project.id}
                 layout
-                initial={{ opacity: 0, scale: 0.9 }}
-                animate={{ opacity: 1, scale: 1 }}
+                initial={{ opacity: 0, y: 50 }}
+                animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, scale: 0.9 }}
-                transition={{ duration: 0.4, type: "spring", bounce: 0.2 }}
-                className="group relative flex flex-col bg-slate-900/60 rounded-2xl overflow-hidden border border-slate-800 hover:border-pink-500/50 transition-colors shadow-lg hover:shadow-[0_0_30px_rgba(236,72,153,0.15)]"
+                transition={{ duration: 0.6, type: "spring", bounce: 0.2 }}
+                className={`group relative flex flex-col bg-[#050810] rounded-[2rem] overflow-hidden border border-slate-800/80 hover:border-pink-500/50 transition-all duration-500 shadow-2xl hover:shadow-[0_0_40px_rgba(236,72,153,0.15)] hover:-translate-y-4
+                  ${index % 4 === 0 || index % 4 === 3 ? "lg:col-span-7" : "lg:col-span-5"}
+                `}
               >
                 {/* Image Container */}
-                <div className="relative h-56 w-full bg-slate-950">
+                <div className="relative h-64 sm:h-80 lg:h-[400px] w-full bg-slate-950 overflow-hidden">
                   <Lens zoomFactor={1.8} lensSize={160}>
                     <div className="relative w-full h-full">
                       <Image

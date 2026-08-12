@@ -38,45 +38,48 @@ export default function FAQPage() {
       {/* Background */}
       <PixelSky className="fixed inset-0 z-0 opacity-40 pointer-events-none" />
       
-      {/* Header */}
-      <section className="max-w-3xl mx-auto px-6 py-12 lg:py-16 flex flex-col items-center text-center">
-        <motion.div 
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-purple-900/30 border border-purple-800/50 mb-6"
-        >
-          <PixelStar className="w-4 h-4 text-purple-400 animate-spin-slow" color="currentColor" />
-          <span className="font-mono text-xs tracking-widest text-purple-300 uppercase">Information</span>
-        </motion.div>
+      {/* Split Screen Layout */}
+      <section className="max-w-7xl mx-auto px-6 py-24 lg:py-48 flex flex-col lg:flex-row gap-16 lg:gap-32 items-start relative z-10">
         
-        <motion.h1 
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.1 }}
-          className="text-4xl md:text-5xl font-black tracking-tight text-white mb-6 font-[family-name:var(--font-pixel)] uppercase drop-shadow-[0_4px_20px_rgba(168,85,247,0.3)]"
-        >
-          FAQ
-        </motion.h1>
-        
-        <motion.p 
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.2 }}
-          className="text-slate-400 leading-relaxed text-lg"
-        >
-          Frequently Asked Questions about my freelance services, tech stack, and workflow.
-        </motion.p>
-      </section>
+        {/* Left: Sticky Header */}
+        <div className="w-full lg:w-1/3 lg:sticky lg:top-32">
+          <motion.div 
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-purple-900/30 border border-purple-800/50 mb-6"
+          >
+            <PixelStar className="w-4 h-4 text-purple-400 animate-spin-slow" color="currentColor" />
+            <span className="font-mono text-xs tracking-widest text-purple-300 uppercase">Information</span>
+          </motion.div>
+          
+          <motion.h1 
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.1 }}
+            className="text-5xl md:text-7xl font-black tracking-tight text-white mb-6 font-[family-name:var(--font-pixel)] uppercase drop-shadow-[0_4px_20px_rgba(168,85,247,0.3)]"
+          >
+            FAQ
+          </motion.h1>
+          
+          <motion.p 
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.2 }}
+            className="text-slate-400 leading-relaxed text-lg lg:text-xl"
+          >
+            Frequently Asked Questions about my freelance services, tech stack, and workflow.
+          </motion.p>
+        </div>
 
-      {/* Accordion List */}
-      <section className="max-w-3xl mx-auto px-6 pb-32">
-        <motion.div 
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.3 }}
-          className="flex flex-col gap-4"
-        >
-          {faqs.map((faq, index) => {
+        {/* Right: Accordion List */}
+        <div className="w-full lg:w-2/3">
+          <motion.div 
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.3 }}
+            className="flex flex-col gap-6"
+          >
+            {faqs.map((faq, index) => {
             const isOpen = openIndex === index;
             return (
               <div 
@@ -104,7 +107,6 @@ export default function FAQPage() {
             );
           })}
         </motion.div>
-        
         {/* Still have questions CTA */}
         <motion.div 
           initial={{ opacity: 0 }}
@@ -117,8 +119,8 @@ export default function FAQPage() {
             Contact Me
           </a>
         </motion.div>
+        </div>
       </section>
-
       <Footer />
     </main>
   );

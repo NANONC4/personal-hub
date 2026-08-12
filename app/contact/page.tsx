@@ -36,45 +36,48 @@ export default function ContactPage() {
       {/* Background */}
       <PixelSky className="fixed inset-0 z-0 opacity-40 pointer-events-none" />
       
-      {/* Header */}
-      <section className="max-w-4xl mx-auto px-6 py-12 lg:py-16 flex flex-col items-center text-center">
-        <motion.div 
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-pink-900/30 border border-pink-800/50 mb-6"
-        >
-          <PixelStar className="w-4 h-4 text-pink-400 animate-pulse" color="currentColor" />
-          <span className="font-mono text-xs tracking-widest text-pink-300 uppercase">Get In Touch</span>
-        </motion.div>
+      {/* Split Screen Header & Reviews */}
+      <section className="max-w-7xl mx-auto px-6 py-24 lg:py-48 flex flex-col lg:flex-row gap-16 lg:gap-32 items-start relative z-10 w-full">
         
-        <motion.h1 
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.1 }}
-          className="text-4xl md:text-5xl font-black tracking-tight text-white mb-6 font-[family-name:var(--font-pixel)] uppercase drop-shadow-[0_4px_20px_rgba(236,72,153,0.3)]"
-        >
-          Reviews & Contact
-        </motion.h1>
-        
-        <motion.p 
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.2 }}
-          className="text-slate-400 leading-relaxed text-lg max-w-2xl"
-        >
-          Ready to start a project or just want to say hi? Reach out via any of the channels below. But first, here's what my clients have to say.
-        </motion.p>
-      </section>
+        {/* Left: Sticky Header */}
+        <div className="w-full lg:w-1/3 lg:sticky lg:top-32 flex flex-col items-start text-left">
+          <motion.div 
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-pink-900/30 border border-pink-800/50 mb-6"
+          >
+            <PixelStar className="w-4 h-4 text-pink-400 animate-pulse" color="currentColor" />
+            <span className="font-mono text-xs tracking-widest text-pink-300 uppercase">Get In Touch</span>
+          </motion.div>
+          
+          <motion.h1 
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.1 }}
+            className="text-5xl md:text-7xl font-black tracking-tight text-white mb-8 font-[family-name:var(--font-pixel)] uppercase drop-shadow-[0_4px_20px_rgba(236,72,153,0.3)] leading-tight"
+          >
+            Reviews & Contact
+          </motion.h1>
+          
+          <motion.p 
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.2 }}
+            className="text-slate-400 leading-relaxed text-lg lg:text-xl"
+          >
+            Ready to start a project or just want to say hi? Reach out via any of the channels below. But first, here's what my clients have to say.
+          </motion.p>
+        </div>
 
-      {/* Fastwork Reviews Section */}
-      <section className="max-w-5xl mx-auto px-6 pb-20 w-full">
-        <motion.div 
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.3 }}
-          className="bg-slate-900/50 border border-slate-800 rounded-3xl p-8 md:p-12 relative overflow-hidden w-full"
-        >
-          {/* Fastwork Badge/Header */}
+        {/* Right: Fastwork Reviews Section */}
+        <div className="w-full lg:w-2/3">
+          <motion.div 
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.3 }}
+            className="bg-[#050810] border border-slate-800/80 rounded-[2.5rem] p-8 md:p-12 relative overflow-hidden w-full shadow-2xl"
+          >
+            {/* Fastwork Badge/Header */}
           <div className="flex flex-col md:flex-row justify-between items-center gap-6 mb-12 border-b border-slate-800 pb-8">
             <div className="flex items-center gap-4">
               <img src="/fastwork.png" alt="Fastwork" className="w-12 h-12 rounded-xl" />
@@ -122,7 +125,8 @@ export default function ContactPage() {
               </div>
             ))}
           </div>
-        </motion.div>
+          </motion.div>
+        </div>
       </section>
 
       {/* Midnight Cafe Contact Section */}

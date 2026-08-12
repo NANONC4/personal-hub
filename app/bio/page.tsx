@@ -19,8 +19,8 @@ export default function BioPage() {
       <div className="fixed inset-0 bg-gradient-to-b from-sky-300 via-sky-200 to-blue-100 -z-20" />
       <PixelSky className="fixed inset-0 opacity-80 pointer-events-none -z-10" />
 
-      <section className="relative z-10 w-full flex flex-col items-center justify-center overflow-hidden py-10">
-        <div className="w-full max-w-[1600px] mx-auto flex flex-col lg:flex-row items-center justify-center gap-16 lg:gap-24 px-6 md:px-12 relative z-10">
+      <section className="relative z-10 w-full flex flex-col items-center justify-center overflow-hidden py-24 md:py-32 lg:py-48 min-h-screen">
+        <div className="w-full mx-auto flex flex-col lg:flex-row items-center justify-evenly gap-16 lg:gap-24 px-6 md:px-12 relative z-10">
           
           {/* Left Side: Profile */}
           <div className="flex-shrink-0">

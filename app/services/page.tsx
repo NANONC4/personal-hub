@@ -56,15 +56,15 @@ export default function ServicesPage() {
       </section>
 
       {/* Packages Grid */}
-      <section className="max-w-7xl mx-auto px-6 pb-12">
+      <section className="max-w-7xl mx-auto px-6 pb-48">
         <motion.div 
           variants={containerVariants}
           initial="hidden"
           animate="show"
-          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
+          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-10"
         >
           {/* Package 1: Web Application */}
-          <motion.div variants={itemVariants} className="group relative flex flex-col bg-slate-900/60 rounded-2xl overflow-hidden border border-slate-800 hover:border-sky-500/50 transition-all hover:-translate-y-2 shadow-lg">
+          <motion.div variants={itemVariants} className="lg:col-span-7 group relative flex flex-col bg-[#050810] rounded-[2.5rem] overflow-hidden border border-slate-800/80 hover:border-sky-500/50 transition-all duration-500 shadow-2xl hover:shadow-[0_0_40px_rgba(56,189,248,0.15)] hover:-translate-y-2">
             <div className="p-8 flex-grow">
               <div className="w-14 h-14 rounded-2xl bg-sky-500/20 flex items-center justify-center mb-6 text-sky-400 border border-sky-500/30 shadow-[inset_0_0_15px_rgba(56,189,248,0.2)]">
                 <Code className="w-7 h-7" />
@@ -92,15 +92,15 @@ export default function ServicesPage() {
                 </li>
               </ul>
             </div>
-            <div className="p-6 border-t border-slate-800 bg-slate-900/80">
-              <a href="/contact" className="block w-full py-3 text-center bg-sky-500/10 hover:bg-sky-500 text-sky-400 hover:text-white rounded-lg font-mono tracking-widest uppercase transition-colors border border-sky-500/30">
+            <div className="p-8 lg:p-12 border-t lg:border-t-0 lg:border-l border-slate-800 bg-slate-900/40 flex flex-col justify-center min-w-[300px]">
+              <a href="/contact" className="block w-full py-4 text-center bg-purple-500/10 hover:bg-purple-500 text-purple-400 hover:text-white rounded-xl font-mono tracking-widest uppercase transition-colors border border-purple-500/30">
                 Get Quote
               </a>
             </div>
           </motion.div>
 
-          {/* Package 2: Mini Game */}
-          <motion.div variants={itemVariants} className="group relative flex flex-col bg-slate-900/60 rounded-2xl overflow-hidden border border-slate-800 hover:border-purple-500/50 transition-all hover:-translate-y-2 shadow-lg">
+          {/* Package 2: Mini Games */}
+          <motion.div variants={itemVariants} className="lg:col-span-5 group relative flex flex-col bg-[#050810] rounded-[2.5rem] overflow-hidden border border-slate-800/80 hover:border-pink-500/50 transition-all duration-500 shadow-2xl hover:shadow-[0_0_40px_rgba(236,72,153,0.15)] hover:-translate-y-2">
             {/* Best Value Badge */}
             <div className="absolute top-0 right-0 bg-purple-500 text-white text-[10px] font-mono tracking-widest font-bold px-4 py-1 rounded-bl-xl z-10">
               POPULAR
@@ -133,16 +133,16 @@ export default function ServicesPage() {
                 </li>
               </ul>
             </div>
-            <div className="p-6 border-t border-slate-800 bg-slate-900/80">
-              <a href="/contact" className="block w-full py-3 text-center bg-purple-500 hover:bg-purple-600 text-white rounded-lg font-mono tracking-widest uppercase transition-colors shadow-[0_0_15px_rgba(168,85,247,0.4)] hover:shadow-[0_0_25px_rgba(168,85,247,0.6)]">
+            <div className="p-8 lg:p-12 border-t lg:border-t-0 lg:border-l border-slate-800 bg-slate-900/40 flex flex-col justify-center min-w-[300px]">
+              <a href="/contact" className="block w-full py-4 text-center bg-purple-500 hover:bg-purple-600 text-white rounded-xl font-mono tracking-widest uppercase transition-colors shadow-[0_0_15px_rgba(168,85,247,0.4)] hover:shadow-[0_0_25px_rgba(168,85,247,0.6)]">
                 Let's Build It
               </a>
             </div>
           </motion.div>
 
-          {/* Package 3: Link in Bio */}
-          <motion.div variants={itemVariants} className="group relative flex flex-col bg-slate-900/60 rounded-2xl overflow-hidden border border-slate-800 hover:border-pink-500/50 transition-all hover:-translate-y-2 shadow-lg">
-            <div className="p-8 flex-grow">
+          {/* Package 3: Custom Link-in-Bio */}
+          <motion.div variants={itemVariants} className="lg:col-span-12 group relative flex flex-col lg:flex-row bg-[#050810] rounded-[2.5rem] overflow-hidden border border-slate-800/80 hover:border-purple-500/50 transition-all duration-500 shadow-2xl hover:shadow-[0_0_40px_rgba(168,85,247,0.15)] hover:-translate-y-2 mt-4">
+            <div className="p-8 lg:p-12 flex-1">
               <div className="w-14 h-14 rounded-2xl bg-pink-500/20 flex items-center justify-center mb-6 text-pink-400 border border-pink-500/30 shadow-[inset_0_0_15px_rgba(236,72,153,0.2)]">
                 <LayoutPanelLeft className="w-7 h-7" />
               </div>
@@ -169,8 +169,8 @@ export default function ServicesPage() {
                 </li>
               </ul>
             </div>
-            <div className="p-6 border-t border-slate-800 bg-slate-900/80">
-              <a href="/contact" className="block w-full py-3 text-center bg-pink-500/10 hover:bg-pink-500 text-pink-400 hover:text-white rounded-lg font-mono tracking-widest uppercase transition-colors border border-pink-500/30">
+            <div className="p-8 lg:p-12 border-t lg:border-t-0 lg:border-l border-slate-800 bg-slate-900/40 flex flex-col justify-center min-w-[300px]">
+              <a href="/contact" className="block w-full py-4 text-center bg-pink-500/10 hover:bg-pink-500 text-pink-400 hover:text-white rounded-xl font-mono tracking-widest uppercase transition-colors border border-pink-500/30">
                 Order Now
               </a>
             </div>
