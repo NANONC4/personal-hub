@@ -5,7 +5,7 @@ import { useState } from "react";
 import Footer from "@/components/Footer";
 import { ChevronDown } from "lucide-react";
 import { PixelStar } from "@/components/PixelIcons";
-import PulseDotsBackground from "@/components/PulseDotsBackground";
+import PixelSky from "@/components/PixelSky";
 
 const faqs = [
   {
@@ -36,7 +36,7 @@ export default function FAQPage() {
   return (
     <main className="min-h-screen bg-[#050B14] text-slate-200 font-[family-name:var(--font-geist-sans)] pt-24 selection:bg-purple-500/30 overflow-x-hidden">
       {/* Background */}
-      <PulseDotsBackground className="fixed inset-0 z-0 opacity-100 pointer-events-none" />
+      <PixelSky className="fixed inset-0 z-0 opacity-40 pointer-events-none" />
       
       {/* Header */}
       <section className="max-w-3xl mx-auto px-6 py-12 lg:py-16 flex flex-col items-center text-center">

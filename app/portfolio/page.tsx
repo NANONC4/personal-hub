@@ -9,7 +9,7 @@ import PortfolioFilter, { categories } from "@/components/PortfolioFilter";
 import { ExternalLink, FileText, ArrowRight } from "lucide-react";
 import Footer from "@/components/Footer";
 import { Lens } from "@/components/Lens";
-import RetroGridBackground from "@/components/RetroGridBackground";
+import PixelSky from "@/components/PixelSky";
 
 export default function PortfolioPage() {
   const [activeCategory, setActiveCategory] = useState("all");
@@ -21,7 +21,7 @@ export default function PortfolioPage() {
   return (
     <main className="min-h-screen bg-[#0f172a] text-slate-200 font-[family-name:var(--font-geist-sans)] pt-24 selection:bg-pink-500/30">
       {/* Background */}
-      <RetroGridBackground className="fixed inset-0 z-0 opacity-60 pointer-events-none" />
+      <PixelSky className="fixed inset-0 z-0 opacity-40 pointer-events-none" />
       
       {/* Header Section */}
       <section className="max-w-7xl mx-auto px-6 py-12 lg:py-20 flex flex-col items-center text-center">
