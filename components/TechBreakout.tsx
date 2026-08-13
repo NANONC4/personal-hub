@@ -4,21 +4,21 @@ import React, { useRef, useEffect, useState } from 'react';
 import { RefreshCw, Play } from 'lucide-react';
 
 const TECH_STACK = [
-  { text: "REACT", color: "#61DAFB" },
-  { text: "NEXT", color: "#FFFFFF" },
-  { text: "TS", color: "#3178C6" },
-  { text: "JS", color: "#F7DF1E" },
-  { text: "NODE", color: "#339933" },
-  { text: "TAILWIND", color: "#06B6D4" },
-  { text: "FIGMA", color: "#F24E1E" },
-  { text: "UNITY", color: "#FFFFFF" },
-  { text: "C#", color: "#239120" },
-  { text: "HTML5", color: "#E34F26" },
-  { text: "CSS3", color: "#1572B6" },
-  { text: "GIT", color: "#F05032" },
-  { text: "GITHUB", color: "#FFFFFF" },
-  { text: "VERCEL", color: "#10b981" },
-  { text: "API", color: "#4ADE80" }
+  { text: "REACT", color: "#0ea5e9" }, // sky-500
+  { text: "NEXT", color: "#d946ef" }, // fuchsia-500
+  { text: "TS", color: "#3b82f6" }, // blue-500
+  { text: "JS", color: "#eab308" }, // yellow-500
+  { text: "NODE", color: "#10b981" }, // emerald-500
+  { text: "TAILWIND", color: "#06b6d4" }, // cyan-500
+  { text: "FIGMA", color: "#f43f5e" }, // rose-500
+  { text: "UNITY", color: "#d946ef" }, // fuchsia-500
+  { text: "C#", color: "#8b5cf6" }, // violet-500
+  { text: "HTML5", color: "#f97316" }, // orange-500
+  { text: "CSS3", color: "#0ea5e9" }, // sky-500
+  { text: "GIT", color: "#f43f5e" }, // rose-500
+  { text: "GITHUB", color: "#8b5cf6" }, // violet-500
+  { text: "VERCEL", color: "#10b981" }, // emerald-500
+  { text: "API", color: "#14b8a6" } // teal-500
 ];
 
 type Brick = {
@@ -103,6 +103,35 @@ export function TechBreakout() {
     let isTransitioningWave = false;
     let transitionTimer = 0;
     let localGameOver = false;
+    let gameOverTimer = 0; // Timer for auto-restart
+
+    const resetGameVariables = () => {
+      setWave(1);
+      setScore(0);
+      setLives(3);
+      setIsGameOver(false);
+      localGameOver = false;
+      
+      initSizes();
+      x = canvasWidth / 2;
+      y = canvasHeight - 60;
+      baseSpeed = (canvasWidth / 150) + (1 * 0.5);
+      dx = baseSpeed * (Math.random() > 0.5 ? 1 : -1);
+      dy = -baseSpeed;
+      paddleX = (canvasWidth - paddleWidth) / 2;
+      
+      // Re-init bricks
+      let techIndex = 0;
+      for (let c = 0; c < brickColumnCount; c++) {
+        for (let r = 0; r < brickRowCount; r++) {
+          const tech = TECH_STACK[techIndex % TECH_STACK.length];
+          bricks[c][r].status = 1;
+          bricks[c][r].text = tech.text;
+          bricks[c][r].color = tech.color;
+          techIndex++;
+        }
+      }
+    };
 
     const initSizes = () => {
       // Scale everything relative to canvas width
@@ -359,6 +388,12 @@ export function TechBreakout() {
       ctx.font = `bold ${fontSize}px var(--font-pixel), monospace`;
       ctx.textAlign = "center";
       ctx.fillText("GAME OVER", canvasWidth / 2, canvasHeight / 2);
+      
+      // Draw auto-restart countdown
+      const countdown = Math.ceil(gameOverTimer / 60);
+      ctx.fillStyle = "#94a3b8";
+      ctx.font = `${Math.max(14, Math.floor(canvasWidth * 0.03))}px var(--font-pixel), monospace`;
+      ctx.fillText(`AUTO RESTART IN ${countdown}...`, canvasWidth / 2, canvasHeight / 2 + fontSize);
     };
 
     let animationFrameId: number;
@@ -397,6 +432,15 @@ export function TechBreakout() {
       
       if (localGameOver) {
         drawGameOver();
+        
+        // Auto restart logic
+        gameOverTimer--;
+        if (gameOverTimer <= 0) {
+          resetGameVariables();
+          autoPlay = true;
+          lastInteractionTime = Date.now() - 4000; // Force autoplay immediately
+        }
+        
         animationFrameId = requestAnimationFrame(draw);
         return;
       }
@@ -454,6 +498,7 @@ export function TechBreakout() {
               if (newLives <= 0) {
                 setIsGameOver(true);
                 localGameOver = true;
+                gameOverTimer = 180; // 3 seconds at 60fps
               }
               return newLives;
             });
