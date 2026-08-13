@@ -18,7 +18,7 @@ import { KineticText } from "@/components/KineticText";
 import { PixelImage } from "@/components/PixelImage";
 import { DiaTextReveal } from "@/components/DiaTextReveal";
 import { SpaceShooterMiniGame } from "@/components/SpaceShooterMiniGame";
-import { InteractiveIconCloud } from "@/components/InteractiveIconCloud";
+import { TechSlotMachine } from "@/components/TechSlotMachine";
 
 const features = [
   {
@@ -176,14 +176,8 @@ export default function HomePage() {
               <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(56,189,248,0.15)_0%,transparent_50%)] pointer-events-none" />
               <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(236,72,153,0.1)_10%,transparent_60%)] pointer-events-none" />
               
-              <div className="scale-125 md:scale-150 w-full h-full flex items-center justify-center relative z-10">
-                <InteractiveIconCloud 
-                  slugs={[
-                    "react", "nextdotjs", "typescript", "javascript", "nodedotjs",
-                    "tailwindcss", "framer", "figma", "github", "git",
-                    "vercel", "visualstudiocode", "unity", "csharp", "html5", "css3"
-                  ]} 
-                />
+              <div className="w-full flex items-center justify-center relative z-10 pt-10">
+                <TechSlotMachine />
               </div>
             </div>
           </div>
