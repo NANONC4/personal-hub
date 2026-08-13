@@ -18,7 +18,7 @@ import { KineticText } from "@/components/KineticText";
 import { PixelImage } from "@/components/PixelImage";
 import { DiaTextReveal } from "@/components/DiaTextReveal";
 import { SpaceShooterMiniGame } from "@/components/SpaceShooterMiniGame";
-import { TechSlotMachine } from "@/components/TechSlotMachine";
+import { TechBreakout } from "@/components/TechBreakout";
 
 const features = [
   {
@@ -159,27 +159,11 @@ export default function HomePage() {
         </section>
 
         {/* =========================================
-            3. MY ARSENAL (Tech Stack Icon Cloud)
+            3. MY ARSENAL (Tech Breakout Game)
             ========================================= */}
-        <section className="w-full py-32 md:py-48 relative z-20 transition-colors duration-300 overflow-hidden">
-          <div className="w-full">
-            <div className="text-center mb-16">
-              <h2 className="text-4xl md:text-6xl font-[family-name:var(--font-pixel)] text-white mb-6 uppercase tracking-wider">
-                My Arsenal
-              </h2>
-              <p className="text-slate-400 font-mono text-base tracking-widest uppercase">
-                Tools & Technologies I use to build digital spaces
-              </p>
-            </div>
-            <div className="w-full flex items-center justify-center relative transition-all duration-300 max-w-5xl mx-auto py-10 md:py-20">
-              {/* Soft Glow Backdrop to separate from PixelSky */}
-              <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(56,189,248,0.15)_0%,transparent_50%)] pointer-events-none" />
-              <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(236,72,153,0.1)_10%,transparent_60%)] pointer-events-none" />
-              
-              <div className="w-full flex items-center justify-center relative z-10 pt-10">
-                <TechSlotMachine />
-              </div>
-            </div>
+        <section className="w-full relative z-20 transition-colors duration-300">
+          <div className="w-full flex items-center justify-center relative transition-all duration-300 max-w-5xl mx-auto py-10 md:py-20 px-4">
+            <TechBreakout />
           </div>
         </section>
 
