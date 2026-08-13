@@ -171,7 +171,7 @@ export default function HomePage() {
                 Tools & Technologies I use to build digital spaces
               </p>
             </div>
-            <div className="h-[400px] md:h-[600px] w-full flex items-center justify-center relative overflow-hidden transition-all duration-300 max-w-5xl mx-auto">
+            <div className="w-full flex items-center justify-center relative transition-all duration-300 max-w-5xl mx-auto py-10 md:py-20">
               {/* Soft Glow Backdrop to separate from PixelSky */}
               <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(56,189,248,0.15)_0%,transparent_50%)] pointer-events-none" />
               <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(236,72,153,0.1)_10%,transparent_60%)] pointer-events-none" />
