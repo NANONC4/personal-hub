@@ -13,7 +13,7 @@ export function InteractiveIconCloud({ slugs }: InteractiveIconCloudProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const controls = useAnimation();
   const [particles, setParticles] = useState<{ x: number; y: number; vx: number; vy: number; life: number; color: string }[]>([]);
-  const animationRef = useRef<number>();
+  const animationRef = useRef<number>(0);
   
   // Custom cursor state
   const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
