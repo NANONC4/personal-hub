@@ -60,21 +60,21 @@ export function TechBreakout() {
     const ctx = canvas.getContext('2d');
     if (!ctx) return;
     
-    const canvasWidth = 800;
-    const canvasHeight = 500;
+    const canvasWidth = 400;
+    const canvasHeight = 600;
     
     canvas.width = canvasWidth;
     canvas.height = canvasHeight;
     // Disable smoothing to keep borders hard
     ctx.imageSmoothingEnabled = false;
 
-    // Dynamic Sizing variables (Fixed)
-    let ballSize = 12;
+    // Dynamic Sizing variables (Fixed for Portrait)
+    let ballSize = 8;
     let baseSpeed = 4 + (wave * 0.5);
     let dx = baseSpeed * (Math.random() > 0.5 ? 1 : -1);
     let dy = -baseSpeed;
-    let paddleHeight = 16;
-    let paddleWidth = 120;
+    let paddleHeight = 12;
+    let paddleWidth = 80;
     
     // Position variables
     let x = canvasWidth / 2;
@@ -83,11 +83,11 @@ export function TechBreakout() {
 
     const brickRowCount = 3;
     const brickColumnCount = 5;
-    let brickPadding = 12;
-    let brickOffsetTop = 60;
-    let brickOffsetLeft = 40;
+    let brickPadding = 8;
+    let brickOffsetTop = 50;
+    let brickOffsetLeft = 20;
     let brickWidth = (canvasWidth - (brickOffsetLeft * 2) - (brickPadding * (brickColumnCount - 1))) / brickColumnCount;
-    let brickHeight = 35;
+    let brickHeight = 24;
 
     let bricks: Brick[][] = [];
     let particles: Particle[] = [];
@@ -329,7 +329,7 @@ export function TechBreakout() {
 
     const drawBricks = () => {
       // Significantly increase font size for better readability
-      const fontSize = 20; 
+      const fontSize = 12; 
 
       for (let c = 0; c < brickColumnCount; c++) {
         for (let r = 0; r < brickRowCount; r++) {
@@ -415,7 +415,7 @@ export function TechBreakout() {
       ctx.fillStyle = "rgba(0,0,0,0.8)";
       ctx.fillRect(0, 0, canvasWidth, canvasHeight);
       
-      const fontSize = 48;
+      const fontSize = 32;
       ctx.fillStyle = "#ef4444";
       ctx.font = `bold ${fontSize}px var(--font-pixel), monospace`;
       ctx.textAlign = "center";
@@ -437,7 +437,7 @@ export function TechBreakout() {
       if (isTransitioningWave) {
         drawParticles();
         
-        const fontSize = 40;
+        const fontSize = 24;
         ctx.fillStyle = "#ffffff";
         ctx.font = `bold ${fontSize}px var(--font-pixel), monospace`;
         ctx.textAlign = "center";
@@ -464,7 +464,7 @@ export function TechBreakout() {
       drawParticles();
       
       if (autoPlay && !localGameOver) {
-        const fontSize = 32;
+        const fontSize = 16;
         ctx.fillStyle = "rgba(255, 255, 255, 0.7)";
         ctx.font = `bold ${fontSize}px var(--font-pixel), monospace`;
         ctx.textAlign = "center";
@@ -649,11 +649,11 @@ export function TechBreakout() {
           {/* Game Container */}
           <div 
             ref={containerRef} 
-            className="w-full h-72 sm:h-80 md:h-96 lg:h-[450px] relative bg-[#020617] overflow-hidden cursor-crosshair shadow-[inset_0_0_10px_rgba(0,0,0,1)] shrink-0"
+            className="w-full h-80 sm:h-96 md:h-[450px] lg:h-[500px] relative bg-[#020617] overflow-hidden cursor-crosshair shadow-[inset_0_0_10px_rgba(0,0,0,1)] shrink-0"
           >
             <canvas 
               ref={canvasRef} 
-              className="w-full h-full object-cover"
+              className="w-full h-full object-contain"
               style={{ imageRendering: 'pixelated' }}
             />
             
