@@ -5,23 +5,21 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { RefreshCw, Play } from 'lucide-react';
 
 const TECH_STACK = [
-  { text: "React", color: "#61DAFB", iconUrl: "https://cdn.simpleicons.org/react/61DAFB" },
-  { text: "Next.js", color: "#FFFFFF", iconUrl: "https://cdn.simpleicons.org/nextdotjs/white" },
-  { text: "Tailwind CSS", color: "#06B6D4", iconUrl: "https://cdn.simpleicons.org/tailwindcss/06B6D4" },
-  { text: "Framer Motion", color: "#0055FF", iconUrl: "https://cdn.simpleicons.org/framer/0055FF" },
-  { text: "TypeScript", color: "#3178C6", iconUrl: "https://cdn.simpleicons.org/typescript/3178C6" },
-  { text: "HTML/CSS", color: "#E34F26", iconUrl: "https://cdn.simpleicons.org/html5/E34F26" },
-  { text: "Node.js", color: "#339933", iconUrl: "https://cdn.simpleicons.org/nodedotjs/339933" },
+  { text: "UNITY", color: "#FFFFFF", iconUrl: "https://cdn.simpleicons.org/unity/white" },
   { text: "C#", color: "#239120", iconUrl: "https://cdn.simpleicons.org/csharp/239120" },
-  { text: "REST APIs", color: "#FF6C37", iconUrl: "https://cdn.simpleicons.org/postman/FF6C37" },
-  { text: "SQL", color: "#4479A1", iconUrl: "https://cdn.simpleicons.org/mysql/4479A1" },
-  { text: "Git", color: "#F05032", iconUrl: "https://cdn.simpleicons.org/git/F05032" },
-  { text: "Vercel", color: "#FFFFFF", iconUrl: "https://cdn.simpleicons.org/vercel/white" },
-  { text: "Unity 3D", color: "#FFFFFF", iconUrl: "https://cdn.simpleicons.org/unity/white" },
-  { text: "Game Logic", color: "#478CBF", iconUrl: "https://cdn.simpleicons.org/godotengine/478CBF" },
-  { text: "Pixel Art", color: "#7D929E", iconUrl: "https://cdn.simpleicons.org/aseprite/white" },
-  { text: "Aseprite", color: "#7D929E", iconUrl: "https://cdn.simpleicons.org/aseprite/7D929E" },
-  { text: "UI/UX Design", color: "#F24E1E", iconUrl: "https://cdn.simpleicons.org/figma/F24E1E" }
+  { text: "NEXT.JS", color: "#FFFFFF", iconUrl: "https://cdn.simpleicons.org/nextdotjs/white" },
+  { text: "TYPESCRIPT", color: "#3178C6", iconUrl: "https://cdn.simpleicons.org/typescript/3178C6" },
+  { text: "TAILWIND CSS", color: "#06B6D4", iconUrl: "https://cdn.simpleicons.org/tailwindcss/06B6D4" },
+  { text: "PRISMA & SQL", color: "#5A67D8", iconUrl: "https://cdn.simpleicons.org/prisma/5A67D8" },
+  { text: "REACT", color: "#61DAFB", iconUrl: "https://cdn.simpleicons.org/react/61DAFB" },
+  { text: "FIREBASE", color: "#FFCA28", iconUrl: "https://cdn.simpleicons.org/firebase/FFCA28" },
+  { text: "HTML5", color: "#E34F26", iconUrl: "https://cdn.simpleicons.org/html5/E34F26" },
+  { text: "CSS3", color: "#1572B6", iconUrl: "https://cdn.simpleicons.org/css3/1572B6" },
+  { text: "JAVASCRIPT", color: "#F7DF1E", iconUrl: "https://cdn.simpleicons.org/javascript/F7DF1E" },
+  { text: "GIT", color: "#F05032", iconUrl: "https://cdn.simpleicons.org/git/F05032" },
+  { text: "NODE.JS", color: "#339933", iconUrl: "https://cdn.simpleicons.org/nodedotjs/339933" },
+  { text: "SUPABASE", color: "#3ECF8E", iconUrl: "https://cdn.simpleicons.org/supabase/3ECF8E" },
+  { text: "FRAMER MOTION", color: "#0055FF", iconUrl: "https://cdn.simpleicons.org/framer/0055FF" }
 ];
 
 type Brick = {
