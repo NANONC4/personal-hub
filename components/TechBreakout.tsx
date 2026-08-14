@@ -218,11 +218,30 @@ export function TechBreakout() {
       autoPlay = false;
     };
     
-    const mouseDownHandler = () => { 
+    const mouseDownHandler = (e: any) => { 
       if (localGameOver) return;
       mousePressed = true; 
       lastInteractionTime = Date.now(); 
       autoPlay = false; 
+      
+      if (e) {
+        const rect = canvas.getBoundingClientRect();
+        let clientX;
+        if (e.touches && e.touches.length > 0) {
+          clientX = e.touches[0].clientX;
+          // Don't prevent default on touchstart so click events still fire if needed,
+          // but we capture the position anyway
+        } else if (e.clientX !== undefined) {
+          clientX = e.clientX;
+        }
+        
+        if (clientX !== undefined) {
+          const relativeX = clientX - rect.left;
+          if (relativeX > 0 && relativeX < canvasWidth) {
+            paddleX = relativeX - paddleWidth / 2;
+          }
+        }
+      }
     };
     const mouseUpHandler = () => { mousePressed = false; };
     
@@ -468,6 +487,14 @@ export function TechBreakout() {
       drawBall();
       drawPaddle();
       drawParticles();
+      
+      if (autoPlay && !localGameOver) {
+        const fontSize = Math.max(16, Math.floor(canvasWidth * 0.04));
+        ctx.fillStyle = "rgba(255, 255, 255, 0.7)";
+        ctx.font = `bold ${fontSize}px var(--font-pixel), monospace`;
+        ctx.textAlign = "center";
+        ctx.fillText("TAP OR DRAG TO PLAY", canvasWidth / 2, canvasHeight / 2 + 80);
+      }
       
       if (localGameOver) {
         drawGameOver();
