@@ -68,7 +68,7 @@ export function TechBreakout() {
     // Disable smoothing to keep borders hard
     ctx.imageSmoothingEnabled = false;
 
-    // Dynamic Sizing variables (Now Fixed)
+    // Dynamic Sizing variables (Fixed)
     let ballSize = 12;
     let baseSpeed = 4 + (wave * 0.5);
     let dx = baseSpeed * (Math.random() > 0.5 ? 1 : -1);
@@ -586,7 +586,6 @@ export function TechBreakout() {
 
     return () => {
       cancelAnimationFrame(animationFrameId);
-      window.removeEventListener('resize', resizeCanvas);
       document.removeEventListener("keydown", keyDownHandler);
       document.removeEventListener("keyup", keyUpHandler);
       canvas.removeEventListener("mousemove", mouseMoveHandler);
@@ -650,11 +649,11 @@ export function TechBreakout() {
           {/* Game Container */}
           <div 
             ref={containerRef} 
-            className="w-full aspect-[16/10] relative bg-[#020617] overflow-hidden cursor-crosshair shadow-[inset_0_0_10px_rgba(0,0,0,1)]"
+            className="w-full h-72 sm:h-80 md:h-96 lg:h-[450px] relative bg-[#020617] overflow-hidden cursor-crosshair shadow-[inset_0_0_10px_rgba(0,0,0,1)] shrink-0"
           >
             <canvas 
               ref={canvasRef} 
-              className="w-full h-full object-contain"
+              className="w-full h-full object-cover"
               style={{ imageRendering: 'pixelated' }}
             />
             
