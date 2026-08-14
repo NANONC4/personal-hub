@@ -2,7 +2,7 @@
 
 import React, { useRef, useEffect, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { RefreshCw, Play } from 'lucide-react';
+import { RefreshCw, Play, ArrowLeft, ArrowRight, Zap } from 'lucide-react';
 
 const TECH_STACK = [
   { text: "UNITY", color: "#FFFFFF", iconUrl: "https://cdn.simpleicons.org/unity/white" },
@@ -265,6 +265,21 @@ export function TechBreakout() {
     canvas.addEventListener("touchmove", touchMoveHandler, { passive: false });
     canvas.addEventListener("touchstart", mouseDownHandler, { passive: false });
     document.addEventListener("touchend", mouseUpHandler, false);
+
+    // Virtual Gamepad Handlers via CustomEvents
+    const handleVirtualGamepad = (e: Event) => {
+      if (localGameOver) return;
+      const customEvent = e as CustomEvent;
+      const { action, state } = customEvent.detail;
+      
+      if (action === 'left') leftPressed = state;
+      if (action === 'right') rightPressed = state;
+      if (action === 'action') mousePressed = state;
+      
+      lastInteractionTime = Date.now();
+      autoPlay = false;
+    };
+    window.addEventListener("techBreakoutGamepad", handleVirtualGamepad);
 
     const createExplosion = (ex: number, ey: number, color: string = "#475569", isWaveClear: boolean = false) => {
       const count = isWaveClear ? 60 : 15;
@@ -615,8 +630,10 @@ export function TechBreakout() {
       canvas.removeEventListener("mousedown", mouseDownHandler);
       document.removeEventListener("mouseup", mouseUpHandler);
       canvas.removeEventListener("touchmove", touchMoveHandler);
+      canvas.removeEventListener("touchmove", touchMoveHandler);
       canvas.removeEventListener("touchstart", mouseDownHandler);
       document.removeEventListener("touchend", mouseUpHandler);
+      window.removeEventListener("techBreakoutGamepad", handleVirtualGamepad);
     };
   }, [wave]); 
 
@@ -724,6 +741,34 @@ export function TechBreakout() {
           </div>
           
           <div className="absolute top-1/2 left-2 w-2 h-2 rounded-full bg-red-500 shadow-[0_0_5px_red]" />
+        </div>
+
+        {/* Mobile Virtual Gamepad (Visible only on mobile) */}
+        <div className="mt-4 md:hidden w-full flex justify-between items-center px-4 gap-4">
+          <div className="flex gap-2">
+            <button
+              className="w-16 h-16 bg-slate-800/80 rounded-full flex items-center justify-center shadow-lg active:bg-slate-700 active:scale-95 transition-all"
+              onTouchStart={(e) => { e.preventDefault(); window.dispatchEvent(new CustomEvent('techBreakoutGamepad', { detail: { action: 'left', state: true } })); }}
+              onTouchEnd={(e) => { e.preventDefault(); window.dispatchEvent(new CustomEvent('techBreakoutGamepad', { detail: { action: 'left', state: false } })); }}
+            >
+              <ArrowLeft className="w-8 h-8 text-white" />
+            </button>
+            <button
+              className="w-16 h-16 bg-slate-800/80 rounded-full flex items-center justify-center shadow-lg active:bg-slate-700 active:scale-95 transition-all"
+              onTouchStart={(e) => { e.preventDefault(); window.dispatchEvent(new CustomEvent('techBreakoutGamepad', { detail: { action: 'right', state: true } })); }}
+              onTouchEnd={(e) => { e.preventDefault(); window.dispatchEvent(new CustomEvent('techBreakoutGamepad', { detail: { action: 'right', state: false } })); }}
+            >
+              <ArrowRight className="w-8 h-8 text-white" />
+            </button>
+          </div>
+          
+          <button
+            className="w-20 h-20 bg-red-600/80 rounded-full flex items-center justify-center shadow-[0_0_15px_rgba(220,38,38,0.6)] active:bg-red-500 active:scale-95 active:shadow-[0_0_25px_rgba(220,38,38,0.9)] transition-all"
+            onTouchStart={(e) => { e.preventDefault(); window.dispatchEvent(new CustomEvent('techBreakoutGamepad', { detail: { action: 'action', state: true } })); }}
+            onTouchEnd={(e) => { e.preventDefault(); window.dispatchEvent(new CustomEvent('techBreakoutGamepad', { detail: { action: 'action', state: false } })); }}
+          >
+            <Zap className="w-10 h-10 text-white fill-white" />
+          </button>
         </div>
         
         <div className="w-full flex justify-between items-end mt-6 px-4">

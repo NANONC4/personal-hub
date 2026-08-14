@@ -130,32 +130,12 @@ export function SpaceShooterMiniGame({ className = "" }: SpaceShooterMiniGamePro
       }, 3000); // Resume auto-play after 3 seconds of no interaction
     };
 
-    let leftPressed = false;
-    let rightPressed = false;
-    let isShooting = false;
-
     // --- UPDATE LOOP ---
     const update = (dt: number) => {
       // 1. Player movement
       if (isUserInteracting) {
-        if (leftPressed) {
-          player.x -= player.speed * 2.5 * dt;
-          player.targetX = player.x;
-        } else if (rightPressed) {
-          player.x += player.speed * 2.5 * dt;
-          player.targetX = player.x;
-        } else {
-          // Move smoothly to targetX
-          player.x += (player.targetX - player.x) * 10 * dt;
-        }
-        
-        if (isShooting) {
-          autoShootTimer += dt;
-          if (autoShootTimer > 0.15) {
-            shoot();
-            autoShootTimer = 0;
-          }
-        }
+        // Move smoothly to targetX
+        player.x += (player.targetX - player.x) * 10 * dt;
       } else {
         // Auto-play (GIF mode)
         player.x += player.autoDirection * player.speed * dt;
@@ -307,22 +287,6 @@ export function SpaceShooterMiniGame({ className = "" }: SpaceShooterMiniGamePro
     canvas.addEventListener("touchmove", updateMousePos as EventListener, { passive: false });
     canvas.addEventListener("touchstart", handleInteract, { passive: false });
 
-    // Virtual Gamepad Handlers
-    const handleGamepad = (e: Event) => {
-      const customEvent = e as CustomEvent;
-      const { action, state } = customEvent.detail;
-      
-      if (action === 'left') leftPressed = state;
-      if (action === 'right') rightPressed = state;
-      if (action === 'action') {
-        isShooting = state;
-        if (state) shoot();
-      }
-      
-      resetIdleTimer();
-    };
-    window.addEventListener('spaceShooterGamepad', handleGamepad);
-
     return () => {
       cancelAnimationFrame(animationFrameId);
       clearTimeout(idleTimer);
@@ -330,7 +294,6 @@ export function SpaceShooterMiniGame({ className = "" }: SpaceShooterMiniGamePro
       canvas.removeEventListener("mousedown", handleInteract);
       canvas.removeEventListener("touchmove", updateMousePos as EventListener);
       canvas.removeEventListener("touchstart", handleInteract);
-      window.removeEventListener('spaceShooterGamepad', handleGamepad);
     };
   }, []);
 
