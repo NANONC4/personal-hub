@@ -60,34 +60,34 @@ export function TechBreakout() {
     const ctx = canvas.getContext('2d');
     if (!ctx) return;
     
-    const canvasWidth = 400;
-    const canvasHeight = 600;
+    const canvasWidth = 800;
+    const canvasHeight = 800;
     
     canvas.width = canvasWidth;
     canvas.height = canvasHeight;
     // Disable smoothing to keep borders hard
     ctx.imageSmoothingEnabled = false;
 
-    // Dynamic Sizing variables (Fixed for Portrait)
-    let ballSize = 8;
-    let baseSpeed = 3 + (wave * 0.5); // Reduced base speed
+    // Dynamic Sizing variables (Square)
+    let ballSize = 14;
+    let baseSpeed = 5 + (wave * 0.5); // Adjusted for larger area
     let dx = baseSpeed * (Math.random() > 0.5 ? 1 : -1);
     let dy = -baseSpeed;
-    let paddleHeight = 12;
-    let paddleWidth = 80;
+    let paddleHeight = 16;
+    let paddleWidth = 120;
     
     // Position variables
     let x = canvasWidth / 2;
-    let y = canvasHeight - 60;
+    let y = canvasHeight - 80;
     let paddleX = (canvasWidth - paddleWidth) / 2;
 
     const brickRowCount = 3;
     const brickColumnCount = 5;
-    let brickPadding = 8;
-    let brickOffsetTop = 50;
-    let brickOffsetLeft = 20;
+    let brickPadding = 16;
+    let brickOffsetTop = 80;
+    let brickOffsetLeft = 50;
     let brickWidth = (canvasWidth - (brickOffsetLeft * 2) - (brickPadding * (brickColumnCount - 1))) / brickColumnCount;
-    let brickHeight = 24;
+    let brickHeight = 36;
 
     let bricks: Brick[][] = [];
     let particles: Particle[] = [];
@@ -104,8 +104,8 @@ export function TechBreakout() {
       localGameOver = false;
       
       x = canvasWidth / 2;
-      y = canvasHeight - 60;
-      baseSpeed = 3 + (1 * 0.5); // Reduced base speed
+      y = canvasHeight - 80;
+      baseSpeed = 5 + (1 * 0.5); // Adjusted base speed
       dx = baseSpeed * (Math.random() > 0.5 ? 1 : -1);
       dy = -baseSpeed;
       paddleX = (canvasWidth - paddleWidth) / 2;
@@ -329,7 +329,7 @@ export function TechBreakout() {
 
     const drawBricks = () => {
       // Significantly increase font size for better readability
-      const fontSize = 12; 
+      const fontSize = 24; 
 
       for (let c = 0; c < brickColumnCount; c++) {
         for (let r = 0; r < brickRowCount; r++) {
@@ -415,7 +415,7 @@ export function TechBreakout() {
       ctx.fillStyle = "rgba(0,0,0,0.8)";
       ctx.fillRect(0, 0, canvasWidth, canvasHeight);
       
-      const fontSize = 32;
+      const fontSize = 64;
       ctx.fillStyle = "#ef4444";
       ctx.font = `bold ${fontSize}px var(--font-pixel), monospace`;
       ctx.textAlign = "center";
@@ -445,7 +445,7 @@ export function TechBreakout() {
       if (isTransitioningWave) {
         drawParticles();
         
-        const fontSize = 24;
+        const fontSize = 48;
         ctx.fillStyle = "#ffffff";
         ctx.font = `bold ${fontSize}px var(--font-pixel), monospace`;
         ctx.textAlign = "center";
@@ -457,8 +457,8 @@ export function TechBreakout() {
           setWave(prev => prev + 1);
           initBricks();
           x = canvasWidth / 2;
-          y = canvasHeight - 60;
-          baseSpeed = 3 + ((wave + 1) * 0.5);
+          y = canvasHeight - 80;
+          baseSpeed = 5 + ((wave + 1) * 0.5);
           dx = baseSpeed * (Math.random() > 0.5 ? 1 : -1);
           dy = -baseSpeed;
         }
@@ -472,7 +472,7 @@ export function TechBreakout() {
       drawParticles();
       
       if (autoPlay && !localGameOver) {
-        const fontSize = 16;
+        const fontSize = 32;
         ctx.fillStyle = "rgba(255, 255, 255, 0.7)";
         ctx.font = `bold ${fontSize}px var(--font-pixel), monospace`;
         ctx.textAlign = "center";
@@ -655,14 +655,14 @@ export function TechBreakout() {
         {/* The Screen Bezel */}
         <div className="w-full bg-[#1e293b] p-4 md:p-6 rounded-t-xl rounded-bl-xl rounded-br-[40px] shadow-[inset_0_5px_20px_rgba(0,0,0,0.8)] relative">
           
-          {/* Game Container */}
+          {/* Game Container (SQUARE matching SpaceShooter philosophy) */}
           <div 
             ref={containerRef} 
-            className="w-full h-80 sm:h-96 md:h-[450px] lg:h-[500px] relative bg-[#020617] overflow-hidden cursor-crosshair shadow-[inset_0_0_10px_rgba(0,0,0,1)] shrink-0"
+            className="w-full max-w-[800px] mx-auto aspect-square relative bg-[#020617] overflow-hidden cursor-crosshair shadow-[inset_0_0_10px_rgba(0,0,0,1)] shrink-0 rounded-lg"
           >
             <canvas 
               ref={canvasRef} 
-              className="w-full h-full object-contain"
+              className="w-full h-full object-cover"
               style={{ imageRendering: 'pixelated' }}
             />
             
