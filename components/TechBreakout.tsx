@@ -1,25 +1,25 @@
 "use client";
 
 import React, { useRef, useEffect, useState } from 'react';
-import { RefreshCw, Play, Atom, Zap, Code, FileCode, Server, Wind, PenTool, Box, Hash, Layout, Paintbrush, GitBranch, Terminal, Triangle, Network } from 'lucide-react';
+import { RefreshCw, Play, Atom, Zap, Code, FileCode, Server, Wind, Box, Hash, Layout, Paintbrush, GitBranch, Flame, Database, DatabaseBackup, ShieldCheck } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 
 const TECH_STACK = [
   { text: "REACT", color: "#0ea5e9", icon: Atom }, 
-  { text: "NEXT", color: "#d946ef", icon: Zap }, 
+  { text: "NEXT.JS", color: "#d946ef", icon: Zap }, 
   { text: "TS", color: "#3b82f6", icon: Code }, 
   { text: "JS", color: "#eab308", icon: FileCode }, 
   { text: "NODE", color: "#10b981", icon: Server }, 
   { text: "TAILWIND", color: "#06b6d4", icon: Wind }, 
-  { text: "FIGMA", color: "#f43f5e", icon: PenTool }, 
+  { text: "FIREBASE", color: "#f59e0b", icon: Flame }, 
   { text: "UNITY", color: "#d946ef", icon: Box }, 
   { text: "C#", color: "#8b5cf6", icon: Hash }, 
   { text: "HTML5", color: "#f97316", icon: Layout }, 
   { text: "CSS3", color: "#0ea5e9", icon: Paintbrush }, 
   { text: "GIT", color: "#f43f5e", icon: GitBranch }, 
-  { text: "GITHUB", color: "#8b5cf6", icon: Terminal }, 
-  { text: "VERCEL", color: "#10b981", icon: Triangle }, 
-  { text: "API", color: "#14b8a6", icon: Network } 
+  { text: "PRISMA", color: "#14b8a6", icon: Database }, 
+  { text: "SUPABASE", color: "#10b981", icon: DatabaseBackup }, 
+  { text: "NEXTAUTH", color: "#8b5cf6", icon: ShieldCheck } 
 ];
 
 type Brick = {
@@ -118,7 +118,9 @@ export function TechBreakout() {
       initSizes();
       x = canvasWidth / 2;
       y = canvasHeight - 60;
-      baseSpeed = (canvasWidth / 220) + (1 * 0.3);
+      // Mobile-friendly slower curve
+      const isMobile = canvasWidth < 600;
+      baseSpeed = (canvasWidth / (isMobile ? 300 : 250)) + (1 * 0.2);
       dx = baseSpeed * (Math.random() > 0.5 ? 1 : -1);
       dy = -baseSpeed;
       paddleX = (canvasWidth - paddleWidth) / 2;
@@ -149,7 +151,8 @@ export function TechBreakout() {
       brickWidth = (canvasWidth - (brickOffsetLeft * 2) - (brickPadding * (brickColumnCount - 1))) / brickColumnCount;
       brickHeight = Math.max(24, Math.floor(canvasHeight * 0.08));
       
-      baseSpeed = (canvasWidth / 220) + (wave * 0.3);
+      const isMobile = canvasWidth < 600;
+      baseSpeed = (canvasWidth / (isMobile ? 300 : 250)) + (wave * 0.2);
       
       // Keep ball within bounds if resized
       if (x > canvasWidth) x = canvasWidth / 2;
@@ -455,7 +458,8 @@ export function TechBreakout() {
           initBricks();
           x = canvasWidth / 2;
           y = canvasHeight - 60;
-          baseSpeed = (canvasWidth / 220) + ((wave + 1) * 0.3);
+          const isMobile = canvasWidth < 600;
+          baseSpeed = (canvasWidth / (isMobile ? 300 : 250)) + ((wave + 1) * 0.2);
           dx = baseSpeed * (Math.random() > 0.5 ? 1 : -1);
           dy = -baseSpeed;
         }
@@ -495,8 +499,13 @@ export function TechBreakout() {
         mousePressed = false; 
       } else {
         // Reduced paddle speed slightly for better control
-        if (rightPressed && paddleX < canvasWidth - paddleWidth) paddleX += baseSpeed * 1.3;
-        else if (leftPressed && paddleX > 0) paddleX -= baseSpeed * 1.3;
+        if (rightPressed && paddleX < canvasWidth - paddleWidth) paddleX += baseSpeed * 1.5;
+        else if (leftPressed && paddleX > 0) paddleX -= baseSpeed * 1.5;
+        
+        // Reset speed to normal if we took over from an out-of-control autoplay
+        if (Math.abs(dx) > baseSpeed * 1.5) {
+           dx = (dx > 0 ? 1 : -1) * (baseSpeed * 1.2);
+        }
       }
       
       if (paddleX < 0) paddleX = 0;
@@ -519,10 +528,19 @@ export function TechBreakout() {
         currentDy = -currentDy;
       } else if (y + currentDy > canvasHeight - ballSize - paddleHeight - 8) {
         if (x + ballSize > paddleX && x < paddleX + paddleWidth) {
-          dy = -Math.abs(dy); 
-          const hitPoint = (x + ballSize/2) - (paddleX + paddleWidth / 2);
-          dx = hitPoint * 0.15;
-          if (Math.abs(dx) < 1) dx = dx < 0 ? -2 : 2; 
+          dy = -dy;
+          
+          // Add english, but clamp max speed to prevent runaway fast ball
+          let newDx = dx + (x - (paddleX + paddleWidth / 2)) * 0.05;
+          const maxSpeed = baseSpeed * 1.5;
+          if (newDx > maxSpeed) newDx = maxSpeed;
+          if (newDx < -maxSpeed) newDx = -maxSpeed;
+          dx = newDx;
+          
+          // Ensure minimum vertical speed so it doesn't get stuck bouncing horizontally
+          if (Math.abs(dy) < baseSpeed * 0.5) {
+            dy = (dy > 0 ? 1 : -1) * baseSpeed * 0.5;
+          }
           y = canvasHeight - ballSize - paddleHeight - 12;
           createExplosion(x, y + ballSize, "#0ea5e9");
         } else if (y + currentDy > canvasHeight) {
