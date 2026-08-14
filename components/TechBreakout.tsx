@@ -1,25 +1,27 @@
 "use client";
 
 import React, { useRef, useEffect, useState } from 'react';
-import { RefreshCw, Play, Atom, Zap, Code, FileCode, Server, Wind, Box, Hash, Layout, Paintbrush, GitBranch, Flame, Database, DatabaseBackup, ShieldCheck } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { RefreshCw, Play } from 'lucide-react';
 
 const TECH_STACK = [
-  { text: "REACT", color: "#0ea5e9", icon: Atom }, 
-  { text: "NEXT.JS", color: "#d946ef", icon: Zap }, 
-  { text: "TS", color: "#3b82f6", icon: Code }, 
-  { text: "JS", color: "#eab308", icon: FileCode }, 
-  { text: "NODE", color: "#10b981", icon: Server }, 
-  { text: "TAILWIND", color: "#06b6d4", icon: Wind }, 
-  { text: "FIREBASE", color: "#f59e0b", icon: Flame }, 
-  { text: "UNITY", color: "#d946ef", icon: Box }, 
-  { text: "C#", color: "#8b5cf6", icon: Hash }, 
-  { text: "HTML5", color: "#f97316", icon: Layout }, 
-  { text: "CSS3", color: "#0ea5e9", icon: Paintbrush }, 
-  { text: "GIT", color: "#f43f5e", icon: GitBranch }, 
-  { text: "PRISMA", color: "#14b8a6", icon: Database }, 
-  { text: "SUPABASE", color: "#10b981", icon: DatabaseBackup }, 
-  { text: "NEXTAUTH", color: "#8b5cf6", icon: ShieldCheck } 
+  { text: "React", color: "#61DAFB", iconUrl: "https://cdn.simpleicons.org/react/61DAFB" },
+  { text: "Next.js", color: "#FFFFFF", iconUrl: "https://cdn.simpleicons.org/nextdotjs/white" },
+  { text: "Tailwind CSS", color: "#06B6D4", iconUrl: "https://cdn.simpleicons.org/tailwindcss/06B6D4" },
+  { text: "Framer Motion", color: "#0055FF", iconUrl: "https://cdn.simpleicons.org/framer/0055FF" },
+  { text: "TypeScript", color: "#3178C6", iconUrl: "https://cdn.simpleicons.org/typescript/3178C6" },
+  { text: "HTML/CSS", color: "#E34F26", iconUrl: "https://cdn.simpleicons.org/html5/E34F26" },
+  { text: "Node.js", color: "#339933", iconUrl: "https://cdn.simpleicons.org/nodedotjs/339933" },
+  { text: "C#", color: "#239120", iconUrl: "https://cdn.simpleicons.org/csharp/239120" },
+  { text: "REST APIs", color: "#FF6C37", iconUrl: "https://cdn.simpleicons.org/postman/FF6C37" },
+  { text: "SQL", color: "#4479A1", iconUrl: "https://cdn.simpleicons.org/mysql/4479A1" },
+  { text: "Git", color: "#F05032", iconUrl: "https://cdn.simpleicons.org/git/F05032" },
+  { text: "Vercel", color: "#FFFFFF", iconUrl: "https://cdn.simpleicons.org/vercel/white" },
+  { text: "Unity 3D", color: "#FFFFFF", iconUrl: "https://cdn.simpleicons.org/unity/white" },
+  { text: "Game Logic", color: "#478CBF", iconUrl: "https://cdn.simpleicons.org/godotengine/478CBF" },
+  { text: "Pixel Art", color: "#7D929E", iconUrl: "https://cdn.simpleicons.org/aseprite/white" },
+  { text: "Aseprite", color: "#7D929E", iconUrl: "https://cdn.simpleicons.org/aseprite/7D929E" },
+  { text: "UI/UX Design", color: "#F24E1E", iconUrl: "https://cdn.simpleicons.org/figma/F24E1E" }
 ];
 
 type Brick = {
@@ -31,7 +33,7 @@ type Brick = {
   text: string;
   color: string;
   id: number;
-  icon: any;
+  iconUrl: string;
 };
 
 type Particle = {
@@ -51,7 +53,7 @@ export function TechBreakout() {
   const [score, setScore] = useState(0);
   const [lives, setLives] = useState(3);
   const [isGameOver, setIsGameOver] = useState(false);
-  const [floatingIcons, setFloatingIcons] = useState<{id: number, x: number, y: number, icon: any, color: string}[]>([]);
+  const [floatingIcons, setFloatingIcons] = useState<{id: number, x: number, y: number, iconUrl: string, color: string}[]>([]);
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -118,9 +120,8 @@ export function TechBreakout() {
       initSizes();
       x = canvasWidth / 2;
       y = canvasHeight - 60;
-      // Mobile-friendly slower curve
-      const isMobile = canvasWidth < 600;
-      baseSpeed = (canvasWidth / (isMobile ? 300 : 250)) + (1 * 0.2);
+      // Drastically slower speed
+      baseSpeed = (canvasWidth / 450) + (1 * 0.15);
       dx = baseSpeed * (Math.random() > 0.5 ? 1 : -1);
       dy = -baseSpeed;
       paddleX = (canvasWidth - paddleWidth) / 2;
@@ -151,8 +152,7 @@ export function TechBreakout() {
       brickWidth = (canvasWidth - (brickOffsetLeft * 2) - (brickPadding * (brickColumnCount - 1))) / brickColumnCount;
       brickHeight = Math.max(24, Math.floor(canvasHeight * 0.08));
       
-      const isMobile = canvasWidth < 600;
-      baseSpeed = (canvasWidth / (isMobile ? 300 : 250)) + (wave * 0.2);
+      baseSpeed = (canvasWidth / 450) + (wave * 0.15);
       
       // Keep ball within bounds if resized
       if (x > canvasWidth) x = canvasWidth / 2;
@@ -180,7 +180,7 @@ export function TechBreakout() {
           const tech = TECH_STACK[techIndex % TECH_STACK.length];
           bricks[c][r] = { 
             x: 0, y: 0, w: brickWidth, h: brickHeight, 
-            status: 1, text: tech.text, color: tech.color, id: techIndex, icon: tech.icon 
+            status: 1, text: tech.text, color: tech.color, id: techIndex, iconUrl: tech.iconUrl 
           };
           techIndex++;
         }
@@ -292,7 +292,7 @@ export function TechBreakout() {
                 id: iconId,
                 x: b.x + b.w / 2,
                 y: b.y,
-                icon: b.icon,
+                iconUrl: b.iconUrl,
                 color: b.color
               }]);
               
@@ -458,8 +458,7 @@ export function TechBreakout() {
           initBricks();
           x = canvasWidth / 2;
           y = canvasHeight - 60;
-          const isMobile = canvasWidth < 600;
-          baseSpeed = (canvasWidth / (isMobile ? 300 : 250)) + ((wave + 1) * 0.2);
+          baseSpeed = (canvasWidth / 450) + ((wave + 1) * 0.15);
           dx = baseSpeed * (Math.random() > 0.5 ? 1 : -1);
           dy = -baseSpeed;
         }
@@ -658,7 +657,6 @@ export function TechBreakout() {
             <div className="absolute inset-0 pointer-events-none z-40 overflow-hidden">
               <AnimatePresence>
                 {floatingIcons.map(item => {
-                  const Icon = item.icon;
                   return (
                     <motion.div
                       key={item.id}
@@ -674,13 +672,12 @@ export function TechBreakout() {
                         times: [0, 0.15, 0.8, 1], // Quick pop in, stay long, fade out
                         ease: "easeOut" 
                       }}
-                      className="absolute pointer-events-none flex items-center justify-center"
+                      className="absolute pointer-events-none flex items-center justify-center drop-shadow-[0_0_10px_rgba(255,255,255,0.4)]"
                       style={{
-                        color: item.color,
-                        filter: `drop-shadow(0 0 10px ${item.color})`
+                        transform: 'translate(-50%, -50%)'
                       }}
                     >
-                      <Icon size={32} strokeWidth={2} style={{ transform: 'translate(-50%, -50%)' }} />
+                      <img src={item.iconUrl} alt="Tech Logo" width={32} height={32} className="opacity-90" />
                     </motion.div>
                   );
                 })}
