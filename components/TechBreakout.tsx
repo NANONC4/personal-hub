@@ -316,7 +316,8 @@ export function TechBreakout() {
     };
 
     const drawBricks = () => {
-      const fontSize = Math.max(10, Math.floor(canvasWidth * 0.02)); // Dynamic font size
+      // Significantly increase font size for better readability
+      const fontSize = Math.max(12, Math.floor(canvasWidth * 0.025)); 
 
       for (let c = 0; c < brickColumnCount; c++) {
         for (let r = 0; r < brickRowCount; r++) {
@@ -327,33 +328,52 @@ export function TechBreakout() {
           b.y = brickY;
           
           if (b.status === 1) {
-            ctx.fillStyle = "#1e293b";
+            // DULL STATE (Solid physical block)
+            ctx.fillStyle = "#1e293b"; // slate-800
             ctx.fillRect(brickX, brickY, brickWidth, brickHeight);
             
-            ctx.fillStyle = "rgba(255,255,255,0.15)";
+            // Chunky 3D Bevels
+            ctx.fillStyle = "#334155"; // highlight
             ctx.fillRect(brickX, brickY, brickWidth, 4);
             ctx.fillRect(brickX, brickY, 4, brickHeight);
-            ctx.fillStyle = "rgba(0,0,0,0.3)";
+            ctx.fillStyle = "#020617"; // shadow
             ctx.fillRect(brickX, brickY + brickHeight - 4, brickWidth, 4);
             ctx.fillRect(brickX + brickWidth - 4, brickY, 4, brickHeight);
             
-            ctx.fillStyle = "#94a3b8"; 
-            ctx.font = `${fontSize}px var(--font-pixel), monospace`;
-            ctx.textAlign = "center";
-            ctx.textBaseline = "middle";
-            ctx.fillText(b.text, brickX + brickWidth / 2, brickY + brickHeight / 2 + 2);
-          } else {
-            ctx.fillStyle = b.color + "20"; 
-            ctx.fillRect(brickX, brickY, brickWidth, brickHeight);
-            
-            ctx.lineWidth = 2;
-            ctx.strokeStyle = b.color + "80";
-            ctx.strokeRect(brickX, brickY, brickWidth, brickHeight);
-            
-            ctx.fillStyle = b.color;
+            // Text: Vibrant Neon Color + Hard Black Shadow for popping contrast
             ctx.font = `bold ${fontSize}px var(--font-pixel), monospace`;
             ctx.textAlign = "center";
             ctx.textBaseline = "middle";
+            
+            // Draw Hard Shadow
+            ctx.fillStyle = "#000000";
+            ctx.fillText(b.text, brickX + brickWidth / 2 + 2, brickY + brickHeight / 2 + 4);
+            
+            // Draw Foreground Text
+            ctx.fillStyle = b.color; 
+            ctx.fillText(b.text, brickX + brickWidth / 2, brickY + brickHeight / 2 + 2);
+            
+          } else {
+            // IGNITED STATE (Holographic energy)
+            ctx.fillStyle = b.color + "30"; // Slightly more opaque for visibility
+            ctx.fillRect(brickX, brickY, brickWidth, brickHeight);
+            
+            // Hard Neon Outline
+            ctx.lineWidth = 3; // Thicker border
+            ctx.strokeStyle = b.color;
+            ctx.strokeRect(brickX, brickY, brickWidth, brickHeight);
+            
+            // Text: Pure White + Hard Black Shadow
+            ctx.font = `bold ${fontSize}px var(--font-pixel), monospace`;
+            ctx.textAlign = "center";
+            ctx.textBaseline = "middle";
+            
+            // Draw Hard Shadow
+            ctx.fillStyle = "#000000";
+            ctx.fillText(b.text, brickX + brickWidth / 2 + 2, brickY + brickHeight / 2 + 4);
+            
+            // Draw Foreground Text
+            ctx.fillStyle = "#ffffff";
             ctx.fillText(b.text, brickX + brickWidth / 2, brickY + brickHeight / 2 + 2);
           }
         }
