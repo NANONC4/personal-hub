@@ -6,7 +6,7 @@ import { RefreshCw, Play } from 'lucide-react';
 
 const TECH_STACK = [
   { text: "UNITY", color: "#FFFFFF", iconUrl: "https://cdn.simpleicons.org/unity/white" },
-  { text: "C#", color: "#68217A", iconUrl: "https://cdn.simpleicons.org/csharp/68217A" },
+  { text: "C#", color: "#68217A", iconUrl: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/csharp/csharp-original.svg" },
   { text: "NEXT.JS", color: "#FFFFFF", iconUrl: "https://cdn.simpleicons.org/nextdotjs/white" },
   { text: "TYPESCRIPT", color: "#3178C6", iconUrl: "https://cdn.simpleicons.org/typescript/3178C6" },
   { text: "TAILWIND CSS", color: "#06B6D4", iconUrl: "https://cdn.simpleicons.org/tailwindcss/06B6D4" },
@@ -14,7 +14,7 @@ const TECH_STACK = [
   { text: "REACT", color: "#61DAFB", iconUrl: "https://cdn.simpleicons.org/react/61DAFB" },
   { text: "FIREBASE", color: "#FFCA28", iconUrl: "https://cdn.simpleicons.org/firebase/FFCA28" },
   { text: "HTML5", color: "#E34F26", iconUrl: "https://cdn.simpleicons.org/html5/E34F26" },
-  { text: "CSS3", color: "#1572B6", iconUrl: "https://cdn.simpleicons.org/css/1572B6" },
+  { text: "CSS3", color: "#1572B6", iconUrl: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/css3/css3-original.svg" },
   { text: "JAVASCRIPT", color: "#F7DF1E", iconUrl: "https://cdn.simpleicons.org/javascript/F7DF1E" },
   { text: "GIT", color: "#F05032", iconUrl: "https://cdn.simpleicons.org/git/F05032" },
   { text: "NODE.JS", color: "#339933", iconUrl: "https://cdn.simpleicons.org/nodedotjs/339933" },
