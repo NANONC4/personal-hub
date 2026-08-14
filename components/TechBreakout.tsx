@@ -1,24 +1,25 @@
 "use client";
 
 import React, { useRef, useEffect, useState } from 'react';
-import { RefreshCw, Play } from 'lucide-react';
+import { RefreshCw, Play, Atom, Zap, Code, FileCode, Server, Wind, PenTool, Box, Hash, Layout, Paintbrush, GitBranch, Terminal, Triangle, Network } from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
 
 const TECH_STACK = [
-  { text: "REACT", color: "#0ea5e9" }, // sky-500
-  { text: "NEXT", color: "#d946ef" }, // fuchsia-500
-  { text: "TS", color: "#3b82f6" }, // blue-500
-  { text: "JS", color: "#eab308" }, // yellow-500
-  { text: "NODE", color: "#10b981" }, // emerald-500
-  { text: "TAILWIND", color: "#06b6d4" }, // cyan-500
-  { text: "FIGMA", color: "#f43f5e" }, // rose-500
-  { text: "UNITY", color: "#d946ef" }, // fuchsia-500
-  { text: "C#", color: "#8b5cf6" }, // violet-500
-  { text: "HTML5", color: "#f97316" }, // orange-500
-  { text: "CSS3", color: "#0ea5e9" }, // sky-500
-  { text: "GIT", color: "#f43f5e" }, // rose-500
-  { text: "GITHUB", color: "#8b5cf6" }, // violet-500
-  { text: "VERCEL", color: "#10b981" }, // emerald-500
-  { text: "API", color: "#14b8a6" } // teal-500
+  { text: "REACT", color: "#0ea5e9", icon: Atom }, 
+  { text: "NEXT", color: "#d946ef", icon: Zap }, 
+  { text: "TS", color: "#3b82f6", icon: Code }, 
+  { text: "JS", color: "#eab308", icon: FileCode }, 
+  { text: "NODE", color: "#10b981", icon: Server }, 
+  { text: "TAILWIND", color: "#06b6d4", icon: Wind }, 
+  { text: "FIGMA", color: "#f43f5e", icon: PenTool }, 
+  { text: "UNITY", color: "#d946ef", icon: Box }, 
+  { text: "C#", color: "#8b5cf6", icon: Hash }, 
+  { text: "HTML5", color: "#f97316", icon: Layout }, 
+  { text: "CSS3", color: "#0ea5e9", icon: Paintbrush }, 
+  { text: "GIT", color: "#f43f5e", icon: GitBranch }, 
+  { text: "GITHUB", color: "#8b5cf6", icon: Terminal }, 
+  { text: "VERCEL", color: "#10b981", icon: Triangle }, 
+  { text: "API", color: "#14b8a6", icon: Network } 
 ];
 
 type Brick = {
@@ -30,6 +31,7 @@ type Brick = {
   text: string;
   color: string;
   id: number;
+  icon: any;
 };
 
 type Particle = {
@@ -49,6 +51,7 @@ export function TechBreakout() {
   const [score, setScore] = useState(0);
   const [lives, setLives] = useState(3);
   const [isGameOver, setIsGameOver] = useState(false);
+  const [floatingIcons, setFloatingIcons] = useState<{id: number, x: number, y: number, icon: any, color: string}[]>([]);
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -174,7 +177,7 @@ export function TechBreakout() {
           const tech = TECH_STACK[techIndex % TECH_STACK.length];
           bricks[c][r] = { 
             x: 0, y: 0, w: brickWidth, h: brickHeight, 
-            status: 1, text: tech.text, color: tech.color, id: techIndex 
+            status: 1, text: tech.text, color: tech.color, id: techIndex, icon: tech.icon 
           };
           techIndex++;
         }
@@ -279,6 +282,20 @@ export function TechBreakout() {
               b.status = 0; 
               setScore(prev => prev + 10);
               createExplosion(x + ballSize/2, y + ballSize/2);
+              
+              // Trigger Floating Icon
+              const iconId = Date.now() + Math.random();
+              setFloatingIcons(prev => [...prev, {
+                id: iconId,
+                x: b.x + b.w / 2,
+                y: b.y,
+                icon: b.icon,
+                color: b.color
+              }]);
+              
+              setTimeout(() => {
+                setFloatingIcons(prev => prev.filter(item => item.id !== iconId));
+              }, 1200);
             }
           }
         }
@@ -616,6 +633,31 @@ export function TechBreakout() {
               className="w-full h-full block"
               style={{ imageRendering: 'pixelated' }}
             />
+            
+            {/* Floating Pop-up Icons */}
+            <div className="absolute inset-0 pointer-events-none z-40 overflow-hidden">
+              <AnimatePresence>
+                {floatingIcons.map(item => {
+                  const Icon = item.icon;
+                  return (
+                    <motion.div
+                      key={item.id}
+                      initial={{ opacity: 0, y: item.y, x: item.x, scale: 0.5 }}
+                      animate={{ opacity: 1, y: item.y - 120, scale: 2 }}
+                      exit={{ opacity: 0 }}
+                      transition={{ duration: 1, ease: "easeOut" }}
+                      className="absolute pointer-events-none flex items-center justify-center"
+                      style={{
+                        color: item.color,
+                        filter: `drop-shadow(0 0 10px ${item.color})`
+                      }}
+                    >
+                      <Icon size={32} strokeWidth={2} style={{ transform: 'translate(-50%, -50%)' }} />
+                    </motion.div>
+                  );
+                })}
+              </AnimatePresence>
+            </div>
             
             {/* Explicit RESTART button layered on top of Canvas when Game Over */}
             {isGameOver && (
