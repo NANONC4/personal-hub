@@ -70,7 +70,7 @@ export function TechBreakout() {
 
     // Dynamic Sizing variables (Fixed for Portrait)
     let ballSize = 8;
-    let baseSpeed = 4 + (wave * 0.5);
+    let baseSpeed = 3 + (wave * 0.5); // Reduced base speed
     let dx = baseSpeed * (Math.random() > 0.5 ? 1 : -1);
     let dy = -baseSpeed;
     let paddleHeight = 12;
@@ -105,7 +105,7 @@ export function TechBreakout() {
       
       x = canvasWidth / 2;
       y = canvasHeight - 60;
-      baseSpeed = 4 + (1 * 0.5);
+      baseSpeed = 3 + (1 * 0.5); // Reduced base speed
       dx = baseSpeed * (Math.random() > 0.5 ? 1 : -1);
       dy = -baseSpeed;
       paddleX = (canvasWidth - paddleWidth) / 2;
@@ -429,8 +429,16 @@ export function TechBreakout() {
     };
 
     let animationFrameId: number;
+    let lastTime = performance.now();
 
-    const draw = () => {
+    const draw = (currentTime: number) => {
+      // Calculate Delta Time (dt) to normalize speed across all refresh rates (60Hz, 120Hz, etc)
+      let dt = (currentTime - lastTime) / (1000 / 60); 
+      lastTime = currentTime;
+      // Clamp dt so if they tab out and back, the ball doesn't teleport
+      if (dt > 2.0) dt = 2.0; 
+      if (dt < 0.1) dt = 0.1;
+
       ctx.fillStyle = "#020617"; 
       ctx.fillRect(0, 0, canvasWidth, canvasHeight);
 
@@ -443,14 +451,14 @@ export function TechBreakout() {
         ctx.textAlign = "center";
         ctx.fillText("OVERCLOCK", canvasWidth / 2, canvasHeight / 2);
         
-        transitionTimer--;
+        transitionTimer -= 1 * dt;
         if (transitionTimer <= 0) {
           isTransitioningWave = false;
           setWave(prev => prev + 1);
           initBricks();
           x = canvasWidth / 2;
           y = canvasHeight - 60;
-          baseSpeed = 4 + ((wave + 1) * 0.5);
+          baseSpeed = 3 + ((wave + 1) * 0.5);
           dx = baseSpeed * (Math.random() > 0.5 ? 1 : -1);
           dy = -baseSpeed;
         }
@@ -475,7 +483,7 @@ export function TechBreakout() {
         drawGameOver();
         
         // Auto restart logic
-        gameOverTimer--;
+        gameOverTimer -= 1 * dt;
         if (gameOverTimer <= 0) {
           resetGameVariables();
           autoPlay = true;
@@ -494,12 +502,12 @@ export function TechBreakout() {
       
       if (autoPlay) {
         const targetX = x - paddleWidth / 2;
-        paddleX += (targetX - paddleX) * 0.25;
+        paddleX += (targetX - paddleX) * 0.25 * dt;
         mousePressed = false; 
       } else {
         // Reduced paddle speed slightly for better control
-        if (rightPressed && paddleX < canvasWidth - paddleWidth) paddleX += baseSpeed * 1.5;
-        else if (leftPressed && paddleX > 0) paddleX -= baseSpeed * 1.5;
+        if (rightPressed && paddleX < canvasWidth - paddleWidth) paddleX += baseSpeed * 1.5 * dt;
+        else if (leftPressed && paddleX > 0) paddleX -= baseSpeed * 1.5 * dt;
         
         // Reset speed to normal if we took over from an out-of-control autoplay
         if (Math.abs(dx) > baseSpeed * 1.5) {
@@ -575,14 +583,15 @@ export function TechBreakout() {
       }
 
       if (!localGameOver) {
-        x += currentDx;
-        y += currentDy;
+        x += currentDx * dt;
+        y += currentDy * dt;
       }
 
       animationFrameId = requestAnimationFrame(draw);
     };
 
-    draw();
+    lastTime = performance.now();
+    animationFrameId = requestAnimationFrame(draw);
 
     return () => {
       cancelAnimationFrame(animationFrameId);
