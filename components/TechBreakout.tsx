@@ -61,7 +61,7 @@ export function TechBreakout() {
     if (!ctx) return;
     
     const canvasWidth = 800;
-    const canvasHeight = 800;
+    const canvasHeight = 600;
     
     canvas.width = canvasWidth;
     canvas.height = canvasHeight;
@@ -78,16 +78,16 @@ export function TechBreakout() {
     
     // Position variables
     let x = canvasWidth / 2;
-    let y = canvasHeight - 80;
+    let y = canvasHeight - 70;
     let paddleX = (canvasWidth - paddleWidth) / 2;
 
     const brickRowCount = 3;
     const brickColumnCount = 5;
-    let brickPadding = 16;
-    let brickOffsetTop = 80;
-    let brickOffsetLeft = 50;
+    let brickPadding = 12;
+    let brickOffsetTop = 70;
+    let brickOffsetLeft = 40;
     let brickWidth = (canvasWidth - (brickOffsetLeft * 2) - (brickPadding * (brickColumnCount - 1))) / brickColumnCount;
-    let brickHeight = 36;
+    let brickHeight = 30;
 
     let bricks: Brick[][] = [];
     let particles: Particle[] = [];
@@ -104,7 +104,7 @@ export function TechBreakout() {
       localGameOver = false;
       
       x = canvasWidth / 2;
-      y = canvasHeight - 80;
+      y = canvasHeight - 70;
       baseSpeed = 5 + (1 * 0.5); // Adjusted base speed
       dx = baseSpeed * (Math.random() > 0.5 ? 1 : -1);
       dy = -baseSpeed;
@@ -476,7 +476,7 @@ export function TechBreakout() {
           setWave(prev => prev + 1);
           initBricks();
           x = canvasWidth / 2;
-          y = canvasHeight - 80;
+          y = canvasHeight - 70;
           baseSpeed = 5 + ((wave + 1) * 0.5);
           dx = baseSpeed * (Math.random() > 0.5 ? 1 : -1);
           dy = -baseSpeed;
@@ -674,10 +674,10 @@ export function TechBreakout() {
         {/* The Screen Bezel */}
         <div className="w-full bg-[#1e293b] p-4 md:p-6 rounded-t-xl rounded-bl-xl rounded-br-[40px] shadow-[inset_0_5px_20px_rgba(0,0,0,0.8)] relative">
           
-          {/* Game Container (SQUARE matching SpaceShooter philosophy) */}
+          {/* Game Container (4:3 aspect ratio to fit well on desktop without scrolling) */}
           <div 
             ref={containerRef} 
-            className="w-full max-w-[800px] mx-auto aspect-square relative bg-[#020617] overflow-hidden cursor-crosshair shadow-[inset_0_0_10px_rgba(0,0,0,1)] shrink-0 rounded-lg"
+            className="w-full max-w-[800px] mx-auto aspect-[4/3] relative bg-[#020617] overflow-hidden cursor-crosshair shadow-[inset_0_0_10px_rgba(0,0,0,1)] shrink-0 rounded-lg"
           >
             <canvas 
               ref={canvasRef} 
