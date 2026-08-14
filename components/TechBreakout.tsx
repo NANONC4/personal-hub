@@ -60,30 +60,18 @@ export function TechBreakout() {
     const ctx = canvas.getContext('2d');
     if (!ctx) return;
     
-    // We use the actual container size for crispness, but we enforce an aspect ratio via CSS
-    let canvasWidth = container.clientWidth;
-    let canvasHeight = container.clientHeight;
+    const canvasWidth = 800;
+    const canvasHeight = 500;
     
     canvas.width = canvasWidth;
     canvas.height = canvasHeight;
     // Disable smoothing to keep borders hard
     ctx.imageSmoothingEnabled = false;
 
-    const resizeCanvas = () => {
-      canvasWidth = container.clientWidth;
-      canvasHeight = container.clientHeight;
-      canvas.width = canvasWidth;
-      canvas.height = canvasHeight;
-      ctx.imageSmoothingEnabled = false;
-      // Re-init sizes based on new width
-      initSizes();
-    };
-    window.addEventListener('resize', resizeCanvas);
-
-    // Dynamic Sizing variables
+    // Dynamic Sizing variables (Now Fixed)
     let ballSize = 12;
-    let baseSpeed = 5;
-    let dx = baseSpeed;
+    let baseSpeed = 4 + (wave * 0.5);
+    let dx = baseSpeed * (Math.random() > 0.5 ? 1 : -1);
     let dy = -baseSpeed;
     let paddleHeight = 16;
     let paddleWidth = 120;
@@ -95,11 +83,11 @@ export function TechBreakout() {
 
     const brickRowCount = 3;
     const brickColumnCount = 5;
-    let brickWidth = 100;
-    let brickHeight = 30;
-    let brickPadding = 10;
-    let brickOffsetTop = 50;
-    let brickOffsetLeft = 30;
+    let brickPadding = 12;
+    let brickOffsetTop = 60;
+    let brickOffsetLeft = 40;
+    let brickWidth = (canvasWidth - (brickOffsetLeft * 2) - (brickPadding * (brickColumnCount - 1))) / brickColumnCount;
+    let brickHeight = 35;
 
     let bricks: Brick[][] = [];
     let particles: Particle[] = [];
@@ -115,11 +103,9 @@ export function TechBreakout() {
       setIsGameOver(false);
       localGameOver = false;
       
-      initSizes();
       x = canvasWidth / 2;
       y = canvasHeight - 60;
-      // Drastically slower speed
-      baseSpeed = (canvasWidth / 450) + (1 * 0.15);
+      baseSpeed = 4 + (1 * 0.5);
       dx = baseSpeed * (Math.random() > 0.5 ? 1 : -1);
       dy = -baseSpeed;
       paddleX = (canvasWidth - paddleWidth) / 2;
@@ -137,39 +123,7 @@ export function TechBreakout() {
       }
     };
 
-    const initSizes = () => {
-      // Scale everything relative to canvas width
-      ballSize = Math.max(8, Math.floor(canvasWidth * 0.015));
-      paddleWidth = Math.max(80, Math.floor(canvasWidth * 0.15));
-      paddleHeight = Math.max(12, Math.floor(canvasHeight * 0.03));
-      
-      brickPadding = Math.max(6, Math.floor(canvasWidth * 0.015));
-      brickOffsetLeft = Math.max(16, Math.floor(canvasWidth * 0.04));
-      brickOffsetTop = Math.max(40, Math.floor(canvasHeight * 0.1));
-      
-      brickWidth = (canvasWidth - (brickOffsetLeft * 2) - (brickPadding * (brickColumnCount - 1))) / brickColumnCount;
-      brickHeight = Math.max(24, Math.floor(canvasHeight * 0.08));
-      
-      baseSpeed = (canvasWidth / 450) + (wave * 0.15);
-      
-      // Keep ball within bounds if resized
-      if (x > canvasWidth) x = canvasWidth / 2;
-      if (y > canvasHeight) y = canvasHeight - 60;
-      if (paddleX > canvasWidth) paddleX = (canvasWidth - paddleWidth) / 2;
-      
-      // Update existing bricks width/height without resetting status
-      if (bricks.length > 0) {
-        for (let c = 0; c < brickColumnCount; c++) {
-          for (let r = 0; r < brickRowCount; r++) {
-            bricks[c][r].w = brickWidth;
-            bricks[c][r].h = brickHeight;
-          }
-        }
-      }
-    };
-
     const initBricks = () => {
-      initSizes();
       bricks = [];
       let techIndex = 0;
       for (let c = 0; c < brickColumnCount; c++) {
@@ -220,7 +174,13 @@ export function TechBreakout() {
     
     const mouseDownHandler = (e: any) => { 
       if (localGameOver) return;
-      mousePressed = true; 
+      
+      // Only trigger speed boost (mousePressed) if it's a real mouse click, not a touch.
+      // On mobile, the Action button handles the boost.
+      if (!e || !(e.touches && e.touches.length > 0)) {
+        mousePressed = true; 
+      }
+      
       lastInteractionTime = Date.now(); 
       autoPlay = false; 
       
@@ -369,7 +329,7 @@ export function TechBreakout() {
 
     const drawBricks = () => {
       // Significantly increase font size for better readability
-      const fontSize = Math.max(12, Math.floor(canvasWidth * 0.025)); 
+      const fontSize = 20; 
 
       for (let c = 0; c < brickColumnCount; c++) {
         for (let r = 0; r < brickRowCount; r++) {
@@ -455,7 +415,7 @@ export function TechBreakout() {
       ctx.fillStyle = "rgba(0,0,0,0.8)";
       ctx.fillRect(0, 0, canvasWidth, canvasHeight);
       
-      const fontSize = Math.max(30, Math.floor(canvasWidth * 0.06));
+      const fontSize = 48;
       ctx.fillStyle = "#ef4444";
       ctx.font = `bold ${fontSize}px var(--font-pixel), monospace`;
       ctx.textAlign = "center";
@@ -464,7 +424,7 @@ export function TechBreakout() {
       // Draw auto-restart countdown
       const countdown = Math.ceil(gameOverTimer / 60);
       ctx.fillStyle = "#94a3b8";
-      ctx.font = `${Math.max(14, Math.floor(canvasWidth * 0.03))}px var(--font-pixel), monospace`;
+      ctx.font = `20px var(--font-pixel), monospace`;
       ctx.fillText(`AUTO RESTART IN ${countdown}...`, canvasWidth / 2, canvasHeight / 2 + fontSize);
     };
 
@@ -477,7 +437,7 @@ export function TechBreakout() {
       if (isTransitioningWave) {
         drawParticles();
         
-        const fontSize = Math.max(24, Math.floor(canvasWidth * 0.05));
+        const fontSize = 40;
         ctx.fillStyle = "#ffffff";
         ctx.font = `bold ${fontSize}px var(--font-pixel), monospace`;
         ctx.textAlign = "center";
@@ -490,7 +450,7 @@ export function TechBreakout() {
           initBricks();
           x = canvasWidth / 2;
           y = canvasHeight - 60;
-          baseSpeed = (canvasWidth / 450) + ((wave + 1) * 0.15);
+          baseSpeed = 4 + ((wave + 1) * 0.5);
           dx = baseSpeed * (Math.random() > 0.5 ? 1 : -1);
           dy = -baseSpeed;
         }
@@ -504,7 +464,7 @@ export function TechBreakout() {
       drawParticles();
       
       if (autoPlay && !localGameOver) {
-        const fontSize = Math.max(16, Math.floor(canvasWidth * 0.04));
+        const fontSize = 32;
         ctx.fillStyle = "rgba(255, 255, 255, 0.7)";
         ctx.font = `bold ${fontSize}px var(--font-pixel), monospace`;
         ctx.textAlign = "center";
@@ -544,6 +504,9 @@ export function TechBreakout() {
         // Reset speed to normal if we took over from an out-of-control autoplay
         if (Math.abs(dx) > baseSpeed * 1.5) {
            dx = (dx > 0 ? 1 : -1) * (baseSpeed * 1.2);
+        }
+        if (Math.abs(dy) > baseSpeed * 1.5) {
+           dy = (dy > 0 ? 1 : -1) * (baseSpeed * 1.2);
         }
       }
       
@@ -604,7 +567,7 @@ export function TechBreakout() {
               y = canvasHeight - 60;
               dx = baseSpeed * (Math.random() > 0.5 ? 1 : -1);
               dy = -baseSpeed;
-              paddleX = (canvasWidth - paddleWidth) / 2;
+              // paddleX remains where it was!
               mousePressed = false;
             }
           }
@@ -691,7 +654,7 @@ export function TechBreakout() {
           >
             <canvas 
               ref={canvasRef} 
-              className="w-full h-full block"
+              className="w-full h-full object-contain"
               style={{ imageRendering: 'pixelated' }}
             />
             
