@@ -118,7 +118,7 @@ export function TechBreakout() {
       initSizes();
       x = canvasWidth / 2;
       y = canvasHeight - 60;
-      baseSpeed = (canvasWidth / 150) + (1 * 0.5);
+      baseSpeed = (canvasWidth / 220) + (1 * 0.3);
       dx = baseSpeed * (Math.random() > 0.5 ? 1 : -1);
       dy = -baseSpeed;
       paddleX = (canvasWidth - paddleWidth) / 2;
@@ -149,7 +149,7 @@ export function TechBreakout() {
       brickWidth = (canvasWidth - (brickOffsetLeft * 2) - (brickPadding * (brickColumnCount - 1))) / brickColumnCount;
       brickHeight = Math.max(24, Math.floor(canvasHeight * 0.08));
       
-      baseSpeed = (canvasWidth / 150) + (wave * 0.5);
+      baseSpeed = (canvasWidth / 220) + (wave * 0.3);
       
       // Keep ball within bounds if resized
       if (x > canvasWidth) x = canvasWidth / 2;
@@ -295,7 +295,7 @@ export function TechBreakout() {
               
               setTimeout(() => {
                 setFloatingIcons(prev => prev.filter(item => item.id !== iconId));
-              }, 1200);
+              }, 2500); // Wait 2.5s before cleanup
             }
           }
         }
@@ -455,6 +455,7 @@ export function TechBreakout() {
           initBricks();
           x = canvasWidth / 2;
           y = canvasHeight - 60;
+          baseSpeed = (canvasWidth / 220) + ((wave + 1) * 0.3);
           dx = baseSpeed * (Math.random() > 0.5 ? 1 : -1);
           dy = -baseSpeed;
         }
@@ -493,8 +494,9 @@ export function TechBreakout() {
         paddleX += (targetX - paddleX) * 0.25;
         mousePressed = false; 
       } else {
-        if (rightPressed && paddleX < canvasWidth - paddleWidth) paddleX += baseSpeed * 1.5;
-        else if (leftPressed && paddleX > 0) paddleX -= baseSpeed * 1.5;
+        // Reduced paddle speed slightly for better control
+        if (rightPressed && paddleX < canvasWidth - paddleWidth) paddleX += baseSpeed * 1.3;
+        else if (leftPressed && paddleX > 0) paddleX -= baseSpeed * 1.3;
       }
       
       if (paddleX < 0) paddleX = 0;
@@ -582,11 +584,11 @@ export function TechBreakout() {
 
   return (
     <div className="w-full flex flex-col items-center">
-      <div className="w-full max-w-[900px] bg-[#d1d5db] border-b-[16px] border-r-[16px] border-[#9ca3af] rounded-xl p-4 md:p-8 shadow-2xl relative z-20">
+      <div className="w-full max-w-[900px] bg-slate-900 border-b-[16px] border-r-[16px] border-slate-950 rounded-xl p-4 md:p-8 shadow-2xl relative z-20">
         
         {/* Header HUD */}
         <div className="w-full flex justify-between items-center mb-6 px-2">
-          <h2 className="text-3xl md:text-5xl font-[family-name:var(--font-pixel)] text-slate-800 uppercase tracking-widest">
+          <h2 className="text-3xl md:text-5xl font-[family-name:var(--font-pixel)] text-sky-400 uppercase tracking-widest drop-shadow-[0_0_8px_rgba(56,189,248,0.5)]">
             ARSENAL
           </h2>
           <div className="flex items-center gap-4 md:gap-6">
@@ -606,13 +608,13 @@ export function TechBreakout() {
                 {[...Array(3)].map((_, i) => (
                   <div 
                     key={i} 
-                    className={`text-lg md:text-xl font-[family-name:var(--font-pixel)] ${i < lives ? 'text-red-500' : 'text-slate-400 opacity-30'}`}
+                    className={`text-lg md:text-xl font-[family-name:var(--font-pixel)] ${i < lives ? 'text-red-500 drop-shadow-[0_0_5px_red]' : 'text-slate-700 opacity-30'}`}
                   >
                     ♥
                   </div>
                 ))}
               </div>
-              <div className="font-[family-name:var(--font-pixel)] text-slate-800 bg-slate-300 px-2 py-1 rounded border-b-4 border-slate-400 text-sm md:text-base">
+              <div className="font-[family-name:var(--font-pixel)] text-sky-400 bg-slate-950 px-2 py-1 rounded border-b-4 border-black text-sm md:text-base">
                 {score.toString().padStart(4, '0')}
               </div>
             </div>
@@ -643,9 +645,17 @@ export function TechBreakout() {
                     <motion.div
                       key={item.id}
                       initial={{ opacity: 0, y: item.y, x: item.x, scale: 0.5 }}
-                      animate={{ opacity: 1, y: item.y - 120, scale: 2 }}
+                      animate={{ 
+                        opacity: [0, 1, 1, 0], 
+                        y: item.y - 80, 
+                        scale: [0.5, 2.5, 2.5, 2.5] 
+                      }}
                       exit={{ opacity: 0 }}
-                      transition={{ duration: 1, ease: "easeOut" }}
+                      transition={{ 
+                        duration: 2.5, 
+                        times: [0, 0.15, 0.8, 1], // Quick pop in, stay long, fade out
+                        ease: "easeOut" 
+                      }}
                       className="absolute pointer-events-none flex items-center justify-center"
                       style={{
                         color: item.color,
@@ -678,12 +688,12 @@ export function TechBreakout() {
         
         <div className="w-full flex justify-between items-end mt-6 px-4">
           <div className="flex gap-2">
-            <div className="w-3 h-10 bg-slate-400 rounded-full shadow-[inset_2px_0_5px_rgba(0,0,0,0.2)] transform -rotate-12"></div>
-            <div className="w-3 h-10 bg-slate-400 rounded-full shadow-[inset_2px_0_5px_rgba(0,0,0,0.2)] transform -rotate-12"></div>
-            <div className="w-3 h-10 bg-slate-400 rounded-full shadow-[inset_2px_0_5px_rgba(0,0,0,0.2)] transform -rotate-12"></div>
+            <div className="w-3 h-10 bg-slate-950 rounded-full shadow-[inset_2px_0_5px_rgba(0,0,0,0.5)] transform -rotate-12"></div>
+            <div className="w-3 h-10 bg-slate-950 rounded-full shadow-[inset_2px_0_5px_rgba(0,0,0,0.5)] transform -rotate-12"></div>
+            <div className="w-3 h-10 bg-slate-950 rounded-full shadow-[inset_2px_0_5px_rgba(0,0,0,0.5)] transform -rotate-12"></div>
           </div>
-          <div className="font-[family-name:var(--font-pixel)] text-slate-500 text-xs md:text-sm">
-            NINTENDO STYLE
+          <div className="font-[family-name:var(--font-pixel)] text-slate-700 text-xs md:text-sm">
+            DARK PROTOCOL
           </div>
         </div>
       </div>
