@@ -340,17 +340,39 @@ export function TechBreakout() {
           b.y = brickY;
           
           if (b.status === 1) {
-            // DULL STATE (Solid physical block)
-            ctx.fillStyle = "#1e293b"; // slate-800
+            // DULL STATE (Sci-Fi Targeting Bracket style)
+            
+            // Very faint glowing fill
+            ctx.fillStyle = b.color + "15"; 
             ctx.fillRect(brickX, brickY, brickWidth, brickHeight);
             
-            // Chunky 3D Bevels
-            ctx.fillStyle = "#334155"; // highlight
-            ctx.fillRect(brickX, brickY, brickWidth, 4);
-            ctx.fillRect(brickX, brickY, 4, brickHeight);
-            ctx.fillStyle = "#020617"; // shadow
-            ctx.fillRect(brickX, brickY + brickHeight - 4, brickWidth, 4);
-            ctx.fillRect(brickX + brickWidth - 4, brickY, 4, brickHeight);
+            // Sci-fi corners (solid)
+            ctx.fillStyle = b.color;
+            const cornerLength = 12;
+            const thickness = 4;
+            
+            // Top Left
+            ctx.fillRect(brickX, brickY, cornerLength, thickness);
+            ctx.fillRect(brickX, brickY, thickness, cornerLength);
+            
+            // Top Right
+            ctx.fillRect(brickX + brickWidth - cornerLength, brickY, cornerLength, thickness);
+            ctx.fillRect(brickX + brickWidth - thickness, brickY, thickness, cornerLength);
+            
+            // Bottom Left
+            ctx.fillRect(brickX, brickY + brickHeight - thickness, cornerLength, thickness);
+            ctx.fillRect(brickX, brickY + brickHeight - cornerLength, thickness, cornerLength);
+            
+            // Bottom Right
+            ctx.fillRect(brickX + brickWidth - cornerLength, brickY + brickHeight - thickness, cornerLength, thickness);
+            ctx.fillRect(brickX + brickWidth - thickness, brickY + brickHeight - cornerLength, thickness, cornerLength);
+            
+            // Connecting thin dashed border
+            ctx.strokeStyle = b.color + "60";
+            ctx.lineWidth = 2;
+            ctx.setLineDash([4, 6]);
+            ctx.strokeRect(brickX, brickY, brickWidth, brickHeight);
+            ctx.setLineDash([]); // reset dash
             
             // Text: Vibrant Neon Color + Hard Black Shadow for popping contrast
             ctx.font = `bold ${fontSize}px var(--font-pixel), monospace`;
@@ -366,28 +388,25 @@ export function TechBreakout() {
             ctx.fillText(b.text, brickX + brickWidth / 2, brickY + brickHeight / 2 + 2);
             
           } else {
-            // IGNITED STATE (Holographic energy)
-            ctx.fillStyle = b.color + "30"; // Slightly more opaque for visibility
+            // IGNITED STATE (Overload energy flash)
+            
+            // Solid glowing fill
+            ctx.fillStyle = b.color; 
             ctx.fillRect(brickX, brickY, brickWidth, brickHeight);
             
-            // Hard Neon Outline
-            ctx.lineWidth = 3; // Thicker border
-            ctx.strokeStyle = b.color;
-            ctx.strokeRect(brickX, brickY, brickWidth, brickHeight);
+            // Inner white flash
+            ctx.fillStyle = "#ffffff";
+            ctx.fillRect(brickX + 4, brickY + 4, brickWidth - 8, brickHeight - 8);
             
-            // Text: Pure White + Hard Black Shadow
+            // Text: Pure Black for high contrast on the bright flash
             ctx.font = `bold ${fontSize}px var(--font-pixel), monospace`;
             ctx.textAlign = "center";
             ctx.textBaseline = "middle";
             
-            // Draw Hard Shadow
             ctx.fillStyle = "#000000";
-            ctx.fillText(b.text, brickX + brickWidth / 2 + 2, brickY + brickHeight / 2 + 4);
-            
-            // Draw Foreground Text
-            ctx.fillStyle = "#ffffff";
             ctx.fillText(b.text, brickX + brickWidth / 2, brickY + brickHeight / 2 + 2);
           }
+
         }
       }
     };
