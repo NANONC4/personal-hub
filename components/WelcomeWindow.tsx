@@ -177,29 +177,40 @@ function OuterFrame() {
 }
 
 function Cat({ reduce }: { reduce: boolean | null }) {
+  // one continuous silhouette: haunch → back → head → ears → chest, seen from
+  // behind with the head tipped up toward the moon. Tail curls round the front.
   return (
-    <div className="absolute [image-rendering:pixelated]" style={{ left: "52%", bottom: `${100 - SILL}%` }}>
-      <div className="relative h-[190px] w-[130px]">
-        {/* tail curling round the front */}
-        <motion.div
-          className="absolute bottom-0 left-0 h-4 w-24 origin-right rounded-full bg-[#060c18]"
-          animate={reduce ? undefined : { rotate: [0, -7, 0] }}
-          transition={{ duration: 4.5, repeat: Infinity, ease: "easeInOut" }}
+    <motion.div
+      className="absolute origin-bottom"
+      style={{ left: "52%", bottom: `${100 - SILL}%`, width: 138, height: 208 }}
+      animate={reduce ? undefined : { rotate: [0, -1.2, 0, 0.8, 0] }}
+      transition={{ duration: 9, repeat: Infinity, ease: "easeInOut" }}
+    >
+      <svg viewBox="0 0 138 208" className="h-full w-full" aria-hidden>
+        {/* tail */}
+        <path
+          d="M40 202 C15 208 -6 200 3 183 C13 190 28 190 44 195 Z"
+          fill="#050a15"
         />
-        {/* haunch + body */}
-        <div className="absolute bottom-0 right-4 h-32 w-20 rounded-t-[46%] bg-[#060c18]" />
-        <div className="absolute bottom-24 right-6 h-20 w-16 rounded-t-[55%] bg-[#060c18]" />
-        {/* head, tilted up toward the moon */}
-        <div className="absolute right-7 top-1 h-14 w-14 rounded-[42%] bg-[#060c18]" />
-        {/* ears */}
-        <motion.div
-          className="absolute right-6 -top-1 h-6 w-4 bg-[#060c18] [clip-path:polygon(0_100%,100%_100%,55%_0)]"
-          animate={reduce ? undefined : { rotate: [0, -8, 0, 5, 0] }}
-          transition={{ duration: 6, repeat: Infinity, ease: "easeInOut", repeatDelay: 2.5 }}
+        {/* body + head + ears, single smooth outline */}
+        <path
+          d="M46 208
+             C30 178 25 146 33 112
+             C36 96 40 84 51 74
+             C44 60 43 43 53 31
+             C55 24 55 16 52 6
+             C63 12 70 21 72 32
+             C77 26 87 26 92 32
+             C95 21 103 13 114 8
+             C111 19 111 28 104 38
+             C112 50 114 66 106 80
+             C116 92 120 106 114 126
+             C121 156 117 184 104 208
+             Z"
+          fill="#060c18"
         />
-        <div className="absolute right-[52px] top-0 h-6 w-4 bg-[#060c18] [clip-path:polygon(0_100%,100%_100%,45%_0)]" />
-      </div>
-    </div>
+      </svg>
+    </motion.div>
   );
 }
 
