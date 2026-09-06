@@ -19,6 +19,7 @@ import { PixelImage } from "@/components/PixelImage";
 import { DiaTextReveal } from "@/components/DiaTextReveal";
 import { SpaceShooterMiniGame } from "@/components/SpaceShooterMiniGame";
 import { TechBreakout } from "@/components/TechBreakout";
+import WelcomeWindow from "@/components/WelcomeWindow";
 
 const features = [
   {
@@ -66,10 +67,15 @@ export default function HomePage() {
   return (
     <main className="relative min-h-screen bg-[#0f172a] text-slate-200 selection:bg-pink-500/30 overflow-x-hidden pt-24 font-[family-name:var(--font-geist-sans)]">
       {/* Background */}
-      <PixelSky className="fixed inset-0 z-0 opacity-40 pointer-events-none" />
+      <PixelSky cozy className="fixed inset-0 z-0 opacity-70 pointer-events-none" />
       
       <div className="relative z-10 w-full">
-        
+
+        {/* =========================================
+            0. WELCOME WINDOW (scroll-to-open gate)
+            ========================================= */}
+        <WelcomeWindow />
+
         {/* =========================================
             1. THE WELCOME (Hero Section)
             ========================================= */}
