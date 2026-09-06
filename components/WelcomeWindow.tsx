@@ -182,30 +182,29 @@ function Cat({ reduce }: { reduce: boolean | null }) {
   return (
     <motion.div
       className="absolute origin-bottom"
-      style={{ left: "52%", bottom: `${100 - SILL}%`, width: 138, height: 208 }}
-      animate={reduce ? undefined : { rotate: [0, -1.2, 0, 0.8, 0] }}
+      style={{ left: "52%", bottom: `${100 - SILL}%`, width: 120, height: 210 }}
+      animate={reduce ? undefined : { rotate: [0, -1, 0, 0.7, 0] }}
       transition={{ duration: 9, repeat: Infinity, ease: "easeInOut" }}
     >
-      <svg viewBox="0 0 138 208" className="h-full w-full" aria-hidden>
-        {/* tail */}
+      <svg viewBox="0 0 120 210" className="h-full w-full" aria-hidden>
+        {/* tail — curls in front of the near haunch */}
+        <path d="M38 206 C16 213 -3 205 5 189 C14 195 27 195 41 199 Z" fill="#050a15" />
+        {/* body + head + ears, one slim tapered outline */}
         <path
-          d="M40 202 C15 208 -6 200 3 183 C13 190 28 190 44 195 Z"
-          fill="#050a15"
-        />
-        {/* body + head + ears, single smooth outline */}
-        <path
-          d="M46 208
-             C30 178 25 146 33 112
-             C36 96 40 84 51 74
-             C44 60 43 43 53 31
-             C55 24 55 16 52 6
-             C63 12 70 21 72 32
-             C77 26 87 26 92 32
-             C95 21 103 13 114 8
-             C111 19 111 28 104 38
-             C112 50 114 66 106 80
-             C116 92 120 106 114 126
-             C121 156 117 184 104 208
+          d="M40 210
+             C30 196 26 178 30 156
+             C32 132 34 112 40 92
+             C43 80 44 72 49 64
+             C43 54 42 42 48 32
+             C49 24 48 15 45 6
+             C52 12 57 20 59 30
+             C62 26 68 26 71 30
+             C73 20 78 12 85 6
+             C84 16 84 24 82 33
+             C88 43 90 55 84 65
+             C89 73 90 82 86 92
+             C92 112 94 132 90 156
+             C94 178 90 196 80 210
              Z"
           fill="#060c18"
         />
