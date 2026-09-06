@@ -5,7 +5,6 @@ import IntroSection from "@/components/IntroSection";
 import AboutMeSection from "@/components/AboutMeSection";
 import Footer from "@/components/Footer";
 import PortfolioToggle from "@/components/PortfolioToggle";
-import HorizontalScrollCarousel from "@/components/HorizontalScrollCarousel";
 
 // Dynamic Imports for Heavy Below-the-fold Components
 import dynamic from 'next/dynamic';
@@ -19,9 +18,6 @@ import HorrorPortalButton from "@/components/HorrorPortalButton";
 import Preloader from "@/components/Preloader";
 import FloatingNav from "@/components/FloatingNav";
 import { projects } from "@/data/projects";
-import { useLenis } from 'lenis/react';
-
-type Theme = "light" | "dark" | "gray";
 
 import CategoryGroup from "@/components/CategoryGroup";
 import PortfolioFilter, { categories } from "@/components/PortfolioFilter";
@@ -32,7 +28,6 @@ export default function ShowreelPage() {
   const [activeDrawer, setActiveDrawer] = useState<string | null>(null); // For projects
   const [activeDrawerCategory, setActiveDrawerCategory] = useState<string | null>(null); // For categories
   const [activeCategory, setActiveCategory] = useState("all");
-  const lenis = useLenis();
 
   const handleToggleMode = (mode: boolean) => {
     setIsDrawerMode(mode);
