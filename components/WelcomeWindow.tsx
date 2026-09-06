@@ -41,16 +41,43 @@ const STARS = [
   { l: "72%", t: "24%", s: 3, d: 0.4 },
 ];
 
-/* skyline rows within the sky box: [x%, w%, h%] */
+/* skyline rows within the sky box: [x%, w%, h%] — packed, varied heights, a few towers */
 const SKY_BACK: [number, number, number][] = [
-  [0, 9, 30], [8, 7, 20], [14, 8, 42], [21, 6, 26], [26, 9, 52], [34, 7, 32],
-  [40, 8, 46], [47, 6, 24], [52, 9, 40], [60, 7, 30], [66, 8, 50], [73, 7, 28],
-  [79, 9, 44], [87, 7, 24], [92, 9, 38],
+  [-2, 8, 44], [5, 6, 30], [10, 7, 62], [16, 5, 38], [20, 8, 88], [27, 6, 46],
+  [32, 7, 34], [38, 6, 70], [43, 8, 40], [50, 6, 96], [55, 7, 52], [61, 6, 36],
+  [66, 8, 64], [73, 6, 42], [78, 7, 78], [84, 6, 34], [89, 8, 56], [95, 7, 44],
 ];
 const SKY_FRONT: [number, number, number][] = [
-  [-2, 12, 22], [9, 9, 34], [17, 7, 16], [23, 11, 40], [33, 8, 20], [40, 10, 30],
-  [49, 7, 18], [55, 11, 36], [65, 8, 22], [72, 10, 32], [81, 8, 18], [87, 12, 30],
+  [-3, 11, 34], [6, 8, 52], [13, 7, 26], [19, 10, 44], [27, 7, 64], [33, 9, 30],
+  [41, 8, 50], [48, 7, 22], [54, 10, 40], [62, 7, 58], [68, 9, 28], [76, 8, 46],
+  [83, 7, 34], [89, 10, 54], [96, 8, 30],
 ];
+
+/** Warm-lit window grid for one building, à la the cozy PixelSky skyline. */
+function Windows({ i, cols, rows, reduce }: { i: number; cols: number; rows: number; reduce: boolean | null }) {
+  return (
+    <div
+      className="grid content-start gap-[4px] p-[4px]"
+      style={{ gridTemplateColumns: `repeat(${cols}, minmax(0, 1fr))` }}
+    >
+      {Array.from({ length: cols * rows }).map((_, k) => {
+        const seed = (i * 71 + k * 37) % 100;
+        if (seed > 62) return <span key={k} className="block h-[3px] w-[3px]" />;
+        const warm = seed % 5 !== 0;
+        const base = warm ? "#ffc885" : "#9fc6ec";
+        return (
+          <motion.span
+            key={k}
+            className="block h-[3px] w-[3px]"
+            style={{ background: base }}
+            animate={reduce ? { opacity: 0.55 } : { opacity: [0.12, 0.85, 0.35, 0.75, 0.12] }}
+            transition={{ duration: 6 + (seed % 7), repeat: Infinity, ease: "easeInOut", delay: (i * 0.5 + k * 0.9) % 8 }}
+          />
+        );
+      })}
+    </div>
+  );
+}
 
 function SkyLayer({ reduce }: { reduce: boolean | null }) {
   return (
@@ -83,34 +110,20 @@ function SkyLayer({ reduce }: { reduce: boolean | null }) {
       ))}
 
       {/* haze band above the skyline */}
-      <div className="absolute inset-x-0 bottom-0 h-[46%] bg-[linear-gradient(to_top,rgba(120,165,210,0.35),transparent)]" />
+      <div className="absolute inset-x-0 bottom-0 h-[46%] bg-[linear-gradient(to_top,rgba(120,165,210,0.3),transparent)]" />
 
-      {/* skyline — two depth rows, lots of lit windows */}
-      <div className="absolute inset-x-0 bottom-0 h-[40%]">
+      {/* skyline — two depth rows, near-black buildings, dense warm windows */}
+      <div className="absolute inset-x-0 bottom-0 h-[46%]">
         {SKY_BACK.map(([x, w, h], i) => (
-          <div key={i} className="absolute bottom-0 bg-[#173a63]" style={{ left: `${x}%`, width: `${w}%`, height: `${h}%` }}>
-            <div className="grid grid-cols-2 content-start gap-[4px] p-[3px]">
-              {Array.from({ length: 8 }).map((_, k) => (
-                <span key={k} className="block h-[3px] w-[3px] bg-[#8fbde8]" style={{ opacity: (i + k) % 3 ? 0.5 : 0.15 }} />
-              ))}
-            </div>
+          <div key={i} className="absolute bottom-0 bg-[#0c1830]" style={{ left: `${x}%`, width: `${w}%`, height: `${h}%` }}>
+            <Windows i={i + 100} cols={2} rows={Math.max(3, Math.round(h / 9))} reduce={reduce} />
           </div>
         ))}
       </div>
-      <div className="absolute inset-x-0 bottom-0 h-[28%]">
+      <div className="absolute inset-x-0 bottom-0 h-[34%]">
         {SKY_FRONT.map(([x, w, h], i) => (
-          <div key={i} className="absolute bottom-0 bg-[#0f2748]" style={{ left: `${x}%`, width: `${w}%`, height: `${h}%` }}>
-            <div className="grid grid-cols-3 content-start gap-[4px] p-[4px]">
-              {Array.from({ length: 12 }).map((_, k) => (
-                <motion.span
-                  key={k}
-                  className="block h-[3px] w-[3px]"
-                  style={{ background: (i * 3 + k) % 4 === 0 ? "#ffd48a" : "#a9d0f2" }}
-                  animate={reduce ? { opacity: 0.6 } : { opacity: [0.2, 0.95, 0.2] }}
-                  transition={{ duration: 5 + ((i + k) % 6), repeat: Infinity, ease: "easeInOut", delay: (i * 0.7 + k) % 7 }}
-                />
-              ))}
-            </div>
+          <div key={i} className="absolute bottom-0 bg-[#070d1c]" style={{ left: `${x}%`, width: `${w}%`, height: `${h}%` }}>
+            <Windows i={i} cols={3} rows={Math.max(3, Math.round(h / 8))} reduce={reduce} />
           </div>
         ))}
       </div>
@@ -173,43 +186,6 @@ function OuterFrame() {
       <div className="absolute" style={{ right: -T, top: -T, bottom: -T, width: T, background: DARK }} />
       <div className="absolute" style={{ top: -T, left: -T, right: -T, height: 3, background: "#25395a" }} />
     </div>
-  );
-}
-
-function Cat({ reduce }: { reduce: boolean | null }) {
-  // one continuous silhouette: haunch → back → head → ears → chest, seen from
-  // behind with the head tipped up toward the moon. Tail curls round the front.
-  return (
-    <motion.div
-      className="absolute origin-bottom"
-      style={{ left: "52%", bottom: `${100 - SILL}%`, width: 120, height: 210 }}
-      animate={reduce ? undefined : { rotate: [0, -1, 0, 0.7, 0] }}
-      transition={{ duration: 9, repeat: Infinity, ease: "easeInOut" }}
-    >
-      <svg viewBox="0 0 120 210" className="h-full w-full" aria-hidden>
-        {/* tail — curls in front of the near haunch */}
-        <path d="M38 206 C16 213 -3 205 5 189 C14 195 27 195 41 199 Z" fill="#050a15" />
-        {/* body + head + ears, one slim tapered outline */}
-        <path
-          d="M40 210
-             C30 196 26 178 30 156
-             C32 132 34 112 40 92
-             C43 80 44 72 49 64
-             C43 54 42 42 48 32
-             C49 24 48 15 45 6
-             C52 12 57 20 59 30
-             C62 26 68 26 71 30
-             C73 20 78 12 85 6
-             C84 16 84 24 82 33
-             C88 43 90 55 84 65
-             C89 73 90 82 86 92
-             C92 112 94 132 90 156
-             C94 178 90 196 80 210
-             Z"
-          fill="#060c18"
-        />
-      </svg>
-    </motion.div>
   );
 }
 
@@ -338,7 +314,6 @@ export default function WelcomeWindow() {
 
             <Sill />
             <SillStuff />
-            <Cat reduce={reduce} />
 
             <div
               className="pointer-events-none absolute bottom-[9%] left-1/2 z-10 -translate-x-1/2 text-center"
