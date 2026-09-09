@@ -62,16 +62,26 @@ function Windows({ i, cols, rows, reduce }: { i: number; cols: number; rows: num
     >
       {Array.from({ length: cols * rows }).map((_, k) => {
         const seed = (i * 71 + k * 37) % 100;
-        if (seed > 62) return <span key={k} className="block h-[3px] w-[3px]" />;
-        const warm = seed % 5 !== 0;
+        if (seed > 60) return <span key={k} className="block h-[3px] w-[3px]" />;
+        const warm = seed % 6 !== 0;
         const base = warm ? "#ffc885" : "#9fc6ec";
+        // most windows sit steady; only a few breathe, slowly
+        if (reduce || seed % 10 >= 3) {
+          return (
+            <span
+              key={k}
+              className="block h-[3px] w-[3px]"
+              style={{ background: base, opacity: 0.42 + (seed % 5) * 0.07 }}
+            />
+          );
+        }
         return (
           <motion.span
             key={k}
             className="block h-[3px] w-[3px]"
             style={{ background: base }}
-            animate={reduce ? { opacity: 0.55 } : { opacity: [0.12, 0.85, 0.35, 0.75, 0.12] }}
-            transition={{ duration: 6 + (seed % 7), repeat: Infinity, ease: "easeInOut", delay: (i * 0.5 + k * 0.9) % 8 }}
+            animate={{ opacity: [0.45, 0.78, 0.45] }}
+            transition={{ duration: 13 + (seed % 8), repeat: Infinity, ease: "easeInOut", delay: (i * 0.5 + k * 0.9) % 10 }}
           />
         );
       })}

@@ -124,7 +124,7 @@ export default function PixelSky({
     const buildFlies = () => {
       flies = [];
       if (!cozy) return;
-      const count = reduceMotion ? 10 : 24;
+      const count = reduceMotion ? 6 : 12;
       for (let i = 0; i < count; i++) {
         flies.push({
           x: Math.random() * width,
@@ -137,11 +137,8 @@ export default function PixelSky({
       }
     };
 
-    // ---- Fog bands ----------------------------------------------------------
-    const fog = [
-      { y: 0.62, x: 0, speed: 0.12 },
-      { y: 0.78, x: 0, speed: -0.08 },
-    ];
+    // ---- Fog: one faint, slow band for depth (kept quiet) ------------------
+    const fog = [{ y: 0.7, x: 0, speed: 0.05 }];
 
     // ---- "make a wish" ----------------------------------------------------------
     type Wish = { x: number; y: number; life: number };
@@ -304,7 +301,7 @@ export default function PixelSky({
         if (band.x < -width) band.x += width;
         const grad = ctx.createLinearGradient(0, height * band.y, 0, height * (band.y + 0.22));
         grad.addColorStop(0, "rgba(150, 165, 190, 0)");
-        grad.addColorStop(0.5, "rgba(150, 165, 190, 0.07)");
+        grad.addColorStop(0.5, "rgba(150, 165, 190, 0.04)");
         grad.addColorStop(1, "rgba(150, 165, 190, 0)");
         ctx.fillStyle = grad;
         const y = height * band.y;
