@@ -1,0 +1,242 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-09-09T00:00:00.000Z",
+  "title": "Design System: NANONC4 Personal Hub",
+  "extensions": {
+    "colorMeta": {
+      "late-night-pink": {
+        "role": "primary",
+        "displayName": "Late-Night Pink",
+        "canonical": "#f472b6",
+        "tonalRamp": ["#831843", "#9d174d", "#be185d", "#db2777", "#ec4899", "#f472b6", "#f9a8d4", "#fbcfe8"]
+      },
+      "late-night-pink-deep": {
+        "role": "primary",
+        "displayName": "Late-Night Pink Deep",
+        "canonical": "#ec4899",
+        "tonalRamp": ["#831843", "#9d174d", "#be185d", "#db2777", "#ec4899", "#f472b6", "#f9a8d4", "#fbcfe8"]
+      },
+      "signal-sky": {
+        "role": "secondary",
+        "displayName": "Signal Sky",
+        "canonical": "#38bdf8",
+        "tonalRamp": ["#0c4a6e", "#075985", "#0369a1", "#0284c7", "#0ea5e9", "#38bdf8", "#7dd3fc", "#bae6fd"]
+      },
+      "dusk-indigo": {
+        "role": "secondary",
+        "displayName": "Dusk Indigo",
+        "canonical": "#818cf8",
+        "tonalRamp": ["#312e81", "#3730a3", "#4338ca", "#4f46e5", "#6366f1", "#818cf8", "#a5b4fc", "#c7d2fe"]
+      },
+      "dusk-violet": {
+        "role": "tertiary",
+        "displayName": "Dusk Violet",
+        "canonical": "#c084fc",
+        "tonalRamp": ["#581c87", "#6b21a8", "#7e22ce", "#9333ea", "#a855f7", "#c084fc", "#d8b4fe", "#e9d5ff"]
+      },
+      "lamplight-amber": {
+        "role": "tertiary",
+        "displayName": "Lamplight Amber",
+        "canonical": "#fbbf24",
+        "tonalRamp": ["#78350f", "#92400e", "#b45309", "#d97706", "#f59e0b", "#fbbf24", "#fcd34d", "#fde68a"]
+      },
+      "lamplight-amber-pale": {
+        "role": "tertiary",
+        "displayName": "Lamplight Amber Pale",
+        "canonical": "#fef08a",
+        "tonalRamp": ["#713f12", "#854d0e", "#a16207", "#ca8a04", "#eab308", "#facc15", "#fde047", "#fef08a"]
+      },
+      "midnight-slate": {
+        "role": "neutral",
+        "displayName": "Midnight Slate",
+        "canonical": "#0f172a",
+        "tonalRamp": ["#020617", "#0f172a", "#1e293b", "#334155", "#475569", "#64748b", "#94a3b8", "#cbd5e1"]
+      },
+      "midnight-deep": {
+        "role": "neutral",
+        "displayName": "Midnight Deep",
+        "canonical": "#020617",
+        "tonalRamp": ["#020617", "#0f172a", "#1e293b", "#334155", "#475569", "#64748b", "#94a3b8", "#cbd5e1"]
+      },
+      "night-surface": {
+        "role": "neutral",
+        "displayName": "Night Surface",
+        "canonical": "#1e293b",
+        "tonalRamp": ["#020617", "#0f172a", "#1e293b", "#334155", "#475569", "#64748b", "#94a3b8", "#cbd5e1"]
+      },
+      "night-edge": {
+        "role": "neutral",
+        "displayName": "Night Edge",
+        "canonical": "#334155",
+        "tonalRamp": ["#020617", "#0f172a", "#1e293b", "#334155", "#475569", "#64748b", "#94a3b8", "#cbd5e1"]
+      },
+      "muted-slate": {
+        "role": "neutral",
+        "displayName": "Muted Slate",
+        "canonical": "#94a3b8",
+        "tonalRamp": ["#020617", "#0f172a", "#1e293b", "#334155", "#475569", "#64748b", "#94a3b8", "#cbd5e1"]
+      },
+      "paper-white": {
+        "role": "neutral",
+        "displayName": "Paper White",
+        "canonical": "#f8fafc",
+        "tonalRamp": ["#334155", "#475569", "#64748b", "#94a3b8", "#cbd5e1", "#e2e8f0", "#f1f5f9", "#f8fafc"]
+      }
+    },
+    "typographyMeta": {
+      "display": { "displayName": "Display", "purpose": "ชื่อในหน้าแรกเท่านั้น — Inter น้ำหนัก 900 บีบระยะตัวอักษร" },
+      "headline": { "displayName": "Headline (Pixel)", "purpose": "หัวข้อโซนและคำโปรยพิกเซล ตัวพิมพ์ใหญ่เสมอ" },
+      "title": { "displayName": "Title (Pixel)", "purpose": "ชื่อโปรเจกต์บนการ์ดและหัวข้อย่อย" },
+      "body": { "displayName": "Body", "purpose": "เนื้อความไทย สี muted-slate กว้างไม่เกิน 65–75 ตัวอักษร" },
+      "label": { "displayName": "Label", "purpose": "เมนู ป้ายหมวดหมู่ แท็ก stack — ลายเซ็นที่ใช้บ่อยที่สุดในเว็บ" }
+    },
+    "shadows": [
+      { "name": "block-small", "value": "2px 2px 0 0 #020617", "purpose": "ป้ายเล็ก แถบเครื่องมือ ปุ่มในโซนขี้เล่น" },
+      { "name": "block-medium", "value": "4px 4px 0 0 #1e293b", "purpose": "กรอบรูปเรโทร การ์ดที่ต้องการความเป็นสติกเกอร์" },
+      { "name": "block-accent", "value": "8px 8px 0 0 #c084fc", "purpose": "ใช้ได้ครั้งเดียวต่อหนึ่งโซน สำหรับองค์ประกอบที่ต้องเป็นพระเอก" },
+      { "name": "hover-glow", "value": "0 0 40px rgba(236,72,153,0.15)", "purpose": "การ์ดผลงานตอน hover — เรืองแสงเบาๆ ไม่ใช่เงาแข็ง" },
+      { "name": "pixel-text", "value": "drop-shadow(1px 1px 0 rgba(0,0,0,0.8))", "purpose": "ตัวพิกเซลบนพื้นที่มีลาย ให้ตัวอักษรไม่จมไปกับพื้นหลัง" },
+      { "name": "chip-inset", "value": "inset 0 1px 2px rgba(0,0,0,0.3)", "purpose": "พื้นของ chip ที่ถูกเลือก ให้รู้สึกกดลงไป" }
+    ],
+    "motion": [
+      { "name": "ease-standard", "value": "cubic-bezier(0.4, 0, 0.2, 1)", "purpose": "อีซิงเริ่มต้นของการเปลี่ยนสถานะทั้งหมด" },
+      { "name": "duration-state", "value": "300ms", "purpose": "ระยะเวลาเริ่มต้นของ hover / focus / การเปลี่ยนสี" },
+      { "name": "spring-indicator", "value": "type: spring, stiffness: 300, damping: 30", "purpose": "ขีดใต้เมนูที่ active เลื่อนตามด้วย layoutId" },
+      { "name": "spring-chip", "value": "type: spring, stiffness: 400, damping: 30", "purpose": "ตัวบ่งชี้ chip หมวดหมู่ที่ถูกเลือก" },
+      { "name": "float-subtle", "value": "float-subtle 6s ease-in-out infinite", "purpose": "องค์ประกอบตกแต่งลอยขึ้นลง 6px" },
+      { "name": "sweep-loop", "value": "sweep-loop 3s cubic-bezier(0.4,0,0.2,1) infinite", "purpose": "แสงกวาดผ่านปุ่มลิงก์โซเชียล" },
+      { "name": "gradient-text", "value": "gradient-text-shift 6s linear infinite", "purpose": "ไล่เฉดสีบนชื่อหน้าแรก — ใช้ที่เดียวในเว็บ" },
+      { "name": "ambient-loop-floor", "value": "6s+", "purpose": "แอนิเมชันวนซ้ำที่อยู่หลังข้อความต้องยาวอย่างน้อย 6 วินาที และความทึบต่ำ" }
+    ],
+    "breakpoints": [
+      { "name": "sm", "value": "640px" },
+      { "name": "md", "value": "768px" },
+      { "name": "lg", "value": "1024px" },
+      { "name": "xl", "value": "1280px" }
+    ]
+  },
+  "components": [
+    {
+      "name": "Primary Button",
+      "kind": "button",
+      "refersTo": "button-primary",
+      "description": "ปุ่มหลัก เบาตอนอยู่เฉย ตอน hover มีจุดชมพูขยายกวาดเต็มปุ่มและข้อความสลับมาพร้อมลูกศร",
+      "html": "<a class=\"ds-btn-primary\" href=\"#\"><span class=\"ds-btn-primary__label\">READ MY STORY</span><span class=\"ds-btn-primary__hover\">READ MY STORY<svg width=\"16\" height=\"16\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M5 12h14M12 5l7 7-7 7\"/></svg></span><span class=\"ds-btn-primary__blob\"></span></a>",
+      "css": ".ds-btn-primary { position: relative; display: block; width: 12rem; padding: 1rem; overflow: hidden; text-align: center; text-decoration: none; cursor: pointer; background: #0f172a; color: #f8fafc; border: 1px solid #334155; border-radius: 0.5rem; font-family: ui-monospace, monospace; font-weight: 700; font-size: 0.875rem; letter-spacing: 0.1em; text-transform: uppercase; transition: border-color 300ms cubic-bezier(0.4,0,0.2,1); } .ds-btn-primary:hover { border-color: #ec4899; } .ds-btn-primary:focus-visible { outline: 2px solid #f472b6; outline-offset: 2px; } .ds-btn-primary__label { display: inline-block; transform: translateX(4px); transition: transform 300ms cubic-bezier(0.4,0,0.2,1), opacity 300ms; } .ds-btn-primary:hover .ds-btn-primary__label { transform: translateX(3rem); opacity: 0; } .ds-btn-primary__hover { position: absolute; inset: 0; z-index: 10; display: flex; align-items: center; justify-content: center; gap: 0.5rem; color: #fff; opacity: 0; transform: translateX(3rem); transition: transform 300ms cubic-bezier(0.4,0,0.2,1), opacity 300ms; } .ds-btn-primary:hover .ds-btn-primary__hover { opacity: 1; transform: translateX(-4px); } .ds-btn-primary__blob { position: absolute; left: 20%; top: 40%; width: 0.5rem; height: 0.5rem; border-radius: 0.5rem; background: #ec4899; z-index: -10; transition: all 300ms cubic-bezier(0.4,0,0.2,1); } .ds-btn-primary:hover .ds-btn-primary__blob { left: 0; top: 0; width: 100%; height: 100%; transform: scale(1.8); }"
+    },
+    {
+      "name": "Ghost Button",
+      "kind": "button",
+      "refersTo": "button-primary",
+      "description": "ลิงก์ข้อความล้วน ไม่มีพื้นไม่มีขอบ ใช้กับการกระทำรอง",
+      "html": "<a class=\"ds-btn-ghost\" href=\"#\">VIEW ALL WORK</a>",
+      "css": ".ds-btn-ghost { display: inline-block; padding: 0.5rem 0.75rem; text-decoration: none; color: #94a3b8; font-family: ui-monospace, monospace; font-size: 0.75rem; letter-spacing: 0.2em; text-transform: uppercase; transition: color 300ms cubic-bezier(0.4,0,0.2,1); } .ds-btn-ghost:hover { color: #f8fafc; } .ds-btn-ghost:focus-visible { outline: 2px solid #f472b6; outline-offset: 2px; border-radius: 0.25rem; }"
+    },
+    {
+      "name": "Filter Chip",
+      "kind": "chip",
+      "refersTo": "chip-filter",
+      "description": "ตัวกรองหมวดหมู่ผลงาน ตัวพิกเซลเล็ก ตอนเลือกมีพื้นครามและเงาด้านใน",
+      "html": "<div class=\"ds-chip-bar\"><button class=\"ds-chip-filter is-active\">ALL WORK</button><button class=\"ds-chip-filter\">WEB APPS</button><button class=\"ds-chip-filter\">GAMES</button></div>",
+      "css": ".ds-chip-bar { display: inline-flex; flex-wrap: wrap; align-items: center; gap: 0.5rem; padding: 0.375rem; background: #0f172a; border-radius: 0.5rem; border-bottom: 4px solid #020617; box-shadow: 2px 2px 0 0 rgba(0,0,0,0.5); } .ds-chip-filter { position: relative; padding: 0.5rem 1.5rem; background: transparent; border: 0; cursor: pointer; color: #64748b; font-family: Silkscreen, ui-monospace, monospace; font-size: 0.625rem; letter-spacing: 0.2em; text-transform: uppercase; border-radius: 0.25rem; transition: color 300ms cubic-bezier(0.4,0,0.2,1); } .ds-chip-filter:hover { color: #a5b4fc; } .ds-chip-filter:focus-visible { outline: 2px solid #f472b6; outline-offset: 2px; } .ds-chip-filter.is-active { color: #c7d2fe; background: rgba(49,46,129,0.3); border: 1px solid rgba(99,102,241,0.2); box-shadow: inset 0 1px 2px rgba(0,0,0,0.3); filter: drop-shadow(1px 1px 0 rgba(0,0,0,0.8)); }"
+    },
+    {
+      "name": "Project Card",
+      "kind": "card",
+      "refersTo": "card-project",
+      "description": "การ์ดผลงาน โค้งใหญ่ แบนตอนอยู่เฉย ตอน hover ขอบชมพู เรืองแสงเบาๆ และยกขึ้น",
+      "html": "<article class=\"ds-card-project\"><div class=\"ds-card-project__media\"><span class=\"ds-card-project__badge\">Full-Stack Application</span></div><div class=\"ds-card-project__body\"><h3 class=\"ds-card-project__title\">LEMONY SHOP PRO</h3><p class=\"ds-card-project__desc\">โปรเจกต์ยกระดับสู่ Full-stack Application เต็มรูปแบบ</p><div class=\"ds-card-project__tags\"><span class=\"ds-tag-stack\">Next.js</span><span class=\"ds-tag-stack\">Prisma</span></div></div></article>",
+      "css": ".ds-card-project { display: flex; flex-direction: column; overflow: hidden; background: #050810; border: 1px solid rgba(30,41,59,0.8); border-radius: 2rem; transition: border-color 500ms cubic-bezier(0.4,0,0.2,1), box-shadow 500ms, transform 500ms; } .ds-card-project:hover { border-color: rgba(236,72,153,0.5); box-shadow: 0 0 40px rgba(236,72,153,0.15); transform: translateY(-1rem); } .ds-card-project__media { position: relative; height: 12rem; background: linear-gradient(180deg, #0f172a, #020617); } .ds-card-project__badge { position: absolute; top: 1rem; left: 1rem; padding: 0.25rem 0.75rem; background: rgba(0,0,0,0.6); border: 1px solid rgba(255,255,255,0.1); border-radius: 9999px; color: #e2e8f0; font-family: ui-monospace, monospace; font-size: 0.625rem; letter-spacing: 0.2em; text-transform: uppercase; } .ds-card-project__body { padding: 1.5rem; } .ds-card-project__title { margin: 0 0 0.5rem; color: #fff; font-family: Silkscreen, ui-monospace, monospace; font-size: 1.25rem; letter-spacing: 0.05em; text-transform: uppercase; } .ds-card-project__desc { margin: 0 0 1.5rem; color: #94a3b8; font-size: 0.875rem; line-height: 1.7; } .ds-card-project__tags { display: flex; flex-wrap: wrap; gap: 0.5rem; }"
+    },
+    {
+      "name": "Stack Tag",
+      "kind": "chip",
+      "refersTo": "chip-filter",
+      "description": "แท็กเทคโนโลยีบนการ์ดผลงาน เล็ก แบน ไม่แย่งสายตา",
+      "html": "<span class=\"ds-tag-stack\">TypeScript</span>",
+      "css": ".ds-tag-stack { display: inline-block; padding: 0.25rem 0.5rem; background: #1e293b; border: 1px solid #334155; border-radius: 0.25rem; color: #cbd5e1; font-family: ui-monospace, monospace; font-size: 0.75rem; }"
+    },
+    {
+      "name": "Bento Card",
+      "kind": "card",
+      "refersTo": "card-bento",
+      "description": "การ์ดบริการในตาราง bento พื้นโปร่ง ตอน hover ขอบฟ้าและเนื้อหาเลื่อนขึ้นเผยปุ่ม",
+      "html": "<div class=\"ds-card-bento\"><div class=\"ds-card-bento__body\"><h3 class=\"ds-card-bento__title\">Web Development</h3><p class=\"ds-card-bento__desc\">เว็บไซต์ที่โหลดไว ใช้งานลื่น และดูดี</p></div></div>",
+      "css": ".ds-card-bento { position: relative; display: flex; flex-direction: column; justify-content: flex-end; height: 14rem; overflow: hidden; background: rgba(15,23,42,0.4); border: 2px solid #1e293b; border-radius: 2rem; transition: border-color 300ms cubic-bezier(0.4,0,0.2,1), box-shadow 300ms; } .ds-card-bento:hover { border-color: rgba(14,165,233,0.5); box-shadow: 0 10px 15px -3px rgba(14,165,233,0.1); } .ds-card-bento__body { position: relative; z-index: 10; padding: 2rem; transition: transform 300ms cubic-bezier(0.4,0,0.2,1); } .ds-card-bento:hover .ds-card-bento__body { transform: translateY(-1rem); } .ds-card-bento__title { margin: 0 0 0.5rem; color: #f8fafc; font-family: Silkscreen, ui-monospace, monospace; font-size: 1.25rem; letter-spacing: 0.05em; } .ds-card-bento__desc { margin: 0; color: #94a3b8; font-size: 0.875rem; line-height: 1.7; }"
+    },
+    {
+      "name": "Nav Link",
+      "kind": "nav",
+      "refersTo": "nav-link",
+      "description": "ลิงก์เมนูบนแถบคงที่ ตัวเล็กยืดระยะ ตอน active เป็นชมพูพร้อมขีดใต้",
+      "html": "<nav class=\"ds-nav\"><a class=\"ds-nav-link is-active\" href=\"#\">HOME</a><a class=\"ds-nav-link\" href=\"#\">PORTFOLIO</a><a class=\"ds-nav-link\" href=\"#\">CONTACT</a></nav>",
+      "css": ".ds-nav { display: flex; align-items: center; gap: 2rem; padding: 0.75rem 1.5rem; background: rgba(2,6,23,0.8); backdrop-filter: blur(12px); border-bottom: 1px solid #1e293b; } .ds-nav-link { position: relative; padding: 0.25rem 0.5rem; text-decoration: none; color: #94a3b8; font-family: ui-monospace, monospace; font-size: 0.875rem; letter-spacing: 0.2em; text-transform: uppercase; border-radius: 0.25rem; transition: color 300ms cubic-bezier(0.4,0,0.2,1); } .ds-nav-link:hover { color: #f1f5f9; } .ds-nav-link:focus-visible { outline: 2px solid #f472b6; outline-offset: 2px; } .ds-nav-link.is-active { color: #f472b6; } .ds-nav-link.is-active::after { content: ''; position: absolute; left: 0; right: 0; bottom: -4px; height: 2px; background: #f472b6; }"
+    },
+    {
+      "name": "Kicker Pill",
+      "kind": "chip",
+      "refersTo": "chip-filter",
+      "description": "ป้ายเปิดโซน โค้งเต็ม พื้นยกขึ้นหนึ่งชั้น ใช้ได้ชั้นเดียวเหนือหัวข้อ",
+      "html": "<span class=\"ds-pill-kicker\"><span class=\"ds-pill-kicker__dot\"></span>MY WORK</span>",
+      "css": ".ds-pill-kicker { display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.375rem 0.75rem; background: rgba(30,41,59,0.5); border: 1px solid rgba(51,65,85,0.5); border-radius: 9999px; color: #cbd5e1; font-family: ui-monospace, monospace; font-size: 0.75rem; letter-spacing: 0.2em; text-transform: uppercase; } .ds-pill-kicker__dot { width: 0.5rem; height: 0.5rem; border-radius: 9999px; background: #f472b6; }"
+    }
+  ],
+  "narrative": {
+    "northStar": "The 2 A.M. Window",
+    "overview": "ห้องเงียบๆ ตอนตีสอง ไฟในห้องปิดหมดแล้ว เหลือแค่แสงจากจอกับไฟเมืองนอกหน้าต่าง — นั่นคือความรู้สึกที่ทั้งเว็บนี้ต้องให้ พื้นหลังเป็นสีกรมท่ามืดสนิทเกือบตลอด ตัวอักษรและองค์ประกอบลอยอยู่บนความมืดนั้นแบบไม่แย่งกันพูด สีสว่างมีน้อยและมาเป็นจุดๆ เหมือนไฟที่ยังเปิดอยู่ไม่กี่ดวง\n\nโลกนี้ไม่ใช่ \"อาร์เคด\" ถึงจะมีเกมเล่นได้อยู่ในหน้าเว็บก็ตาม เกมและพิกเซลอาร์ตเป็นของเล่นในห้องที่เงียบ ไม่ใช่ตัวกำหนดอารมณ์ทั้งห้อง งานที่เพิ่มเข้ามาใหม่ต้องเริ่มจากความสงบก่อน แล้วค่อยเลือกจุดที่จะขี้เล่นอย่างตั้งใจ ความเป็นพิกเซลอาร์ตอยู่ในรายละเอียดที่วาดขึ้นมาเองด้วยโค้ด (ดาว พระจันทร์ ไอคอน กรอบหน้าต่าง) ไม่ใช่ในการตะโกน\n\nสิ่งที่ยืนยันว่าไม่เอา: หน้าตาแบบ portfolio dev ทั่วไป — การ์ดสี่เหลี่ยมเท่ากันหมดเรียงเป็นตาราง ไอคอนไลบรารีสำเร็จรูป พื้นขาวเทา ฟอนต์ระบบ ถ้างานใหม่ดูแทนที่ด้วยเว็บใครก็ได้ แปลว่าหลุดโลกนี้แล้ว",
+    "keyCharacteristics": [
+      "มืดเป็นค่าตั้งต้น ไม่มีโหมดสว่าง",
+      "แบนเรียบเป็นหลัก ความลึกมาจากการไล่เฉดพื้นผิว ไม่ใช่เงา",
+      "ตัวพิกเซล (Silkscreen) เป็นเสียงของหัวข้อและป้าย ตัว Inter เป็นเสียงของเนื้อความ",
+      "สีสดใช้น้อยและมีหน้าที่ชัด ไม่โปรยเพื่อความสวย",
+      "ทุกอย่างที่ขยับ ขยับช้าและมีเหตุผล",
+      "องค์ประกอบ UI เบา โปร่ง หลีกทางให้เนื้อหานำ"
+    ],
+    "rules": [
+      {
+        "name": "กฎ \"แสงไม่กี่ดวง\"",
+        "body": "สีสด (ชมพู ฟ้า ม่วง อำพัน) รวมกันต้องไม่เกิน ~10% ของพื้นที่หน้าจอใดหน้าจอหนึ่ง ความหายากคือเหตุผลที่มันได้ผล ถ้าหน้าไหนดูสีเยอะ ให้ลดจำนวนดวง ไม่ใช่ลดความสด",
+        "section": "colors"
+      },
+      {
+        "name": "กฎ \"อำพันคือแสง ไม่ใช่สี\"",
+        "body": "lamplight-amber ใช้ได้เฉพาะกับสิ่งที่กำลังเปล่งแสงในฉากกลางคืนเท่านั้น ห้ามใช้เป็นสีปุ่ม สีป้าย หรือสีเน้นข้อความ",
+        "section": "colors"
+      },
+      {
+        "name": "กฎ \"ตัวเล็กต้องห่าง\"",
+        "body": "ทุกครั้งที่ใช้ตัวอักษรต่ำกว่า 0.875rem ต้องมี letter-spacing อย่างน้อย 0.2em และเป็นตัวพิมพ์ใหญ่ ตัวพิกเซลเล็กๆ ที่ไม่ยืดระยะจะอ่านไม่ออก",
+        "section": "typography"
+      },
+      {
+        "name": "กฎ \"ชื่อเท่านั้นที่ไล่สี\"",
+        "body": "ตัวอักษรไล่เฉดสี (animate-gradient-text ฟ้า→ชมพู→ม่วง) สงวนไว้ให้ชื่อในหน้าแรกดวงเดียวในทั้งเว็บ หัวข้ออื่นเน้นด้วยขนาดและน้ำหนัก ไม่ใช่ด้วยการไล่สี",
+        "section": "typography"
+      },
+      {
+        "name": "กฎ \"แบนก่อน ค่อยยก\"",
+        "body": "พื้นผิวเริ่มจากแบนเสมอ เงาจะปรากฏก็ต่อเมื่อมีเหตุผล — hover, การเป็นของเล่น, หรือความจำเป็นในการอ่าน ไม่มีเงา \"เผื่อสวย\"",
+        "section": "elevation"
+      }
+    ],
+    "dos": [
+      "Do เริ่มทุกหน้าจากพื้น midnight-slate แล้วเพิ่มความลึกด้วยการไล่เฉด (midnight-deep / night-surface) ก่อนคิดถึงเงา",
+      "Do ใช้ Silkscreen กับหัวข้อและป้ายทุกครั้ง และ Inter กับเนื้อความทุกครั้ง — สองเสียงนี้ห้ามสลับหน้าที่กัน",
+      "Do ยืดระยะตัวอักษร (tracking-widest ขึ้นไป) และใช้ตัวพิมพ์ใหญ่กับทุกป้ายที่เล็กกว่า 0.875rem",
+      "Do ให้สีสดทำหน้าที่เดียว: ชมพู = สิ่งที่กดได้/active, ฟ้า = ระบบและเทคนิค, คราม = ตัวกรองและตัวคั่น, อำพัน = แสงในฉากกลางคืน",
+      "Do ให้ทุกแอนิเมชันวนซ้ำเคลื่อนช้า (6 วินาทีขึ้นไป) และมีความทึบต่ำ เมื่ออยู่หลังข้อความที่ต้องอ่าน",
+      "Do ใส่ image-rendering: pixelated ให้พิกเซลอาร์ตทุกชิ้น และใช้ rounded-none กับมันเสมอ",
+      "Do เคารพ prefers-reduced-motion ในทุกองค์ประกอบที่เคลื่อนไหว — ปิดลูปทั้งหมด เหลือแต่สถานะนิ่งที่อ่านได้"
+    ],
+    "donts": [
+      "Don't เพิ่มโหมดสว่าง เว็บนี้มืดอย่างเดียวโดยตั้งใจ",
+      "Don't ใช้ lamplight-amber เป็นสี UI (ปุ่ม ป้าย ข้อความเน้น) — มันเป็นสีของแสงเท่านั้น",
+      "Don't ใส่ตัวอักษรไล่เฉดสีเพิ่มที่ไหนอีก นอกจากชื่อในหน้าแรกที่มีอยู่แล้ว",
+      "Don't ใช้เงาทึบ (4px 4px 0) เป็นค่าตั้งต้นของการ์ดหรือปุ่มทั่วไป — มันสงวนไว้ให้จุดที่ตั้งใจขี้เล่น",
+      "Don't ทำให้การ์ดในตารางผลงานเท่ากันหมด ความไม่สม่ำเสมอ (7/5 คอลัมน์สลับกัน) คือสิ่งที่ทำให้ไม่ดูเป็นเทมเพลต",
+      "Don't ดึงสีธีมเฉพาะโปรเจกต์ (เช่นแดงเลือดของ Rules of Horror) ออกมาใช้นอกโซนของโปรเจกต์นั้น",
+      "Don't ซ้อนป้ายกำกับเล็กหลายชั้นเหนือหัวข้อเดียว หนึ่งป้ายพอ แล้วปล่อยให้หัวข้อทำงานเอง",
+      "Don't ใช้อีโมจิแทนไอคอน ไอคอนต้องเป็นพิกเซลที่วาดเอง (PixelIcons) หรือ lucide-react ที่มีน้ำหนักเส้นสม่ำเสมอ"
+    ]
+  }
+}
