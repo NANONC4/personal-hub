@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import { motion, useReducedMotion } from "framer-motion";
 
@@ -29,6 +29,7 @@ const map = (v: number, inA: number, inB: number, outA: number, outB: number) =>
 const WIN = { top: 4, bottom: 80, left: 5, right: 95 };
 const SILL = WIN.bottom;
 const DARK = "#0a1424";
+const SEEN_KEY = "nanonc4:welcome-opened";
 
 const STARS = [
   { l: "30%", t: "10%", s: 3, d: 0 },
@@ -246,6 +247,7 @@ export default function WelcomeWindow() {
   const spacerRef = useRef<HTMLDivElement>(null);
   const reduce = useReducedMotion();
   const [mounted, setMounted] = useState(false);
+  const [skip, setSkip] = useState(false);
   const [p, setP] = useState(0);
 
   useEffect(() => {
@@ -255,13 +257,30 @@ export default function WelcomeWindow() {
       const el = spacerRef.current;
       if (!el) return;
       const rect = el.getBoundingClientRect();
-      const total = rect.height - window.innerHeight;
-      setP(total > 0 ? clamp(-rect.top / total) : 0);
+      // progress completes when the spacer's bottom reaches the top of the
+      // viewport, i.e. exactly when the hero fills the screen — no dead gap.
+      const total = rect.height;
+      const next = total > 0 ? clamp(-rect.top / total) : 0;
+      setP(next);
+      if (next > 0.99) {
+        try {
+          sessionStorage.setItem(SEEN_KEY, "1");
+        } catch {
+          /* private mode — the gate simply plays again */
+        }
+      }
     };
     const onScroll = () => {
       if (!raf) raf = requestAnimationFrame(measure);
     };
     const init = requestAnimationFrame(() => {
+      let seen = false;
+      try {
+        seen = sessionStorage.getItem(SEEN_KEY) === "1";
+      } catch {
+        /* ignore */
+      }
+      if (seen) setSkip(true);
       setMounted(true);
       measure();
     });
@@ -275,23 +294,54 @@ export default function WelcomeWindow() {
     };
   }, []);
 
-  const offset = map(p, 0.05, 0.64, 0, 108); // sash travel, %
-  const signOpacity = map(p, 0.3, 0.5, 0, 1) * (1 - map(p, 0.82, 0.95, 0, 1));
-  const signShift = map(p, 0.3, 0.7, 20, 0);
+  /** Scroll past the spacer so the gate finishes opening on its own. */
+  const openGate = useCallback(() => {
+    const el = spacerRef.current;
+    if (!el) return;
+    const rect = el.getBoundingClientRect();
+    window.scrollTo({
+      top: window.scrollY + rect.top + rect.height,
+      behavior: reduce ? "auto" : "smooth",
+    });
+  }, [reduce]);
+
+  // Esc dismisses the gate, like any other overlay.
+  useEffect(() => {
+    if (skip) return;
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") openGate();
+    };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [skip, openGate]);
+
+  const offset = map(p, 0.05, 0.6, 0, 108); // sash travel, %
+  const signOpacity = map(p, 0.28, 0.48, 0, 1) * (1 - map(p, 0.8, 0.94, 0, 1));
+  const signShift = map(p, 0.28, 0.66, 20, 0);
   const hintOpacity = 1 - map(p, 0, 0.12, 0, 1);
-  const layerOpacity = 1 - map(p, 0.88, 1, 0, 1);
-  const gone = p >= 0.999;
+  const layerOpacity = 1 - map(p, 0.78, 0.96, 0, 1);
+  const gone = p >= 0.985;
+
+  // Already opened once this session — go straight to the page.
+  if (skip) return null;
 
   return (
     <>
-      <div ref={spacerRef} aria-hidden className="h-[220vh]" />
-      {!mounted && <div aria-hidden className="fixed inset-0 z-[70]" style={{ background: DARK }} />}
+      <div ref={spacerRef} aria-hidden className="h-[150vh]" />
+      {!mounted && <div aria-hidden className="fixed inset-0 z-[45]" style={{ background: DARK }} />}
       {mounted &&
         createPortal(
           <div
             aria-hidden
-            className="fixed inset-0 z-[70] overflow-hidden [image-rendering:pixelated]"
-            style={{ opacity: layerOpacity, pointerEvents: p > 0.6 ? "none" : "auto", visibility: gone ? "hidden" : "visible", background: DARK }}
+            onClick={openGate}
+            className="fixed inset-0 z-[45] overflow-hidden [image-rendering:pixelated]"
+            style={{
+              opacity: layerOpacity,
+              pointerEvents: p > 0.6 ? "none" : "auto",
+              visibility: gone ? "hidden" : "visible",
+              background: DARK,
+              cursor: p < 0.6 ? "pointer" : "default",
+            }}
           >
             <SkyLayer reduce={reduce} />
 
@@ -330,7 +380,7 @@ export default function WelcomeWindow() {
               style={{ opacity: hintOpacity }}
             >
               <p className="font-[family-name:var(--font-pixel)] text-[10px] uppercase tracking-[0.35em] text-sky-100/80 md:text-xs">
-                scroll to open
+                scroll or click to open
               </p>
               <motion.div
                 animate={reduce ? undefined : { y: [0, 8, 0] }}

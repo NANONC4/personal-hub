@@ -342,8 +342,10 @@ export function SpaceShooterMiniGame({ className = "" }: SpaceShooterMiniGamePro
       <div className="relative w-full h-full rounded-3xl overflow-hidden border-4 border-slate-700 bg-[#050810] shadow-[0_0_40px_rgba(0,0,0,0.5)] flex items-center justify-center">
         
         {/* The Canvas Game */}
-        <canvas 
-          ref={canvasRef} 
+        <canvas
+          ref={canvasRef}
+          role="img"
+          aria-label="มินิเกมยิงยานอวกาศแบบพิกเซลอาร์ต เป็นของตกแต่งประกอบเนื้อหา"
           className="w-full h-full object-cover [image-rendering:pixelated] cursor-crosshair touch-none"
         />
 

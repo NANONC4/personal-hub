@@ -53,8 +53,9 @@ const features = [
     Icon: MessageSquare,
     name: "Midnight Cafe",
     description: "แวะมาจิบกาแฟ คุยเรื่องโค้ด เรื่องเกม หรือหาเพื่อนทำโปรเจกต์ด้วยกัน",
-    href: "https://discord.gg/",
-    cta: "Join Discord",
+    // ยังไม่ได้เปิดเซิร์ฟเวอร์จริง — พาไปหน้าติดต่อไว้ก่อน จะได้ไม่กดแล้วเจอหน้าเปล่า
+    href: "/contact",
+    cta: "Discord เร็วๆ นี้",
     className: "col-span-1 md:col-span-2",
     background: <CommunityBackground />,
   },

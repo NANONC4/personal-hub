@@ -20,6 +20,29 @@ body {
   overflow-x: hidden;
 }
 
+/* Keyboard focus: one visible ring everywhere, in the brand accent.
+   Mouse/touch users never see it; only keyboard navigation triggers it. */
+:focus-visible {
+  outline: 2px solid #f472b6;
+  outline-offset: 3px;
+  border-radius: 2px;
+}
+
+/* Visitors who asked their OS to reduce motion get a still version of the
+   site. Everyone else is unaffected. */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
 /* Custom scrollbar for premium feel */
 ::-webkit-scrollbar {
   width: 6px;

@@ -56,7 +56,8 @@ export const BentoCard = ({
     </div>
     
     {/* Content Container */}
-    <div className="pointer-events-none z-10 flex h-full flex-col justify-end p-8 transition-all duration-300 group-hover:-translate-y-12">
+    {/* on touch there is no hover, so the CTA sits below at rest — leave room for it */}
+    <div className="pointer-events-none z-10 flex h-full flex-col justify-end p-8 pb-28 transition-all duration-300 md:pb-8 md:group-hover:-translate-y-12">
       <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-900/60 to-transparent opacity-80" />
       
       <div className="relative z-10">
@@ -75,7 +76,9 @@ export const BentoCard = ({
     {/* Hover Action */}
     <div
       className={cn(
-        "pointer-events-none absolute bottom-0 flex w-full translate-y-10 transform-gpu flex-row items-center p-8 opacity-0 transition-all duration-300 group-hover:translate-y-0 group-hover:opacity-100 z-20",
+        // visible at rest on touch; hover-revealed from md up
+        "pointer-events-none absolute bottom-0 z-20 flex w-full transform-gpu flex-row items-center p-8 transition-all duration-300",
+        "translate-y-0 opacity-100 md:translate-y-10 md:opacity-0 md:group-hover:translate-y-0 md:group-hover:opacity-100",
       )}
     >
       <Link href={href} className="pointer-events-auto flex items-center gap-2 px-6 py-3 bg-sky-500 hover:bg-sky-400 text-slate-950 font-mono font-bold uppercase tracking-widest text-sm rounded-xl transition-colors shadow-[0_0_15px_rgba(14,165,233,0.4)]">

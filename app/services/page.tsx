@@ -93,14 +93,14 @@ export default function ServicesPage() {
               </ul>
             </div>
             <div className="p-8 lg:p-12 border-t lg:border-t-0 lg:border-l border-slate-800 bg-slate-900/40 flex flex-col justify-center min-w-[300px]">
-              <a href="/contact" className="block w-full py-4 text-center bg-purple-500/10 hover:bg-purple-500 text-purple-400 hover:text-white rounded-xl font-mono tracking-widest uppercase transition-colors border border-purple-500/30">
+              <a href="/contact" className="block w-full py-4 text-center bg-sky-500/10 hover:bg-sky-500 text-sky-400 hover:text-white rounded-xl font-mono tracking-widest uppercase transition-colors border border-sky-500/30">
                 Get Quote
               </a>
             </div>
           </motion.div>
 
           {/* Package 2: Mini Games */}
-          <motion.div variants={itemVariants} className="lg:col-span-5 group relative flex flex-col bg-[#050810] rounded-[2.5rem] overflow-hidden border border-slate-800/80 hover:border-pink-500/50 transition-all duration-500 shadow-2xl hover:shadow-[0_0_40px_rgba(236,72,153,0.15)] hover:-translate-y-2">
+          <motion.div variants={itemVariants} className="lg:col-span-5 group relative flex flex-col bg-[#050810] rounded-[2.5rem] overflow-hidden border border-slate-800/80 hover:border-purple-500/50 transition-all duration-500 shadow-2xl hover:shadow-[0_0_40px_rgba(168,85,247,0.15)] hover:-translate-y-2">
             {/* Best Value Badge */}
             <div className="absolute top-0 right-0 bg-purple-500 text-white text-[10px] font-mono tracking-widest font-bold px-4 py-1 rounded-bl-xl z-10">
               POPULAR
@@ -185,19 +185,19 @@ export default function ServicesPage() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-100px" }}
           transition={{ duration: 0.6, type: "spring" }}
-          className="relative bg-gradient-to-r from-emerald-900/20 to-teal-900/20 border border-emerald-500/30 rounded-3xl p-8 md:p-12 overflow-hidden shadow-[0_0_40px_rgba(16,185,129,0.1)]"
+          className="relative bg-gradient-to-r from-pink-900/20 to-purple-900/20 border border-pink-500/30 rounded-3xl p-8 md:p-12 overflow-hidden shadow-[0_0_40px_rgba(236,72,153,0.1)]"
         >
           {/* Decorative Background Elements */}
-          <div className="absolute top-0 right-0 -mr-20 -mt-20 w-64 h-64 bg-emerald-500/10 rounded-full blur-3xl pointer-events-none" />
+          <div className="absolute top-0 right-0 -mr-20 -mt-20 w-64 h-64 bg-pink-500/10 rounded-full blur-3xl pointer-events-none" />
           
           <div className="relative z-10 flex flex-col md:flex-row items-center md:justify-between gap-8 text-center md:text-left">
             <div className="flex flex-col gap-2">
               <div className="inline-flex items-center justify-center md:justify-start gap-3 mb-2">
                 <span className="relative flex h-4 w-4">
-                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
-                  <span className="relative inline-flex rounded-full h-4 w-4 bg-emerald-500"></span>
+                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-pink-400 opacity-75"></span>
+                  <span className="relative inline-flex rounded-full h-4 w-4 bg-pink-500"></span>
                 </span>
-                <span className="font-mono text-emerald-400 font-bold tracking-widest uppercase">Available for Work</span>
+                <span className="font-mono text-pink-400 font-bold tracking-widest uppercase">Available for Work</span>
               </div>
               <h2 className="text-3xl md:text-4xl font-[family-name:var(--font-pixel)] text-white">Current Queue: 1</h2>
               <p className="text-slate-400 max-w-md mt-2">
@@ -210,7 +210,7 @@ export default function ServicesPage() {
                 href="https://fastwork.co/user/nanonc4" 
                 target="_blank" 
                 rel="noopener noreferrer"
-                className="group relative inline-flex items-center gap-4 px-8 py-4 bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold font-mono tracking-widest uppercase rounded-xl transition-all shadow-[0_0_20px_rgba(16,185,129,0.4)] hover:shadow-[0_0_30px_rgba(16,185,129,0.6)] hover:-translate-y-1"
+                className="group relative inline-flex items-center gap-4 px-8 py-4 bg-pink-500 hover:bg-pink-400 text-slate-950 font-bold font-mono tracking-widest uppercase rounded-xl transition-all shadow-[0_0_20px_rgba(236,72,153,0.4)] hover:shadow-[0_0_30px_rgba(236,72,153,0.6)] hover:-translate-y-1"
               >
                 <Clock className="w-5 h-5 group-hover:rotate-12 transition-transform" />
                 Book Slot

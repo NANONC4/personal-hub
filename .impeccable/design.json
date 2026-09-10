@@ -1,6 +1,6 @@
 {
   "schemaVersion": 2,
-  "generatedAt": "2026-09-09T00:00:00.000Z",
+  "generatedAt": "2026-09-10T06:26:20.051Z",
   "title": "Design System: NANONC4 Personal Hub",
   "extensions": {
     "colorMeta": {
@@ -8,111 +8,311 @@
         "role": "primary",
         "displayName": "Late-Night Pink",
         "canonical": "#f472b6",
-        "tonalRamp": ["#831843", "#9d174d", "#be185d", "#db2777", "#ec4899", "#f472b6", "#f9a8d4", "#fbcfe8"]
+        "tonalRamp": [
+          "#831843",
+          "#9d174d",
+          "#be185d",
+          "#db2777",
+          "#ec4899",
+          "#f472b6",
+          "#f9a8d4",
+          "#fbcfe8"
+        ]
       },
       "late-night-pink-deep": {
         "role": "primary",
         "displayName": "Late-Night Pink Deep",
         "canonical": "#ec4899",
-        "tonalRamp": ["#831843", "#9d174d", "#be185d", "#db2777", "#ec4899", "#f472b6", "#f9a8d4", "#fbcfe8"]
+        "tonalRamp": [
+          "#831843",
+          "#9d174d",
+          "#be185d",
+          "#db2777",
+          "#ec4899",
+          "#f472b6",
+          "#f9a8d4",
+          "#fbcfe8"
+        ]
       },
       "signal-sky": {
         "role": "secondary",
         "displayName": "Signal Sky",
         "canonical": "#38bdf8",
-        "tonalRamp": ["#0c4a6e", "#075985", "#0369a1", "#0284c7", "#0ea5e9", "#38bdf8", "#7dd3fc", "#bae6fd"]
+        "tonalRamp": [
+          "#0c4a6e",
+          "#075985",
+          "#0369a1",
+          "#0284c7",
+          "#0ea5e9",
+          "#38bdf8",
+          "#7dd3fc",
+          "#bae6fd"
+        ]
       },
       "dusk-indigo": {
         "role": "secondary",
         "displayName": "Dusk Indigo",
         "canonical": "#818cf8",
-        "tonalRamp": ["#312e81", "#3730a3", "#4338ca", "#4f46e5", "#6366f1", "#818cf8", "#a5b4fc", "#c7d2fe"]
+        "tonalRamp": [
+          "#312e81",
+          "#3730a3",
+          "#4338ca",
+          "#4f46e5",
+          "#6366f1",
+          "#818cf8",
+          "#a5b4fc",
+          "#c7d2fe"
+        ]
       },
       "dusk-violet": {
         "role": "tertiary",
         "displayName": "Dusk Violet",
         "canonical": "#c084fc",
-        "tonalRamp": ["#581c87", "#6b21a8", "#7e22ce", "#9333ea", "#a855f7", "#c084fc", "#d8b4fe", "#e9d5ff"]
+        "tonalRamp": [
+          "#581c87",
+          "#6b21a8",
+          "#7e22ce",
+          "#9333ea",
+          "#a855f7",
+          "#c084fc",
+          "#d8b4fe",
+          "#e9d5ff"
+        ]
       },
       "lamplight-amber": {
         "role": "tertiary",
         "displayName": "Lamplight Amber",
         "canonical": "#fbbf24",
-        "tonalRamp": ["#78350f", "#92400e", "#b45309", "#d97706", "#f59e0b", "#fbbf24", "#fcd34d", "#fde68a"]
+        "tonalRamp": [
+          "#78350f",
+          "#92400e",
+          "#b45309",
+          "#d97706",
+          "#f59e0b",
+          "#fbbf24",
+          "#fcd34d",
+          "#fde68a"
+        ]
       },
       "lamplight-amber-pale": {
         "role": "tertiary",
         "displayName": "Lamplight Amber Pale",
         "canonical": "#fef08a",
-        "tonalRamp": ["#713f12", "#854d0e", "#a16207", "#ca8a04", "#eab308", "#facc15", "#fde047", "#fef08a"]
+        "tonalRamp": [
+          "#713f12",
+          "#854d0e",
+          "#a16207",
+          "#ca8a04",
+          "#eab308",
+          "#facc15",
+          "#fde047",
+          "#fef08a"
+        ]
       },
       "midnight-slate": {
         "role": "neutral",
         "displayName": "Midnight Slate",
         "canonical": "#0f172a",
-        "tonalRamp": ["#020617", "#0f172a", "#1e293b", "#334155", "#475569", "#64748b", "#94a3b8", "#cbd5e1"]
+        "tonalRamp": [
+          "#020617",
+          "#0f172a",
+          "#1e293b",
+          "#334155",
+          "#475569",
+          "#64748b",
+          "#94a3b8",
+          "#cbd5e1"
+        ]
       },
       "midnight-deep": {
         "role": "neutral",
         "displayName": "Midnight Deep",
         "canonical": "#020617",
-        "tonalRamp": ["#020617", "#0f172a", "#1e293b", "#334155", "#475569", "#64748b", "#94a3b8", "#cbd5e1"]
+        "tonalRamp": [
+          "#020617",
+          "#0f172a",
+          "#1e293b",
+          "#334155",
+          "#475569",
+          "#64748b",
+          "#94a3b8",
+          "#cbd5e1"
+        ]
       },
       "night-surface": {
         "role": "neutral",
         "displayName": "Night Surface",
         "canonical": "#1e293b",
-        "tonalRamp": ["#020617", "#0f172a", "#1e293b", "#334155", "#475569", "#64748b", "#94a3b8", "#cbd5e1"]
+        "tonalRamp": [
+          "#020617",
+          "#0f172a",
+          "#1e293b",
+          "#334155",
+          "#475569",
+          "#64748b",
+          "#94a3b8",
+          "#cbd5e1"
+        ]
       },
       "night-edge": {
         "role": "neutral",
         "displayName": "Night Edge",
         "canonical": "#334155",
-        "tonalRamp": ["#020617", "#0f172a", "#1e293b", "#334155", "#475569", "#64748b", "#94a3b8", "#cbd5e1"]
+        "tonalRamp": [
+          "#020617",
+          "#0f172a",
+          "#1e293b",
+          "#334155",
+          "#475569",
+          "#64748b",
+          "#94a3b8",
+          "#cbd5e1"
+        ]
       },
       "muted-slate": {
         "role": "neutral",
         "displayName": "Muted Slate",
         "canonical": "#94a3b8",
-        "tonalRamp": ["#020617", "#0f172a", "#1e293b", "#334155", "#475569", "#64748b", "#94a3b8", "#cbd5e1"]
+        "tonalRamp": [
+          "#020617",
+          "#0f172a",
+          "#1e293b",
+          "#334155",
+          "#475569",
+          "#64748b",
+          "#94a3b8",
+          "#cbd5e1"
+        ]
       },
       "paper-white": {
         "role": "neutral",
         "displayName": "Paper White",
         "canonical": "#f8fafc",
-        "tonalRamp": ["#334155", "#475569", "#64748b", "#94a3b8", "#cbd5e1", "#e2e8f0", "#f1f5f9", "#f8fafc"]
+        "tonalRamp": [
+          "#334155",
+          "#475569",
+          "#64748b",
+          "#94a3b8",
+          "#cbd5e1",
+          "#e2e8f0",
+          "#f1f5f9",
+          "#f8fafc"
+        ]
       }
     },
     "typographyMeta": {
-      "display": { "displayName": "Display", "purpose": "ชื่อในหน้าแรกเท่านั้น — Inter น้ำหนัก 900 บีบระยะตัวอักษร" },
-      "headline": { "displayName": "Headline (Pixel)", "purpose": "หัวข้อโซนและคำโปรยพิกเซล ตัวพิมพ์ใหญ่เสมอ" },
-      "title": { "displayName": "Title (Pixel)", "purpose": "ชื่อโปรเจกต์บนการ์ดและหัวข้อย่อย" },
-      "body": { "displayName": "Body", "purpose": "เนื้อความไทย สี muted-slate กว้างไม่เกิน 65–75 ตัวอักษร" },
-      "label": { "displayName": "Label", "purpose": "เมนู ป้ายหมวดหมู่ แท็ก stack — ลายเซ็นที่ใช้บ่อยที่สุดในเว็บ" }
+      "display": {
+        "displayName": "Display",
+        "purpose": "ชื่อในหน้าแรกเท่านั้น — Inter น้ำหนัก 900 บีบระยะตัวอักษร"
+      },
+      "headline": {
+        "displayName": "Headline (Pixel)",
+        "purpose": "หัวข้อโซนและคำโปรยพิกเซล ตัวพิมพ์ใหญ่เสมอ"
+      },
+      "title": {
+        "displayName": "Title (Pixel)",
+        "purpose": "ชื่อโปรเจกต์บนการ์ดและหัวข้อย่อย"
+      },
+      "body": {
+        "displayName": "Body",
+        "purpose": "เนื้อความไทย สี muted-slate กว้างไม่เกิน 65–75 ตัวอักษร"
+      },
+      "label": {
+        "displayName": "Label",
+        "purpose": "เมนู ป้ายหมวดหมู่ แท็ก stack — ลายเซ็นที่ใช้บ่อยที่สุดในเว็บ"
+      }
     },
     "shadows": [
-      { "name": "block-small", "value": "2px 2px 0 0 #020617", "purpose": "ป้ายเล็ก แถบเครื่องมือ ปุ่มในโซนขี้เล่น" },
-      { "name": "block-medium", "value": "4px 4px 0 0 #1e293b", "purpose": "กรอบรูปเรโทร การ์ดที่ต้องการความเป็นสติกเกอร์" },
-      { "name": "block-accent", "value": "8px 8px 0 0 #c084fc", "purpose": "ใช้ได้ครั้งเดียวต่อหนึ่งโซน สำหรับองค์ประกอบที่ต้องเป็นพระเอก" },
-      { "name": "hover-glow", "value": "0 0 40px rgba(236,72,153,0.15)", "purpose": "การ์ดผลงานตอน hover — เรืองแสงเบาๆ ไม่ใช่เงาแข็ง" },
-      { "name": "pixel-text", "value": "drop-shadow(1px 1px 0 rgba(0,0,0,0.8))", "purpose": "ตัวพิกเซลบนพื้นที่มีลาย ให้ตัวอักษรไม่จมไปกับพื้นหลัง" },
-      { "name": "chip-inset", "value": "inset 0 1px 2px rgba(0,0,0,0.3)", "purpose": "พื้นของ chip ที่ถูกเลือก ให้รู้สึกกดลงไป" }
+      {
+        "name": "block-small",
+        "value": "2px 2px 0 0 #020617",
+        "purpose": "ป้ายเล็ก แถบเครื่องมือ ปุ่มในโซนขี้เล่น"
+      },
+      {
+        "name": "block-medium",
+        "value": "4px 4px 0 0 #1e293b",
+        "purpose": "กรอบรูปเรโทร การ์ดที่ต้องการความเป็นสติกเกอร์"
+      },
+      {
+        "name": "block-accent",
+        "value": "8px 8px 0 0 #c084fc",
+        "purpose": "ใช้ได้ครั้งเดียวต่อหนึ่งโซน สำหรับองค์ประกอบที่ต้องเป็นพระเอก"
+      },
+      {
+        "name": "hover-glow",
+        "value": "0 0 40px rgba(236,72,153,0.15)",
+        "purpose": "การ์ดผลงานตอน hover — เรืองแสงเบาๆ ไม่ใช่เงาแข็ง"
+      },
+      {
+        "name": "pixel-text",
+        "value": "drop-shadow(1px 1px 0 rgba(0,0,0,0.8))",
+        "purpose": "ตัวพิกเซลบนพื้นที่มีลาย ให้ตัวอักษรไม่จมไปกับพื้นหลัง"
+      },
+      {
+        "name": "chip-inset",
+        "value": "inset 0 1px 2px rgba(0,0,0,0.3)",
+        "purpose": "พื้นของ chip ที่ถูกเลือก ให้รู้สึกกดลงไป"
+      }
     ],
     "motion": [
-      { "name": "ease-standard", "value": "cubic-bezier(0.4, 0, 0.2, 1)", "purpose": "อีซิงเริ่มต้นของการเปลี่ยนสถานะทั้งหมด" },
-      { "name": "duration-state", "value": "300ms", "purpose": "ระยะเวลาเริ่มต้นของ hover / focus / การเปลี่ยนสี" },
-      { "name": "spring-indicator", "value": "type: spring, stiffness: 300, damping: 30", "purpose": "ขีดใต้เมนูที่ active เลื่อนตามด้วย layoutId" },
-      { "name": "spring-chip", "value": "type: spring, stiffness: 400, damping: 30", "purpose": "ตัวบ่งชี้ chip หมวดหมู่ที่ถูกเลือก" },
-      { "name": "float-subtle", "value": "float-subtle 6s ease-in-out infinite", "purpose": "องค์ประกอบตกแต่งลอยขึ้นลง 6px" },
-      { "name": "sweep-loop", "value": "sweep-loop 3s cubic-bezier(0.4,0,0.2,1) infinite", "purpose": "แสงกวาดผ่านปุ่มลิงก์โซเชียล" },
-      { "name": "gradient-text", "value": "gradient-text-shift 6s linear infinite", "purpose": "ไล่เฉดสีบนชื่อหน้าแรก — ใช้ที่เดียวในเว็บ" },
-      { "name": "ambient-loop-floor", "value": "6s+", "purpose": "แอนิเมชันวนซ้ำที่อยู่หลังข้อความต้องยาวอย่างน้อย 6 วินาที และความทึบต่ำ" }
+      {
+        "name": "ease-standard",
+        "value": "cubic-bezier(0.4, 0, 0.2, 1)",
+        "purpose": "อีซิงเริ่มต้นของการเปลี่ยนสถานะทั้งหมด"
+      },
+      {
+        "name": "duration-state",
+        "value": "300ms",
+        "purpose": "ระยะเวลาเริ่มต้นของ hover / focus / การเปลี่ยนสี"
+      },
+      {
+        "name": "spring-indicator",
+        "value": "type: spring, stiffness: 300, damping: 30",
+        "purpose": "ขีดใต้เมนูที่ active เลื่อนตามด้วย layoutId"
+      },
+      {
+        "name": "spring-chip",
+        "value": "type: spring, stiffness: 400, damping: 30",
+        "purpose": "ตัวบ่งชี้ chip หมวดหมู่ที่ถูกเลือก"
+      },
+      {
+        "name": "float-subtle",
+        "value": "float-subtle 6s ease-in-out infinite",
+        "purpose": "องค์ประกอบตกแต่งลอยขึ้นลง 6px"
+      },
+      {
+        "name": "sweep-loop",
+        "value": "sweep-loop 3s cubic-bezier(0.4,0,0.2,1) infinite",
+        "purpose": "แสงกวาดผ่านปุ่มลิงก์โซเชียล"
+      },
+      {
+        "name": "gradient-text",
+        "value": "gradient-text-shift 6s linear infinite",
+        "purpose": "ไล่เฉดสีบนชื่อหน้าแรก — ใช้ที่เดียวในเว็บ"
+      },
+      {
+        "name": "ambient-loop-floor",
+        "value": "6s+",
+        "purpose": "แอนิเมชันวนซ้ำที่อยู่หลังข้อความต้องยาวอย่างน้อย 6 วินาที และความทึบต่ำ"
+      }
     ],
     "breakpoints": [
-      { "name": "sm", "value": "640px" },
-      { "name": "md", "value": "768px" },
-      { "name": "lg", "value": "1024px" },
-      { "name": "xl", "value": "1280px" }
+      {
+        "name": "sm",
+        "value": "640px"
+      },
+      {
+        "name": "md",
+        "value": "768px"
+      },
+      {
+        "name": "lg",
+        "value": "1024px"
+      },
+      {
+        "name": "xl",
+        "value": "1280px"
+      }
     ]
   },
   "components": [
@@ -185,7 +385,7 @@
     "northStar": "The 2 A.M. Window",
     "overview": "ห้องเงียบๆ ตอนตีสอง ไฟในห้องปิดหมดแล้ว เหลือแค่แสงจากจอกับไฟเมืองนอกหน้าต่าง — นั่นคือความรู้สึกที่ทั้งเว็บนี้ต้องให้ พื้นหลังเป็นสีกรมท่ามืดสนิทเกือบตลอด ตัวอักษรและองค์ประกอบลอยอยู่บนความมืดนั้นแบบไม่แย่งกันพูด สีสว่างมีน้อยและมาเป็นจุดๆ เหมือนไฟที่ยังเปิดอยู่ไม่กี่ดวง\n\nโลกนี้ไม่ใช่ \"อาร์เคด\" ถึงจะมีเกมเล่นได้อยู่ในหน้าเว็บก็ตาม เกมและพิกเซลอาร์ตเป็นของเล่นในห้องที่เงียบ ไม่ใช่ตัวกำหนดอารมณ์ทั้งห้อง งานที่เพิ่มเข้ามาใหม่ต้องเริ่มจากความสงบก่อน แล้วค่อยเลือกจุดที่จะขี้เล่นอย่างตั้งใจ ความเป็นพิกเซลอาร์ตอยู่ในรายละเอียดที่วาดขึ้นมาเองด้วยโค้ด (ดาว พระจันทร์ ไอคอน กรอบหน้าต่าง) ไม่ใช่ในการตะโกน\n\nสิ่งที่ยืนยันว่าไม่เอา: หน้าตาแบบ portfolio dev ทั่วไป — การ์ดสี่เหลี่ยมเท่ากันหมดเรียงเป็นตาราง ไอคอนไลบรารีสำเร็จรูป พื้นขาวเทา ฟอนต์ระบบ ถ้างานใหม่ดูแทนที่ด้วยเว็บใครก็ได้ แปลว่าหลุดโลกนี้แล้ว",
     "keyCharacteristics": [
-      "มืดเป็นค่าตั้งต้น ไม่มีโหมดสว่าง",
+      "มืดเป็นค่าตั้งต้น (ยกเว้น /bio ที่สว่างโดยตั้งใจ)",
       "แบนเรียบเป็นหลัก ความลึกมาจากการไล่เฉดพื้นผิว ไม่ใช่เงา",
       "ตัวพิกเซล (Silkscreen) เป็นเสียงของหัวข้อและป้าย ตัว Inter เป็นเสียงของเนื้อความ",
       "สีสดใช้น้อยและมีหน้าที่ชัด ไม่โปรยเพื่อความสวย",
@@ -200,7 +400,7 @@
       },
       {
         "name": "กฎ \"อำพันคือแสง ไม่ใช่สี\"",
-        "body": "lamplight-amber ใช้ได้เฉพาะกับสิ่งที่กำลังเปล่งแสงในฉากกลางคืนเท่านั้น ห้ามใช้เป็นสีปุ่ม สีป้าย หรือสีเน้นข้อความ",
+        "body": "lamplight-amber ใช้ได้เฉพาะกับสิ่งที่กำลังเปล่งแสงในฉากกลางคืนเท่านั้น ห้ามใช้เป็นสีปุ่ม สีป้าย หรือสีเน้นข้อความ ข้อยกเว้นที่ตั้งใจ: หน้า /contact ใช้โทนอำพันเป็นสี UI โดยเจตนา ห้ามแก้กลับ",
         "section": "colors"
       },
       {
@@ -229,8 +429,8 @@
       "Do เคารพ prefers-reduced-motion ในทุกองค์ประกอบที่เคลื่อนไหว — ปิดลูปทั้งหมด เหลือแต่สถานะนิ่งที่อ่านได้"
     ],
     "donts": [
-      "Don't เพิ่มโหมดสว่าง เว็บนี้มืดอย่างเดียวโดยตั้งใจ",
-      "Don't ใช้ lamplight-amber เป็นสี UI (ปุ่ม ป้าย ข้อความเน้น) — มันเป็นสีของแสงเท่านั้น",
+      "Don't เพิ่มโหมดสว่างให้หน้าอื่น และห้ามแก้ /bio ให้เป็นหน้ามืด มันสว่างโดยตั้งใจเพราะเป็นลิงก์ไบโอที่แชร์แยกได้",
+      "Don't ใช้ lamplight-amber เป็นสี UI ในหน้าอื่น และห้ามแก้สีอำพันในหน้า /contact",
       "Don't ใส่ตัวอักษรไล่เฉดสีเพิ่มที่ไหนอีก นอกจากชื่อในหน้าแรกที่มีอยู่แล้ว",
       "Don't ใช้เงาทึบ (4px 4px 0) เป็นค่าตั้งต้นของการ์ดหรือปุ่มทั่วไป — มันสงวนไว้ให้จุดที่ตั้งใจขี้เล่น",
       "Don't ทำให้การ์ดในตารางผลงานเท่ากันหมด ความไม่สม่ำเสมอ (7/5 คอลัมน์สลับกัน) คือสิ่งที่ทำให้ไม่ดูเป็นเทมเพลต",

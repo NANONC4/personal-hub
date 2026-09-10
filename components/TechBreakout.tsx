@@ -327,9 +327,31 @@ export function TechBreakout() {
       ctx.fillRect(Math.floor(paddleX), canvasHeight - 10 - 4, paddleWidth, 4);
     };
 
+    // The canvas has a fixed 800x600 logical size and is scaled down by CSS, so
+    // on a phone every logical pixel shrinks to roughly 0.45 of a CSS pixel.
+    // Start from the largest type that still fits the brick and only shrink as
+    // far as each label needs — that buys back the mobile legibility.
+    const fitFontSize = (text: string, maxWidth: number) => {
+      let size = 34;
+      ctx.font = `bold ${size}px var(--font-pixel), monospace`;
+      while (size > 16 && ctx.measureText(text).width > maxWidth) {
+        size -= 1;
+        ctx.font = `bold ${size}px var(--font-pixel), monospace`;
+      }
+      return size;
+    };
+    const fontSizeCache = new Map<string, number>();
+    const brickFontSize = (text: string, maxWidth: number) => {
+      const key = `${text}@${Math.round(maxWidth)}`;
+      let cached = fontSizeCache.get(key);
+      if (cached === undefined) {
+        cached = fitFontSize(text, maxWidth);
+        fontSizeCache.set(key, cached);
+      }
+      return cached;
+    };
+
     const drawBricks = () => {
-      // Significantly increase font size for better readability
-      const fontSize = 24; 
 
       for (let c = 0; c < brickColumnCount; c++) {
         for (let r = 0; r < brickRowCount; r++) {
@@ -375,7 +397,7 @@ export function TechBreakout() {
             ctx.setLineDash([]); // reset dash
             
             // Text: Vibrant Neon Color + Hard Black Shadow for popping contrast
-            ctx.font = `bold ${fontSize}px var(--font-pixel), monospace`;
+            ctx.font = `bold ${brickFontSize(b.text, brickWidth - 16)}px var(--font-pixel), monospace`;
             ctx.textAlign = "center";
             ctx.textBaseline = "middle";
             
@@ -399,7 +421,7 @@ export function TechBreakout() {
             ctx.fillRect(brickX + 4, brickY + 4, brickWidth - 8, brickHeight - 8);
             
             // Text: Pure Black for high contrast on the bright flash
-            ctx.font = `bold ${fontSize}px var(--font-pixel), monospace`;
+            ctx.font = `bold ${brickFontSize(b.text, brickWidth - 16)}px var(--font-pixel), monospace`;
             ctx.textAlign = "center";
             ctx.textBaseline = "middle";
             
@@ -679,8 +701,10 @@ export function TechBreakout() {
             ref={containerRef} 
             className="w-full max-w-[800px] mx-auto aspect-[4/3] relative bg-[#020617] overflow-hidden cursor-crosshair shadow-[inset_0_0_10px_rgba(0,0,0,1)] shrink-0 rounded-lg"
           >
-            <canvas 
-              ref={canvasRef} 
+            <canvas
+              ref={canvasRef}
+              role="img"
+              aria-label="มินิเกมทุบอิฐ อิฐแต่ละก้อนคือเทคโนโลยีที่ใช้เป็น: Next.js, React, TypeScript, Tailwind CSS, HTML5, CSS3, JavaScript, Unity, C#, Git, Node.js, Supabase, Prisma, Framer Motion"
               className="w-full h-full object-cover"
               style={{ imageRendering: 'pixelated' }}
             />
@@ -737,6 +761,7 @@ export function TechBreakout() {
         <div className="mt-4 md:hidden w-full flex justify-between items-center px-4 gap-4">
           <div className="flex gap-2">
             <button
+              aria-label="เลื่อนไม้ตีไปทางซ้าย"
               className="w-16 h-16 bg-slate-800/80 rounded-full flex items-center justify-center shadow-lg active:bg-slate-700 active:scale-95 transition-all"
               onTouchStart={(e) => { e.preventDefault(); window.dispatchEvent(new CustomEvent('techBreakoutGamepad', { detail: { action: 'left', state: true } })); }}
               onTouchEnd={(e) => { e.preventDefault(); window.dispatchEvent(new CustomEvent('techBreakoutGamepad', { detail: { action: 'left', state: false } })); }}
@@ -744,6 +769,7 @@ export function TechBreakout() {
               <ArrowLeft className="w-8 h-8 text-white" />
             </button>
             <button
+              aria-label="เลื่อนไม้ตีไปทางขวา"
               className="w-16 h-16 bg-slate-800/80 rounded-full flex items-center justify-center shadow-lg active:bg-slate-700 active:scale-95 transition-all"
               onTouchStart={(e) => { e.preventDefault(); window.dispatchEvent(new CustomEvent('techBreakoutGamepad', { detail: { action: 'right', state: true } })); }}
               onTouchEnd={(e) => { e.preventDefault(); window.dispatchEvent(new CustomEvent('techBreakoutGamepad', { detail: { action: 'right', state: false } })); }}
@@ -753,6 +779,7 @@ export function TechBreakout() {
           </div>
           
           <button
+            aria-label="ปล่อยลูกบอล"
             className="w-20 h-20 bg-red-600/80 rounded-full flex items-center justify-center shadow-[0_0_15px_rgba(220,38,38,0.6)] active:bg-red-500 active:scale-95 active:shadow-[0_0_25px_rgba(220,38,38,0.9)] transition-all"
             onTouchStart={(e) => { e.preventDefault(); window.dispatchEvent(new CustomEvent('techBreakoutGamepad', { detail: { action: 'action', state: true } })); }}
             onTouchEnd={(e) => { e.preventDefault(); window.dispatchEvent(new CustomEvent('techBreakoutGamepad', { detail: { action: 'action', state: false } })); }}

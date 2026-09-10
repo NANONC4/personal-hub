@@ -57,7 +57,7 @@ import TopNavbar from "@/components/TopNavbar";
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" suppressHydrationWarning>
+    <html lang="th" suppressHydrationWarning>
       <body className={`${inter.variable} ${silkscreen.variable} ${inter.className} bg-background text-foreground antialiased`}>
         <SmoothScroll>
           <div className="relative flex min-h-screen flex-col">
