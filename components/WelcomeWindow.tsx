@@ -255,8 +255,10 @@ export default function WelcomeWindow() {
       const el = spacerRef.current;
       if (!el) return;
       const rect = el.getBoundingClientRect();
-      // progress completes when the spacer's bottom reaches the top of the
-      // viewport, i.e. exactly when the hero fills the screen — no dead gap.
+      // p reaches 1 exactly when the hero has settled at the top of the screen,
+      // so scrolling can stop there. The gate stays fully opaque for almost the
+      // whole runway and only clears in a short late fade — no long overlap
+      // where both are half-visible, and no screen of nothing in between.
       const total = rect.height;
       setP(total > 0 ? clamp(-rect.top / total) : 0);
     };
@@ -297,23 +299,24 @@ export default function WelcomeWindow() {
     return () => window.removeEventListener("keydown", onKey);
   }, [openGate]);
 
-  const offset = map(p, 0.05, 0.6, 0, 108); // sash travel, %
-  const signOpacity = map(p, 0.28, 0.48, 0, 1) * (1 - map(p, 0.8, 0.94, 0, 1));
-  const signShift = map(p, 0.28, 0.66, 20, 0);
+  const offset = map(p, 0.05, 0.68, 0, 108); // sash travel, %
+  const signOpacity = map(p, 0.34, 0.56, 0, 1) * (1 - map(p, 0.88, 0.97, 0, 1));
+  const signShift = map(p, 0.34, 0.74, 20, 0);
   const hintOpacity = 1 - map(p, 0, 0.12, 0, 1);
-  const layerOpacity = 1 - map(p, 0.78, 0.96, 0, 1);
-  const gone = p >= 0.985;
+  // opaque until the very end, then a short clean hand-off to the hero
+  const layerOpacity = 1 - map(p, 0.88, 0.98, 0, 1);
+  const gone = p >= 0.98;
 
   return (
     <>
-      <div ref={spacerRef} aria-hidden className="h-[150vh]" />
-      {!mounted && <div aria-hidden className="fixed inset-0 z-[45]" style={{ background: DARK }} />}
+      <div ref={spacerRef} aria-hidden className="h-[130vh]" />
+      {!mounted && <div aria-hidden className="fixed inset-0 z-[70]" style={{ background: DARK }} />}
       {mounted &&
         createPortal(
           <div
             aria-hidden
             onClick={openGate}
-            className="fixed inset-0 z-[45] overflow-hidden [image-rendering:pixelated]"
+            className="fixed inset-0 z-[70] overflow-hidden [image-rendering:pixelated]"
             style={{
               opacity: layerOpacity,
               pointerEvents: p > 0.6 ? "none" : "auto",
