@@ -41,16 +41,22 @@ const STARS = [
   { l: "72%", t: "24%", s: 3, d: 0.4 },
 ];
 
-/* skyline rows within the sky box: [x%, w%, h%] — packed, varied heights, a few towers */
+/* Skyline rows within the sky box: [x%, w%, h%].
+   Slim towers packed close, matching the proportions the cozy PixelSky canvas
+   draws on the hero (24–70px wide against the viewport) — a dense city, not a
+   row of fat blocks. */
 const SKY_BACK: [number, number, number][] = [
-  [-2, 8, 44], [5, 6, 30], [10, 7, 62], [16, 5, 38], [20, 8, 88], [27, 6, 46],
-  [32, 7, 34], [38, 6, 70], [43, 8, 40], [50, 6, 96], [55, 7, 52], [61, 6, 36],
-  [66, 8, 64], [73, 6, 42], [78, 7, 78], [84, 6, 34], [89, 8, 56], [95, 7, 44],
+  [-2, 4, 42], [2, 3, 28], [5, 4, 58], [9, 3, 35], [12, 4, 72], [16, 3, 30],
+  [19, 4, 50], [23, 3, 40], [26, 4, 64], [30, 3, 26], [33, 4, 55], [37, 3, 44],
+  [40, 4, 80], [44, 3, 32], [47, 4, 60], [51, 3, 38], [54, 4, 70], [58, 3, 29],
+  [61, 4, 52], [65, 3, 45], [68, 4, 66], [72, 3, 31], [75, 4, 57], [79, 3, 41],
+  [82, 4, 74], [86, 3, 27], [89, 4, 49], [93, 3, 36], [96, 4, 62],
 ];
 const SKY_FRONT: [number, number, number][] = [
-  [-3, 11, 34], [6, 8, 52], [13, 7, 26], [19, 10, 44], [27, 7, 64], [33, 9, 30],
-  [41, 8, 50], [48, 7, 22], [54, 10, 40], [62, 7, 58], [68, 9, 28], [76, 8, 46],
-  [83, 7, 34], [89, 10, 54], [96, 8, 30],
+  [-2, 5, 30], [3, 4, 46], [7, 5, 22], [12, 4, 38], [16, 5, 26], [21, 4, 52],
+  [25, 5, 20], [30, 4, 34], [34, 5, 44], [39, 4, 24], [43, 5, 36], [48, 4, 50],
+  [52, 5, 28], [57, 4, 42], [61, 5, 23], [66, 4, 48], [70, 5, 32], [75, 4, 26],
+  [79, 5, 40], [84, 4, 21], [88, 5, 34], [93, 4, 45], [97, 5, 29],
 ];
 
 /** Warm-lit window grid for one building, à la the cozy PixelSky skyline. */
@@ -62,7 +68,8 @@ function Windows({ i, cols, rows, reduce }: { i: number; cols: number; rows: num
     >
       {Array.from({ length: cols * rows }).map((_, k) => {
         const seed = (i * 71 + k * 37) % 100;
-        if (seed > 60) return <span key={k} className="block h-[3px] w-[3px]" />;
+        // sparse scatter rather than a filled grid — same read as the canvas city
+        if (seed > 46) return <span key={k} className="block h-[3px] w-[3px]" />;
         const warm = seed % 6 !== 0;
         const base = warm ? "#ffc885" : "#9fc6ec";
         // most windows sit steady; only a few breathe, slowly
@@ -126,14 +133,14 @@ function SkyLayer({ reduce }: { reduce: boolean | null }) {
       <div className="absolute inset-x-0 bottom-0 h-[46%]">
         {SKY_BACK.map(([x, w, h], i) => (
           <div key={i} className="absolute bottom-0 bg-[#0c1830]" style={{ left: `${x}%`, width: `${w}%`, height: `${h}%` }}>
-            <Windows i={i + 100} cols={2} rows={Math.max(3, Math.round(h / 9))} reduce={reduce} />
+            <Windows i={i + 100} cols={2} rows={Math.max(2, Math.round(h / 11))} reduce={reduce} />
           </div>
         ))}
       </div>
       <div className="absolute inset-x-0 bottom-0 h-[34%]">
         {SKY_FRONT.map(([x, w, h], i) => (
           <div key={i} className="absolute bottom-0 bg-[#070d1c]" style={{ left: `${x}%`, width: `${w}%`, height: `${h}%` }}>
-            <Windows i={i} cols={3} rows={Math.max(3, Math.round(h / 8))} reduce={reduce} />
+            <Windows i={i} cols={2} rows={Math.max(2, Math.round(h / 10))} reduce={reduce} />
           </div>
         ))}
       </div>
