@@ -20,6 +20,15 @@ export default function TopNavbar() {
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const pathname = usePathname();
+  const [lastPath, setLastPath] = useState(pathname);
+
+  // Close the mobile menu when the route changes. Adjusting state during render
+  // is React's documented pattern for this; doing it in an effect causes an
+  // extra render pass with the menu still open.
+  if (lastPath !== pathname) {
+    setLastPath(pathname);
+    setIsOpen(false);
+  }
 
   // Handle scroll to add background blur/shadow when scrolling down
   useEffect(() => {
@@ -30,17 +39,16 @@ export default function TopNavbar() {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  // Close mobile menu when route changes
-  useEffect(() => {
-    setIsOpen(false);
-  }, [pathname]);
-
   return (
     <>
       {/* Desktop & Mobile Header Bar */}
       <header 
         className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-          scrolled ? 'bg-slate-950/80 backdrop-blur-md border-b border-slate-800 shadow-lg py-3' : 'bg-transparent py-5'
+          // a soft scrim rather than a solid bar, so it never reads as a black
+          // band cutting the top off a full-screen section
+          scrolled
+            ? 'bg-gradient-to-b from-slate-950/90 via-slate-950/55 to-transparent backdrop-blur-[2px] py-3'
+            : 'bg-transparent py-5'
         }`}
       >
         <div className="max-w-7xl mx-auto px-6 flex items-center justify-between">

@@ -80,7 +80,7 @@ export default function HomePage() {
         {/* =========================================
             1. THE WELCOME (Hero Section)
             ========================================= */}
-        <section className="max-w-6xl mx-auto px-6 py-20 lg:py-32 flex flex-col items-start min-h-[90vh] justify-center pb-20">
+        <section className="max-w-6xl mx-auto px-6 py-20 lg:py-32 flex flex-col items-start min-h-screen justify-center">
           <motion.div 
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
