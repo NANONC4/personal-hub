@@ -29,7 +29,6 @@ const map = (v: number, inA: number, inB: number, outA: number, outB: number) =>
 const WIN = { top: 4, bottom: 80, left: 5, right: 95 };
 const SILL = WIN.bottom;
 const DARK = "#0a1424";
-const SEEN_KEY = "nanonc4:welcome-opened";
 
 const STARS = [
   { l: "30%", t: "10%", s: 3, d: 0 },
@@ -247,7 +246,6 @@ export default function WelcomeWindow() {
   const spacerRef = useRef<HTMLDivElement>(null);
   const reduce = useReducedMotion();
   const [mounted, setMounted] = useState(false);
-  const [skip, setSkip] = useState(false);
   const [p, setP] = useState(0);
 
   useEffect(() => {
@@ -260,27 +258,12 @@ export default function WelcomeWindow() {
       // progress completes when the spacer's bottom reaches the top of the
       // viewport, i.e. exactly when the hero fills the screen — no dead gap.
       const total = rect.height;
-      const next = total > 0 ? clamp(-rect.top / total) : 0;
-      setP(next);
-      if (next > 0.99) {
-        try {
-          sessionStorage.setItem(SEEN_KEY, "1");
-        } catch {
-          /* private mode — the gate simply plays again */
-        }
-      }
+      setP(total > 0 ? clamp(-rect.top / total) : 0);
     };
     const onScroll = () => {
       if (!raf) raf = requestAnimationFrame(measure);
     };
     const init = requestAnimationFrame(() => {
-      let seen = false;
-      try {
-        seen = sessionStorage.getItem(SEEN_KEY) === "1";
-      } catch {
-        /* ignore */
-      }
-      if (seen) setSkip(true);
       setMounted(true);
       measure();
     });
@@ -307,13 +290,12 @@ export default function WelcomeWindow() {
 
   // Esc dismisses the gate, like any other overlay.
   useEffect(() => {
-    if (skip) return;
     const onKey = (e: KeyboardEvent) => {
       if (e.key === "Escape") openGate();
     };
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
-  }, [skip, openGate]);
+  }, [openGate]);
 
   const offset = map(p, 0.05, 0.6, 0, 108); // sash travel, %
   const signOpacity = map(p, 0.28, 0.48, 0, 1) * (1 - map(p, 0.8, 0.94, 0, 1));
@@ -321,9 +303,6 @@ export default function WelcomeWindow() {
   const hintOpacity = 1 - map(p, 0, 0.12, 0, 1);
   const layerOpacity = 1 - map(p, 0.78, 0.96, 0, 1);
   const gone = p >= 0.985;
-
-  // Already opened once this session — go straight to the page.
-  if (skip) return null;
 
   return (
     <>
