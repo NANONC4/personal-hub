@@ -299,30 +299,35 @@ export default function WelcomeWindow() {
     return () => window.removeEventListener("keydown", onKey);
   }, [openGate]);
 
-  const offset = map(p, 0.05, 0.68, 0, 108); // sash travel, %
-  const signOpacity = map(p, 0.34, 0.56, 0, 1) * (1 - map(p, 0.88, 0.97, 0, 1));
-  const signShift = map(p, 0.34, 0.74, 20, 0);
-  const hintOpacity = 1 - map(p, 0, 0.12, 0, 1);
-  // opaque until the very end, then a short clean hand-off to the hero
-  const layerOpacity = 1 - map(p, 0.88, 0.98, 0, 1);
-  const gone = p >= 0.98;
+  // Two phases across the spacer, each one screen tall.
+  //   0 → 0.5  the gate is pinned: sashes slide apart, the sign appears
+  //   0.5 → 1  the gate slides up and off at exactly scroll speed, so the hero
+  //            underneath tiles in behind it like any two stacked sections
+  // It never fades, so the two are never both semi-visible at once.
+  const offset = map(p, 0.06, 0.44, 0, 108); // sash travel, %
+  const signOpacity = map(p, 0.26, 0.42, 0, 1);
+  const signShift = map(p, 0.26, 0.5, 20, 0);
+  const hintOpacity = 1 - map(p, 0, 0.1, 0, 1);
+  const exitVh = map(p, 0.5, 1, 0, -100); // slide-away, in vh
+  const gone = p >= 0.999;
 
   return (
     <>
-      <div ref={spacerRef} aria-hidden className="h-[130vh]" />
+      {/* two screens: one for the gate, one for it to slide away over */}
+      <div ref={spacerRef} aria-hidden className="h-[200vh]" />
       {!mounted && <div aria-hidden className="fixed inset-0 z-[70]" style={{ background: DARK }} />}
       {mounted &&
         createPortal(
           <div
             aria-hidden
             onClick={openGate}
-            className="fixed inset-0 z-[70] overflow-hidden [image-rendering:pixelated]"
+            className="fixed inset-0 z-[70] overflow-hidden [image-rendering:pixelated] will-change-transform"
             style={{
-              opacity: layerOpacity,
-              pointerEvents: p > 0.6 ? "none" : "auto",
+              transform: `translateY(${exitVh}vh)`,
+              pointerEvents: p > 0.5 ? "none" : "auto",
               visibility: gone ? "hidden" : "visible",
               background: DARK,
-              cursor: p < 0.6 ? "pointer" : "default",
+              cursor: p < 0.5 ? "pointer" : "default",
             }}
           >
             <SkyLayer reduce={reduce} />
