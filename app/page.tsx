@@ -2,14 +2,12 @@
 
 import { motion } from "framer-motion";
 import Link from "next/link";
-import Image from "next/image";
 import PixelSky from "@/components/PixelSky";
 import { PixelHeart } from "@/components/PixelIcons";
 import { projects } from "@/data/projects";
 import Footer from "@/components/Footer";
-import { ArrowRight, Terminal } from "lucide-react";
+import ProjectSlides from "@/components/ProjectSlides";
 
-import { Lens } from "@/components/Lens";
 import { InteractiveHoverButton } from "@/components/InteractiveHoverButton";
 import { KineticText } from "@/components/KineticText";
 import { DiaTextReveal } from "@/components/DiaTextReveal";
@@ -23,7 +21,9 @@ export default function HomePage() {
   const topProjects = projects.slice(0, 3);
 
   return (
-    <main className="relative min-h-screen bg-[#0f172a] text-slate-200 selection:bg-pink-500/30 overflow-x-hidden pt-24 font-[family-name:var(--font-geist-sans)]">
+    // overflow-x-clip, not -hidden: `hidden` turns this into a scroll container
+    // and silently breaks `position: sticky` for the project stage below.
+    <main className="relative min-h-screen bg-[#0f172a] text-slate-200 selection:bg-pink-500/30 overflow-x-clip pt-24 font-[family-name:var(--font-geist-sans)]">
       {/* Background */}
       <PixelSky cozy className="fixed inset-0 z-0 opacity-70 pointer-events-none" />
       
@@ -134,78 +134,15 @@ export default function HomePage() {
         {/* =========================================
             4. CREATIVE SANDBOX (Projects)
             ========================================= */}
-        <section className="w-full bg-[#0a0f1c] border-y border-slate-800/60 relative z-20 py-32 md:py-48 mb-32">
-          <div className="max-w-7xl mx-auto px-6">
-          <motion.div 
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            className="flex flex-col md:flex-row justify-between items-end mb-24 gap-6"
-          >
-            <div>
-              <div className="inline-flex items-center gap-2 mb-6">
-                <Terminal className="w-6 h-6 text-sky-400" />
-                <span className="font-mono text-sky-400 uppercase tracking-widest text-base">Recent Explorations</span>
-              </div>
-              <h2 className="text-5xl md:text-7xl font-[family-name:var(--font-pixel)] text-white uppercase tracking-wider">
-                What I've Built
-              </h2>
-            </div>
-            
-            <Link href="/portfolio" className="group flex items-center gap-2 text-slate-400 hover:text-white transition-colors font-mono uppercase tracking-widest text-sm">
-              View all works <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-            </Link>
-          </motion.div>
+        <section className="w-full relative z-20 pt-24 md:pt-0">
+          <ProjectSlides projects={topProjects} />
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {topProjects.map((project, idx) => (
-              <motion.div 
-                key={project.id}
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: idx * 0.15 }}
-                className="group relative flex flex-col bg-slate-900/60 rounded-3xl overflow-hidden border border-slate-800 hover:border-sky-500/50 transition-all hover:-translate-y-2 shadow-lg"
-              >
-                <div className="relative h-56 md:h-64 w-full bg-slate-950">
-                  <Lens zoomFactor={1.8} lensSize={160}>
-                    <div className="relative w-full h-full">
-                      <Image
-                        src={project.gallery[0]}
-                        alt={project.title}
-                        fill
-                        className="object-cover transition-transform duration-700 group-hover:scale-110 opacity-70 group-hover:opacity-100"
-                      />
-                      <div className="absolute inset-0 bg-gradient-to-t from-slate-900 via-transparent to-transparent opacity-90" />
-                    </div>
-                  </Lens>
-                </div>
-                <div className="p-8 md:p-10 flex flex-col flex-grow relative z-10 bg-slate-900/60">
-                  <h3 className="text-xl font-bold text-white mb-4 font-[family-name:var(--font-pixel)] uppercase tracking-wide">
-                    {project.title}
-                  </h3>
-                  <p className="text-sm md:text-base text-slate-400 line-clamp-3 mb-6 flex-grow leading-relaxed">
-                    {project.description}
-                  </p>
-                  <div className="flex flex-wrap gap-2">
-                    {project.stack.slice(0, 3).map((tech) => (
-                      <span key={tech} className="px-2 py-1 bg-slate-800 text-[10px] font-mono text-slate-300 rounded border border-slate-700">
-                        {tech}
-                      </span>
-                    ))}
-                  </div>
-                </div>
-              </motion.div>
-            ))}
-          </div>
-          
-          <div className="mt-16 flex justify-center">
-            <Link href="/showreel" className="group relative px-8 py-4 bg-transparent border-2 border-pink-500/50 hover:bg-pink-500 text-pink-400 hover:text-white font-mono font-bold tracking-widest uppercase rounded-lg transition-all">
-              <span className="flex items-center gap-2">
-                Experience Full Showreel <PixelHeart className="w-5 h-5 opacity-70 group-hover:opacity-100 transition-opacity" />
+          <div className="mt-24 flex justify-center px-6 md:mt-0">
+            <Link href="/showreel" className="group relative px-6 py-4 md:px-8 bg-transparent border-2 border-pink-500/50 hover:bg-pink-500 text-pink-400 hover:text-white font-mono font-bold text-xs md:text-base tracking-[0.15em] md:tracking-widest uppercase transition-all">
+              <span className="flex items-center justify-center gap-2">
+                Experience Full Showreel <PixelHeart className="w-5 h-5 shrink-0 opacity-70 group-hover:opacity-100 transition-opacity" />
               </span>
             </Link>
-          </div>
           </div>
         </section>
 
