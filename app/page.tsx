@@ -124,8 +124,25 @@ export default function HomePage() {
         {/* =========================================
             3. MY ARSENAL (Tech Breakout Game)
             ========================================= */}
-        <section className="w-full relative z-20 transition-colors duration-300">
-          <div className="w-full flex items-center justify-center relative transition-all duration-300 max-w-5xl mx-auto py-10 md:py-20 px-4">
+        <section className="w-full relative z-20">
+          <div className="max-w-5xl mx-auto px-6 py-16 md:py-24">
+            {/* every other zone announces itself with a pixel heading; this one
+                used to hide its title inside the machine's chrome */}
+            <motion.div
+              initial={{ opacity: 0, y: 24 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "-100px" }}
+              transition={{ duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
+              className="mx-auto mb-10 w-full max-w-[900px] md:mb-14"
+            >
+              <h2 className="font-[family-name:var(--font-pixel)] text-3xl md:text-5xl uppercase tracking-wider text-white">
+                My Arsenal
+              </h2>
+              <p className="mt-5 max-w-xl text-base md:text-lg leading-relaxed text-slate-400">
+                คลังอาวุธของผม — ภาษาและเครื่องมือที่ใช้ทำงานจริง ยิงลูกบอลไปโดนอันไหน อันนั้นจะสว่างค้างไว้
+              </p>
+            </motion.div>
+
             <TechBreakout />
           </div>
         </section>

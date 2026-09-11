@@ -3,6 +3,7 @@
 import React, { useRef, useEffect, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { RefreshCw, Play, ArrowLeft, ArrowRight, Zap } from 'lucide-react';
+import { PixelHeart } from '@/components/PixelIcons';
 
 const TECH_STACK = [
   { text: "UNITY", color: "#FFFFFF", iconUrl: "https://cdn.simpleicons.org/unity/white" },
@@ -657,40 +658,35 @@ export function TechBreakout() {
     <div className="w-full flex flex-col items-center">
       <div className="w-full max-w-[900px] bg-slate-900 border-b-[16px] border-r-[16px] border-slate-950 rounded-xl p-4 md:p-8 shadow-2xl relative z-20">
         
-        {/* Header HUD */}
-        <div className="w-full flex justify-between items-center mb-6 px-2">
-          <h2 className="text-3xl md:text-5xl font-[family-name:var(--font-pixel)] text-sky-400 uppercase tracking-widest drop-shadow-[0_0_8px_rgba(56,189,248,0.5)]">
-            ARSENAL
-          </h2>
-          <div className="flex items-center gap-4 md:gap-6">
-            
-            {/* Permanent Restart Button */}
-            <button 
-              onClick={handleRestart}
-              className="flex items-center gap-1 md:gap-2 px-3 py-1 md:px-4 md:py-2 bg-red-500 hover:bg-red-400 text-white font-[family-name:var(--font-pixel)] text-sm md:text-base rounded-sm border-b-4 border-r-4 border-red-800 active:border-0 active:mt-1 transition-all"
-            >
-              <RefreshCw className="w-4 h-4 md:w-5 md:h-5" />
-              RESET
-            </button>
+        {/* Header HUD — the section heading lives outside the machine now, so
+            this row is only the controls */}
+        <div className="w-full flex justify-end items-center gap-5 md:gap-6 mb-6 px-2">
 
-            {/* Lives & Score */}
-            <div className="flex flex-col items-end gap-1">
-              <div className="flex gap-1">
-                {[...Array(3)].map((_, i) => (
-                  <div 
-                    key={i} 
-                    className={`text-lg md:text-xl font-[family-name:var(--font-pixel)] ${i < lives ? 'text-red-500 drop-shadow-[0_0_5px_red]' : 'text-slate-700 opacity-30'}`}
-                  >
-                    ♥
-                  </div>
-                ))}
-              </div>
-              <div className="font-[family-name:var(--font-pixel)] text-sky-400 bg-slate-950 px-2 py-1 rounded border-b-4 border-black text-sm md:text-base">
-                {score.toString().padStart(4, '0')}
-              </div>
+          {/* Permanent Restart Button */}
+          <button
+            onClick={handleRestart}
+            className="flex items-center gap-2 border border-slate-600 px-3 py-1.5 md:px-4 md:py-2 font-[family-name:var(--font-pixel)] text-sm md:text-base text-slate-300 transition-colors hover:border-pink-400 hover:text-pink-400"
+          >
+            <RefreshCw className="w-4 h-4 md:w-5 md:h-5" />
+            RESET
+          </button>
+
+          {/* Lives & Score */}
+          <div className="flex flex-col items-end gap-2">
+            <div className="flex gap-1.5" role="img" aria-label={`เหลือ ${lives} ชีวิต`}>
+              {[...Array(3)].map((_, i) => (
+                <PixelHeart
+                  key={i}
+                  className="h-4 w-4 md:h-5 md:w-5"
+                  color={i < lives ? "#f472b6" : "#334155"}
+                />
+              ))}
             </div>
-            
+            <div className="font-[family-name:var(--font-pixel)] text-amber-400 bg-slate-950 border border-slate-700 px-2 py-1 text-sm md:text-base tabular-nums">
+              {score.toString().padStart(4, '0')}
+            </div>
           </div>
+
         </div>
 
         {/* The Screen Bezel */}
@@ -762,29 +758,29 @@ export function TechBreakout() {
           <div className="flex gap-2">
             <button
               aria-label="เลื่อนไม้ตีไปทางซ้าย"
-              className="w-16 h-16 bg-slate-800/80 rounded-full flex items-center justify-center shadow-lg active:bg-slate-700 active:scale-95 transition-all"
+              className="w-16 h-16 border border-slate-600 bg-slate-900/80 flex items-center justify-center transition-colors active:border-pink-400 active:bg-slate-800"
               onTouchStart={(e) => { e.preventDefault(); window.dispatchEvent(new CustomEvent('techBreakoutGamepad', { detail: { action: 'left', state: true } })); }}
               onTouchEnd={(e) => { e.preventDefault(); window.dispatchEvent(new CustomEvent('techBreakoutGamepad', { detail: { action: 'left', state: false } })); }}
             >
-              <ArrowLeft className="w-8 h-8 text-white" />
+              <ArrowLeft className="w-8 h-8 text-slate-300" />
             </button>
             <button
               aria-label="เลื่อนไม้ตีไปทางขวา"
-              className="w-16 h-16 bg-slate-800/80 rounded-full flex items-center justify-center shadow-lg active:bg-slate-700 active:scale-95 transition-all"
+              className="w-16 h-16 border border-slate-600 bg-slate-900/80 flex items-center justify-center transition-colors active:border-pink-400 active:bg-slate-800"
               onTouchStart={(e) => { e.preventDefault(); window.dispatchEvent(new CustomEvent('techBreakoutGamepad', { detail: { action: 'right', state: true } })); }}
               onTouchEnd={(e) => { e.preventDefault(); window.dispatchEvent(new CustomEvent('techBreakoutGamepad', { detail: { action: 'right', state: false } })); }}
             >
-              <ArrowRight className="w-8 h-8 text-white" />
+              <ArrowRight className="w-8 h-8 text-slate-300" />
             </button>
           </div>
           
           <button
             aria-label="ปล่อยลูกบอล"
-            className="w-20 h-20 bg-red-600/80 rounded-full flex items-center justify-center shadow-[0_0_15px_rgba(220,38,38,0.6)] active:bg-red-500 active:scale-95 active:shadow-[0_0_25px_rgba(220,38,38,0.9)] transition-all"
+            className="w-20 h-20 border-2 border-pink-500/60 bg-pink-500/15 flex items-center justify-center transition-colors active:border-pink-400 active:bg-pink-500/35"
             onTouchStart={(e) => { e.preventDefault(); window.dispatchEvent(new CustomEvent('techBreakoutGamepad', { detail: { action: 'action', state: true } })); }}
             onTouchEnd={(e) => { e.preventDefault(); window.dispatchEvent(new CustomEvent('techBreakoutGamepad', { detail: { action: 'action', state: false } })); }}
           >
-            <Zap className="w-10 h-10 text-white fill-white" />
+            <Zap className="w-10 h-10 text-pink-400 fill-pink-400" />
           </button>
         </div>
         
