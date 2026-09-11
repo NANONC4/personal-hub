@@ -3,7 +3,6 @@
 import { motion } from "framer-motion";
 import Link from "next/link";
 import PixelSky from "@/components/PixelSky";
-import { PixelHeart } from "@/components/PixelIcons";
 import { projects } from "@/data/projects";
 import Footer from "@/components/Footer";
 import ProjectSlides from "@/components/ProjectSlides";
@@ -136,14 +135,6 @@ export default function HomePage() {
             ========================================= */}
         <section className="w-full relative z-20 pt-24 md:pt-0">
           <ProjectSlides projects={topProjects} />
-
-          <div className="mt-24 flex justify-center px-6 md:mt-0">
-            <Link href="/showreel" className="group relative px-6 py-4 md:px-8 bg-transparent border-2 border-pink-500/50 hover:bg-pink-500 text-pink-400 hover:text-white font-mono font-bold text-xs md:text-base tracking-[0.15em] md:tracking-widest uppercase transition-all">
-              <span className="flex items-center justify-center gap-2">
-                Experience Full Showreel <PixelHeart className="w-5 h-5 shrink-0 opacity-70 group-hover:opacity-100 transition-opacity" />
-              </span>
-            </Link>
-          </div>
         </section>
 
         {/* =========================================

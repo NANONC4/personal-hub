@@ -5,13 +5,19 @@ import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";
 import { ArrowRight, ArrowUpRight } from "lucide-react";
+import { PixelHeart } from "@/components/PixelIcons";
 import type { Project } from "@/data/projects";
 
 /** Long ease-out. Fast at the start, settles slowly — reads calm rather than snappy. */
 const EASE = [0.22, 1, 0.36, 1] as const;
 
-/** How much scroll each slide is worth, on top of the one screen the stage occupies. */
-const VH_PER_SLIDE = 80;
+/**
+ * How much scroll each slide is worth, on top of the one screen the stage
+ * occupies. Half a viewport is about four wheel notches through Lenis — enough
+ * for the transition to land, short enough that three projects don't feel like
+ * a chore.
+ */
+const VH_PER_SLIDE = 50;
 
 /**
  * The label has to match what the link actually opens: `demo` is a live site for
@@ -232,13 +238,27 @@ export default function ProjectSlides({ projects }: { projects: Project[] }) {
                 })}
               </ol>
 
-              <Link
-                href="/portfolio"
-                className="group mt-12 inline-flex items-center gap-2 font-mono text-xs uppercase tracking-[0.2em] text-slate-500 transition-colors hover:text-white"
-              >
-                View all works
-                <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
-              </Link>
+              {/* both exits from this section live here, inside it — floating
+                  them after the stage put them on top of the closing */}
+              <div className="mt-12 flex flex-col items-start gap-6">
+                <Link
+                  href="/showreel"
+                  className="group border-2 border-pink-500/50 px-6 py-3 font-mono text-sm font-bold uppercase tracking-[0.15em] text-pink-400 transition-all hover:bg-pink-500 hover:text-white"
+                >
+                  <span className="flex items-center gap-2">
+                    Experience Full Showreel
+                    <PixelHeart className="h-4 w-4 shrink-0 opacity-70 transition-opacity group-hover:opacity-100" />
+                  </span>
+                </Link>
+
+                <Link
+                  href="/portfolio"
+                  className="group inline-flex items-center gap-2 font-mono text-xs uppercase tracking-[0.2em] text-slate-500 transition-colors hover:text-white"
+                >
+                  View all works
+                  <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
+                </Link>
+              </div>
             </div>
 
             {/* slide */}
@@ -252,7 +272,7 @@ export default function ProjectSlides({ projects }: { projects: Project[] }) {
       </div>
 
       {/* ---------- mobile: no pinning, one project per block ---------- */}
-      <div className="md:hidden">
+      <div className="pb-28 md:hidden md:pb-0">
         <div className="px-6">
           <h2 className="font-[family-name:var(--font-pixel)] text-3xl uppercase leading-[1.1] tracking-wider text-white">
             What I&apos;ve Built
@@ -299,7 +319,17 @@ export default function ProjectSlides({ projects }: { projects: Project[] }) {
           })}
         </div>
 
-        <div className="mt-16 px-6">
+        <div className="mt-16 flex flex-col items-start gap-6 px-6">
+          <Link
+            href="/showreel"
+            className="border-2 border-pink-500/50 px-6 py-3 font-mono text-xs font-bold uppercase tracking-[0.15em] text-pink-400"
+          >
+            <span className="flex items-center gap-2">
+              Experience Full Showreel
+              <PixelHeart className="h-4 w-4 shrink-0 opacity-70" />
+            </span>
+          </Link>
+
           <Link
             href="/portfolio"
             className="inline-flex items-center gap-2 font-mono text-xs uppercase tracking-[0.2em] text-slate-500"
