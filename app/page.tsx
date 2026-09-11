@@ -11,7 +11,7 @@ import { InteractiveHoverButton } from "@/components/InteractiveHoverButton";
 import { KineticText } from "@/components/KineticText";
 import { DiaTextReveal } from "@/components/DiaTextReveal";
 import { SpaceShooterMiniGame } from "@/components/SpaceShooterMiniGame";
-import { TechBreakout } from "@/components/TechBreakout";
+import { TechBreakout, TECH_GROUPS } from "@/components/TechBreakout";
 import WelcomeWindow from "@/components/WelcomeWindow";
 
 
@@ -125,22 +125,43 @@ export default function HomePage() {
             3. WHAT I USE (Tech Breakout Game)
             ========================================= */}
         <section className="w-full relative z-20">
-          <div className="max-w-5xl mx-auto px-6 py-16 md:py-24">
-            {/* every other zone announces itself with a pixel heading; this one
-                used to hide its title inside the machine's chrome */}
-            <motion.div
-              initial={{ opacity: 0, y: 24 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-100px" }}
-              transition={{ duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
-              className="mx-auto mb-10 w-full max-w-[900px] md:mb-14"
-            >
-              <h2 className="font-[family-name:var(--font-pixel)] text-3xl md:text-5xl uppercase tracking-wider text-white">
-                What I Use
-              </h2>
-            </motion.div>
+          <div className="max-w-6xl mx-auto px-6 py-16 md:py-24">
+            <div className="grid gap-12 lg:grid-cols-[minmax(0,5fr)_minmax(0,7fr)] lg:items-center lg:gap-16">
 
-            <TechBreakout />
+              {/* The stack, readable without playing. The game had all of this
+                  locked behind actually playing it, and most visitors arrive
+                  from a bio link and just scroll. */}
+              <motion.div
+                initial={{ opacity: 0, y: 24 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: "-100px" }}
+                transition={{ duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
+              >
+                <h2 className="font-[family-name:var(--font-pixel)] text-3xl md:text-5xl uppercase tracking-wider text-white">
+                  What I Use
+                </h2>
+
+                <p className="mt-6 max-w-md leading-relaxed text-slate-400">
+                  ของที่ผมใช้ทำงานจริงๆ เอามาเรียงเป็นเกมให้ลองเล่นเล่น
+                  ยิงโดนอันไหน อันนั้นจะสว่างค้างไว้ ไม่หายไปไหน
+                </p>
+
+                <dl className="mt-10 flex flex-col gap-5">
+                  {TECH_GROUPS.map((g) => (
+                    <div key={g.label}>
+                      <dt className="font-mono text-[10px] uppercase tracking-[0.25em] text-slate-500">
+                        {g.label}
+                      </dt>
+                      <dd className="mt-1.5 text-sm leading-relaxed text-slate-300">
+                        {g.items.join(" · ")}
+                      </dd>
+                    </div>
+                  ))}
+                </dl>
+              </motion.div>
+
+              <TechBreakout />
+            </div>
           </div>
         </section>
 

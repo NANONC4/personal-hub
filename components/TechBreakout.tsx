@@ -6,22 +6,38 @@ import { RefreshCw, Play, ArrowLeft, ArrowRight, Zap } from 'lucide-react';
 import { PixelHeart } from '@/components/PixelIcons';
 
 const TECH_STACK = [
-  { text: "UNITY", color: "#FFFFFF", iconUrl: "https://cdn.simpleicons.org/unity/white" },
-  { text: "C#", color: "#68217A", iconUrl: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/csharp/csharp-original.svg" },
-  { text: "NEXT.JS", color: "#FFFFFF", iconUrl: "https://cdn.simpleicons.org/nextdotjs/white" },
-  { text: "TYPESCRIPT", color: "#3178C6", iconUrl: "https://cdn.simpleicons.org/typescript/3178C6" },
-  { text: "TAILWIND CSS", color: "#06B6D4", iconUrl: "https://cdn.simpleicons.org/tailwindcss/06B6D4" },
-  { text: "PRISMA & SQL", color: "#5A67D8", iconUrl: "https://cdn.simpleicons.org/prisma/5A67D8" },
-  { text: "REACT", color: "#61DAFB", iconUrl: "https://cdn.simpleicons.org/react/61DAFB" },
-  { text: "FIREBASE", color: "#FFCA28", iconUrl: "https://cdn.simpleicons.org/firebase/FFCA28" },
-  { text: "HTML5", color: "#E34F26", iconUrl: "https://cdn.simpleicons.org/html5/E34F26" },
-  { text: "CSS3", color: "#1572B6", iconUrl: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/css3/css3-original.svg" },
-  { text: "JAVASCRIPT", color: "#F7DF1E", iconUrl: "https://cdn.simpleicons.org/javascript/F7DF1E" },
-  { text: "GIT", color: "#F05032", iconUrl: "https://cdn.simpleicons.org/git/F05032" },
-  { text: "NODE.JS", color: "#339933", iconUrl: "https://cdn.simpleicons.org/nodedotjs/339933" },
-  { text: "SUPABASE", color: "#3ECF8E", iconUrl: "https://cdn.simpleicons.org/supabase/3ECF8E" },
-  { text: "FRAMER MOTION", color: "#0055FF", iconUrl: "https://cdn.simpleicons.org/framer/0055FF" }
+  { text: "UNITY", group: "game", color: "#FFFFFF", iconUrl: "https://cdn.simpleicons.org/unity/white" },
+  { text: "C#", group: "game", color: "#68217A", iconUrl: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/csharp/csharp-original.svg" },
+  { text: "NEXT.JS", group: "front", color: "#FFFFFF", iconUrl: "https://cdn.simpleicons.org/nextdotjs/white" },
+  { text: "TYPESCRIPT", group: "front", color: "#3178C6", iconUrl: "https://cdn.simpleicons.org/typescript/3178C6" },
+  { text: "TAILWIND CSS", group: "front", color: "#06B6D4", iconUrl: "https://cdn.simpleicons.org/tailwindcss/06B6D4" },
+  { text: "PRISMA & SQL", group: "back", color: "#5A67D8", iconUrl: "https://cdn.simpleicons.org/prisma/5A67D8" },
+  { text: "REACT", group: "front", color: "#61DAFB", iconUrl: "https://cdn.simpleicons.org/react/61DAFB" },
+  { text: "FIREBASE", group: "back", color: "#FFCA28", iconUrl: "https://cdn.simpleicons.org/firebase/FFCA28" },
+  { text: "HTML5", group: "front", color: "#E34F26", iconUrl: "https://cdn.simpleicons.org/html5/E34F26" },
+  { text: "CSS3", group: "front", color: "#1572B6", iconUrl: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/css3/css3-original.svg" },
+  { text: "JAVASCRIPT", group: "front", color: "#F7DF1E", iconUrl: "https://cdn.simpleicons.org/javascript/F7DF1E" },
+  { text: "GIT", group: "tools", color: "#F05032", iconUrl: "https://cdn.simpleicons.org/git/F05032" },
+  { text: "NODE.JS", group: "back", color: "#339933", iconUrl: "https://cdn.simpleicons.org/nodedotjs/339933" },
+  { text: "SUPABASE", group: "back", color: "#3ECF8E", iconUrl: "https://cdn.simpleicons.org/supabase/3ECF8E" },
+  { text: "FRAMER MOTION", group: "front", color: "#0055FF", iconUrl: "https://cdn.simpleicons.org/framer/0055FF" }
 ];
+
+/**
+ * The same stack, readable without playing. Derived from TECH_STACK rather than
+ * retyped, so the list beside the game can never drift from the bricks in it.
+ */
+export const TECH_GROUPS = (
+  [
+    ["front", "Front-end"],
+    ["back", "Back-end"],
+    ["game", "Game"],
+    ["tools", "Tools"],
+  ] as const
+).map(([key, label]) => ({
+  label,
+  items: TECH_STACK.filter((t) => t.group === key).map((t) => t.text),
+}));
 
 type Brick = {
   x: number;
@@ -656,11 +672,13 @@ export function TechBreakout() {
 
   return (
     <div className="w-full flex flex-col items-center">
-      <div className="w-full max-w-[900px] bg-slate-900 border-b-[16px] border-r-[16px] border-slate-950 rounded-xl p-4 md:p-8 shadow-2xl relative z-20">
+      {/* chrome kept deliberately thin: it used to eat 278px of the 857px the
+          machine took, which is what pushed this zone past one screen */}
+      <div className="w-full max-w-[900px] bg-slate-800/50 ring-1 ring-slate-700/50 border-b-[10px] border-r-[10px] border-slate-950 rounded-xl p-4 md:p-5 shadow-2xl relative z-20">
         
         {/* Header HUD — the section heading lives outside the machine now, so
             this row is only the controls */}
-        <div className="w-full flex justify-end items-center gap-5 md:gap-6 mb-6 px-2">
+        <div className="w-full flex justify-end items-center gap-5 md:gap-6 mb-4 px-2">
 
           {/* Permanent Restart Button */}
           <button
@@ -690,7 +708,7 @@ export function TechBreakout() {
         </div>
 
         {/* The Screen Bezel */}
-        <div className="w-full bg-[#1e293b] p-4 md:p-6 rounded-t-xl rounded-bl-xl rounded-br-[40px] shadow-[inset_0_5px_20px_rgba(0,0,0,0.8)] relative">
+        <div className="w-full bg-[#1e293b] p-3 md:p-4 rounded-t-xl rounded-bl-xl rounded-br-[32px] shadow-[inset_0_5px_20px_rgba(0,0,0,0.8)] relative">
           
           {/* Game Container (4:3 aspect ratio to fit well on desktop without scrolling) */}
           <div 
@@ -784,13 +802,13 @@ export function TechBreakout() {
           </button>
         </div>
         
-        <div className="w-full flex justify-between items-end mt-6 px-4">
+        <div className="w-full flex justify-between items-end mt-3 px-2">
           <div className="flex gap-2">
-            <div className="w-3 h-10 bg-slate-950 rounded-full shadow-[inset_2px_0_5px_rgba(0,0,0,0.5)] transform -rotate-12"></div>
-            <div className="w-3 h-10 bg-slate-950 rounded-full shadow-[inset_2px_0_5px_rgba(0,0,0,0.5)] transform -rotate-12"></div>
-            <div className="w-3 h-10 bg-slate-950 rounded-full shadow-[inset_2px_0_5px_rgba(0,0,0,0.5)] transform -rotate-12"></div>
+            <div className="w-2.5 h-6 bg-slate-950 rounded-full shadow-[inset_2px_0_5px_rgba(0,0,0,0.5)] transform -rotate-12"></div>
+            <div className="w-2.5 h-6 bg-slate-950 rounded-full shadow-[inset_2px_0_5px_rgba(0,0,0,0.5)] transform -rotate-12"></div>
+            <div className="w-2.5 h-6 bg-slate-950 rounded-full shadow-[inset_2px_0_5px_rgba(0,0,0,0.5)] transform -rotate-12"></div>
           </div>
-          <div className="font-[family-name:var(--font-pixel)] text-slate-700 text-xs md:text-sm">
+          <div className="font-[family-name:var(--font-pixel)] text-slate-700 text-[10px] md:text-xs">
             NIGHT SHIFT
           </div>
         </div>
