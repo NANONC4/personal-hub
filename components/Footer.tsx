@@ -33,7 +33,8 @@ export default function Footer() {
           </a>
         </nav>
 
-        <p className="font-[family-name:var(--font-pixel)] text-[10px] uppercase tracking-widest text-slate-400">
+        {/* narrow screens can't take the wide tracking without breaking mid-word */}
+        <p className="text-balance px-2 text-center font-[family-name:var(--font-pixel)] text-[10px] uppercase tracking-wide text-slate-400 md:tracking-widest">
           © {new Date().getFullYear()} PIXEL ENGINEER. CRAFTED IN THE DEAD OF NIGHT.
         </p>
       </div>

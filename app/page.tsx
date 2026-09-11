@@ -7,59 +7,16 @@ import PixelSky from "@/components/PixelSky";
 import { PixelHeart } from "@/components/PixelIcons";
 import { projects } from "@/data/projects";
 import Footer from "@/components/Footer";
-import { ArrowRight, MessageSquare, Terminal } from "lucide-react";
+import { ArrowRight, Terminal } from "lucide-react";
 
 import { Lens } from "@/components/Lens";
-import { BentoGrid, BentoCard } from "@/components/BentoGrid";
-import { WebDevBackground, GamesBackground, QueueBackground, CommunityBackground } from "@/components/BentoAnimations";
-import { Code2, Gamepad2, CalendarDays } from "lucide-react";
 import { InteractiveHoverButton } from "@/components/InteractiveHoverButton";
 import { KineticText } from "@/components/KineticText";
-import { PixelImage } from "@/components/PixelImage";
 import { DiaTextReveal } from "@/components/DiaTextReveal";
 import { SpaceShooterMiniGame } from "@/components/SpaceShooterMiniGame";
 import { TechBreakout } from "@/components/TechBreakout";
 import WelcomeWindow from "@/components/WelcomeWindow";
 
-const features = [
-  {
-    Icon: Code2,
-    name: "Web Development",
-    description: "รับทำเว็บไซต์ระดับพรีเมียม ใส่ใจทั้งเรื่อง Code Performance และงาน UI/UX",
-    href: "/services",
-    cta: "View Service",
-    className: "col-span-1 md:col-span-2",
-    background: <WebDevBackground />,
-  },
-  {
-    Icon: Gamepad2,
-    name: "Mini Games",
-    description: "สร้างเกมบนเว็บและประสบการณ์ Interactive ด้วย Pixel Art",
-    href: "/services",
-    cta: "View Service",
-    className: "col-span-1",
-    background: <GamesBackground />,
-  },
-  {
-    Icon: CalendarDays,
-    name: "Queue Status",
-    description: "Available - ตอนนี้คิวว่าง พร้อมรับโปรเจกต์ใหม่!",
-    href: "/services",
-    cta: "Book Now",
-    className: "col-span-1",
-    background: <QueueBackground />,
-  },
-  {
-    Icon: MessageSquare,
-    name: "Midnight Cafe",
-    description: "แวะมาจิบกาแฟ คุยเรื่องโค้ด เรื่องเกม หรือหาเพื่อนทำโปรเจกต์ด้วยกัน",
-    // ยังไม่ได้เปิดเซิร์ฟเวอร์จริง — พาไปหน้าติดต่อไว้ก่อน จะได้ไม่กดแล้วเจอหน้าเปล่า
-    href: "/contact",
-    cta: "Discord เร็วๆ นี้",
-    className: "col-span-1 md:col-span-2",
-    background: <CommunityBackground />,
-  },
-];
 
 export default function HomePage() {
   // Select top 3 projects to showcase
@@ -253,14 +210,32 @@ export default function HomePage() {
         </section>
 
         {/* =========================================
-            5. SERVICES & COMMUNITY (Bento Grid)
+            5. GOOD NIGHT (Closing)
+            The page opened on a window looking out at a night city; it closes
+            on the other end of the same night. Almost nothing here on purpose —
+            the sky and the skyline behind it are the content.
             ========================================= */}
-        <section className="max-w-6xl mx-auto px-6 pb-32 md:pb-48">
-          <BentoGrid>
-            {features.map((feature, idx) => (
-              <BentoCard key={idx} {...feature} />
-            ))}
-          </BentoGrid>
+        <section className="max-w-6xl mx-auto flex min-h-[70vh] flex-col items-center justify-center px-6 pb-32 text-center md:pb-48">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-120px" }}
+            transition={{ duration: 1.2, ease: "easeOut" }}
+          >
+            <h2 className="font-[family-name:var(--font-pixel)] text-2xl uppercase tracking-[0.3em] text-slate-300 md:text-4xl">
+              Good Night
+            </h2>
+            <p className="mt-6 text-base leading-relaxed text-slate-400 md:text-lg">
+              ฝันดีนะ แล้วเจอกันใหม่
+            </p>
+
+            <Link
+              href="/services"
+              className="mt-14 inline-block font-mono text-[10px] uppercase tracking-[0.25em] text-slate-500 transition-colors hover:text-pink-400 md:text-xs"
+            >
+              รับงานฟรีแลนซ์ · ดูบริการ
+            </Link>
+          </motion.div>
         </section>
 
       </div>
