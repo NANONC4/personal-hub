@@ -8,56 +8,64 @@ web
 
 ## Users
 
-Primary: people evaluating Chatchai "Dia" Danrungruang's creative development work — mostly visitors who arrived from a shared / bio link and are browsing casually to get a sense of what he makes and how. There is no single required action; the visit succeeds if they leave with a clear feel for his range and taste. Freelance clients and recruiters are secondary audiences that the Services / Contact / FAQ pages serve, but they are not the design target.
+**คนหลัก:** คนที่อยากรู้จัก Chatchai "Dia" Danrungruang และอยากดูว่าเขาทำอะไรมาบ้าง ส่วนใหญ่กดเข้ามาจาก**ลิงก์ในไบโอ** (Facebook / TikTok / IG) ระหว่างทำอย่างอื่น ดูผ่านๆ บนมือถือ
+
+ไม่มีสิ่งที่ "ต้องทำ" ให้เสร็จ การเข้ามาถือว่าสำเร็จถ้าเขาเดินจากไปโดยรู้ว่า Dia ทำอะไรได้บ้างและมีรสนิยมแบบไหน
+
+**คนรอง:** คนที่อยากจ้างงาน — หน้า Services / FAQ / Contact มีไว้รองรับ แต่**ไม่ใช่กลุ่มที่ใช้ออกแบบเว็บ** การรับงานเป็นเรื่องแถม ไม่ใช่เป้าหมาย
 
 ## Product Purpose
 
-A personal portfolio and link-in-bio for a creative developer. It exists to show work and range — front-end web, browser mini-games, and UI/UX — and to leave a memorable impression of how he builds. Success means the visitor *experiences* the craft, not just reads a list of it. No hard conversion goal.
+**เว็บอวดผลงานส่วนตัว ที่ทำหน้าที่เหมือนบล็อก** — เป็นที่สำหรับเอาผลงานมาลงเรื่อยๆ แล้วแปะลิงก์ไว้ในไบโอโซเชียล ใครอยากรู้จักก็กดเข้ามาดูได้เลย
+
+จุดประสงค์คือ **โชว์** ไม่ใช่ **ขาย** — อยากให้คนที่เข้ามารู้สึกว่า "อ๋อ คนนี้ทำแบบนี้" และจำบรรยากาศของเว็บได้ ไม่มีเป้าหมายว่าต้องกดปุ่มไหนหรือส่งฟอร์มอะไร
 
 ## Positioning
 
-Two claims a generic developer portfolio cannot truthfully copy:
+สองอย่างที่เว็บพอร์ตทั่วไปพูดไม่ได้:
 
-1. **The site is the demo.** It's an interactive pixel-art world with real, playable mini-games built into the page. It proves the skill by being made of it rather than describing it.
-2. **One person across web, game development (Unity), and UI/UX**, with delivered products behind the claims (Lemony Shop e-commerce; Rules of Horror thesis game).
+1. **ตัวเว็บคือผลงานเอง** — เป็นโลกพิกเซลอาร์ตที่มีมินิเกมเล่นได้จริงอยู่ในหน้า พิสูจน์ฝีมือด้วยการ*เป็น*สิ่งนั้น ไม่ใช่ด้วยการบรรยาย
+2. **คนเดียวครบ web + เกม (Unity) + UI/UX** — มีของที่ส่งจริงรองรับ (Lemony Shop, เกม Rules of Horror)
 
 ## Operating Context
 
-- Reached mostly via a shared link / bio link; the first view is often mobile.
-- Multi-page site: **Home** (the showcase), **Showreel** (long storytelling scroll), **Bio** (link-in-bio card), **Portfolio** (works grid), **Services**, **FAQ**, **Contact**.
-- The **Portfolio / works zone is the substantive content** — the actual portfolio. The home page's playable mini-games (`TechBreakout`, `SpaceShooterMiniGame`) are deliberate gimmicks / atmosphere, **not** portfolio entries.
-- Content is **Thai-primary**; English is used for section labels, navigation, and SEO metadata.
-- Deployed on Vercel at `https://nanonc4-portfolio.vercel.app` (live, current).
+- เข้ามาจาก**ลิงก์ที่แชร์ / ลิงก์ไบโอ** เป็นหลัก จอแรกมักเป็นมือถือ
+- มี 7 หน้า: **Home** (หน้าโชว์), **Showreel** (เล่าเรื่องยาว), **Bio** (การ์ดลิงก์ไบโอ), **Portfolio** (ตารางผลงาน), **Services**, **FAQ**, **Contact**
+- **โซนผลงานคือเนื้อหาจริง** ส่วนมินิเกมในหน้าแรก (`TechBreakout`, `SpaceShooterMiniGame`) เป็น**กิมมิกโดยตั้งใจ ไม่ใช่ผลงานในพอร์ต**
+- **`/bio` เป็นสินค้าคนละตัวในเว็บเดียวกัน** — คัดลอก URL ไปแปะไบโอได้เลย กลายเป็นลิงก์ไบโอส่วนตัว ใครอยากดูผลงานเพิ่มก็กดเข้าเว็บหลักต่อ จึงมีหน้าตา ผู้ชม และอารมณ์ของตัวเอง
+- เนื้อหา**ภาษาไทยเป็นหลัก** อังกฤษใช้กับป้ายหัวข้อ เมนู และ SEO
+- Deploy บน Vercel ที่ `https://nanonc4-portfolio.vercel.app`
 
 ## Capabilities and Constraints
 
-- Front-end only. Project data is hardcoded in `data/projects.ts`; no CMS or backend.
-- Stack: Next.js 16 (App Router), React 19, Tailwind v4, Framer Motion, Lenis smooth scroll, TypeScript. `AGENTS.md` warns this Next.js version has breaking changes vs. common knowledge — check `node_modules/next/dist/docs/` before writing Next code.
-- Two hand-built HTML5-canvas mini-games (`TechBreakout`, `SpaceShooterMiniGame`) are Chatchai's own code and are genuinely playable.
-- Naming: **NANONC4** = handle / gamer tag (nav brand, socials); **Chatchai Danrungruang** = real name (intro, metadata); **Dia** = nickname used in the hero. All fixed.
-- Undecided: whether the site stays Thai-primary or becomes bilingual TH/EN.
+- Front-end อย่างเดียว ข้อมูลโปรเจกต์ hardcode ใน `data/projects.ts` ไม่มี CMS ไม่มีหลังบ้าน
+- Stack: Next.js 16 (App Router), React 19, Tailwind v4, Framer Motion, Lenis, TypeScript — `AGENTS.md` เตือนว่า Next เวอร์ชันนี้มี breaking changes ต้องอ่าน `node_modules/next/dist/docs/` ก่อนเขียนโค้ด Next
+- มินิเกม HTML5 canvas 2 ตัวเป็นโค้ดที่ Dia เขียนเอง เล่นได้จริง
+- ชื่อ: **NANONC4** = ชื่อกิจ/เกมเมอร์แท็ก (แบรนด์บนเมนู, โซเชียล) · **Chatchai Danrungruang** = ชื่อจริง (หน้าแนะนำตัว, metadata) · **Dia** = ชื่อเล่น (ใน hero) — ทั้งหมดคงที่
+- **ยังไม่ตัดสิน:** จะอยู่ไทยล้วน หรือทำสองภาษา TH/EN
 
 ## Brand Commitments
 
-- The name / handle / nickname system above is fixed.
-- Aesthetic direction is binding per `DEVLOG.md`: **"Modern UI fused with retro pixel-art,"** dark midnight palette, custom pixel-art elements drawn in code (starfield, crescent moon, pixel icons). Do not flatten this toward a generic dev-portfolio look. Recorded as a constraint only; the visual world itself is decided in later work.
-- Voice: casual, first-person, warm, Thai; playful rather than corporate.
+- ระบบชื่อด้านบนคงที่
+- ทิศทางงานออกแบบผูกมัดตาม `DEVLOG.md`: **"Modern UI ผสม retro pixel-art"** จานสีกลางคืน องค์ประกอบพิกเซลที่วาดเองด้วยโค้ด (ดาว พระจันทร์ ไอคอน กรอบหน้าต่าง) **ห้ามทำให้จืดกลายเป็น portfolio dev ทั่วไป** — รายละเอียดอยู่ใน `DESIGN.md`
+- น้ำเสียง: สบายๆ ชิวๆ **เป็นกันเอง** พูดเหมือนคุยกับเพื่อน ภาษาไทย ไม่เป็นทางการ ไม่ใช่โทนบริษัท
 
 ## Evidence on Hand
 
-- **Real:** the two shipped projects — Lemony Shop / Lemony Shop Pro (e-commerce; `github.com/NANONC4`; live demo links) and Rules of Horror (Unity thesis game; Google Drive build + design doc). The home-page mini-games (playable, own code). The live deployed URL.
-- **Sample / mock:** the bio-portfolio entries in `data/projects.ts` (Lemony, Dinino) are illustrative, not client work.
-- **Not verified as real:** the client reviews on `/contact` (คุณ P\*\*\*, A\*\*\*, S\*\*\*, all 5 stars) and the polished project stat/description copy. Treat as placeholder until Chatchai confirms; future work must not present them as genuine testimonials or fabricate new ones.
-- **Missing:** actual screenshots for the portfolio projects — `data/projects.ts` references `/images/*` files that do not exist. Do not invent imagery; use clearly-marked placeholders until real assets are supplied.
+- **ของจริง:** โปรเจกต์ที่ส่งแล้ว — Lemony Shop / Lemony Shop Pro (`github.com/NANONC4` + ลิงก์เดโม) และ Rules of Horror (เกม Unity thesis + ไฟล์ build + เอกสาร) · มินิเกมในหน้าแรก (เล่นได้ โค้ดตัวเอง) · URL ที่ deploy
+- **ตัวอย่าง/ของสมมติ:** รายการ bio-portfolio ใน `data/projects.ts` (Lemony, Dinino)
+- **❌ ไม่ใช่ของจริง:** รีวิวลูกค้าบนหน้า `/contact` (คุณ P\*\*\*, A\*\*\*, S\*\*\*, 5 ดาวหมด) **Dia ยืนยันว่าเป็นของปลอมและอยากเอาออก** — งานต่อห้ามนำเสนอว่าเป็นรีวิวจริง และห้ามแต่งรีวิวใหม่ขึ้นมา พาดหัว "Verified Reviews" ก็เป็นคำที่หน้านั้นรองรับไม่ได้
+- **❌ ยังไม่มี:** สกรีนช็อตโปรเจกต์จริง — `data/projects.ts` ชี้ไป `/images/*` ที่ยังไม่มีไฟล์ (404 จริง 11 ไฟล์) ห้ามสร้างรูปปลอมมาแทน ใช้ placeholder ที่ดูออกว่าเป็น placeholder จนกว่าจะมีของจริง
 
 ## Product Principles
 
-1. **Show, don't list.** Let the visitor feel the craft — interaction, motion, playable pieces — rather than enumerate it.
-2. **Division of labour:** the works zone carries the substance; the home page carries the personality. Preserve it.
-3. **The aesthetic is load-bearing identity, not a skin.** Every new surface honours pixel-art-meets-modern.
-4. **Legibility beats spectacle where there is something to read;** expression leads where it can.
-5. **Never fabricate proof** — no invented clients, reviews, metrics, or screenshots. Placeholders stay visibly placeholders.
+1. **โชว์ อย่าบรรยาย** — ให้คนดู*รู้สึก*ถึงฝีมือผ่านการเล่น การเลื่อน การเคลื่อนไหว ไม่ใช่แค่อ่านลิสต์
+2. **แบ่งหน้าที่ให้ชัด** — โซนผลงานคือเนื้อหา หน้าแรกคือบุคลิก อย่าสลับ
+3. **หน้าตาคือตัวตน ไม่ใช่เปลือก** — ทุกหน้าใหม่ต้องเคารพโลกพิกเซลกลางคืน
+4. **อ่านง่ายชนะความอลังการ** ตรงที่มีอะไรให้อ่าน · ปล่อยให้เล่นใหญ่ได้ตรงที่ไม่มี
+5. **ขายแค่เชิงอรรถ** — การรับงานมีได้ แต่ต้องไม่กลายเป็นหน้าตาของเว็บ เว็บนี้คือที่อวดผลงาน ไม่ใช่หน้าขายบริการ
+6. **ห้ามสร้างหลักฐานปลอม** — ไม่แต่งลูกค้า รีวิว ตัวเลข หรือรูป ของที่เป็น placeholder ต้องดูออกว่าเป็น placeholder
 
 ## Accessibility & Inclusion
 
-Heavy motion and canvas animation throughout. Honour `prefers-reduced-motion` on every animated surface (the newer components already do). No other product-specific requirement established.
+ทั้งเว็บมีอนิเมชันและ canvas เคลื่อนไหวเยอะ ต้องเคารพ `prefers-reduced-motion` ในทุกพื้นผิวที่ขยับ (ทำแล้วผ่าน `globals.css` + ปิด Lenis + เกมทั้งสอง) ไม่มีข้อกำหนดเฉพาะอื่นที่ตกลงกันไว้
