@@ -7,7 +7,9 @@ import { PixelHeart } from '@/components/PixelIcons';
 
 const TECH_STACK = [
   { text: "UNITY", group: "game", color: "#FFFFFF", iconUrl: "https://cdn.simpleicons.org/unity/white" },
-  { text: "C#", group: "game", color: "#68217A", iconUrl: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/csharp/csharp-original.svg" },
+  // brand purple is near-black on the night background; listColor is the version
+  // used for the swatch beside the name, never for the brick itself
+  { text: "C#", group: "game", color: "#68217A", listColor: "#A855F7", iconUrl: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/csharp/csharp-original.svg" },
   { text: "NEXT.JS", group: "front", color: "#FFFFFF", iconUrl: "https://cdn.simpleicons.org/nextdotjs/white" },
   { text: "TYPESCRIPT", group: "front", color: "#3178C6", iconUrl: "https://cdn.simpleicons.org/typescript/3178C6" },
   { text: "TAILWIND CSS", group: "front", color: "#06B6D4", iconUrl: "https://cdn.simpleicons.org/tailwindcss/06B6D4" },
@@ -36,7 +38,10 @@ export const TECH_GROUPS = (
   ] as const
 ).map(([key, label]) => ({
   label,
-  items: TECH_STACK.filter((t) => t.group === key).map((t) => t.text),
+  items: TECH_STACK.filter((t) => t.group === key).map((t) => ({
+    text: t.text,
+    swatch: ("listColor" in t && t.listColor) || t.color,
+  })),
 }));
 
 type Brick = {
@@ -100,11 +105,14 @@ export function TechBreakout() {
 
     const brickRowCount = 3;
     const brickColumnCount = 5;
-    let brickPadding = 12;
-    let brickOffsetTop = 70;
-    let brickOffsetLeft = 40;
+    // The canvas is 800 wide but renders into ~700 CSS px, so anything drawn
+    // here lands smaller than it looks. Thin margins and tall bricks buy the
+    // labels back the room they need to still be readable after that scale-down.
+    let brickPadding = 8;
+    let brickOffsetTop = 64;
+    let brickOffsetLeft = 18;
     let brickWidth = (canvasWidth - (brickOffsetLeft * 2) - (brickPadding * (brickColumnCount - 1))) / brickColumnCount;
-    let brickHeight = 30;
+    let brickHeight = 38;
 
     let bricks: Brick[][] = [];
     let particles: Particle[] = [];
@@ -351,7 +359,7 @@ export function TechBreakout() {
     const fitFontSize = (text: string, maxWidth: number) => {
       let size = 34;
       ctx.font = `bold ${size}px var(--font-pixel), monospace`;
-      while (size > 16 && ctx.measureText(text).width > maxWidth) {
+      while (size > 18 && ctx.measureText(text).width > maxWidth) {
         size -= 1;
         ctx.font = `bold ${size}px var(--font-pixel), monospace`;
       }
@@ -802,12 +810,9 @@ export function TechBreakout() {
           </button>
         </div>
         
-        <div className="w-full flex justify-between items-end mt-3 px-2">
-          <div className="flex gap-2">
-            <div className="w-2.5 h-6 bg-slate-950 rounded-full shadow-[inset_2px_0_5px_rgba(0,0,0,0.5)] transform -rotate-12"></div>
-            <div className="w-2.5 h-6 bg-slate-950 rounded-full shadow-[inset_2px_0_5px_rgba(0,0,0,0.5)] transform -rotate-12"></div>
-            <div className="w-2.5 h-6 bg-slate-950 rounded-full shadow-[inset_2px_0_5px_rgba(0,0,0,0.5)] transform -rotate-12"></div>
-          </div>
+        {/* the three decorative vents used to live here; they cost ~30px of a
+            zone that has to fit one screen and carried nothing */}
+        <div className="w-full flex justify-end mt-2 px-2">
           <div className="font-[family-name:var(--font-pixel)] text-slate-700 text-[10px] md:text-xs">
             NIGHT SHIFT
           </div>
