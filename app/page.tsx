@@ -141,7 +141,7 @@ export default function HomePage() {
                   What I Use
                 </h2>
 
-                <p className="mt-6 max-w-md leading-relaxed text-slate-400">
+                <p className="mt-6 max-w-md text-lg leading-relaxed text-slate-400 md:text-xl">
                   ของที่ผมใช้ทำงานจริงๆ เอามาเรียงเป็นเกมให้ลองเล่นเล่น
                   ยิงโดนอันไหน อันนั้นจะสว่างค้างไว้ ไม่หายไปไหน
                 </p>
@@ -153,18 +153,18 @@ export default function HomePage() {
                 <dl className="mt-10 flex flex-col gap-6">
                   {TECH_GROUPS.map((g) => (
                     <div key={g.label}>
-                      <dt className="font-mono text-[10px] uppercase tracking-[0.25em] text-slate-500">
+                      <dt className="font-mono text-xs uppercase tracking-[0.25em] text-slate-500">
                         {g.label}
                       </dt>
-                      <dd className="mt-2.5 grid grid-cols-2 gap-x-4 gap-y-2">
+                      <dd className="mt-3 grid grid-cols-2 gap-x-4 gap-y-2.5">
                         {g.items.map((t) => (
-                          <span key={t.text} className="flex items-center gap-2.5">
+                          <span key={t.text} className="flex items-center gap-3">
                             <span
                               aria-hidden
-                              className="h-2.5 w-2.5 shrink-0"
+                              className="h-3 w-3 shrink-0"
                               style={{ backgroundColor: t.swatch }}
                             />
-                            <span className="font-mono text-[11px] uppercase tracking-wider text-slate-200">
+                            <span className="font-mono text-sm uppercase tracking-wide text-slate-200">
                               {t.text}
                             </span>
                           </span>
