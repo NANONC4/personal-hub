@@ -45,7 +45,7 @@ export default function HomePage() {
           >
             <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-slate-800/80 border border-slate-700/50 mb-10">
               <span className="animate-pulse">👾</span>
-              <span className="font-mono text-sm tracking-widest text-slate-300 uppercase">Welcome to my digital space</span>
+              <span className="font-mono text-sm tracking-widest text-slate-300 uppercase">The light&apos;s on</span>
             </div>
 
             <div className="mb-10 flex flex-wrap items-end gap-3 md:gap-4">
@@ -122,7 +122,7 @@ export default function HomePage() {
         </section>
 
         {/* =========================================
-            3. MY ARSENAL (Tech Breakout Game)
+            3. WHAT I USE (Tech Breakout Game)
             ========================================= */}
         <section className="w-full relative z-20">
           <div className="max-w-5xl mx-auto px-6 py-16 md:py-24">
@@ -136,11 +136,8 @@ export default function HomePage() {
               className="mx-auto mb-10 w-full max-w-[900px] md:mb-14"
             >
               <h2 className="font-[family-name:var(--font-pixel)] text-3xl md:text-5xl uppercase tracking-wider text-white">
-                My Arsenal
+                What I Use
               </h2>
-              <p className="mt-5 max-w-xl text-base md:text-lg leading-relaxed text-slate-400">
-                คลังอาวุธของผม — ภาษาและเครื่องมือที่ใช้ทำงานจริง ยิงลูกบอลไปโดนอันไหน อันนั้นจะสว่างค้างไว้
-              </p>
             </motion.div>
 
             <TechBreakout />

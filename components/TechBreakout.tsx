@@ -491,7 +491,7 @@ export function TechBreakout() {
         ctx.fillStyle = "#ffffff";
         ctx.font = `bold ${fontSize}px var(--font-pixel), monospace`;
         ctx.textAlign = "center";
-        ctx.fillText("OVERCLOCK", canvasWidth / 2, canvasHeight / 2);
+        ctx.fillText("ONE MORE", canvasWidth / 2, canvasHeight / 2);
         
         transitionTimer -= 1 * dt;
         if (transitionTimer <= 0) {
@@ -791,7 +791,7 @@ export function TechBreakout() {
             <div className="w-3 h-10 bg-slate-950 rounded-full shadow-[inset_2px_0_5px_rgba(0,0,0,0.5)] transform -rotate-12"></div>
           </div>
           <div className="font-[family-name:var(--font-pixel)] text-slate-700 text-xs md:text-sm">
-            DARK PROTOCOL
+            NIGHT SHIFT
           </div>
         </div>
       </div>

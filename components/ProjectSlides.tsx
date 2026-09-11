@@ -246,7 +246,7 @@ export default function ProjectSlides({ projects }: { projects: Project[] }) {
                   className="group border-2 border-pink-500/50 px-6 py-3 font-mono text-sm font-bold uppercase tracking-[0.15em] text-pink-400 transition-all hover:bg-pink-500 hover:text-white"
                 >
                   <span className="flex items-center gap-2">
-                    Experience Full Showreel
+                    Watch the showreel
                     <PixelHeart className="h-4 w-4 shrink-0 opacity-70 transition-opacity group-hover:opacity-100" />
                   </span>
                 </Link>
@@ -325,7 +325,7 @@ export default function ProjectSlides({ projects }: { projects: Project[] }) {
             className="border-2 border-pink-500/50 px-6 py-3 font-mono text-xs font-bold uppercase tracking-[0.15em] text-pink-400"
           >
             <span className="flex items-center gap-2">
-              Experience Full Showreel
+              Watch the showreel
               <PixelHeart className="h-4 w-4 shrink-0 opacity-70" />
             </span>
           </Link>
