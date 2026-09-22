@@ -10,6 +10,12 @@ type PixelSkyProps = {
    * existing usage keeps the plain starfield untouched.
    */
   cozy?: boolean;
+  /**
+   * Drive the palette from scroll position instead of the wall clock: the top of
+   * the page is early evening and the bottom is deep night, so scrolling down
+   * reads as the night getting later. Only meaningful alongside `cozy`.
+   */
+  depth?: boolean;
 };
 
 /** Palette keyframes across a 24h day. Values are interpolated by local time. */
@@ -37,7 +43,10 @@ const MOODS: Mood[] = [
 const lerp = (a: number, b: number, t: number) => a + (b - a) * t;
 
 function moodAt(date: Date): Mood {
-  const hour = date.getHours() + date.getMinutes() / 60;
+  return moodForHour(date.getHours() + date.getMinutes() / 60);
+}
+
+function moodForHour(hour: number): Mood {
   let lo = MOODS[0];
   let hi = MOODS[MOODS.length - 1];
   for (let i = 0; i < MOODS.length - 1; i++) {
@@ -62,6 +71,7 @@ function moodAt(date: Date): Mood {
 export default function PixelSky({
   className = "absolute inset-0 z-0 overflow-hidden pointer-events-none",
   cozy = false,
+  depth = false,
 }: PixelSkyProps) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
@@ -79,8 +89,39 @@ export default function PixelSky({
     let width = 0;
     let height = 0;
 
-    let mood = moodAt(new Date());
-    const moodTimer = cozy
+    // 19:00 at the top of the page through to midnight at the bottom — far
+    // enough to read as time passing, but never leaving night.
+    const DEPTH_FROM_HOUR = 19;
+    const DEPTH_TO_HOUR = 24;
+    const scrollDepth = () => {
+      const travel = document.documentElement.scrollHeight - window.innerHeight;
+      return travel > 0 ? Math.min(1, Math.max(0, window.scrollY / travel)) : 0;
+    };
+
+    let mood = depth
+      ? moodForHour(DEPTH_FROM_HOUR)
+      : moodAt(new Date());
+
+    // Lenis drives the page, and framer's scroll values do not stay in step with
+    // it, so read scrollY off a passive listener like the other scroll-linked
+    // pieces on this page do.
+    let depthFrame = 0;
+    const readDepth = () => {
+      depthFrame = 0;
+      mood = moodForHour(
+        DEPTH_FROM_HOUR + scrollDepth() * (DEPTH_TO_HOUR - DEPTH_FROM_HOUR)
+      );
+    };
+    const onDepthScroll = () => {
+      if (!depthFrame) depthFrame = requestAnimationFrame(readDepth);
+    };
+    if (depth) {
+      readDepth();
+      window.addEventListener("scroll", onDepthScroll, { passive: true });
+      window.addEventListener("resize", onDepthScroll);
+    }
+
+    const moodTimer = cozy && !depth
       ? window.setInterval(() => {
           mood = moodAt(new Date());
         }, 60_000)
@@ -395,8 +436,11 @@ export default function PixelSky({
       observer.disconnect();
       cancelAnimationFrame(animationFrameId);
       if (moodTimer) window.clearInterval(moodTimer);
+      if (depthFrame) cancelAnimationFrame(depthFrame);
+      window.removeEventListener("scroll", onDepthScroll);
+      window.removeEventListener("resize", onDepthScroll);
     };
-  }, [cozy]);
+  }, [cozy, depth]);
 
   return (
     <div className={className}>

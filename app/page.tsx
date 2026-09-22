@@ -3,6 +3,7 @@
 import { motion } from "framer-motion";
 import Link from "next/link";
 import PixelSky from "@/components/PixelSky";
+import NightDepth from "@/components/NightDepth";
 import { projects } from "@/data/projects";
 import Footer from "@/components/Footer";
 import ProjectSlides from "@/components/ProjectSlides";
@@ -22,9 +23,11 @@ export default function HomePage() {
   return (
     // overflow-x-clip, not -hidden: `hidden` turns this into a scroll container
     // and silently breaks `position: sticky` for the project stage below.
-    <main className="relative min-h-screen bg-[#0f172a] text-slate-200 selection:bg-pink-500/30 overflow-x-clip pt-24 font-[family-name:var(--font-geist-sans)]">
-      {/* Background */}
-      <PixelSky cozy className="fixed inset-0 z-0 opacity-70 pointer-events-none" />
+    <main className="relative min-h-screen bg-[#070c18] text-slate-200 selection:bg-pink-500/30 overflow-x-clip pt-24 font-[family-name:var(--font-geist-sans)]">
+      {/* Background: the base colour ramps with scroll, the sky's own palette
+          follows it, and the skyline stays put through the whole descent. */}
+      <NightDepth />
+      <PixelSky cozy depth className="fixed inset-0 z-0 opacity-70 pointer-events-none" />
       
       <div className="relative z-10 w-full">
 
@@ -81,9 +84,8 @@ export default function HomePage() {
         {/* =========================================
             2. MY PURPOSE & JOURNEY (About Me)
             ========================================= */}
-        <section id="about" className="w-full relative z-20 transition-colors duration-300 overflow-hidden min-h-screen flex flex-col justify-center bg-[#0a0f1c] border-y border-slate-800/60 py-24">
-          <div className="absolute inset-0 bg-[linear-gradient(to_right,#8080800a_1px,transparent_1px),linear-gradient(to_bottom,#8080800a_1px,transparent_1px)] bg-[size:32px_32px]" />
-          
+        <section id="about" className="w-full relative z-20 overflow-hidden min-h-screen flex flex-col justify-center py-24">
+
           <div className="max-w-6xl mx-auto px-6 flex flex-col lg:flex-row items-center justify-center gap-16 lg:gap-24 relative z-10">
             
             {/* Left side: Space Shooter Mini-Game */}
