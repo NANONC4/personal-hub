@@ -84,11 +84,42 @@ export function TechBreakout() {
     
     const canvasWidth = 800;
     const canvasHeight = 600;
-    
-    canvas.width = canvasWidth;
-    canvas.height = canvasHeight;
-    // Disable smoothing to keep borders hard
-    ctx.imageSmoothingEnabled = false;
+
+    // The board is authored in an 800x600 coordinate space but laid out at
+    // whatever width the column gives it — ~700 CSS px, and more device pixels
+    // again on a retina screen. A fixed 800x600 backing store therefore got
+    // resampled on its way to the screen, which is what made the labels mushy.
+    // Size the buffer to real device pixels and scale the context, so every
+    // draw call below can keep using 0..800 while landing on the pixel grid.
+    let renderScale = 1;
+    const sizeCanvas = () => {
+      const cssWidth = container.clientWidth || canvasWidth;
+      const dpr = Math.min(window.devicePixelRatio || 1, 2);
+      renderScale = (cssWidth / canvasWidth) * dpr;
+      canvas.width = Math.round(canvasWidth * renderScale);
+      canvas.height = Math.round(canvasHeight * renderScale);
+      // both of these reset whenever canvas.width is assigned
+      ctx.setTransform(renderScale, 0, 0, renderScale, 0, 0);
+      ctx.imageSmoothingEnabled = false;
+    };
+    sizeCanvas();
+    window.addEventListener("resize", sizeCanvas);
+
+    // ctx.font is parsed with no element attached, so `var(--font-pixel)` never
+    // resolved and every label quietly fell back to monospace. Silkscreen also
+    // ships at weight 400 only, so `bold` was synthesising a smeared fake bold
+    // on top of the wrong face.
+    const pixelFamily =
+      getComputedStyle(document.body).getPropertyValue("--font-pixel").trim() || "monospace";
+    const pixelFont = (px: number) => `${px}px ${pixelFamily}, monospace`;
+
+    // Same mismatch on the way in: the element is ~700 CSS px wide but the board
+    // is 800 units, so a raw clientX left the paddle trailing the cursor and
+    // unable to reach the right wall at all.
+    const pointerToBoard = (clientX: number) => {
+      const rect = canvas.getBoundingClientRect();
+      return rect.width ? ((clientX - rect.left) / rect.width) * canvasWidth : 0;
+    };
 
     // Dynamic Sizing variables (Square)
     let ballSize = 14;
@@ -188,16 +219,15 @@ export function TechBreakout() {
     
     const mouseMoveHandler = (e: MouseEvent) => {
       if (localGameOver) return;
-      const rect = canvas.getBoundingClientRect();
-      const relativeX = e.clientX - rect.left;
+      const relativeX = pointerToBoard(e.clientX);
       if (relativeX > 0 && relativeX < canvasWidth) {
         paddleX = relativeX - paddleWidth / 2;
       }
       lastInteractionTime = Date.now();
       autoPlay = false;
     };
-    
-    const mouseDownHandler = (e: any) => { 
+
+    const mouseDownHandler = (e: any) => {
       if (localGameOver) return;
       
       // Only trigger speed boost (mousePressed) if it's a real mouse click, not a touch.
@@ -210,7 +240,6 @@ export function TechBreakout() {
       autoPlay = false; 
       
       if (e) {
-        const rect = canvas.getBoundingClientRect();
         let clientX;
         if (e.touches && e.touches.length > 0) {
           clientX = e.touches[0].clientX;
@@ -221,7 +250,7 @@ export function TechBreakout() {
         }
         
         if (clientX !== undefined) {
-          const relativeX = clientX - rect.left;
+          const relativeX = pointerToBoard(clientX);
           if (relativeX > 0 && relativeX < canvasWidth) {
             paddleX = relativeX - paddleWidth / 2;
           }
@@ -232,8 +261,7 @@ export function TechBreakout() {
     
     const touchMoveHandler = (e: TouchEvent) => {
       if (localGameOver) return;
-      const rect = canvas.getBoundingClientRect();
-      const relativeX = e.touches[0].clientX - rect.left;
+      const relativeX = pointerToBoard(e.touches[0].clientX);
       if (relativeX > 0 && relativeX < canvasWidth) {
         paddleX = relativeX - paddleWidth / 2;
       }
@@ -352,19 +380,26 @@ export function TechBreakout() {
       ctx.fillRect(Math.floor(paddleX), canvasHeight - 10 - 4, paddleWidth, 4);
     };
 
-    // The canvas has a fixed 800x600 logical size and is scaled down by CSS, so
-    // on a phone every logical pixel shrinks to roughly 0.45 of a CSS pixel.
-    // Start from the largest type that still fits the brick and only shrink as
-    // far as each label needs — that buys back the mobile legibility.
     const fitFontSize = (text: string, maxWidth: number) => {
       let size = 34;
-      ctx.font = `bold ${size}px var(--font-pixel), monospace`;
-      while (size > 18 && ctx.measureText(text).width > maxWidth) {
+      ctx.font = pixelFont(size);
+      while (size > 12 && ctx.measureText(text).width > maxWidth) {
         size -= 1;
-        ctx.font = `bold ${size}px var(--font-pixel), monospace`;
+        ctx.font = pixelFont(size);
       }
       return size;
     };
+
+    // One size for the whole board — the largest the longest label can take.
+    // Sizing each brick independently turned the grid into a ransom note, with
+    // GIT at 34px beside PRISMA & SQL at 15.
+    const labelRoom = brickWidth - 10;
+    let brickLabelSize = 18;
+    const measureBrickLabel = () => {
+      brickLabelSize = Math.min(...TECH_STACK.map((t) => fitFontSize(t.text, labelRoom)));
+    };
+    measureBrickLabel();
+
     const fontSizeCache = new Map<string, number>();
     const brickFontSize = (text: string, maxWidth: number) => {
       const key = `${text}@${Math.round(maxWidth)}`;
@@ -422,7 +457,7 @@ export function TechBreakout() {
             ctx.setLineDash([]); // reset dash
             
             // Text: Vibrant Neon Color + Hard Black Shadow for popping contrast
-            ctx.font = `bold ${brickFontSize(b.text, brickWidth - 16)}px var(--font-pixel), monospace`;
+            ctx.font = pixelFont(brickLabelSize);
             ctx.textAlign = "center";
             ctx.textBaseline = "middle";
             
@@ -446,7 +481,7 @@ export function TechBreakout() {
             ctx.fillRect(brickX + 4, brickY + 4, brickWidth - 8, brickHeight - 8);
             
             // Text: Pure Black for high contrast on the bright flash
-            ctx.font = `bold ${brickFontSize(b.text, brickWidth - 16)}px var(--font-pixel), monospace`;
+            ctx.font = pixelFont(brickLabelSize);
             ctx.textAlign = "center";
             ctx.textBaseline = "middle";
             
@@ -483,14 +518,14 @@ export function TechBreakout() {
       
       const fontSize = 64;
       ctx.fillStyle = "#ef4444";
-      ctx.font = `bold ${fontSize}px var(--font-pixel), monospace`;
+      ctx.font = pixelFont(fontSize);
       ctx.textAlign = "center";
       ctx.fillText("GAME OVER", canvasWidth / 2, canvasHeight / 2);
       
       // Draw auto-restart countdown
       const countdown = Math.ceil(gameOverTimer / 60);
       ctx.fillStyle = "#94a3b8";
-      ctx.font = `20px var(--font-pixel), monospace`;
+      ctx.font = pixelFont(20);
       ctx.fillText(`AUTO RESTART IN ${countdown}...`, canvasWidth / 2, canvasHeight / 2 + fontSize);
     };
 
@@ -513,7 +548,7 @@ export function TechBreakout() {
         
         const fontSize = 48;
         ctx.fillStyle = "#ffffff";
-        ctx.font = `bold ${fontSize}px var(--font-pixel), monospace`;
+        ctx.font = pixelFont(fontSize);
         ctx.textAlign = "center";
         ctx.fillText("ONE MORE", canvasWidth / 2, canvasHeight / 2);
         
@@ -540,7 +575,7 @@ export function TechBreakout() {
       if (autoPlay && !localGameOver) {
         const fontSize = 32;
         ctx.fillStyle = "rgba(255, 255, 255, 0.7)";
-        ctx.font = `bold ${fontSize}px var(--font-pixel), monospace`;
+        ctx.font = pixelFont(fontSize);
         ctx.textAlign = "center";
         ctx.fillText("TAP OR DRAG TO PLAY", canvasWidth / 2, canvasHeight / 2 + 80);
       }
@@ -659,8 +694,14 @@ export function TechBreakout() {
     lastTime = performance.now();
     animationFrameId = requestAnimationFrame(draw);
 
+    // The label sizes are measured once and cached, so measuring them against a
+    // fallback face while Silkscreen is still loading would bake in the wrong
+    // widths for the session.
+    document.fonts?.ready.then(() => { fontSizeCache.clear(); measureBrickLabel(); }).catch(() => {});
+
     return () => {
       cancelAnimationFrame(animationFrameId);
+      window.removeEventListener("resize", sizeCanvas);
       document.removeEventListener("keydown", keyDownHandler);
       document.removeEventListener("keyup", keyUpHandler);
       canvas.removeEventListener("mousemove", mouseMoveHandler);
