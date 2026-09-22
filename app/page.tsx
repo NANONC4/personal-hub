@@ -66,7 +66,7 @@ export default function HomePage() {
               <KineticText text="Developer" className="text-sky-400" />
             </div>
 
-            <p className="text-xl md:text-2xl text-slate-400 max-w-2xl font-medium leading-relaxed mb-12">
+            <p className="text-xl md:text-2xl text-slate-200 max-w-2xl font-medium leading-relaxed mb-12">
               นักพัฒนาที่หลงใหลในศิลปะ <span className="text-pink-400 font-[family-name:var(--font-pixel)] tracking-widest">Pixel Art</span> สร้างสรรค์ประสบการณ์บนเว็บไซต์และมินิเกม เพื่อเปลี่ยนไอเดียให้กลายเป็นโค้ดที่จับต้องได้
             </p>
 
@@ -108,14 +108,14 @@ export default function HomePage() {
                 <DiaTextReveal text="Who am I?" />
                 <div className="absolute -left-6 top-1/2 -translate-y-1/2 w-1 h-12 bg-gradient-to-b from-sky-400 to-pink-500 rounded-full hidden md:block" />
               </div>
-              <div className="space-y-6 text-slate-300 text-lg md:text-xl leading-relaxed font-medium">
+              <div className="space-y-6 text-slate-100 text-lg md:text-xl leading-relaxed font-medium">
                 <p>
                   ผมเป็น <strong className="text-white font-bold">Creative Developer</strong> ที่เชื่อว่าเว็บไซต์ไม่ควรเป็นแค่หน้ากระดาษแบนๆ แต่ควรเป็น "พื้นที่" (Space) ที่ให้ความรู้สึกเหมือนมีชีวิต
                 </p>
                 <p>
                   จุดเริ่มต้นของผมมาจากการชอบเล่นเกมยุค 90s และความหลงใหลในความคลาสสิกของ <span className="text-pink-400 font-[family-name:var(--font-pixel)] tracking-widest text-sm uppercase">Pixel Art</span> ผมจึงตั้งใจนำกลิ่นอายความ Nostalgia เหล่านั้น มาผสมผสานกับเทคโนโลยีเว็บสมัยใหม่ เพื่อสร้างประสบการณ์ที่ทำให้คนที่เข้ามาดูรู้สึก "ว้าว"
                 </p>
-                <p className="border-l-2 border-slate-700 pl-4 text-slate-400 italic">
+                <p className="border-l-2 border-slate-500 pl-4 text-slate-200 italic">
                   เป้าหมายของผมคือการ <strong className="text-white not-italic font-bold">"ทลายขอบเขตระหว่างงานศิลปะและการเขียนโค้ด"</strong> ทุกบรรทัดที่ผมเขียน คือความพยายามในการสร้างโลกใบเล็กๆ ที่มีเอกลักษณ์เฉพาะตัวให้ทุกคนได้สัมผัสครับ
                 </p>
               </div>

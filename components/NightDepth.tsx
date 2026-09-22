@@ -14,15 +14,21 @@ import { useEffect, useRef } from "react";
  * above it, since main is positioned but not a stacking context.
  *
  * Stops start on the blue of the WelcomeWindow's sky, so the page opens on the
- * same colour the visitor was just looking at through the window, and end close
- * to black under GOOD NIGHT. Nothing here goes light enough to break the page's
- * existing slate text: the lightest stop still clears 5:1 against slate-400.
+ * same colour the visitor was just looking at through the window, and end near
+ * black under GOOD NIGHT — a ~25x swing in luminance, because a ramp nobody
+ * notices is not worth having. The sections sitting on the light end had their
+ * muted slate text lifted a step to stay readable against it.
  */
 const STOPS: Array<[number, [number, number, number]]> = [
-  [0.0, [0x16, 0x30, 0x4f]],
-  [0.3, [0x12, 0x24, 0x3c]],
-  [0.6, [0x0d, 0x18, 0x28]],
-  [1.0, [0x07, 0x0c, 0x18]],
+  // The welcome gate covers roughly the first quarter of the page, so the
+  // lightest stop is held to 0.25 rather than 0 — otherwise the brightest blue
+  // would spend its whole life hidden behind the window.
+  [0.0, [0x2e, 0x5c, 0x8f]],
+  [0.25, [0x2e, 0x5c, 0x8f]],
+  [0.45, [0x1e, 0x3f, 0x66]],
+  [0.65, [0x14, 0x28, 0x45]],
+  [0.85, [0x0a, 0x14, 0x25]],
+  [1.0, [0x05, 0x08, 0x0f]],
 ];
 
 const lerp = (a: number, b: number, t: number) => a + (b - a) * t;
