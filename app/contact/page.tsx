@@ -3,32 +3,8 @@
 import { motion } from "framer-motion";
 import Footer from "@/components/Footer";
 import { PixelStar, PixelMail, PixelCoffee } from "@/components/PixelIcons";
-import { Star, ExternalLink } from "lucide-react";
+import { ExternalLink } from "lucide-react";
 import PixelSky from "@/components/PixelSky";
-
-const reviews = [
-  {
-    author: "คุณ P***",
-    project: "ออกแบบและพัฒนาเว็บไซต์บริษัท",
-    rating: 5,
-    text: "ทำงานเร็วมากครับ โค้ดเป็นระเบียบสุดๆ แก้ไขงานตามที่บรีฟได้เป๊ะ แนะนำเลยครับสำหรับคนที่หาโปรแกรมเมอร์เก่งๆ",
-    date: "12 Mar 2024"
-  },
-  {
-    author: "คุณ A***",
-    project: "มินิเกมบนเว็บสำหรับแคมเปญ",
-    rating: 5,
-    text: "ประทับใจความรับผิดชอบและไอเดียที่ช่วยเสนอครับ ตัวเกมออกมาสนุกและสมูทกว่าที่คิดไว้เยอะเลย",
-    date: "05 Feb 2024"
-  },
-  {
-    author: "คุณ S***",
-    project: "ปรับปรุง UI/UX ระบบหลังบ้าน",
-    rating: 5,
-    text: "ให้คำปรึกษาดีมาก ตอบแชทไว งานออกมาสวยและใช้งานง่ายขึ้นมากครับ โอกาสหน้าใช้บริการอีกแน่นอน",
-    date: "28 Jan 2024"
-  }
-];
 
 export default function ContactPage() {
   return (
@@ -56,7 +32,7 @@ export default function ContactPage() {
             transition={{ delay: 0.1 }}
             className="text-5xl md:text-7xl font-black tracking-tight text-white mb-8 font-[family-name:var(--font-pixel)] uppercase drop-shadow-[0_4px_20px_rgba(236,72,153,0.3)] leading-tight"
           >
-            Reviews & Contact
+            Say Hello
           </motion.h1>
           
           <motion.p 
@@ -65,66 +41,68 @@ export default function ContactPage() {
             transition={{ delay: 0.2 }}
             className="text-slate-400 leading-relaxed text-lg lg:text-xl"
           >
-            Ready to start a project or just want to say hi? Reach out via any of the channels below. But first, here's what my clients have to say.
+            Ready to start a project or just want to say hi? Reach out through any of the channels below — or go straight to the code and see what I actually build.
           </motion.p>
         </div>
 
-        {/* Right: Fastwork Reviews Section */}
+        {/* Right: Where to find my real work */}
         <div className="w-full lg:w-2/3">
-          <motion.div 
+          <motion.div
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.3 }}
             className="bg-[#050810] border border-slate-800/80 rounded-[2.5rem] p-8 md:p-12 relative overflow-hidden w-full shadow-2xl"
           >
-            {/* Fastwork Badge/Header */}
-          <div className="flex flex-col md:flex-row justify-between items-center gap-6 mb-12 border-b border-slate-800 pb-8">
-            <div className="flex items-center gap-4">
-              <img src="/fastwork.png" alt="Fastwork" className="w-12 h-12 rounded-xl" />
-              <div className="text-left">
-                <h2 className="text-2xl font-bold text-white font-[family-name:var(--font-pixel)] uppercase">Verified Reviews</h2>
-                <div className="flex items-center gap-2 mt-1">
-                  <div className="flex text-amber-400">
-                    <Star className="w-4 h-4 fill-current" />
-                    <Star className="w-4 h-4 fill-current" />
-                    <Star className="w-4 h-4 fill-current" />
-                    <Star className="w-4 h-4 fill-current" />
-                    <Star className="w-4 h-4 fill-current" />
-                  </div>
-                  <span className="text-slate-400 text-sm font-mono">5.0/5.0 Rating</span>
-                </div>
-              </div>
+            <div className="mb-10 border-b border-slate-800 pb-8">
+              <h2 className="text-2xl font-bold text-white font-[family-name:var(--font-pixel)] uppercase">Where To Find Me</h2>
+              <p className="text-slate-400 text-sm mt-2 leading-relaxed">
+                โค้ดทุกบรรทัดอยู่บน GitHub และงานฟรีแลนซ์อยู่บน Fastwork — กดเข้าไปดูของจริงได้เลยครับ
+              </p>
             </div>
-            
-            <a 
-              href="https://fastwork.co/user/nanonc4" 
-              target="_blank" 
-              rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 px-6 py-3 bg-white text-black font-bold rounded-lg hover:bg-slate-200 transition-colors"
-            >
-              Hire me on Fastwork <ExternalLink className="w-4 h-4" />
-            </a>
-          </div>
 
-          {/* Review Cards */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {reviews.map((review, idx) => (
-              <div key={idx} className="bg-slate-950/50 p-6 rounded-2xl border border-slate-800/80 flex flex-col justify-between">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              {/* GitHub */}
+              <a
+                href="https://github.com/NANONC4"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="group bg-slate-950/50 p-6 rounded-2xl border border-slate-800/80 flex flex-col justify-between hover:border-slate-600 transition-colors"
+              >
                 <div>
-                  <div className="flex text-amber-400 mb-4">
-                    {[...Array(review.rating)].map((_, i) => (
-                      <Star key={i} className="w-4 h-4 fill-current" />
-                    ))}
+                  <div className="flex items-center gap-3 mb-4">
+                    <img src="/github-142-svgrepo-com.svg" alt="" className="w-8 h-8 invert opacity-80" />
+                    <span className="font-[family-name:var(--font-pixel)] text-sm text-white uppercase tracking-widest">GitHub</span>
                   </div>
-                  <p className="text-slate-300 text-sm leading-relaxed mb-6 italic">"{review.text}"</p>
+                  <p className="text-slate-400 text-sm leading-relaxed">
+                    ซอร์สโค้ดของเว็บนี้ เกมในหน้าแรก และโปรเจกต์อื่นๆ เปิดให้อ่านทั้งหมด
+                  </p>
                 </div>
-                <div className="flex flex-col border-t border-slate-800/80 pt-4">
-                  <span className="font-bold text-white text-sm">{review.author}</span>
-                  <span className="text-xs text-slate-500 font-mono mt-1">{review.project}</span>
+                <span className="inline-flex items-center gap-2 mt-6 font-mono text-xs text-slate-300 group-hover:text-white transition-colors">
+                  github.com/NANONC4 <ExternalLink className="w-3.5 h-3.5" />
+                </span>
+              </a>
+
+              {/* Fastwork */}
+              <a
+                href="https://fastwork.co/user/nanonc4"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="group bg-slate-950/50 p-6 rounded-2xl border border-slate-800/80 flex flex-col justify-between hover:border-slate-600 transition-colors"
+              >
+                <div>
+                  <div className="flex items-center gap-3 mb-4">
+                    <img src="/fastwork.png" alt="" className="w-8 h-8 rounded-lg" />
+                    <span className="font-[family-name:var(--font-pixel)] text-sm text-white uppercase tracking-widest">Fastwork</span>
+                  </div>
+                  <p className="text-slate-400 text-sm leading-relaxed">
+                    โปรไฟล์รับงานฟรีแลนซ์ พร้อมรีวิวและเรตติ้งจากลูกค้าจริงบนแพลตฟอร์ม
+                  </p>
                 </div>
-              </div>
-            ))}
-          </div>
+                <span className="inline-flex items-center gap-2 mt-6 font-mono text-xs text-slate-300 group-hover:text-white transition-colors">
+                  fastwork.co/user/nanonc4 <ExternalLink className="w-3.5 h-3.5" />
+                </span>
+              </a>
+            </div>
           </motion.div>
         </div>
       </section>
