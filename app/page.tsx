@@ -126,8 +126,8 @@ export default function HomePage() {
         {/* =========================================
             3. WHAT I USE (Tech Breakout Game)
             ========================================= */}
-        <section className="w-full relative z-20">
-          <div className="max-w-7xl mx-auto px-6 py-12 md:py-16">
+        <section className="w-full relative z-20 flex min-h-screen items-center">
+          <div className="mx-auto w-full max-w-7xl px-6 py-12 lg:py-0">
             <div className="grid gap-12 lg:grid-cols-[minmax(0,4fr)_minmax(0,8fr)] lg:items-center lg:gap-14">
 
               {/* The stack, readable without playing. The game had all of this
@@ -195,7 +195,7 @@ export default function HomePage() {
             on the other end of the same night. Almost nothing here on purpose —
             the sky and the skyline behind it are the content.
             ========================================= */}
-        <section className="max-w-6xl mx-auto flex min-h-[70vh] flex-col items-center justify-center px-6 pb-32 text-center md:pb-48">
+        <section className="mx-auto flex min-h-screen max-w-6xl flex-col items-center justify-center px-6 text-center">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
