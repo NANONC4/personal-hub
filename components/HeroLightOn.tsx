@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { motion, useReducedMotion } from "framer-motion";
 import { InteractiveHoverButton } from "@/components/InteractiveHoverButton";
 
@@ -92,6 +92,16 @@ export function HeroContent({
   const badgeClass =
     "relative mb-10 inline-flex items-center gap-3 rounded-full border border-slate-700/50 bg-slate-800/80 px-4 py-2";
 
+  // The name's colour sweep is a CSS animation, and each copy of the hero
+  // started it at a different moment, so the two showed different colours at
+  // the hand-off. Pin every copy to the same clock (the page's time origin).
+  const nameRef = useRef<HTMLSpanElement>(null);
+  useEffect(() => {
+    nameRef.current?.getAnimations().forEach((a) => {
+      a.startTime = 0;
+    });
+  }, []);
+
   return (
     <div className="w-full">
       {onToggle ? (
@@ -122,7 +132,10 @@ export function HeroContent({
             ))}
           </span>
         ))}
-        <span className="inline-block animate-gradient-text bg-gradient-to-r from-sky-400 via-pink-400 to-purple-400 bg-clip-text text-transparent">
+        <span
+          ref={nameRef}
+          className="inline-block animate-gradient-text bg-gradient-to-r from-sky-400 via-pink-400 to-purple-400 bg-clip-text text-transparent"
+        >
           Dia.
         </span>
       </h1>
@@ -144,6 +157,10 @@ export function HeroContent({
     </div>
   );
 }
+
+/** The home page <main>'s text colour and font. The welcome window's copy of
+ *  the hero lives outside <main>, so it has to be given these by hand. */
+export const PAGE_TEXT = "text-slate-200 font-[family-name:var(--font-geist-sans)]";
 
 /** Same box in the page and in the welcome window, so the two line up exactly. */
 export const HERO_BOX = "mx-auto flex min-h-screen max-w-6xl flex-col items-start justify-center px-6 py-20 lg:py-32";

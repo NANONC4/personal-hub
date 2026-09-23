@@ -5,7 +5,7 @@ import { createPortal } from "react-dom";
 import { useLenis } from "lenis/react";
 import { motion, useReducedMotion } from "framer-motion";
 import { Firefly } from "@/components/Firefly";
-import { GATE_DONE_EVENT, HERO_BOX, HeroContent } from "@/components/HeroLightOn";
+import { GATE_DONE_EVENT, HERO_BOX, HeroContent, NIGHT_LIGHTS_EVENT, PAGE_TEXT } from "@/components/HeroLightOn";
 
 /**
  * Home page welcome gate — a moonlit lofi window, opened by scrolling.
@@ -280,6 +280,17 @@ export default function WelcomeWindow() {
   // moments that change what's on the page.
   const [open, setOpen] = useState(false); // past the sashes: clicks go through
   const [arrived, setArrived] = useState(false); // handed over at least once: the lamp is on by now
+  const [switchedOff, setSwitchedOff] = useState(false); // visitor clicked the lamp off in the hero
+
+  // The copy must show the same badge as the real hero, or it changes at the
+  // swap when you scroll back up: same lamp state, same "click" hint.
+  useEffect(() => {
+    const onLights = (e: Event) => setSwitchedOff(!((e as CustomEvent<{ on: boolean }>).detail?.on ?? true));
+    window.addEventListener(NIGHT_LIGHTS_EVENT, onLights);
+    return () => window.removeEventListener(NIGHT_LIGHTS_EVENT, onLights);
+  }, []);
+  const copyLamp = !arrived || switchedOff ? "off" : "on";
+  const copyHint = !arrived ? null : switchedOff ? "click to switch on" : "click to switch off";
   const [gone, setGone] = useState(false); // handed over to the real hero
 
   const gateRef = useRef<HTMLDivElement>(null);
@@ -333,7 +344,8 @@ export default function WelcomeWindow() {
         const ride = Math.min(0, heroTop);
         const rise = reduce ? 0 : (1 - appear) * 24;
         heroRef.current.style.opacity = String(appear);
-        heroRef.current.style.transform = `translate3d(0, ${ride + rise}px, 0) scale(${reduce ? 1 : 0.6 + ease * 0.4})`;
+        const scale = reduce ? 1 : 0.6 + ease * 0.4;
+        heroRef.current.style.transform = scale === 1 ? `translateY(${ride + rise}px)` : `translateY(${ride + rise}px) scale(${scale})`;
       }
       if (skyRef.current) {
         // gone before the page's own skyline shows, so the two cities never overlap;
@@ -453,9 +465,19 @@ export default function WelcomeWindow() {
 
             {/* the hero, already out there on the sky (a still copy: inert, so
                 its link can't be tabbed to while the real one is hidden) */}
-            <div ref={heroRef} inert className="absolute inset-0 will-change-transform" style={{ opacity: 0, transform: "scale(0.6)" }}>
+            {/* Must render exactly like the real hero: the page's text colour and
+                font (it lives outside <main>), normal image rendering (not the
+                window's pixelated upscaling), and no will-change, so the browser
+                redraws the text sharp at each size instead of stretching a
+                small snapshot of it. */}
+            <div
+              ref={heroRef}
+              inert
+              className={`absolute inset-0 [image-rendering:auto] ${PAGE_TEXT}`}
+              style={{ opacity: 0, transform: "scale(0.6)" }}
+            >
               <div className={HERO_BOX}>
-                <HeroContent lamp={arrived ? "on" : "off"} lampRef={lampRef} />
+                <HeroContent lamp={copyLamp} hint={copyHint} lampRef={lampRef} />
               </div>
             </div>
 
