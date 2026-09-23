@@ -34,69 +34,133 @@ function outboundLink(p: Project) {
 
 /* ------------------------------------------------------------------ visual */
 
-/**
- * The project shot inside a pixel app window, or an honest stand-in if the
- * image fails — PRODUCT.md forbids passing a placeholder off as content.
- */
-function windowTitle(p: Project) {
-  if (p.type === "game") return `${p.id}.exe`;
-  try {
-    return new URL(p.links.demo ?? "").hostname.replace(/^www\./, "");
-  } catch {
-    return p.id;
-  }
+/* Same wood as WelcomeWindow. Shape follows the lofi "window seat" look:
+   a wide centre opening, a narrow fixed pane either side with a transom
+   near the top, and one long sill with a few pots on it. */
+const WOOD = "#0a1424";
+const WOOD_LIT = "#25395a";
+
+/** A narrow fixed side pane: night glass, a couple of stars, a transom bar. */
+function SidePane({ side }: { side: "left" | "right" }) {
+  const stars = side === "left" ? [[30, 12], [62, 44], [22, 70]] : [[58, 16], [28, 52], [70, 78]];
+  return (
+    <div aria-hidden className="relative h-full overflow-hidden bg-[linear-gradient(to_bottom,#1a2d52,#0f1d38)] [image-rendering:pixelated]">
+      {stars.map(([x, y]) => (
+        <span key={`${x}-${y}`} className="absolute h-[2px] w-[2px] bg-[#cfe1f5]/70" style={{ left: `${x}%`, top: `${y}%` }} />
+      ))}
+      <div className="absolute inset-0 bg-[linear-gradient(120deg,transparent_38%,rgba(160,195,230,0.10)_46%,transparent_54%)]" />
+      {/* transom */}
+      <div className="absolute inset-x-0 top-[24%] h-[8px]" style={{ background: WOOD }} />
+      <div className="absolute inset-0 shadow-[inset_0_0_0_2px_#25395a]" />
+    </div>
+  );
 }
 
+/** Leafy plant in a round pot. `size` scales the whole thing. */
+function LeafyPlant({ className = "" }: { className?: string }) {
+  const leaves: [number, number, number][] = [
+    [-62, 16, 30], [-38, 22, 44], [-12, 26, 54], [14, 24, 50], [40, 20, 42], [64, 14, 28],
+  ];
+  return (
+    <div aria-hidden className={`absolute bottom-full [image-rendering:pixelated] ${className}`}>
+      <div className="relative h-24 w-20">
+        {leaves.map(([r, w, h], i) => (
+          <div
+            key={i}
+            className={`absolute bottom-9 left-1/2 origin-bottom rounded-[50%_50%_45%_45%/65%_65%_35%_35%] ${i % 2 ? "bg-[#1d4677]" : "bg-[#24568c]"}`}
+            style={{ width: w, height: h, marginLeft: -w / 2, transform: `rotate(${r}deg)` }}
+          />
+        ))}
+        <div className="absolute bottom-0 left-1/2 h-10 w-14 -translate-x-1/2 rounded-b-[12px] rounded-t-sm bg-[#22365a]" />
+        <div className="absolute bottom-9 left-1/2 h-2 w-16 -translate-x-1/2 rounded-sm bg-[#2f4a73]" />
+      </div>
+    </div>
+  );
+}
+
+/** Small succulent in a short pot. */
+function Succulent({ className = "" }: { className?: string }) {
+  return (
+    <div aria-hidden className={`absolute bottom-full [image-rendering:pixelated] ${className}`}>
+      <div className="relative h-14 w-12">
+        {[-40, -18, 0, 18, 40].map((r, i) => (
+          <div
+            key={r}
+            className={`absolute bottom-5 left-1/2 h-7 w-3 origin-bottom rounded-t-full ${i % 2 ? "bg-[#1d4677]" : "bg-[#24568c]"}`}
+            style={{ marginLeft: -6, transform: `rotate(${r}deg)` }}
+          />
+        ))}
+        <div className="absolute bottom-0 left-1/2 h-6 w-10 -translate-x-1/2 rounded-b-md bg-[#22365a]" />
+        <div className="absolute bottom-5 left-1/2 h-1.5 w-11 -translate-x-1/2 bg-[#2f4a73]" />
+      </div>
+    </div>
+  );
+}
+
+/**
+ * The project shot as the view out of a lofi window: wide centre opening,
+ * narrow side panes, one long sill with pots. Falls back to an honest
+ * stand-in if the image fails — PRODUCT.md forbids passing a placeholder off
+ * as content.
+ */
 function SlideVisual({ project, className = "aspect-[16/10]" }: { project: Project; className?: string }) {
   const [failed, setFailed] = useState(false);
   const src = project.gallery[0];
 
   return (
-    // a pixel app window: square corners, thick edge and a hard shadow are the
-    // retro-frame exception in DESIGN.md; the only colour is one dim pink light
-    <div className={`relative flex w-full flex-col border-2 border-[#334155] bg-[#0f172a] shadow-[4px_4px_0_0_#020617] ${className}`}>
-      <div className="flex h-7 shrink-0 items-center gap-3 border-b-2 border-[#334155] bg-[#1e293b] px-3">
-        <div className="flex gap-1.5" aria-hidden>
-          <span className="h-2 w-2 bg-pink-400/70" />
-          <span className="h-2 w-2 bg-slate-500/60" />
-          <span className="h-2 w-2 bg-slate-500/60" />
-        </div>
-        <span className="truncate font-[family-name:var(--font-pixel)] text-[10px] uppercase tracking-[0.2em] text-slate-400">
-          {windowTitle(project)}
-        </span>
-      </div>
+    <div className={`relative w-full ${className}`}>
+      {/* soft lamp light from the room, pooling on the sill */}
+      <div
+        aria-hidden
+        className="pointer-events-none absolute -inset-x-6 -bottom-6 top-1/2 bg-[radial-gradient(ellipse_at_50%_100%,rgba(251,191,36,0.12),transparent_65%)]"
+      />
 
-      <div className="relative min-h-0 flex-1 bg-[#0b1220]">
-        {src && !failed ? (
-          <>
+      {/* the window: outer frame, three lites split by mullions */}
+      <div
+        className="absolute inset-x-[3%] bottom-4 top-0 grid grid-cols-[13%_1fr_13%] gap-[10px] p-[10px]"
+        style={{ background: WOOD, boxShadow: `inset 0 3px 0 ${WOOD_LIT}` }}
+      >
+        <SidePane side="left" />
+
+        <div className="relative overflow-hidden bg-[#0b1220]">
+          {src && !failed ? (
             <Image
               src={src}
               alt={project.title}
               fill
-              sizes="(min-width: 768px) 60vw, 100vw"
+              sizes="(min-width: 768px) 45vw, 80vw"
               className="object-cover object-top"
               onError={() => setFailed(true)}
             />
-            {/* glass sheen, the same diagonal the welcome window uses */}
+          ) : (
             <div
-              aria-hidden
-              className="pointer-events-none absolute inset-0 bg-[linear-gradient(120deg,transparent_38%,rgba(160,195,230,0.08)_46%,transparent_54%)]"
-            />
-          </>
-        ) : (
-          <div
-            className="absolute inset-0 flex flex-col items-center justify-center gap-3
-                       bg-[linear-gradient(to_right,#94a3b810_1px,transparent_1px),linear-gradient(to_bottom,#94a3b810_1px,transparent_1px)]
-                       bg-[size:16px_16px]"
-          >
-            <span className="font-[family-name:var(--font-pixel)] text-xs uppercase tracking-[0.3em] text-slate-600">
-              {project.category}
-            </span>
-            <span className="font-mono text-[10px] tracking-[0.2em] text-slate-700">
-              ภาพตัวอย่างกำลังมา
-            </span>
-          </div>
-        )}
+              className="absolute inset-0 flex flex-col items-center justify-center gap-3
+                         bg-[linear-gradient(to_right,#94a3b810_1px,transparent_1px),linear-gradient(to_bottom,#94a3b810_1px,transparent_1px)]
+                         bg-[size:16px_16px]"
+            >
+              <span className="font-[family-name:var(--font-pixel)] text-xs uppercase tracking-[0.3em] text-slate-600">
+                {project.category}
+              </span>
+              <span className="font-mono text-[10px] tracking-[0.2em] text-slate-700">
+                ภาพตัวอย่างกำลังมา
+              </span>
+            </div>
+          )}
+          <div aria-hidden className="pointer-events-none absolute inset-0 shadow-[inset_0_0_0_2px_#25395a,inset_0_-22px_28px_-12px_rgba(251,191,36,0.14)]" />
+        </div>
+
+        <SidePane side="right" />
+      </div>
+
+      {/* sill: runs past the frame on both sides, pots stand on it */}
+      <div className="absolute inset-x-0 bottom-0 h-4 [image-rendering:pixelated]">
+        <div className="absolute inset-x-0 top-0 h-[6px] bg-[#1b2c48]" />
+        <div className="absolute inset-x-0 top-[6px] h-[5px] bg-[#132741]" />
+        <div className="absolute inset-x-0 top-[11px] bottom-0 bg-[#060d18]" />
+        <LeafyPlant className="left-[2%] origin-bottom-left scale-[0.55] md:scale-100" />
+        <Succulent className="left-[12%] origin-bottom-left scale-[0.55] md:scale-90" />
+        <Succulent className="right-[12%] origin-bottom-right scale-[0.5] md:scale-75" />
+        <LeafyPlant className="right-[2%] origin-bottom-right scale-[0.45] md:scale-[0.8]" />
       </div>
     </div>
   );
