@@ -296,7 +296,29 @@ export default function WelcomeWindow() {
   // Lenis moves the page inside its own animation frame and only raises the
   // browser's scroll event on the next one. Hooking Lenis directly keeps the
   // copy on the same frame as the page, so the hand-off doesn't jump.
-  useLenis(() => measureRef.current(), []);
+  //
+  // It also settles the page onto the hero: stop scrolling in the last stretch
+  // of the fly-through, or just past the hero, and it eases the rest of the
+  // way so the hero rests centred and clickable. Stop further away and it
+  // leaves you where you are.
+  const settleTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+  useLenis(
+    (lenis) => {
+      measureRef.current();
+      if (settleTimer.current) clearTimeout(settleTimer.current);
+      settleTimer.current = setTimeout(() => {
+        const el = spacerRef.current;
+        if (!el) return;
+        const heroTop = el.getBoundingClientRect().bottom; // real hero's top edge
+        const vh = window.innerHeight;
+        if (Math.abs(heroTop) < 2) return;
+        if (heroTop < vh * 0.55 && heroTop > -vh * 0.2) {
+          lenis.scrollTo(window.scrollY + heroTop, { duration: 0.9 });
+        }
+      }, 160);
+    },
+    [],
+  );
 
   useEffect(() => {
     if (!mounted) return;
@@ -304,10 +326,12 @@ export default function WelcomeWindow() {
     for (const el of [skyRef.current, heroRef.current, roomRef.current]) if (el) el.style.transformOrigin = origin;
 
     // Two phases across the spacer, each one screen tall, all tied to scroll.
-    //   0    → 0.44  sashes slide apart; the hero is already readable behind them
-    //   0.5  → 0.92  fly-through: the room scales past the screen edges, the
-    //                hero copy grows to full size, the painted sky gives way
-    //   0.92 → 1     hold, then hand over to the real hero
+    //   0   → 0.44  sashes slide apart; the hero surfaces behind them
+    //   0.5 → 1     fly-through: the room scales past the screen edges, the
+    //               hero copy grows to full size, the painted sky gives way,
+    //               and at exactly 1 it hands over to the real, clickable hero.
+    //               (A hold before the hand-off looked ready but couldn't be
+    //               clicked — Dia had to scroll on, past the centre, to use it.)
     // `heroTop` is where the real hero's top edge is right now (the spacer's
     // bottom). Once it reaches the top of the screen the copy rides along with
     // it, so the hand-off lands on the exact same pixels even when a fast
@@ -315,13 +339,13 @@ export default function WelcomeWindow() {
     let wasGone = false;
     const apply = (p: number, heroTop: number) => {
       const offset = map(p, 0.06, 0.44, 0, 108); // sash travel, %
-      const fly = map(p, 0.5, 0.92, 0, 1);
+      const fly = map(p, 0.5, 1, 0, 1);
       const ease = fly * fly * (3 - 2 * fly);
       if (sashLRef.current) sashLRef.current.style.transform = `translateX(${-offset}%)`;
       if (sashRRef.current) sashRRef.current.style.transform = `translateX(${offset}%)`;
       if (roomRef.current) {
         roomRef.current.style.transform = `scale(${reduce ? 1 : 1 + ease * 2.4})`;
-        roomRef.current.style.opacity = String(reduce ? 1 - map(p, 0.5, 0.9, 0, 1) : 1 - map(p, 0.8, 0.94, 0, 1));
+        roomRef.current.style.opacity = String(reduce ? 1 - map(p, 0.5, 0.9, 0, 1) : 1 - map(p, 0.84, 0.97, 0, 1));
       }
       if (heroRef.current) {
         // the first frame is only the window; the hero surfaces on the sky as
@@ -388,6 +412,7 @@ export default function WelcomeWindow() {
     window.addEventListener("resize", measure);
     return () => {
       measureRef.current = () => {};
+      if (settleTimer.current) clearTimeout(settleTimer.current);
       window.removeEventListener("scroll", measure);
       window.removeEventListener("resize", measure);
     };
