@@ -39,6 +39,9 @@ function outboundLink(p: Project) {
    near the top, and one long sill with a few pots on it. */
 const WOOD = "#0a1424";
 const WOOD_LIT = "#25395a";
+/** Whole window incl. side panes and sill. Leaves the centre opening at about
+ *  1.85:1, between the 16:9 game slides and the ~1.9:1 site captures. */
+const WINDOW_SHAPE = "aspect-[2.35/1] max-h-[50vh]";
 
 /** A narrow fixed side pane: night glass, a couple of stars, a transom bar. */
 function SidePane({ side }: { side: "left" | "right" }) {
@@ -103,7 +106,7 @@ function Succulent({ className = "" }: { className?: string }) {
  * stand-in if the image fails — PRODUCT.md forbids passing a placeholder off
  * as content.
  */
-function SlideVisual({ project, className = "aspect-[16/10]" }: { project: Project; className?: string }) {
+function SlideVisual({ project, className = WINDOW_SHAPE }: { project: Project; className?: string }) {
   const [failed, setFailed] = useState(false);
   const src = project.gallery[0];
 
@@ -117,7 +120,7 @@ function SlideVisual({ project, className = "aspect-[16/10]" }: { project: Proje
 
       {/* the window: outer frame, three lites split by mullions */}
       <div
-        className="absolute inset-x-[3%] bottom-4 top-0 grid grid-cols-[13%_1fr_13%] gap-[10px] p-[10px]"
+        className="absolute inset-x-[3%] bottom-4 top-0 grid grid-cols-[10%_1fr_10%] gap-[10px] p-[10px]"
         style={{ background: WOOD, boxShadow: `inset 0 3px 0 ${WOOD_LIT}` }}
       >
         <SidePane side="left" />
@@ -195,9 +198,9 @@ function SlideBody({ project, reduce }: { project: Project; reduce: boolean }) {
       className="absolute inset-0 flex flex-col justify-center"
     >
       <motion.div variants={line}>
-        {/* fixed height, not an aspect ratio — the stage is pinned to the
-            viewport, so the slide has to fit a screen it cannot grow past */}
-        <SlideVisual project={project} className="h-[34vh]" />
+        {/* shaped by width so the opening matches the screenshots; the vh cap
+            keeps it inside the pinned stage on short screens */}
+        <SlideVisual project={project} className={WINDOW_SHAPE} />
       </motion.div>
 
       <motion.h3
@@ -289,7 +292,7 @@ export default function ProjectSlides({ projects }: { projects: Project[] }) {
         style={{ height: `${count * VH_PER_SLIDE + 100}vh` }}
       >
         <div className="sticky top-0 flex h-screen items-center">
-          <div className="mx-auto grid w-full max-w-7xl grid-cols-[minmax(0,5fr)_minmax(0,7fr)] gap-16 px-6 lg:gap-24">
+          <div className="mx-auto grid w-full max-w-[1600px] grid-cols-[minmax(0,4fr)_minmax(0,8fr)] gap-12 px-6 lg:gap-16 lg:px-10">
             {/* index */}
             <div className="flex flex-col justify-center">
               <h2 className="font-[family-name:var(--font-pixel)] text-4xl uppercase leading-[1.1] tracking-wider text-white lg:text-6xl">
