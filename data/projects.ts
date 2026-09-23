@@ -92,7 +92,7 @@ export const projects: Project[] = [
       "/จอตั้ง.png"
     ],
     avatar: "/จอตั้ง.png",
-    links: { demo: "#" },
+    links: { demo: "https://www.lemonybio.shop" },
     type: "bio",
     bgClass: "bg-blue-400",
     theme: "blue"
@@ -102,13 +102,13 @@ export const projects: Project[] = [
     title: "DININO",
     category: "Bio Portfolio",
     description: "หน้าไบโอสไตล์หวานๆ น่ารักละมุนๆ ด้วยโทนสีชมพูพาสเทล",
-    stack: ["React", "CSS"],
+    stack: ["Next.js", "Tailwind CSS"],
     gallery: [
-      "/จอยาว.png",
-      "/จอตั้ง.png"
+      "/images/dinino-cover.webp",
+      "/images/dinino-mobile.webp"
     ],
-    avatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=Dinino&backgroundColor=fbcfe8",
-    links: { demo: "#" },
+    avatar: "/images/dinino-avatar.webp",
+    links: { demo: "https://dinino-bio.vercel.app/" },
     type: "bio",
     bgClass: "bg-pink-300",
     theme: "light"

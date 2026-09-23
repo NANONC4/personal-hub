@@ -1,10 +1,100 @@
 "use client";
 
+import { useState } from "react";
 import { motion } from "framer-motion";
 import Footer from "@/components/Footer";
 import { PixelStar, PixelMail, PixelCoffee } from "@/components/PixelIcons";
 import { ExternalLink } from "lucide-react";
 import PixelSky from "@/components/PixelSky";
+
+type Contact = {
+  label: string;
+  value: string;
+  color: string;
+  icon: React.ReactNode;
+  /** Opens this link instead of copying the value */
+  href?: string;
+};
+
+const contacts: Contact[] = [
+  { label: "Email", value: "DiaFrampton771@gmail.com", color: "text-sky-400", icon: <PixelMail className="w-4 h-4 text-sky-400" /> },
+  { label: "Discord", value: "nano_144", color: "text-indigo-400", icon: "#" },
+  { label: "Facebook", value: "Chatchai Danrungruang", color: "text-blue-400", icon: "f", href: "https://www.facebook.com/profile.php?id=61593852484154" },
+  { label: "LINE ID", value: "nanonano4", color: "text-emerald-400", icon: "L" },
+];
+
+async function copyText(text: string) {
+  try {
+    await navigator.clipboard.writeText(text);
+  } catch {
+    // Clipboard API is blocked outside https and in some in-app browsers
+    const ta = document.createElement("textarea");
+    ta.value = text;
+    ta.style.position = "fixed";
+    ta.style.opacity = "0";
+    document.body.appendChild(ta);
+    ta.select();
+    document.execCommand("copy");
+    ta.remove();
+  }
+}
+
+function ContactCard({ contact, index }: { contact: Contact; index: number }) {
+  const [copied, setCopied] = useState(false);
+  const className = "text-left w-full cursor-pointer flex flex-col justify-between bg-amber-100/10 border-2 border-amber-100/40 p-6 rounded-xl shadow-[4px_4px_0_0_rgba(254,243,199,0.3)] hover:shadow-[0px_0px_0_0_rgba(254,243,199,0)] transition-all duration-200 hover:translate-x-[4px] hover:translate-y-[4px] hover:bg-amber-100/15 group relative overflow-hidden h-full";
+  const hint = contact.href ? "กดเพื่อเปิด ↗" : copied ? "คัดลอกแล้ว ✓" : "กดเพื่อคัดลอก";
+
+  const body = (
+    <>
+      <div className="flex justify-between items-center mb-6 relative z-10 opacity-80">
+        <span className="font-[family-name:var(--font-pixel)] text-[10px] text-amber-100/50 tracking-widest">SYS.MSG.0{index + 1}</span>
+        <div className="flex gap-1.5">
+          <div className="w-1.5 h-1.5 bg-amber-100/70 rounded-full animate-pulse opacity-50" style={{ animationDelay: "0ms" }} />
+          <div className="w-1.5 h-1.5 bg-amber-100/70 rounded-full animate-pulse opacity-100" style={{ animationDelay: "300ms" }} />
+        </div>
+      </div>
+      <div>
+        <div className="flex items-center gap-3 mb-2">
+          <div className="w-8 h-8 rounded-lg bg-amber-100/20 border-2 border-amber-100/50 flex items-center justify-center">
+            {typeof contact.icon === "string" ? (
+              <div className={`${contact.color} font-mono font-bold text-lg leading-none`}>{contact.icon}</div>
+            ) : (
+              contact.icon
+            )}
+          </div>
+          <h4 className={`font-[family-name:var(--font-pixel)] text-sm ${contact.color} font-bold tracking-widest uppercase relative z-10`}>{contact.label}</h4>
+        </div>
+        <p className="font-mono text-xs font-semibold text-amber-100/70 group-hover:text-amber-100 transition-colors relative z-10 break-all">{contact.value}</p>
+        <p aria-live="polite" className={`mt-3 text-[11px] relative z-10 transition-colors ${copied ? "text-emerald-300" : "text-amber-100/40 group-hover:text-amber-100/70"}`}>
+          {hint}
+        </p>
+      </div>
+    </>
+  );
+
+  if (contact.href) {
+    return (
+      <a href={contact.href} target="_blank" rel="noopener noreferrer" className={className}>
+        {body}
+      </a>
+    );
+  }
+
+  return (
+    <button
+      type="button"
+      className={className}
+      aria-label={`คัดลอก ${contact.label}: ${contact.value}`}
+      onClick={async () => {
+        await copyText(contact.value);
+        setCopied(true);
+        setTimeout(() => setCopied(false), 1800);
+      }}
+    >
+      {body}
+    </button>
+  );
+}
 
 export default function ContactPage() {
   return (
@@ -170,85 +260,9 @@ export default function ContactPage() {
             transition={{ duration: 0.8, delay: 0.4 }}
             className="flex-1 w-full max-w-xl grid grid-cols-1 md:grid-cols-2 gap-4 relative"
           >
-            {/* Card 1: Email */}
-            <a href="mailto:DiaFrampton771@gmail.com" className="flex flex-col justify-between bg-amber-100/10 border-2 border-amber-100/40 p-6 rounded-xl shadow-[4px_4px_0_0_rgba(254,243,199,0.3)] hover:shadow-[0px_0px_0_0_rgba(254,243,199,0)] transition-all duration-200 hover:translate-x-[4px] hover:translate-y-[4px] hover:bg-amber-100/15 group relative overflow-hidden h-full">
-              <div className="flex justify-between items-center mb-6 relative z-10 opacity-80">
-                <span className="font-[family-name:var(--font-pixel)] text-[10px] text-amber-100/50 tracking-widest">SYS.MSG.01</span>
-                <div className="flex gap-1.5">
-                  <div className="w-1.5 h-1.5 bg-amber-100/70 rounded-full animate-pulse opacity-50" style={{ animationDelay: '0ms' }} />
-                  <div className="w-1.5 h-1.5 bg-amber-100/70 rounded-full animate-pulse opacity-100" style={{ animationDelay: '300ms' }} />
-                </div>
-              </div>
-              <div>
-                <div className="flex items-center gap-3 mb-2">
-                  <div className="w-8 h-8 rounded-lg bg-amber-100/20 border-2 border-amber-100/50 flex items-center justify-center">
-                    <PixelMail className="w-4 h-4 text-sky-400" />
-                  </div>
-                  <h4 className="font-[family-name:var(--font-pixel)] text-sm text-sky-400 font-bold tracking-widest uppercase relative z-10">Email</h4>
-                </div>
-                <p className="font-mono text-xs font-semibold text-amber-100/70 group-hover:text-amber-100 transition-colors relative z-10 break-all">DiaFrampton771@gmail.com</p>
-              </div>
-            </a>
-
-            {/* Card 2: Discord */}
-            <a href="#" className="flex flex-col justify-between bg-amber-100/10 border-2 border-amber-100/40 p-6 rounded-xl shadow-[4px_4px_0_0_rgba(254,243,199,0.3)] hover:shadow-[0px_0px_0_0_rgba(254,243,199,0)] transition-all duration-200 hover:translate-x-[4px] hover:translate-y-[4px] hover:bg-amber-100/15 group relative overflow-hidden h-full">
-              <div className="flex justify-between items-center mb-6 relative z-10 opacity-80">
-                <span className="font-[family-name:var(--font-pixel)] text-[10px] text-amber-100/50 tracking-widest">SYS.MSG.02</span>
-                <div className="flex gap-1.5">
-                  <div className="w-1.5 h-1.5 bg-amber-100/70 rounded-full animate-pulse opacity-50" style={{ animationDelay: '0ms' }} />
-                  <div className="w-1.5 h-1.5 bg-amber-100/70 rounded-full animate-pulse opacity-100" style={{ animationDelay: '300ms' }} />
-                </div>
-              </div>
-              <div>
-                <div className="flex items-center gap-3 mb-2">
-                  <div className="w-8 h-8 rounded-lg bg-amber-100/20 border-2 border-amber-100/50 flex items-center justify-center">
-                    <div className="text-indigo-400 font-mono font-bold text-lg leading-none">#</div>
-                  </div>
-                  <h4 className="font-[family-name:var(--font-pixel)] text-sm text-indigo-400 font-bold tracking-widest uppercase relative z-10">Discord</h4>
-                </div>
-                <p className="font-mono text-xs font-semibold text-amber-100/70 group-hover:text-amber-100 transition-colors relative z-10 break-all">@chatchai.dev</p>
-              </div>
-            </a>
-
-            {/* Card 3: Facebook */}
-            <a href="#" className="flex flex-col justify-between bg-amber-100/10 border-2 border-amber-100/40 p-6 rounded-xl shadow-[4px_4px_0_0_rgba(254,243,199,0.3)] hover:shadow-[0px_0px_0_0_rgba(254,243,199,0)] transition-all duration-200 hover:translate-x-[4px] hover:translate-y-[4px] hover:bg-amber-100/15 group relative overflow-hidden h-full">
-              <div className="flex justify-between items-center mb-6 relative z-10 opacity-80">
-                <span className="font-[family-name:var(--font-pixel)] text-[10px] text-amber-100/50 tracking-widest">SYS.MSG.03</span>
-                <div className="flex gap-1.5">
-                  <div className="w-1.5 h-1.5 bg-amber-100/70 rounded-full animate-pulse opacity-50" style={{ animationDelay: '0ms' }} />
-                  <div className="w-1.5 h-1.5 bg-amber-100/70 rounded-full animate-pulse opacity-100" style={{ animationDelay: '300ms' }} />
-                </div>
-              </div>
-              <div>
-                <div className="flex items-center gap-3 mb-2">
-                  <div className="w-8 h-8 rounded-lg bg-amber-100/20 border-2 border-amber-100/50 flex items-center justify-center">
-                    <div className="text-blue-400 font-mono font-bold text-lg leading-none">f</div>
-                  </div>
-                  <h4 className="font-[family-name:var(--font-pixel)] text-sm text-blue-400 font-bold tracking-widest uppercase relative z-10">Facebook</h4>
-                </div>
-                <p className="font-mono text-xs font-semibold text-amber-100/70 group-hover:text-amber-100 transition-colors relative z-10 break-all">Chatchai Danrungruang</p>
-              </div>
-            </a>
-
-            {/* Card 4: LINE */}
-            <a href="#" className="flex flex-col justify-between bg-amber-100/10 border-2 border-amber-100/40 p-6 rounded-xl shadow-[4px_4px_0_0_rgba(254,243,199,0.3)] hover:shadow-[0px_0px_0_0_rgba(254,243,199,0)] transition-all duration-200 hover:translate-x-[4px] hover:translate-y-[4px] hover:bg-amber-100/15 group relative overflow-hidden h-full">
-              <div className="flex justify-between items-center mb-6 relative z-10 opacity-80">
-                <span className="font-[family-name:var(--font-pixel)] text-[10px] text-amber-100/50 tracking-widest">SYS.MSG.04</span>
-                <div className="flex gap-1.5">
-                  <div className="w-1.5 h-1.5 bg-amber-100/70 rounded-full animate-pulse opacity-50" style={{ animationDelay: '0ms' }} />
-                  <div className="w-1.5 h-1.5 bg-amber-100/70 rounded-full animate-pulse opacity-100" style={{ animationDelay: '300ms' }} />
-                </div>
-              </div>
-              <div>
-                <div className="flex items-center gap-3 mb-2">
-                  <div className="w-8 h-8 rounded-lg bg-amber-100/20 border-2 border-amber-100/50 flex items-center justify-center">
-                    <div className="text-emerald-400 font-mono font-bold text-lg leading-none">L</div>
-                  </div>
-                  <h4 className="font-[family-name:var(--font-pixel)] text-sm text-emerald-400 font-bold tracking-widest uppercase relative z-10">LINE ID</h4>
-                </div>
-                <p className="font-mono text-xs font-semibold text-amber-100/70 group-hover:text-amber-100 transition-colors relative z-10 break-all">@chatchai.work</p>
-              </div>
-            </a>
+            {contacts.map((c, i) => (
+              <ContactCard key={c.label} contact={c} index={i} />
+            ))}
           </motion.div>
         </div>
       </section>

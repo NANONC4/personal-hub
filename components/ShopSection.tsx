@@ -1,7 +1,8 @@
 "use client";
 
+import Image from "next/image";
 import { motion } from "framer-motion";
-import { PixelStar, PixelSparkle } from "./PixelIcons";
+import { PixelStar } from "./PixelIcons";
 import { getPattern } from "@/lib/patterns";
 
 export default function ShopSection() {
@@ -27,25 +28,19 @@ export default function ShopSection() {
           {/* Retro Picture Frame Container */}
           <div className="w-full bg-[#0a0f1c] rounded-2xl overflow-hidden shadow-[12px_12px_0_0_rgba(56,189,248,0.2)] border-8 border-sky-400/60 relative group p-2">
 
-            {/* Empty Cover Photo Frame */}
-            <div className="w-full h-[220px] md:h-[260px] bg-slate-900 border-4 border-dashed border-slate-700 flex flex-col items-center justify-center relative rounded-t-lg">
-               <span className="font-[family-name:var(--font-pixel)] text-slate-600 text-sm tracking-widest uppercase">
-                 [ COVER IMAGE SLOT ]
-               </span>
-               <PixelSparkle color="#334155" className="absolute top-4 left-4 w-6 h-6" />
-               <PixelStar color="#334155" className="absolute bottom-4 right-4 w-4 h-4" />
+            {/* Cover Photo */}
+            <div className="w-full h-[220px] md:h-[260px] bg-slate-900 relative rounded-t-lg overflow-hidden">
+              <Image src="/fb-cover.jpg" alt="ปกเพจ Lemony Topup" fill sizes="(max-width: 1024px) 100vw, 700px" className="object-cover" />
             </div>
 
             {/* Profile Info Area */}
             <div className="px-6 pb-8 relative">
               <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4">
                 
-                {/* Empty Profile Pic Frame & Name */}
+                {/* Profile Pic & Name */}
                 <div className="flex items-end gap-6 -mt-16">
-                  <div className="w-[120px] h-[120px] md:w-[140px] md:h-[140px] border-4 border-[#0a0f1c] bg-slate-800 border-dashed border-slate-600 flex flex-col items-center justify-center relative shadow-[inset_0_0_10px_rgba(0,0,0,0.5)]">
-                    <span className="font-[family-name:var(--font-pixel)] text-slate-500 text-[10px] tracking-widest uppercase text-center px-2">
-                      [ AVATAR ]
-                    </span>
+                  <div className="w-[120px] h-[120px] md:w-[140px] md:h-[140px] border-4 border-[#0a0f1c] bg-slate-800 relative overflow-hidden shrink-0">
+                    <Image src="/fb-profile.jpg" alt="โปรไฟล์ Lemony" fill sizes="140px" className="object-cover" />
                   </div>
                   
                   <div className="mb-4">
@@ -90,7 +85,7 @@ export default function ShopSection() {
           {/* CTA Button */}
           <div className="flex w-full justify-center lg:justify-start">
             <a 
-              href="#" 
+              href="https://www.lemonybio.shop" 
               target="_blank" 
               rel="noopener noreferrer"
               className="inline-flex items-center justify-center gap-4 px-10 py-5 bg-blue-600 hover:bg-blue-500 text-white border-4 border-blue-400 font-[family-name:var(--font-pixel)] text-lg md:text-xl tracking-wider uppercase transition-all shadow-[6px_6px_0_0_rgba(59,130,246,0.5)] hover:shadow-[8px_8px_0_0_rgba(59,130,246,0.6)] hover:-translate-y-1 active:translate-y-0 active:shadow-[2px_2px_0_0_rgba(59,130,246,0.6)]"
