@@ -100,16 +100,9 @@ function Succulent({ className = "" }: { className?: string }) {
   );
 }
 
-/**
- * The project shot as the view out of a lofi window: wide centre opening,
- * narrow side panes, one long sill with pots. Falls back to an honest
- * stand-in if the image fails — PRODUCT.md forbids passing a placeholder off
- * as content.
- */
-function SlideVisual({ project, className = WINDOW_SHAPE }: { project: Project; className?: string }) {
-  const [failed, setFailed] = useState(false);
-  const src = project.gallery[0];
-
+/** The window itself: frame, side panes, sill, lamp glow. The view out goes
+ *  in `children`, so the frame can stay put while only the view changes. */
+function WindowFrame({ className = WINDOW_SHAPE, children }: { className?: string; children: React.ReactNode }) {
   return (
     <div className={`relative w-full ${className}`}>
       {/* soft lamp light from the room, pooling on the sill */}
@@ -126,29 +119,7 @@ function SlideVisual({ project, className = WINDOW_SHAPE }: { project: Project; 
         <SidePane side="left" />
 
         <div className="relative overflow-hidden bg-[#0b1220]">
-          {src && !failed ? (
-            <Image
-              src={src}
-              alt={project.title}
-              fill
-              sizes="(min-width: 768px) 45vw, 80vw"
-              className="object-cover object-top"
-              onError={() => setFailed(true)}
-            />
-          ) : (
-            <div
-              className="absolute inset-0 flex flex-col items-center justify-center gap-3
-                         bg-[linear-gradient(to_right,#94a3b810_1px,transparent_1px),linear-gradient(to_bottom,#94a3b810_1px,transparent_1px)]
-                         bg-[size:16px_16px]"
-            >
-              <span className="font-[family-name:var(--font-pixel)] text-xs uppercase tracking-[0.3em] text-slate-600">
-                {project.category}
-              </span>
-              <span className="font-mono text-[10px] tracking-[0.2em] text-slate-700">
-                ภาพตัวอย่างกำลังมา
-              </span>
-            </div>
-          )}
+          {children}
           <div aria-hidden className="pointer-events-none absolute inset-0 shadow-[inset_0_0_0_2px_#25395a,inset_0_-22px_28px_-12px_rgba(251,191,36,0.14)]" />
         </div>
 
@@ -169,43 +140,72 @@ function SlideVisual({ project, className = WINDOW_SHAPE }: { project: Project; 
   );
 }
 
+/** What you see through the window: the project shot, or an honest stand-in
+ *  if it fails — PRODUCT.md forbids passing a placeholder off as content. */
+function WindowView({ project }: { project: Project }) {
+  const [failed, setFailed] = useState(false);
+  const src = project.gallery[0];
+
+  if (src && !failed) {
+    return (
+      <Image
+        src={src}
+        alt={project.title}
+        fill
+        sizes="(min-width: 768px) 45vw, 80vw"
+        className="object-cover object-top"
+        onError={() => setFailed(true)}
+      />
+    );
+  }
+  return (
+    <div
+      className="absolute inset-0 flex flex-col items-center justify-center gap-3
+                 bg-[linear-gradient(to_right,#94a3b810_1px,transparent_1px),linear-gradient(to_bottom,#94a3b810_1px,transparent_1px)]
+                 bg-[size:16px_16px]"
+    >
+      <span className="font-[family-name:var(--font-pixel)] text-xs uppercase tracking-[0.3em] text-slate-600">
+        {project.category}
+      </span>
+      <span className="font-mono text-[10px] tracking-[0.2em] text-slate-700">ภาพตัวอย่างกำลังมา</span>
+    </div>
+  );
+}
+
+/** One window per project — the mobile list, where nothing is pinned. */
+function SlideVisual({ project }: { project: Project }) {
+  return (
+    <WindowFrame>
+      <WindowView project={project} />
+    </WindowFrame>
+  );
+}
+
 /* ------------------------------------------------------------------- slide */
 
-function SlideBody({ project, reduce }: { project: Project; reduce: boolean }) {
+/** The words under the window. Swapped on their own; the window never moves. */
+function SlideText({ project, reduce }: { project: Project; reduce: boolean }) {
   const link = outboundLink(project);
 
-  const slide = {
-    enter: { opacity: 0, x: reduce ? 0 : 48 },
+  const block = {
+    enter: { opacity: 0 },
     center: {
       opacity: 1,
-      x: 0,
-      transition: { duration: reduce ? 0.2 : 0.7, ease: EASE, staggerChildren: reduce ? 0 : 0.08, delayChildren: reduce ? 0 : 0.06 },
+      transition: { duration: reduce ? 0.2 : 0.5, ease: EASE, staggerChildren: reduce ? 0 : 0.07, delayChildren: reduce ? 0 : 0.15 },
     },
-    exit: { opacity: 0, x: reduce ? 0 : -48, transition: { duration: reduce ? 0.15 : 0.45, ease: EASE } },
+    exit: { opacity: 0, transition: { duration: reduce ? 0.15 : 0.3, ease: EASE } },
   };
   const line = {
-    enter: { opacity: 0, y: reduce ? 0 : 18 },
+    enter: { opacity: 0, y: reduce ? 0 : 14 },
     center: { opacity: 1, y: 0, transition: { duration: reduce ? 0.2 : 0.6, ease: EASE } },
-    exit: { opacity: 0, y: reduce ? 0 : -10, transition: { duration: 0.25 } },
+    exit: { opacity: 0 },
   };
 
   return (
-    <motion.article
-      variants={slide}
-      initial="enter"
-      animate="center"
-      exit="exit"
-      className="absolute inset-0 flex flex-col justify-center"
-    >
-      <motion.div variants={line}>
-        {/* shaped by width so the opening matches the screenshots; the vh cap
-            keeps it inside the pinned stage on short screens */}
-        <SlideVisual project={project} className={WINDOW_SHAPE} />
-      </motion.div>
-
+    <motion.div variants={block} initial="enter" animate="center" exit="exit" className="absolute inset-x-0 top-0">
       <motion.h3
         variants={line}
-        className="mt-7 font-[family-name:var(--font-pixel)] text-2xl uppercase tracking-wider text-white lg:text-3xl"
+        className="font-[family-name:var(--font-pixel)] text-2xl uppercase tracking-wider text-white lg:text-3xl"
       >
         {project.title}
       </motion.h3>
@@ -230,7 +230,7 @@ function SlideBody({ project, reduce }: { project: Project; reduce: boolean }) {
           </a>
         )}
       </motion.div>
-    </motion.article>
+    </motion.div>
   );
 }
 
@@ -358,11 +358,30 @@ export default function ProjectSlides({ projects }: { projects: Project[] }) {
               </div>
             </div>
 
-            {/* slide */}
-            <div className="relative h-[76vh]">
-              <AnimatePresence initial={false}>
-                <SlideBody key={current.id} project={current} reduce={reduce} />
-              </AnimatePresence>
+            {/* one window that stays put: only the view out and the words change */}
+            <div className="flex h-[76vh] flex-col justify-center">
+              {/* shaped by width so the opening matches the screenshots; the vh
+                  cap keeps it inside the pinned stage on short screens */}
+              <WindowFrame>
+                <AnimatePresence initial={false}>
+                  <motion.div
+                    key={current.id}
+                    className="absolute inset-0"
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1, transition: { duration: reduce ? 0.2 : 0.9, ease: EASE } }}
+                    exit={{ opacity: 0, transition: { duration: reduce ? 0.2 : 0.9, ease: EASE } }}
+                  >
+                    <WindowView project={current} />
+                  </motion.div>
+                </AnimatePresence>
+              </WindowFrame>
+
+              {/* fixed height, so a longer or shorter description never nudges the window */}
+              <div className="relative mt-7 h-60">
+                <AnimatePresence initial={false} mode="wait">
+                  <SlideText key={current.id} project={current} reduce={reduce} />
+                </AnimatePresence>
+              </div>
             </div>
           </div>
         </div>
