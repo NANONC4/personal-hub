@@ -23,8 +23,8 @@ export const projects: Project[] = [
     id: "lemony-shop-pro",
     title: "LEMONY SHOP PRO",
     category: "Full-Stack Application",
-    description: "โปรเจกต์ยกระดับ Lemony Shop สู่ Full-stack Application เต็มรูปแบบ โดย Rewrite โครงสร้างใหม่ทั้งหมดด้วย Next.js และ TypeScript เพื่อประสิทธิภาพและความปลอดภัยที่ดีขึ้น ระบบหลังบ้าน (Admin Dashboard) จัดการฐานข้อมูลผ่าน Prisma ORM เชื่อมต่อกับ Supabase รองรับการจัดการสินค้า โปรโมชัน และคูปองส่วนลด ใช้งาน NextAuth สำหรับระบบสมาชิก เชื่อมต่อ EasySlip API เพื่อตรวจสอบสลิปโอนเงินอัตโนมัติ รับชำระผ่าน QR PromptPay ด้วย Omise พร้อมจัดการไฟล์รูปภาพด้วย UploadThing และแจ้งเตือนแอดมินผ่าน LINE Messaging API",
-    stack: ["Next.js", "TypeScript", "Tailwind CSS", "Prisma", "Supabase", "NextAuth", "Omise", "UploadThing", "LINE API"],
+    description: "โปรเจกต์ยกระดับ Lemony Shop สู่ Full-stack Application เต็มรูปแบบ โดย Rewrite โครงสร้างใหม่ทั้งหมดด้วย Next.js และ TypeScript เพื่อประสิทธิภาพและความปลอดภัยที่ดีขึ้น ระบบหลังบ้าน (Admin Dashboard) จัดการฐานข้อมูลผ่าน Prisma ORM เชื่อมต่อกับ Supabase รองรับการจัดการสินค้า โปรโมชัน และคูปองส่วนลด ใช้งาน NextAuth สำหรับระบบสมาชิก ลูกค้าอัปโหลดสลิปแล้วระบบตรวจผ่าน EasySlip API อัตโนมัติ ทั้งกันสลิปซ้ำ เช็คบัญชีผู้รับ ยอดเงิน และเวลาโอน (ต้องโอนหลังสั่งซื้อและไม่เกิน 15 นาที) พร้อมจัดการไฟล์รูปภาพด้วย UploadThing และแจ้งเตือนแอดมินผ่าน LINE Messaging API",
+    stack: ["Next.js", "TypeScript", "Tailwind CSS", "Prisma", "Supabase", "NextAuth", "EasySlip API", "UploadThing", "LINE API"],
     gallery: [
       "/images/lemony-pro-1.webp",
       "/images/lemony-pro-2.webp",
