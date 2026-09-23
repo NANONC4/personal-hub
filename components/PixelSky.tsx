@@ -239,20 +239,20 @@ export default function PixelSky({
         this.isFadingIn = !forceFullOpacity;
       }
 
-      update() {
+      update(delta: number) {
         if (this.isFadingIn) {
-          this.opacity += this.fadeSpeed;
+          this.opacity += this.fadeSpeed * delta;
           if (this.opacity >= 1) {
             this.opacity = 1;
             this.isFadingIn = false;
           }
         } else {
-          this.opacity -= this.fadeSpeed;
+          this.opacity -= this.fadeSpeed * delta;
         }
 
         if (this.isFalling) {
-          this.x += this.fallSpeedX;
-          this.y += this.fallSpeedY;
+          this.x += this.fallSpeedX * delta;
+          this.y += this.fallSpeedY * delta;
 
           // Rare, rate-limited "make a wish" trailing a meteor.
           if (cozy && !this.wished && this.y > height * 0.25) {
@@ -305,7 +305,23 @@ export default function PixelSky({
     }, { threshold: 0 });
     observer.observe(canvas);
 
+    // The horizon glow is a big gradient; painting it fresh every frame was the
+    // single most expensive thing on the page. Paint it once per mood (rounded,
+    // so scrolling doesn't re-paint it every pixel) and copy it after that.
+    const glowCanvas = document.createElement("canvas");
+    const glowCtx = glowCanvas.getContext("2d");
+    let glowKey = "";
     const drawHorizonGlow = () => {
+      const key = `${width}x${height}|${mood.glow.map((v) => v | 0).join(",")}|${mood.glowA.toFixed(2)}`;
+      if (key !== glowKey && glowCtx) {
+        glowKey = key;
+        glowCanvas.width = width;
+        glowCanvas.height = height;
+        paintHorizonGlow(glowCtx);
+      }
+      ctx.drawImage(glowCanvas, 0, 0);
+    };
+    const paintHorizonGlow = (ctx: CanvasRenderingContext2D) => {
       const [r, g, b] = mood.glow;
       const cy = height * 1.18;
       const radius = Math.max(width * 0.55, height * 0.6);
@@ -317,7 +333,7 @@ export default function PixelSky({
       ctx.fillRect(0, height * 0.45, width, height * 0.55);
     };
 
-    const drawSkyline = (now: number) => {
+    const drawSkyline = (now: number, delta: number) => {
       for (const bld of skyline) {
         ctx.fillStyle = "rgba(4, 8, 18, 0.85)";
         ctx.fillRect(Math.floor(bld.x), Math.floor(height - bld.h), bld.w, bld.h);
@@ -326,13 +342,15 @@ export default function PixelSky({
             win.target = Math.random() < 0.55 ? 0.75 + Math.random() * 0.25 : 0;
             win.next = now + 2500 + Math.random() * 7000;
           }
-          win.lit += (win.target - win.lit) * 0.02;
+          win.lit += (win.target - win.lit) * 0.02 * delta;
           if (win.lit > 0.02) {
-            ctx.fillStyle = `rgba(255, 200, 130, ${win.lit * 0.9})`;
+            ctx.fillStyle = "rgb(255, 200, 130)";
+            ctx.globalAlpha = win.lit * 0.9;
             ctx.fillRect(win.x, win.y, win.s, win.s);
           }
         }
       }
+      ctx.globalAlpha = 1;
     };
 
     const drawFog = (delta: number) => {
@@ -389,8 +407,15 @@ export default function PixelSky({
 
     let lastFrame = performance.now();
 
+    // The sky only drifts and twinkles, so ~30fps looks the same as 60 and
+    // halves its cost; motion is scaled by elapsed time, not by frame count.
+    const FRAME_MS = 1000 / 30;
     const render = () => {
       const now = performance.now();
+      if (now - lastFrame < FRAME_MS - 2) {
+        animationFrameId = requestAnimationFrame(render);
+        return;
+      }
       // delta normalised to ~60fps steps, clamped so a tab-return doesn't lurch
       const delta = Math.min((now - lastFrame) / 16.667, 3);
       lastFrame = now;
@@ -401,12 +426,12 @@ export default function PixelSky({
         if (cozy) {
           drawHorizonGlow();
           drawFog(delta);
-          drawSkyline(now);
+          drawSkyline(now, delta);
         }
 
         for (let i = stars.length - 1; i >= 0; i--) {
           const star = stars[i];
-          star.update();
+          star.update(delta);
           star.draw(ctx);
 
           if (star.opacity <= 0 && !star.isFadingIn) {
