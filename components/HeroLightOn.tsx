@@ -134,8 +134,11 @@ export default function HeroLightOn() {
   };
 
   return (
-    // hidden while the welcome window's copy of it is on screen (globals.css)
-    <section className={`behind-gate relative ${HERO_BOX}`}>
+    // Hidden while the welcome window's copy of it is on screen, so the two are
+    // never visible together (WelcomeWindow sets data-gate on <html>). Kept on
+    // the element itself rather than in globals.css, which a running dev server
+    // can serve stale.
+    <section className={`behind-gate relative [html[data-gate=closed]_&]:invisible ${HERO_BOX}`}>
       <HeroContent lightsOn={lightsOn} onToggle={toggle} />
     </section>
   );

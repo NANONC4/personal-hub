@@ -312,9 +312,10 @@ export default function WelcomeWindow() {
       }
       if (heroRef.current) heroRef.current.style.transform = `scale(${reduce ? 1 : 0.6 + ease * 0.4})`;
       if (skyRef.current) {
-        // gone before the page's own skyline shows, so the two cities never overlap
+        // gone before the page's own skyline shows, so the two cities never overlap;
+        // scaled with the room so its edges stay tucked behind the frame
         skyRef.current.style.opacity = String(1 - map(p, 0.5, 0.7, 0, 1));
-        skyRef.current.style.transform = `scale(${reduce ? 1 : 1 + ease * 0.12})`;
+        skyRef.current.style.transform = `scale(${reduce ? 1 : 1 + ease * 2.4})`;
       }
       if (hintRef.current) hintRef.current.style.opacity = String(1 - map(p, 0, 0.1, 0, 1));
 
