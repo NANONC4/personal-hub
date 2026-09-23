@@ -35,39 +35,69 @@ function outboundLink(p: Project) {
 /* ------------------------------------------------------------------ visual */
 
 /**
- * The project shot, or an honest stand-in. Every path in data/projects.ts is a
- * 404 until Dia exports real screenshots, so the fallback has to look chosen
- * rather than broken — PRODUCT.md forbids passing a placeholder off as content.
+ * The project shot inside a pixel app window, or an honest stand-in if the
+ * image fails — PRODUCT.md forbids passing a placeholder off as content.
  */
+function windowTitle(p: Project) {
+  if (p.type === "game") return `${p.id}.exe`;
+  try {
+    return new URL(p.links.demo ?? "").hostname.replace(/^www\./, "");
+  } catch {
+    return p.id;
+  }
+}
+
 function SlideVisual({ project, className = "aspect-[16/10]" }: { project: Project; className?: string }) {
   const [failed, setFailed] = useState(false);
   const src = project.gallery[0];
 
   return (
-    <div className={`relative w-full border border-slate-700/70 bg-[#0b1220] ${className}`}>
-      {src && !failed ? (
-        <Image
-          src={src}
-          alt={project.title}
-          fill
-          sizes="(min-width: 768px) 60vw, 100vw"
-          className="object-cover"
-          onError={() => setFailed(true)}
-        />
-      ) : (
-        <div
-          className="absolute inset-0 flex flex-col items-center justify-center gap-3
-                     bg-[linear-gradient(to_right,#94a3b810_1px,transparent_1px),linear-gradient(to_bottom,#94a3b810_1px,transparent_1px)]
-                     bg-[size:16px_16px]"
-        >
-          <span className="font-[family-name:var(--font-pixel)] text-xs uppercase tracking-[0.3em] text-slate-600">
-            {project.category}
-          </span>
-          <span className="font-mono text-[10px] tracking-[0.2em] text-slate-700">
-            ภาพตัวอย่างกำลังมา
-          </span>
+    // a pixel app window: square corners, thick edge and a hard shadow are the
+    // retro-frame exception in DESIGN.md; the only colour is one dim pink light
+    <div className={`relative flex w-full flex-col border-2 border-[#334155] bg-[#0f172a] shadow-[4px_4px_0_0_#020617] ${className}`}>
+      <div className="flex h-7 shrink-0 items-center gap-3 border-b-2 border-[#334155] bg-[#1e293b] px-3">
+        <div className="flex gap-1.5" aria-hidden>
+          <span className="h-2 w-2 bg-pink-400/70" />
+          <span className="h-2 w-2 bg-slate-500/60" />
+          <span className="h-2 w-2 bg-slate-500/60" />
         </div>
-      )}
+        <span className="truncate font-[family-name:var(--font-pixel)] text-[10px] uppercase tracking-[0.2em] text-slate-400">
+          {windowTitle(project)}
+        </span>
+      </div>
+
+      <div className="relative min-h-0 flex-1 bg-[#0b1220]">
+        {src && !failed ? (
+          <>
+            <Image
+              src={src}
+              alt={project.title}
+              fill
+              sizes="(min-width: 768px) 60vw, 100vw"
+              className="object-cover object-top"
+              onError={() => setFailed(true)}
+            />
+            {/* glass sheen, the same diagonal the welcome window uses */}
+            <div
+              aria-hidden
+              className="pointer-events-none absolute inset-0 bg-[linear-gradient(120deg,transparent_38%,rgba(160,195,230,0.08)_46%,transparent_54%)]"
+            />
+          </>
+        ) : (
+          <div
+            className="absolute inset-0 flex flex-col items-center justify-center gap-3
+                       bg-[linear-gradient(to_right,#94a3b810_1px,transparent_1px),linear-gradient(to_bottom,#94a3b810_1px,transparent_1px)]
+                       bg-[size:16px_16px]"
+          >
+            <span className="font-[family-name:var(--font-pixel)] text-xs uppercase tracking-[0.3em] text-slate-600">
+              {project.category}
+            </span>
+            <span className="font-mono text-[10px] tracking-[0.2em] text-slate-700">
+              ภาพตัวอย่างกำลังมา
+            </span>
+          </div>
+        )}
+      </div>
     </div>
   );
 }
