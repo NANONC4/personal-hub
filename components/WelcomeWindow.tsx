@@ -5,7 +5,7 @@ import { createPortal } from "react-dom";
 import { useLenis } from "lenis/react";
 import { motion, useReducedMotion } from "framer-motion";
 import { Firefly } from "@/components/Firefly";
-import { HERO_BOX, HeroContent } from "@/components/HeroLightOn";
+import { GATE_DONE_EVENT, HERO_BOX, HeroContent } from "@/components/HeroLightOn";
 
 /**
  * Home page welcome gate — a moonlit lofi window, opened by scrolling.
@@ -279,7 +279,7 @@ export default function WelcomeWindow() {
   // laptop to 20fps on the fly-through; React only hears about the three
   // moments that change what's on the page.
   const [open, setOpen] = useState(false); // past the sashes: clicks go through
-  const [lampLit, setLampLit] = useState(false); // the small light has landed
+  const [arrived, setArrived] = useState(false); // handed over at least once: the lamp is on by now
   const [gone, setGone] = useState(false); // handed over to the real hero
 
   const gateRef = useRef<HTMLDivElement>(null);
@@ -312,6 +312,7 @@ export default function WelcomeWindow() {
     // bottom). Once it reaches the top of the screen the copy rides along with
     // it, so the hand-off lands on the exact same pixels even when a fast
     // scroll overshoots between frames.
+    let wasGone = false;
     const apply = (p: number, heroTop: number) => {
       const offset = map(p, 0.06, 0.44, 0, 108); // sash travel, %
       const fly = map(p, 0.5, 0.92, 0, 1);
@@ -323,8 +324,13 @@ export default function WelcomeWindow() {
         roomRef.current.style.opacity = String(reduce ? 1 - map(p, 0.5, 0.9, 0, 1) : 1 - map(p, 0.8, 0.94, 0, 1));
       }
       if (heroRef.current) {
+        // the first frame is only the window; the hero surfaces on the sky as
+        // the sashes part, then grows into place on the fly-through
+        const appear = map(p, 0.1, 0.38, 0, 1);
         const ride = Math.min(0, heroTop);
-        heroRef.current.style.transform = `translate3d(0, ${ride}px, 0) scale(${reduce ? 1 : 0.6 + ease * 0.4})`;
+        const rise = reduce ? 0 : (1 - appear) * 24;
+        heroRef.current.style.opacity = String(appear);
+        heroRef.current.style.transform = `translate3d(0, ${ride + rise}px, 0) scale(${reduce ? 1 : 0.6 + ease * 0.4})`;
       }
       if (skyRef.current) {
         // gone before the page's own skyline shows, so the two cities never overlap;
@@ -339,7 +345,7 @@ export default function WelcomeWindow() {
       const dot = flyRef.current;
       const lamp = lampRef.current;
       if (dot && lamp) {
-        const visible = !reduce && p > 0.3 && p < 0.9;
+        const visible = !reduce && p > 0.3 && p < 0.999;
         dot.style.opacity = visible ? String(map(p, 0.3, 0.36, 0, 1)) : "0";
         if (visible) {
           const t = map(p, 0.3, 0.9, 0, 1);
@@ -359,8 +365,12 @@ export default function WelcomeWindow() {
       if (gateRef.current) gateRef.current.style.visibility = isGone ? "hidden" : "visible";
       document.documentElement.dataset.gate = isGone ? "done" : "closed";
 
+      // first arrival: the real hero plays its lamp-on beat (HeroLightOn)
+      if (isGone && !wasGone) window.dispatchEvent(new Event(GATE_DONE_EVENT));
+      wasGone = isGone;
+
       setOpen(p > 0.5);
-      setLampLit(p >= 0.9);
+      if (isGone) setArrived(true);
       setGone(isGone);
     };
 
@@ -440,9 +450,9 @@ export default function WelcomeWindow() {
 
             {/* the hero, already out there on the sky (a still copy: inert, so
                 its link can't be tabbed to while the real one is hidden) */}
-            <div ref={heroRef} inert className="absolute inset-0 will-change-transform" style={{ transform: "scale(0.6)" }}>
+            <div ref={heroRef} inert className="absolute inset-0 will-change-transform" style={{ opacity: 0, transform: "scale(0.6)" }}>
               <div className={HERO_BOX}>
-                <HeroContent lightsOn={lampLit} lampRef={lampRef} />
+                <HeroContent lamp={arrived ? "on" : "off"} lampRef={lampRef} />
               </div>
             </div>
 
