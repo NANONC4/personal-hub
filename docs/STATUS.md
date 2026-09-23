@@ -116,3 +116,4 @@ npx eslint app components
 | `AGENTS.md` | **Next.js 16 มี breaking changes — อ่าน `node_modules/next/dist/docs/` ก่อนเขียนโค้ด Next** |
 | `docs/welcome-window-pixel-art.md` | คู่มือวาดหน้าต่างใน Aseprite |
 | `docs/impeccable-cheatsheet.md` | สรุปคำสั่ง impeccable 21 ตัว |
+| `docs/animation-plan.md` | แผนอนิเมชันทั้งหน้าแรก + ลิงก์สตอรี่บอร์ด (รอ Dia ตอบ) |
