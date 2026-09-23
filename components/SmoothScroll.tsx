@@ -12,8 +12,10 @@ export default function SmoothScroll({ children }: { children: React.ReactNode }
 
   return (
     <ReactLenis root options={{
-      lerp: 0.05,        // Linear interpolation factor (0.01 - 0.1) for buttery smoothness
-      duration: 1.5,     // Makes the momentum last a bit longer
+      // 0.05 kept the page gliding ~1.5s after the wheel stopped, so the
+      // scroll-tied scenes (the welcome window fly-through) trailed the hand
+      // and read as lag. 0.1 settles in ~0.7s: still smooth, but it follows.
+      lerp: 0.1,
       smoothWheel: true,
       wheelMultiplier: 1.2
     }}>
