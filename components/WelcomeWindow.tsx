@@ -2,6 +2,7 @@
 
 import { memo, useCallback, useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
+import { useLenis } from "lenis/react";
 import { motion, useReducedMotion } from "framer-motion";
 import { Firefly } from "@/components/Firefly";
 import { HERO_BOX, HeroContent } from "@/components/HeroLightOn";
@@ -281,6 +282,7 @@ export default function WelcomeWindow() {
   const [lampLit, setLampLit] = useState(false); // the small light has landed
   const [gone, setGone] = useState(false); // handed over to the real hero
 
+  const gateRef = useRef<HTMLDivElement>(null);
   const skyRef = useRef<HTMLDivElement>(null);
   const heroRef = useRef<HTMLDivElement>(null);
   const roomRef = useRef<HTMLDivElement>(null);
@@ -289,6 +291,12 @@ export default function WelcomeWindow() {
   const hintRef = useRef<HTMLDivElement>(null);
   const lampRef = useRef<HTMLSpanElement>(null);
   const flyRef = useRef<HTMLSpanElement>(null);
+  const measureRef = useRef<() => void>(() => {});
+
+  // Lenis moves the page inside its own animation frame and only raises the
+  // browser's scroll event on the next one. Hooking Lenis directly keeps the
+  // copy on the same frame as the page, so the hand-off doesn't jump.
+  useLenis(() => measureRef.current(), []);
 
   useEffect(() => {
     if (!mounted) return;
@@ -300,7 +308,11 @@ export default function WelcomeWindow() {
     //   0.5  → 0.92  fly-through: the room scales past the screen edges, the
     //                hero copy grows to full size, the painted sky gives way
     //   0.92 → 1     hold, then hand over to the real hero
-    const apply = (p: number) => {
+    // `heroTop` is where the real hero's top edge is right now (the spacer's
+    // bottom). Once it reaches the top of the screen the copy rides along with
+    // it, so the hand-off lands on the exact same pixels even when a fast
+    // scroll overshoots between frames.
+    const apply = (p: number, heroTop: number) => {
       const offset = map(p, 0.06, 0.44, 0, 108); // sash travel, %
       const fly = map(p, 0.5, 0.92, 0, 1);
       const ease = fly * fly * (3 - 2 * fly);
@@ -310,7 +322,10 @@ export default function WelcomeWindow() {
         roomRef.current.style.transform = `scale(${reduce ? 1 : 1 + ease * 2.4})`;
         roomRef.current.style.opacity = String(reduce ? 1 - map(p, 0.5, 0.9, 0, 1) : 1 - map(p, 0.8, 0.94, 0, 1));
       }
-      if (heroRef.current) heroRef.current.style.transform = `scale(${reduce ? 1 : 0.6 + ease * 0.4})`;
+      if (heroRef.current) {
+        const ride = Math.min(0, heroTop);
+        heroRef.current.style.transform = `translate3d(0, ${ride}px, 0) scale(${reduce ? 1 : 0.6 + ease * 0.4})`;
+      }
       if (skyRef.current) {
         // gone before the page's own skyline shows, so the two cities never overlap;
         // scaled with the room so its edges stay tucked behind the frame
@@ -338,30 +353,33 @@ export default function WelcomeWindow() {
         }
       }
 
+      // the hand-off itself is written straight to the DOM, in the same frame
+      // as the positions above; waiting a React commit showed a one-frame jump
+      const isGone = p >= 0.999;
+      if (gateRef.current) gateRef.current.style.visibility = isGone ? "hidden" : "visible";
+      document.documentElement.dataset.gate = isGone ? "done" : "closed";
+
       setOpen(p > 0.5);
       setLampLit(p >= 0.9);
-      setGone(p >= 0.999);
+      setGone(isGone);
     };
 
-    let raf = 0;
     const measure = () => {
-      raf = 0;
       const el = spacerRef.current;
       if (!el) return;
       // p reaches 1 exactly when the hero has settled at the top of the screen
       const rect = el.getBoundingClientRect();
-      apply(rect.height > 0 ? clamp(-rect.top / rect.height) : 0);
+      apply(rect.height > 0 ? clamp(-rect.top / rect.height) : 0, rect.bottom);
     };
-    const onScroll = () => {
-      if (!raf) raf = requestAnimationFrame(measure);
-    };
+    // Measured in the scroll event too, for when Lenis is off (reduced motion).
+    measureRef.current = measure;
     measure();
-    window.addEventListener("scroll", onScroll, { passive: true });
-    window.addEventListener("resize", onScroll);
+    window.addEventListener("scroll", measure, { passive: true });
+    window.addEventListener("resize", measure);
     return () => {
-      window.removeEventListener("scroll", onScroll);
-      window.removeEventListener("resize", onScroll);
-      if (raf) cancelAnimationFrame(raf);
+      measureRef.current = () => {};
+      window.removeEventListener("scroll", measure);
+      window.removeEventListener("resize", measure);
     };
   }, [mounted, reduce]);
 
@@ -406,6 +424,7 @@ export default function WelcomeWindow() {
       {mounted &&
         createPortal(
           <div
+            ref={gateRef}
             aria-hidden
             onClick={openGate}
             className="fixed inset-0 z-[70] overflow-hidden [image-rendering:pixelated]"
