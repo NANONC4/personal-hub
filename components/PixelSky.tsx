@@ -128,9 +128,31 @@ export default function PixelSky({
       : 0;
 
     // ---- Distant pixel skyline (regenerated on resize) --------------------
-    type Window_ = { x: number; y: number; s: number; lit: number; target: number; next: number };
+    type Window_ = { x: number; y: number; s: number; lit: number; target: number; next: number; wake?: number };
     type Building = { x: number; w: number; h: number; windows: Window_[] };
     let skyline: Building[] = [];
+
+    // The hero's lamp is a light switch (HeroLightOn → "night:lights"):
+    // room light off = the sky darkens and every window in the city snaps on,
+    // in a quick random ripple. Hard on/off, no fades that read as blur.
+    let nightMode = false;
+    let darkA = 0;
+    const onLights = (e: Event) => {
+      const on = (e as CustomEvent<{ on: boolean }>).detail?.on ?? true;
+      nightMode = !on;
+      const now = performance.now();
+      for (const bld of skyline) {
+        for (const win of bld.windows) {
+          if (nightMode) win.wake = now + Math.random() * 700;
+          else {
+            win.wake = undefined;
+            win.lit = Math.random() < 0.5 ? win.lit : 0;
+            win.next = now + Math.random() * 3000;
+          }
+        }
+      }
+    };
+    window.addEventListener("night:lights", onLights);
 
     const buildSkyline = () => {
       skyline = [];
@@ -338,6 +360,15 @@ export default function PixelSky({
         ctx.fillStyle = "rgba(4, 8, 18, 0.85)";
         ctx.fillRect(Math.floor(bld.x), Math.floor(height - bld.h), bld.w, bld.h);
         for (const win of bld.windows) {
+          if (nightMode) {
+            if (win.wake !== undefined && now > win.wake) win.lit = 1;
+            if (win.lit > 0.02) {
+              ctx.fillStyle = "rgb(255, 200, 130)";
+              ctx.globalAlpha = win.lit * 0.9;
+              ctx.fillRect(win.x, win.y, win.s, win.s);
+            }
+            continue;
+          }
           if (now > win.next) {
             win.target = Math.random() < 0.55 ? 0.75 + Math.random() * 0.25 : 0;
             win.next = now + 2500 + Math.random() * 7000;
@@ -423,6 +454,12 @@ export default function PixelSky({
       if (isVisible) {
         ctx.clearRect(0, 0, width, height);
 
+        darkA += ((nightMode ? 0.55 : 0) - darkA) * Math.min(1, 0.25 * delta);
+        if (darkA > 0.01) {
+          ctx.fillStyle = `rgba(2, 5, 11, ${darkA})`;
+          ctx.fillRect(0, 0, width, height);
+        }
+
         if (cozy) {
           drawHorizonGlow();
           drawFog(delta);
@@ -457,6 +494,7 @@ export default function PixelSky({
     render();
 
     return () => {
+      window.removeEventListener("night:lights", onLights);
       window.removeEventListener("resize", resize);
       observer.disconnect();
       cancelAnimationFrame(animationFrameId);

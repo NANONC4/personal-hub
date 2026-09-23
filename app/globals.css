@@ -142,3 +142,15 @@ body {
   0% { background-position: 0 0; }
   100% { background-position: 40px -40px; }
 }
+
+/* The real hero stays hidden while the welcome window shows its copy of it,
+   so the two never appear together (WelcomeWindow sets data-gate). */
+html[data-gate="closed"] .behind-gate {
+  visibility: hidden;
+}
+
+/* WelcomeWindow sky: CSS, not JS, so the fly-through stays on the compositor */
+@keyframes win-breathe { 0%, 100% { opacity: 0.45; } 50% { opacity: 0.78; } }
+@keyframes star-twinkle { 0%, 100% { opacity: 0.2; } 50% { opacity: 0.9; } }
+@keyframes moon-bob { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-4px); } }
+@keyframes mote-drift { 0% { transform: translate(0, 0); opacity: 0; } 50% { opacity: 0.7; } 100% { transform: translate(12px, 40px); opacity: 0; } }
