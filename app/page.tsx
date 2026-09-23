@@ -8,12 +8,11 @@ import { projects } from "@/data/projects";
 import Footer from "@/components/Footer";
 import ProjectSlides from "@/components/ProjectSlides";
 
-import { InteractiveHoverButton } from "@/components/InteractiveHoverButton";
-import { KineticText } from "@/components/KineticText";
 import { DiaTextReveal } from "@/components/DiaTextReveal";
 import { SpaceShooterMiniGame } from "@/components/SpaceShooterMiniGame";
 import { TechBreakout, TECH_GROUPS } from "@/components/TechBreakout";
 import WelcomeWindow from "@/components/WelcomeWindow";
+import HeroLightOn from "@/components/HeroLightOn";
 
 
 export default function HomePage() {
@@ -37,49 +36,9 @@ export default function HomePage() {
         <WelcomeWindow />
 
         {/* =========================================
-            1. THE WELCOME (Hero Section)
+            1. THE WELCOME (Hero Section) — "the light's on"
             ========================================= */}
-        <section className="max-w-6xl mx-auto px-6 py-20 lg:py-32 flex flex-col items-start min-h-screen justify-center">
-          <motion.div 
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 1, ease: "easeOut" }}
-            className="w-full"
-          >
-            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-slate-800/80 border border-slate-700/50 mb-10">
-              <span className="animate-pulse">👾</span>
-              <span className="font-mono text-sm tracking-widest text-slate-300 uppercase">The light&apos;s on</span>
-            </div>
-
-            <div className="mb-10 flex flex-wrap items-end gap-3 md:gap-4">
-              <h1 className="text-5xl md:text-7xl lg:text-8xl font-black tracking-tighter leading-[1] text-foreground drop-shadow-lg flex flex-wrap items-end gap-3 md:gap-4">
-                <KineticText text="Hi," />
-                <KineticText text="I'm" />
-                <span className="text-transparent bg-clip-text bg-gradient-to-r from-sky-400 via-pink-400 to-purple-400 animate-gradient-text inline-block">
-                  <KineticText text="Dia." />
-                </span>
-              </h1>
-            </div>
-            
-            <div className="mb-12 flex flex-wrap items-center gap-4 text-3xl md:text-5xl font-[family-name:var(--font-pixel)] drop-shadow-lg">
-              <KineticText text="Creative" className="text-pink-400" />
-              <KineticText text="Developer" className="text-sky-400" />
-            </div>
-
-            <p className="text-xl md:text-2xl text-slate-200 max-w-2xl font-medium leading-relaxed mb-12">
-              นักพัฒนาที่หลงใหลในศิลปะ <span className="text-pink-400 font-[family-name:var(--font-pixel)] tracking-widest">Pixel Art</span> สร้างสรรค์ประสบการณ์บนเว็บไซต์และมินิเกม เพื่อเปลี่ยนไอเดียให้กลายเป็นโค้ดที่จับต้องได้
-            </p>
-
-            <div className="flex flex-wrap items-center gap-6">
-              <InteractiveHoverButton 
-                asLink 
-                href="#about" 
-                text="Read My Story" 
-                className="w-56 h-12 text-base"
-              />
-            </div>
-          </motion.div>
-        </section>
+        <HeroLightOn />
 
         {/* =========================================
             2. MY PURPOSE & JOURNEY (About Me)
