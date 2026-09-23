@@ -59,12 +59,21 @@ export default function HorrorWindowFrame({ title, imageSrc, className = "", chi
           {/* Image Content */}
           <div className="flex-1 relative rounded overflow-hidden shadow-[inset_0_0_30px_rgba(0,0,0,0.9)] bg-black">
             {imageSrc && !imageError ? (
-              <img 
-                src={imageSrc} 
-                alt={title || "View"} 
-                className="w-full h-full object-cover opacity-90"
-                onError={() => setImageError(true)}
-              />
+              <>
+                {/* Blurred copy fills the frame; the sharp copy on top is never cropped */}
+                <img
+                  src={imageSrc}
+                  alt=""
+                  aria-hidden
+                  className="absolute inset-0 w-full h-full object-cover blur-2xl scale-110 opacity-50"
+                />
+                <img
+                  src={imageSrc}
+                  alt={title || "View"}
+                  className="relative w-full h-full object-contain opacity-90"
+                  onError={() => setImageError(true)}
+                />
+              </>
             ) : (
               <div className="w-full h-full flex flex-col items-center justify-center bg-gradient-to-b from-[#1a0505] via-[#2a0808] to-[#3f0b0b] relative overflow-hidden">
                 {/* Fallback Blood Moon Sky Art */}

@@ -62,36 +62,36 @@ export default function RulesOfHorror({ project }: { project: Project }) {
         </motion.div>
       </div>
 
-      {/* Slide 3: Staggered Image Grid */}
+      {/* Slide 3: one big slide + two stacked */}
       <div className="w-full lg:w-[90vw] h-auto lg:h-full flex-shrink-0 flex items-center justify-center mr-0 lg:mr-24 px-0 lg:px-4">
-        <div className="w-full h-[70vh] flex gap-4 md:gap-8 items-center">
+        <div className="w-full md:h-[70vh] grid grid-cols-1 md:grid-cols-3 md:grid-rows-2 gap-4 md:gap-8">
           
           <motion.div 
             initial={{ opacity: 0, y: -50 }} whileInView={{ opacity: 1, y: 0 }} transition={{ duration: 1 }} viewport={{ amount: 0.3 }}
-            className="w-1/3 h-[60%]"
+            className="w-full aspect-video md:aspect-auto md:h-full md:col-span-2 md:row-span-2"
           >
             <HorrorWindowFrame 
-              title="map_1.png" 
+              title="inventory.png" 
               imageSrc={project.gallery[1]} 
             />
           </motion.div>
           
           <motion.div 
             initial={{ opacity: 0, y: 50 }} whileInView={{ opacity: 1, y: 0 }} transition={{ duration: 1, delay: 0.2 }} viewport={{ amount: 0.3 }}
-            className="w-1/3 h-[80%]"
+            className="w-full aspect-video md:aspect-auto md:h-full"
           >
             <HorrorWindowFrame 
-              title="entity_01.png" 
+              title="interact.png" 
               imageSrc={project.gallery[2]} 
             />
           </motion.div>
 
           <motion.div 
             initial={{ opacity: 0, x: 50 }} whileInView={{ opacity: 1, x: 0 }} transition={{ duration: 1, delay: 0.4 }} viewport={{ amount: 0.3 }}
-            className="w-1/3 h-[50%]"
+            className="w-full aspect-video md:aspect-auto md:h-full"
           >
             <HorrorWindowFrame 
-              title="evidence.jpg" 
+              title="menu.png" 
               imageSrc={project.gallery[3]} 
             />
           </motion.div>

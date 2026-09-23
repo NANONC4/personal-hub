@@ -30,36 +30,36 @@ export default function LemonyShop({ project }: { project: Project }) {
         </motion.div>
       </div>
 
-      {/* Slide 2: 3-Column Phone Mockup Style */}
+      {/* Slide 2: one big screen + two stacked */}
       <div className="w-full lg:w-[80vw] h-auto lg:h-full flex-shrink-0 flex items-center justify-center mr-0 lg:mr-24 px-0 lg:px-4">
-        <div className="w-full h-[70vh] grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div className="w-full md:h-[70vh] grid grid-cols-1 md:grid-cols-3 md:grid-rows-2 gap-6">
           
           <motion.div 
             initial={{ opacity: 0, y: 40 }} whileInView={{ opacity: 1, y: 0 }} transition={{ duration: 0.8 }} viewport={{ amount: 0.3 }}
-            className="w-full h-full"
+            className="w-full aspect-[16/10] md:aspect-auto md:h-full md:col-span-2 md:row-span-2"
           >
             <SunsetWindowFrame 
-              title="mobile-1.png" 
+              title="home.png" 
               imageSrc={project.gallery[0]} 
             />
           </motion.div>
           
           <motion.div 
             initial={{ opacity: 0, y: -40 }} whileInView={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, delay: 0.2 }} viewport={{ amount: 0.3 }}
-            className="w-full h-full"
+            className="w-full aspect-[16/10] md:aspect-auto md:h-full"
           >
             <SunsetWindowFrame 
-              title="mobile-2.png" 
+              title="packages.png" 
               imageSrc={project.gallery[1]} 
             />
           </motion.div>
           
           <motion.div 
             initial={{ opacity: 0, y: 40 }} whileInView={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, delay: 0.4 }} viewport={{ amount: 0.3 }}
-            className="w-full h-full"
+            className="w-full aspect-[16/10] md:aspect-auto md:h-full"
           >
             <SunsetWindowFrame 
-              title="mobile-3.png" 
+              title="rewards.png" 
               imageSrc={project.gallery[2]} 
             />
           </motion.div>

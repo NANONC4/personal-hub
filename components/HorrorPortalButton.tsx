@@ -102,7 +102,9 @@ export default function HorrorPortalButton() {
       </div>
 
       <motion.a
-        href="#"
+        href="https://chatchai-portfolio.vercel.app/"
+        target="_blank"
+        rel="noopener noreferrer"
         initial={{ opacity: 0, y: 50 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: false, amount: 0.2 }}

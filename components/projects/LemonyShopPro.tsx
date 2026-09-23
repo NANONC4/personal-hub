@@ -39,8 +39,8 @@ export default function LemonyShopPro({ project }: { project: Project }) {
             className="w-full md:w-2/3 h-full"
           >
             <AestheticWindowFrame 
-              title="dashboard.html" 
-              imageSrc={project.gallery[0]} 
+              title="admin-dashboard.png" 
+              imageSrc={project.gallery[3]} 
             />
           </motion.div>
           
@@ -78,8 +78,8 @@ export default function LemonyShopPro({ project }: { project: Project }) {
             className="w-full md:w-1/2 h-full"
           >
             <AestheticWindowFrame 
-              title="features.png" 
-              imageSrc={project.gallery[2]} 
+              title="games.png" 
+              imageSrc={project.gallery[0]} 
             />
           </motion.div>
           <motion.div 
@@ -87,8 +87,8 @@ export default function LemonyShopPro({ project }: { project: Project }) {
             className="w-full md:w-1/2 h-full"
           >
             <AestheticWindowFrame 
-              title="architecture.png" 
-              imageSrc={project.gallery[3]} 
+              title="product.png" 
+              imageSrc={project.gallery[2]} 
             />
           </motion.div>
         </div>

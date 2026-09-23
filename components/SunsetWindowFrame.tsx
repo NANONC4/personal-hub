@@ -59,12 +59,21 @@ export default function SunsetWindowFrame({ title, imageSrc, className = "", chi
           {/* Image Content */}
           <div className="flex-1 relative rounded overflow-hidden shadow-[inset_0_0_20px_rgba(0,0,0,0.8)]">
             {imageSrc && !imageError ? (
-              <img 
-                src={imageSrc} 
-                alt={title || "View"} 
-                className="w-full h-full object-cover"
-                onError={() => setImageError(true)}
-              />
+              <>
+                {/* Blurred copy fills the frame; the sharp copy on top is never cropped */}
+                <img
+                  src={imageSrc}
+                  alt=""
+                  aria-hidden
+                  className="absolute inset-0 w-full h-full object-cover blur-2xl scale-110 opacity-50"
+                />
+                <img
+                  src={imageSrc}
+                  alt={title || "View"}
+                  className="relative w-full h-full object-contain"
+                  onError={() => setImageError(true)}
+                />
+              </>
             ) : (
               <div className="w-full h-full flex flex-col items-center justify-center bg-gradient-to-b from-[#78350f] via-[#b45309] to-[#f59e0b] relative overflow-hidden">
                 {/* Fallback Sunset Sky Art */}
