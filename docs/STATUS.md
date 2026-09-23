@@ -6,7 +6,7 @@
 
 ## ⚠️ เรื่องด่วนที่สุด
 
-**branch `feat/welcome-window-lofi` นำหน้า `main` อยู่ 32 commit และยังไม่ merge**
+**branch `feat/welcome-window-lofi` นำหน้า `main` อยู่ 35 commit และยังไม่ merge**
 
 เว็บจริงบน Vercel (`nanonc4-portfolio.vercel.app`) **ยังเป็นเวอร์ชันเก่า** — ไม่มีหน้าต่างเวลคัม
 ไม่มีสไลด์ผลงาน ยังเป็นการ์ด 4 ใบ งานทั้งหมดด้านล่างนี้คนนอกยังไม่เห็น
@@ -54,13 +54,19 @@ Footer
 ## งานที่ยังค้าง
 
 ### ต้องทำก่อนส่งใบสมัคร
-1. **merge เข้า `main`** — 32 commit
-2. **รูปผลงาน 404 ทั้ง 11 ไฟล์** — `public/images/` ยังไม่มีโฟลเดอร์ด้วยซ้ำ
-   (`lemony-pro-1..4.png`, `lemony-html-1..3.png`, `7,8,9,10.jpg`)
-   ตอนนี้ขึ้น placeholder ว่า "ภาพตัวอย่างกำลังมา" — **Dia ต้องแคปหน้าจอเอง ห้ามสร้างรูปปลอม**
+1. **merge เข้า `main`** — 35 commit
+2. ~~**รูปผลงาน 404 ทั้ง 11 ไฟล์**~~ ✅ ใส่แล้ว (2026-09-23) — `public/images/*.webp`
+   มาจากรูปที่ Dia แคปใหม่ (`D:\photi for portfilo`) + รูปเดิมในพอร์ตเก่า
+   (`C:\Users\DiaFr\Projects\public\my-portfolio\public\images`)
+   กรอบรูปใน showreel เปลี่ยนเป็นโชว์เต็มรูป + พื้นหลังเบลอ ไม่ตัดขอบแล้ว
 3. ~~**รีวิวปลอมหน้า `/contact`**~~ ✅ เอาออกแล้ว (2026-09-22) — ลบรีวิว 3 อัน
    พาดหัว "Verified Reviews" และดาว 5.0/5.0 ทิ้ง เปลี่ยนเป็นการ์ดลิงก์ 2 ใบ
    GitHub + Fastwork (ของจริง รีวิวจริงอยู่บน Fastwork อยู่แล้ว)
+
+4. **ปุ่มกดแล้วไม่ไปไหน** — การ์ด Discord / Facebook / LINE หน้า `/contact`
+   · ปุ่ม Facebook สีน้ำเงินใน `/showreel` · ปุ่ม Live Demo ของ LEMONY bio และ DININO
+   (เจอ `dinnino-bio.vercel.app` ตรงกับชื่อ repo แต่ Dia ยังไม่ได้ยืนยัน)
+5. avatar ของ DININO ดึงจาก `api.dicebear.com` โหลดไม่ขึ้น (400)
 
 ### รอ Dia ตัดสินใจ
 - `components/BentoGrid.tsx` + `BentoAnimations.tsx` **ไม่มีใครเรียกใช้แล้ว** ลบไหม
