@@ -184,12 +184,18 @@ export default function HeroLightOn() {
   const hint = lamp === "on" ? "click to switch off" : lamp === "off" && touched ? "click to switch on" : null;
 
   return (
-    // Hidden while the welcome window's copy of it is on screen, so the two are
-    // never visible together (WelcomeWindow sets data-gate on <html>). Kept on
-    // the element itself rather than in globals.css, which a running dev server
-    // can serve stale.
-    <section className={`behind-gate relative [html[data-gate=closed]_&]:invisible ${HERO_BOX}`}>
-      <HeroContent lamp={lamp} hint={hint} onToggle={toggle} />
-    </section>
+    // The hero holds the centre of the screen for 70% of a screen of scroll
+    // after the window finishes opening, so the scroll that carried you through
+    // the window runs out while it's sitting still and clickable — instead of
+    // carrying it straight past the centre.
+    <div className="relative h-[170vh]">
+      {/* Hidden while the welcome window's copy of it is on screen, so the two
+          are never visible together (WelcomeWindow sets data-gate on <html>).
+          Kept on the element itself rather than in globals.css, which a
+          running dev server can serve stale. */}
+      <section className={`behind-gate sticky top-0 [html[data-gate=closed]_&]:invisible ${HERO_BOX}`}>
+        <HeroContent lamp={lamp} hint={hint} onToggle={toggle} />
+      </section>
+    </div>
   );
 }

@@ -297,28 +297,7 @@ export default function WelcomeWindow() {
   // browser's scroll event on the next one. Hooking Lenis directly keeps the
   // copy on the same frame as the page, so the hand-off doesn't jump.
   //
-  // It also settles the page onto the hero: stop scrolling in the last stretch
-  // of the fly-through, or just past the hero, and it eases the rest of the
-  // way so the hero rests centred and clickable. Stop further away and it
-  // leaves you where you are.
-  const settleTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
-  useLenis(
-    (lenis) => {
-      measureRef.current();
-      if (settleTimer.current) clearTimeout(settleTimer.current);
-      settleTimer.current = setTimeout(() => {
-        const el = spacerRef.current;
-        if (!el) return;
-        const heroTop = el.getBoundingClientRect().bottom; // real hero's top edge
-        const vh = window.innerHeight;
-        if (Math.abs(heroTop) < 2) return;
-        if (heroTop < vh * 0.55 && heroTop > -vh * 0.2) {
-          lenis.scrollTo(window.scrollY + heroTop, { duration: 0.9 });
-        }
-      }, 160);
-    },
-    [],
-  );
+  useLenis(() => measureRef.current(), []);
 
   useEffect(() => {
     if (!mounted) return;
@@ -412,7 +391,6 @@ export default function WelcomeWindow() {
     window.addEventListener("resize", measure);
     return () => {
       measureRef.current = () => {};
-      if (settleTimer.current) clearTimeout(settleTimer.current);
       window.removeEventListener("scroll", measure);
       window.removeEventListener("resize", measure);
     };
