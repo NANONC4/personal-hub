@@ -29,6 +29,13 @@ export function SpaceShooterMiniGame({ className = "" }: SpaceShooterMiniGamePro
     // --- GAME STATE ---
     let animationFrameId: number;
     let lastTime = 0;
+
+    // Only run the game while it's on screen. Both games used to draw every
+    // frame from page load, even while the visitor was still up at the welcome
+    // window — that alone cost a throttled laptop ~14fps on every scroll.
+    let onScreen = false;
+    const screenWatch = new IntersectionObserver(([e]) => { onScreen = e.isIntersecting; }, { rootMargin: "100px" });
+    screenWatch.observe(canvas);
     
     // Interaction state
     let isUserInteracting = false;
@@ -262,6 +269,11 @@ export function SpaceShooterMiniGame({ className = "" }: SpaceShooterMiniGamePro
 
     // --- MAIN LOOP ---
     const loop = (timestamp: number) => {
+      if (!onScreen) {
+        lastTime = timestamp;
+        animationFrameId = requestAnimationFrame(loop);
+        return;
+      }
       if (!lastTime) lastTime = timestamp;
       const dt = (timestamp - lastTime) / 1000; // delta time in seconds
       lastTime = timestamp;
@@ -325,6 +337,7 @@ export function SpaceShooterMiniGame({ className = "" }: SpaceShooterMiniGamePro
 
     return () => {
       cancelAnimationFrame(animationFrameId);
+      screenWatch.disconnect();
       clearTimeout(idleTimer);
       canvas.removeEventListener("mousemove", updateMousePos as EventListener);
       canvas.removeEventListener("mousedown", handleInteract);

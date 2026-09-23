@@ -532,7 +532,19 @@ export function TechBreakout() {
     let animationFrameId: number;
     let lastTime = performance.now();
 
+    // Only run the game while it's on screen. Both games used to draw every
+    // frame from page load, even while the visitor was still up at the welcome
+    // window — that alone cost a throttled laptop ~14fps on every scroll.
+    let onScreen = false;
+    const screenWatch = new IntersectionObserver(([e]) => { onScreen = e.isIntersecting; }, { rootMargin: "100px" });
+    screenWatch.observe(canvas);
+
     const draw = (currentTime: number) => {
+      if (!onScreen) {
+        lastTime = currentTime;
+        animationFrameId = requestAnimationFrame(draw);
+        return;
+      }
       // Calculate Delta Time (dt) to normalize speed across all refresh rates (60Hz, 120Hz, etc)
       let dt = (currentTime - lastTime) / (1000 / 60); 
       lastTime = currentTime;
@@ -701,6 +713,7 @@ export function TechBreakout() {
 
     return () => {
       cancelAnimationFrame(animationFrameId);
+      screenWatch.disconnect();
       window.removeEventListener("resize", sizeCanvas);
       document.removeEventListener("keydown", keyDownHandler);
       document.removeEventListener("keyup", keyUpHandler);
