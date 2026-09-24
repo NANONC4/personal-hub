@@ -2,6 +2,7 @@
 import { useEffect, useRef } from "react";
 
 type PixelSkyProps = {
+  id?: string;
   className?: string;
   /**
    * Opt-in lofi atmosphere layer: real-time day/night tint, warm horizon glow,
@@ -69,6 +70,7 @@ function moodForHour(hour: number): Mood {
 }
 
 export default function PixelSky({
+  id,
   className = "absolute inset-0 z-0 overflow-hidden pointer-events-none",
   cozy = false,
   depth = false,
@@ -357,6 +359,10 @@ export default function PixelSky({
 
     const drawSkyline = (now: number, delta: number) => {
       for (const bld of skyline) {
+        // Each lit window leaves globalAlpha at its own brightness. Without
+        // this reset the next building's body was drawn at that alpha, so
+        // whole buildings faded out and back in with one window.
+        ctx.globalAlpha = 1;
         ctx.fillStyle = "rgba(4, 8, 18, 0.85)";
         ctx.fillRect(Math.floor(bld.x), Math.floor(height - bld.h), bld.w, bld.h);
         for (const win of bld.windows) {
@@ -506,7 +512,7 @@ export default function PixelSky({
   }, [cozy, depth]);
 
   return (
-    <div className={className}>
+    <div id={id} className={className}>
       <canvas ref={canvasRef} className="w-full h-full" />
     </div>
   );

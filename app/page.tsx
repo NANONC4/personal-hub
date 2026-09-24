@@ -11,8 +11,8 @@ import ProjectSlides from "@/components/ProjectSlides";
 import { DiaTextReveal } from "@/components/DiaTextReveal";
 import { SpaceShooterMiniGame } from "@/components/SpaceShooterMiniGame";
 import { TechBreakout, TECH_GROUPS } from "@/components/TechBreakout";
-import WelcomeWindow from "@/components/WelcomeWindow";
 import HeroLightOn from "@/components/HeroLightOn";
+import { NIGHT_SKY_ID } from "@/components/WelcomeWindow";
 
 
 export default function HomePage() {
@@ -26,17 +26,13 @@ export default function HomePage() {
       {/* Background: the base colour ramps with scroll, the sky's own palette
           follows it, and the skyline stays put through the whole descent. */}
       <NightDepth />
-      <PixelSky cozy depth className="fixed inset-0 z-0 opacity-70 pointer-events-none" />
+      <PixelSky cozy depth id={NIGHT_SKY_ID} className="fixed inset-0 z-0 opacity-70 pointer-events-none" />
       
       <div className="relative z-10 w-full">
 
         {/* =========================================
-            0. WELCOME WINDOW (scroll-to-open gate)
-            ========================================= */}
-        <WelcomeWindow />
-
-        {/* =========================================
-            1. THE WELCOME (Hero Section) — "the light's on"
+            0–1. WELCOME WINDOW + HERO — the one hero, seen through the
+            window first (HeroLightOn renders the window in front of itself)
             ========================================= */}
         <HeroLightOn />
 

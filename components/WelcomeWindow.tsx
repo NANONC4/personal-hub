@@ -1,38 +1,34 @@
 "use client";
 
-import { memo, useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import { useLenis } from "lenis/react";
 import { motion, useReducedMotion } from "framer-motion";
 import { Firefly } from "@/components/Firefly";
-import { GATE_DONE_EVENT, HERO_BOX, HeroContent, NIGHT_LIGHTS_EVENT, PAGE_TEXT } from "@/components/HeroLightOn";
 
 /**
- * Home page welcome gate — a moonlit lofi window, opened by scrolling.
+ * Home page welcome gate — a lofi window you open by scrolling.
  *
- * Reference vibe: a big blue night window, bright full moon, a dense city
- * skyline of lit windows, a black cat sitting on the sill, a couple of jars +
- * a vase. Two glass sashes cover the view; scrolling slides them apart (left /
- * right), then we fly out through the opening and the hero is simply what
- * was outside all along (scene 00 → 01 of docs/animation-plan.md).
+ * The window is a wall with a hole in it, standing in front of the page. What
+ * you see through the glass is the page itself: its own sky, its own city and
+ * the one real hero, already pinned to the screen behind the wall (HeroLightOn
+ * renders this gate and passes its hero in). Nothing out there is a copy, so
+ * there is no hand-off and nothing can change at a seam.
  *
- * Layers, back to front:
- *   1 SKY     — moon + city. Fades out on the fly-through, leaving the page's
- *               own sky (NightDepth + PixelSky) behind it.
- *   2 HERO    — a still copy of the hero, readable through the glass from the
- *               first frame, growing to its real size as we pass through.
- *   3 ROOM    — wall, sashes, frame, sill, jars. Sashes slide apart, then the
- *               whole room scales up past the edges of the screen.
- *   4 LIGHT   — the small light: slips out through the gap and settles in the
- *               hero's lamp, which switches on as it lands.
- *
- * At p = 1 the copy is pixel-identical to the real hero sitting at the top of
- * the screen, so the gate hides and the page carries on with no seam. Every
- * move is tied to scroll — nothing makes anyone wait.
+ * Scroll slides the two glass sashes apart, then the whole room (wall, sashes,
+ * frame, sill) scales out past the screen edges while the hero grows to full
+ * size. The small light slips out through the gap and lands on the hero's
+ * lamp, which switches on as the wall disappears. Every move is tied to
+ * scroll — nothing makes anyone wait.
  *
  * Progress: a plain scroll listener on an invisible spacer (framer useScroll
  * misbehaves with Lenis here). Portalled to <body>.
  */
+
+/** Fired the first time the wall is fully gone; the hero's lamp switches on. */
+export const GATE_DONE_EVENT = "gate:done";
+/** id of the page's fixed sky layer, which the window lifts while it's up. */
+export const NIGHT_SKY_ID = "night-sky";
 
 const clamp = (n: number, a = 0, b = 1) => Math.min(Math.max(n, a), b);
 const map = (v: number, inA: number, inB: number, outA: number, outB: number) =>
@@ -41,128 +37,6 @@ const map = (v: number, inA: number, inB: number, outA: number, outB: number) =>
 const WIN = { top: 4, bottom: 80, left: 5, right: 95 };
 const SILL = WIN.bottom;
 const DARK = "#0a1424";
-
-const STARS = [
-  { l: "30%", t: "10%", s: 3, d: 0 },
-  { l: "42%", t: "16%", s: 2, d: 1.4 },
-  { l: "54%", t: "8%", s: 3, d: 0.7 },
-  { l: "60%", t: "20%", s: 2, d: 2.1 },
-  { l: "37%", t: "26%", s: 2, d: 1.1 },
-  { l: "66%", t: "14%", s: 2, d: 2.6 },
-  { l: "24%", t: "22%", s: 2, d: 3.2 },
-  { l: "72%", t: "24%", s: 3, d: 0.4 },
-];
-
-/* Skyline rows within the sky box: [x%, w%, h%].
-   Slim towers packed close, matching the proportions the cozy PixelSky canvas
-   draws on the hero (24–70px wide against the viewport) — a dense city, not a
-   row of fat blocks. */
-const SKY_BACK: [number, number, number][] = [
-  [-2, 4, 42], [2, 3, 28], [5, 4, 58], [9, 3, 35], [12, 4, 72], [16, 3, 30],
-  [19, 4, 50], [23, 3, 40], [26, 4, 64], [30, 3, 26], [33, 4, 55], [37, 3, 44],
-  [40, 4, 80], [44, 3, 32], [47, 4, 60], [51, 3, 38], [54, 4, 70], [58, 3, 29],
-  [61, 4, 52], [65, 3, 45], [68, 4, 66], [72, 3, 31], [75, 4, 57], [79, 3, 41],
-  [82, 4, 74], [86, 3, 27], [89, 4, 49], [93, 3, 36], [96, 4, 62],
-];
-const SKY_FRONT: [number, number, number][] = [
-  [-2, 5, 30], [3, 4, 46], [7, 5, 22], [12, 4, 38], [16, 5, 26], [21, 4, 52],
-  [25, 5, 20], [30, 4, 34], [34, 5, 44], [39, 4, 24], [43, 5, 36], [48, 4, 50],
-  [52, 5, 28], [57, 4, 42], [61, 5, 23], [66, 4, 48], [70, 5, 32], [75, 4, 26],
-  [79, 5, 40], [84, 4, 21], [88, 5, 34], [93, 4, 45], [97, 5, 29],
-];
-
-/** Warm-lit window grid for one building, à la the cozy PixelSky skyline. */
-function Windows({ i, cols, rows, reduce }: { i: number; cols: number; rows: number; reduce: boolean | null }) {
-  return (
-    <div
-      className="grid content-start gap-[4px] p-[4px]"
-      style={{ gridTemplateColumns: `repeat(${cols}, minmax(0, 1fr))` }}
-    >
-      {Array.from({ length: cols * rows }).map((_, k) => {
-        const seed = (i * 71 + k * 37) % 100;
-        // sparse scatter rather than a filled grid — same read as the canvas city
-        if (seed > 46) return <span key={k} className="block h-[3px] w-[3px]" />;
-        const warm = seed % 6 !== 0;
-        const base = warm ? "#ffc885" : "#9fc6ec";
-        // most windows sit steady; only a few breathe, slowly
-        if (reduce || seed % 10 >= 3) {
-          return (
-            <span
-              key={k}
-              className="block h-[3px] w-[3px]"
-              style={{ background: base, opacity: 0.42 + (seed % 5) * 0.07 }}
-            />
-          );
-        }
-        return (
-          <span
-            key={k}
-            className="block h-[3px] w-[3px] animate-[win-breathe_13s_ease-in-out_infinite]"
-            style={{ background: base, animationDuration: `${13 + (seed % 8)}s`, animationDelay: `${-((i * 0.5 + k * 0.9) % 10)}s` }}
-          />
-        );
-      })}
-    </div>
-  );
-}
-
-const SkyLayer = memo(function SkyLayer({ reduce }: { reduce: boolean | null }) {
-  return (
-    <div
-      className="absolute [image-rendering:pixelated]"
-      style={{ top: `${WIN.top}%`, bottom: `${100 - WIN.bottom}%`, left: `${WIN.left}%`, right: `${100 - WIN.right}%` }}
-    >
-      <div className="absolute inset-0 bg-gradient-to-b from-[#3f74ad] via-[#2c5988] to-[#164070]" />
-      {/* moon + glow */}
-      <div className="absolute left-[34%] top-[6%]">
-        <div className="absolute -inset-10 rounded-full bg-[radial-gradient(circle,rgba(180,210,240,0.55),transparent_70%)]" />
-        <div
-          className={`relative h-16 w-16 rounded-full bg-[#e8f0fa] ${reduce ? "" : "animate-[moon-bob_11s_ease-in-out_infinite]"}`}
-        >
-          <div className="absolute left-2 top-4 h-2.5 w-2.5 rounded-full bg-black/[0.06]" />
-          <div className="absolute right-3 top-7 h-2 w-2 rounded-full bg-black/[0.06]" />
-          <div className="absolute left-6 bottom-2 h-1.5 w-1.5 rounded-full bg-black/[0.06]" />
-        </div>
-      </div>
-      {STARS.map((s, i) => (
-        <div
-          key={i}
-          className={`absolute bg-[#e2ecfb] ${reduce ? "opacity-60" : "animate-[star-twinkle_3.6s_ease-in-out_infinite]"}`}
-          style={{ left: s.l, top: s.t, width: s.s, height: s.s, animationDelay: `${-s.d}s` }}
-        />
-      ))}
-
-      {/* haze band above the skyline */}
-      <div className="absolute inset-x-0 bottom-0 h-[46%] bg-[linear-gradient(to_top,rgba(120,165,210,0.3),transparent)]" />
-
-      {/* skyline — two depth rows, near-black buildings, dense warm windows */}
-      <div className="absolute inset-x-0 bottom-0 h-[46%]">
-        {SKY_BACK.map(([x, w, h], i) => (
-          <div key={i} className="absolute bottom-0 bg-[#0c1830]" style={{ left: `${x}%`, width: `${w}%`, height: `${h}%` }}>
-            <Windows i={i + 100} cols={2} rows={Math.max(2, Math.round(h / 11))} reduce={reduce} />
-          </div>
-        ))}
-      </div>
-      <div className="absolute inset-x-0 bottom-0 h-[34%]">
-        {SKY_FRONT.map(([x, w, h], i) => (
-          <div key={i} className="absolute bottom-0 bg-[#070d1c]" style={{ left: `${x}%`, width: `${w}%`, height: `${h}%` }}>
-            <Windows i={i} cols={2} rows={Math.max(2, Math.round(h / 10))} reduce={reduce} />
-          </div>
-        ))}
-      </div>
-
-      {/* drifting motes */}
-      {!reduce &&
-        Array.from({ length: 10 }).map((_, i) => (
-          <span
-            key={i}
-            className="absolute h-[2px] w-[2px] rounded-full bg-[#cfe1f5] opacity-0 animate-[mote-drift_9s_linear_infinite]"
-            style={{ left: `${(i * 37) % 100}%`, top: `${(i * 53) % 80}%`, animationDuration: `${9 + (i % 5)}s`, animationDelay: `${i * 1.3}s` }}
-          />
-        ))}
-    </div>
-  );
-});
 
 function Sash({ side, sashRef }: { side: "left" | "right"; sashRef: React.Ref<HTMLDivElement> }) {
   const isLeft = side === "left";
@@ -269,7 +143,13 @@ function Sill() {
   );
 }
 
-export default function WelcomeWindow() {
+export default function WelcomeWindow({
+  heroRef,
+  lampRef,
+}: {
+  heroRef: React.RefObject<HTMLElement | null>;
+  lampRef: React.RefObject<HTMLSpanElement | null>;
+}) {
   const spacerRef = useRef<HTMLDivElement>(null);
   const reduce = useReducedMotion();
   const [mounted, setMounted] = useState(false);
@@ -279,79 +159,66 @@ export default function WelcomeWindow() {
   // laptop to 20fps on the fly-through; React only hears about the three
   // moments that change what's on the page.
   const [open, setOpen] = useState(false); // past the sashes: clicks go through
-  const [arrived, setArrived] = useState(false); // handed over at least once: the lamp is on by now
-  const [switchedOff, setSwitchedOff] = useState(false); // visitor clicked the lamp off in the hero
-
-  // The copy must show the same badge as the real hero, or it changes at the
-  // swap when you scroll back up: same lamp state, same "click" hint.
-  useEffect(() => {
-    const onLights = (e: Event) => setSwitchedOff(!((e as CustomEvent<{ on: boolean }>).detail?.on ?? true));
-    window.addEventListener(NIGHT_LIGHTS_EVENT, onLights);
-    return () => window.removeEventListener(NIGHT_LIGHTS_EVENT, onLights);
-  }, []);
-  const copyLamp = !arrived || switchedOff ? "off" : "on";
-  const copyHint = !arrived ? null : switchedOff ? "click to switch on" : "click to switch off";
-  const [gone, setGone] = useState(false); // handed over to the real hero
+  const [gone, setGone] = useState(false); // the wall is out of sight
 
   const gateRef = useRef<HTMLDivElement>(null);
-  const skyRef = useRef<HTMLDivElement>(null);
-  const heroRef = useRef<HTMLDivElement>(null);
   const roomRef = useRef<HTMLDivElement>(null);
   const sashLRef = useRef<HTMLDivElement>(null);
   const sashRRef = useRef<HTMLDivElement>(null);
   const hintRef = useRef<HTMLDivElement>(null);
-  const lampRef = useRef<HTMLSpanElement>(null);
   const flyRef = useRef<HTMLSpanElement>(null);
   const measureRef = useRef<() => void>(() => {});
 
   // Lenis moves the page inside its own animation frame and only raises the
   // browser's scroll event on the next one. Hooking Lenis directly keeps the
-  // copy on the same frame as the page, so the hand-off doesn't jump.
-  //
+  // wall and the hero on the same frame as the page.
   useLenis(() => measureRef.current(), []);
 
   useEffect(() => {
     if (!mounted) return;
     const origin = `50% ${(WIN.top + WIN.bottom) / 2}%`;
-    for (const el of [skyRef.current, heroRef.current, roomRef.current]) if (el) el.style.transformOrigin = origin;
+    const hero = heroRef.current;
+    for (const el of [hero, roomRef.current]) if (el) el.style.transformOrigin = origin;
+    // The page's sky (page.tsx). Its city is drawn along the bottom of the
+    // screen, which the sill covers, so while the room is up the sky is lifted
+    // to sit the city on the sill, and it rides down with the sill as the
+    // room flies out. Same city, just seen from a step back.
+    const sky = document.getElementById(NIGHT_SKY_ID);
+    const root = document.documentElement;
 
     // Two phases across the spacer, each one screen tall, all tied to scroll.
     //   0   → 0.44  sashes slide apart; the hero surfaces behind them
-    //   0.5 → 1     fly-through: the room scales past the screen edges, the
-    //               hero copy grows to full size, the painted sky gives way,
-    //               and at exactly 1 it hands over to the real, clickable hero.
-    //               (A hold before the hand-off looked ready but couldn't be
-    //               clicked — Dia had to scroll on, past the centre, to use it.)
-    // `heroTop` is where the real hero's top edge is right now (the spacer's
-    // bottom). Once it reaches the top of the screen the copy rides along with
-    // it, so the hand-off lands on the exact same pixels even when a fast
-    // scroll overshoots between frames.
+    //   0.5 → 1     fly-through: the room scales past the screen edges and the
+    //               hero grows to full size, clickable the whole way.
     let wasGone = false;
-    const apply = (p: number, heroTop: number) => {
+    const apply = (p: number) => {
       const offset = map(p, 0.06, 0.44, 0, 108); // sash travel, %
       const fly = map(p, 0.5, 1, 0, 1);
       const ease = fly * fly * (3 - 2 * fly);
+      const roomScale = reduce ? 1 : 1 + ease * 2.4;
       if (sashLRef.current) sashLRef.current.style.transform = `translateX(${-offset}%)`;
       if (sashRRef.current) sashRRef.current.style.transform = `translateX(${offset}%)`;
       if (roomRef.current) {
-        roomRef.current.style.transform = `scale(${reduce ? 1 : 1 + ease * 2.4})`;
+        roomRef.current.style.transform = `scale(${roomScale})`;
         roomRef.current.style.opacity = String(reduce ? 1 - map(p, 0.5, 0.9, 0, 1) : 1 - map(p, 0.84, 0.97, 0, 1));
       }
-      if (heroRef.current) {
-        // the first frame is only the window; the hero surfaces on the sky as
-        // the sashes part, then grows into place on the fly-through
-        const appear = map(p, 0.1, 0.38, 0, 1);
-        const ride = Math.min(0, heroTop);
-        const rise = reduce ? 0 : (1 - appear) * 24;
-        heroRef.current.style.opacity = String(appear);
-        const scale = reduce ? 1 : 0.6 + ease * 0.4;
-        heroRef.current.style.transform = scale === 1 ? `translateY(${ride + rise}px)` : `translateY(${ride + rise}px) scale(${scale})`;
+      if (sky) {
+        const h = window.innerHeight;
+        const originY = (h * (WIN.top + WIN.bottom)) / 200;
+        const sillTop = originY + ((h * SILL) / 100 - originY) * roomScale;
+        const lift = reduce && p > 0.5 ? 0 : Math.max(0, h - sillTop);
+        sky.style.transform = lift > 0.5 ? `translateY(${-lift}px)` : "";
       }
-      if (skyRef.current) {
-        // gone before the page's own skyline shows, so the two cities never overlap;
-        // scaled with the room so its edges stay tucked behind the frame
-        skyRef.current.style.opacity = String(1 - map(p, 0.5, 0.7, 0, 1));
-        skyRef.current.style.transform = `scale(${reduce ? 1 : 1 + ease * 2.4})`;
+      if (hero) {
+        // the first frame is only the window; the hero surfaces behind the
+        // glass as the sashes part, then grows into place on the fly-through.
+        // At rest it carries no styles at all. (No will-change: the text is
+        // redrawn sharp at each size instead of stretching a snapshot.)
+        const appear = map(p, 0.1, 0.38, 0, 1);
+        const rise = reduce ? 0 : (1 - appear) * 24;
+        const scale = reduce ? 1 : 0.6 + ease * 0.4;
+        hero.style.opacity = appear === 1 ? "" : String(appear);
+        hero.style.transform = scale === 1 && rise === 0 ? "" : `translateY(${rise}px) scale(${scale})`;
       }
       if (hintRef.current) hintRef.current.style.opacity = String(1 - map(p, 0, 0.1, 0, 1));
 
@@ -374,27 +241,28 @@ export default function WelcomeWindow() {
         }
       }
 
-      // the hand-off itself is written straight to the DOM, in the same frame
-      // as the positions above; waiting a React commit showed a one-frame jump
+      // hidden straight from here, in the same frame as the positions above
       const isGone = p >= 0.999;
       if (gateRef.current) gateRef.current.style.visibility = isGone ? "hidden" : "visible";
-      document.documentElement.dataset.gate = isGone ? "done" : "closed";
+      const gate = isGone ? "done" : "closed";
+      if (root.dataset.gate !== gate) root.dataset.gate = gate;
+      // the site menu stays out of the glass until the sashes are open (TopNavbar)
+      const sashes = p > 0.5 ? "open" : "shut";
+      if (root.dataset.sashes !== sashes) root.dataset.sashes = sashes;
 
-      // first arrival: the real hero plays its lamp-on beat (HeroLightOn)
+      // first arrival: the hero plays its lamp-on beat (HeroLightOn)
       if (isGone && !wasGone) window.dispatchEvent(new Event(GATE_DONE_EVENT));
       wasGone = isGone;
 
       setOpen(p > 0.5);
-      if (isGone) setArrived(true);
       setGone(isGone);
     };
 
     const measure = () => {
       const el = spacerRef.current;
       if (!el) return;
-      // p reaches 1 exactly when the hero has settled at the top of the screen
       const rect = el.getBoundingClientRect();
-      apply(rect.height > 0 ? clamp(-rect.top / rect.height) : 0, rect.bottom);
+      apply(rect.height > 0 ? clamp(-rect.top / rect.height) : 0);
     };
     // Measured in the scroll event too, for when Lenis is off (reduced motion).
     measureRef.current = measure;
@@ -405,8 +273,15 @@ export default function WelcomeWindow() {
       measureRef.current = () => {};
       window.removeEventListener("scroll", measure);
       window.removeEventListener("resize", measure);
+      if (hero) {
+        hero.style.opacity = "";
+        hero.style.transform = "";
+        hero.style.transformOrigin = "";
+      }
+      if (sky) sky.style.transform = "";
+      delete root.dataset.sashes;
     };
-  }, [mounted, reduce]);
+  }, [mounted, reduce, heroRef, lampRef]);
 
   useEffect(() => {
     const init = requestAnimationFrame(() => setMounted(true));
@@ -443,8 +318,9 @@ export default function WelcomeWindow() {
 
   return (
     <>
-      {/* two screens: one for the gate, one to fly through it */}
-      <div ref={spacerRef} aria-hidden className="h-[200vh]" />
+      {/* two screens: one for the gate, one to fly through it. Laid over the
+          top of HeroLightOn's runway, which pins the hero for all of it. */}
+      <div ref={spacerRef} aria-hidden className="pointer-events-none absolute inset-x-0 top-0 h-[200vh]" />
       {!mounted && <div aria-hidden className="fixed inset-0 z-[70]" style={{ background: DARK }} />}
       {mounted &&
         createPortal(
@@ -459,28 +335,6 @@ export default function WelcomeWindow() {
               cursor: open ? "default" : "pointer",
             }}
           >
-            <div ref={skyRef} className="absolute inset-0 will-change-transform">
-              <SkyLayer reduce={reduce} />
-            </div>
-
-            {/* the hero, already out there on the sky (a still copy: inert, so
-                its link can't be tabbed to while the real one is hidden) */}
-            {/* Must render exactly like the real hero: the page's text colour and
-                font (it lives outside <main>), normal image rendering (not the
-                window's pixelated upscaling), and no will-change, so the browser
-                redraws the text sharp at each size instead of stretching a
-                small snapshot of it. */}
-            <div
-              ref={heroRef}
-              inert
-              className={`absolute inset-0 [image-rendering:auto] ${PAGE_TEXT}`}
-              style={{ opacity: 0, transform: "scale(0.6)" }}
-            >
-              <div className={HERO_BOX}>
-                <HeroContent lamp={copyLamp} hint={copyHint} lampRef={lampRef} />
-              </div>
-            </div>
-
             <div ref={roomRef} className="absolute inset-0 will-change-transform">
               <Wall />
               <Sash side="left" sashRef={sashLRef} />

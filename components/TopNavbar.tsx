@@ -43,7 +43,9 @@ export default function TopNavbar() {
     <>
       {/* Desktop & Mobile Header Bar */}
       <header 
-        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
+        // hidden while the home page's welcome window is shut, or it shows
+        // through the top of the glass (WelcomeWindow sets data-sashes)
+        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 [html[data-sashes=shut]_&]:pointer-events-none [html[data-sashes=shut]_&]:opacity-0 ${
           // a soft scrim rather than a solid bar, so it never reads as a black
           // band cutting the top off a full-screen section
           scrolled
