@@ -17,7 +17,10 @@ const EASE = [0.22, 1, 0.36, 1] as const;
  * for the transition to land, short enough that three projects don't feel like
  * a chore.
  */
-const VH_PER_SLIDE = 50;
+const VH_PER_SLIDE = 70;
+
+const clamp = (n: number) => Math.min(1, Math.max(0, n));
+const smooth = (t: number) => t * t * (3 - 2 * t);
 
 /**
  * The label has to match what the link actually opens: `demo` is a live site for
@@ -34,108 +37,93 @@ function outboundLink(p: Project) {
 
 /* ------------------------------------------------------------------ visual */
 
-/* Same wood as WelcomeWindow. Shape follows the lofi "window seat" look:
-   a wide centre opening, a narrow fixed pane either side with a transom
-   near the top, and one long sill with a few pots on it. */
-const WOOD = "#0a1424";
-const WOOD_LIT = "#25395a";
-/** Whole window incl. side panes and sill. Leaves the centre opening at about
- *  1.85:1, between the 16:9 game slides and the ~1.9:1 site captures. */
-const WINDOW_SHAPE = "aspect-[2.35/1] max-h-[50vh]";
+/* The projects ride in on the last train of the night (scene 04). A car is
+   side window, door, the big window with the project in it, door, side
+   window, over a coloured band, a skirt and two bogies; the front car gets a
+   sloped nose with a headlight. The big window is shaped like the screenshots
+   (about 1.85:1), so the whole shot shows. */
+const BODY = "#16243d";
+const ROOF = "#2b3f5e";
+const DARK = "#0b1426";
+const BAND = "#be185d"; // the line's colour, the site's pink run darker
+/** Car width to height. */
+const CAR_RATIO = 2.4;
+/** Big on desktop, but never taller than 52% of the screen. */
+const CAR_W = `min(80vw, calc(52vh * ${CAR_RATIO}))`;
+const CAR_GAP = 0.04; // between cars, as a share of a car's width
 
-/** A narrow fixed side pane: night glass, a couple of stars, a transom bar. */
-function SidePane({ side }: { side: "left" | "right" }) {
-  const stars = side === "left" ? [[30, 12], [62, 44], [22, 70]] : [[58, 16], [28, 52], [70, 78]];
+/** A window with the light on, and sometimes someone sitting in it. */
+function LitWindow({ rider, className }: { rider: boolean; className: string }) {
   return (
-    <div aria-hidden className="relative h-full overflow-hidden bg-[linear-gradient(to_bottom,#1a2d52,#0f1d38)] [image-rendering:pixelated]">
-      {stars.map(([x, y]) => (
-        <span key={`${x}-${y}`} className="absolute h-[2px] w-[2px] bg-[#cfe1f5]/70" style={{ left: `${x}%`, top: `${y}%` }} />
-      ))}
-      <div className="absolute inset-0 bg-[linear-gradient(120deg,transparent_38%,rgba(160,195,230,0.10)_46%,transparent_54%)]" />
-      {/* transom */}
-      <div className="absolute inset-x-0 top-[24%] h-[8px]" style={{ background: WOOD }} />
-      <div className="absolute inset-0 shadow-[inset_0_0_0_2px_#25395a]" />
+    <div aria-hidden className={`absolute overflow-hidden bg-[#e9c989] shadow-[0_0_0_3px_#0b1426] ${className}`}>
+      <div className="absolute inset-x-0 top-0 h-[16%] bg-[#d6b476]" />
+      {rider && (
+        <>
+          <div className="absolute bottom-[34%] left-[32%] h-[16%] w-[34%] bg-[#1a2238]" />
+          <div className="absolute bottom-0 left-[20%] h-[36%] w-[58%] bg-[#1a2238]" />
+        </>
+      )}
     </div>
   );
 }
 
-/** Leafy plant in a round pot. `size` scales the whole thing. */
-function LeafyPlant({ className = "" }: { className?: string }) {
-  const leaves: [number, number, number][] = [
-    [-62, 16, 30], [-38, 22, 44], [-12, 26, 54], [14, 24, 50], [40, 20, 42], [64, 14, 28],
-  ];
+/** A door: a narrow panel with a tall window, a seam down the middle. */
+function Door({ className }: { className: string }) {
   return (
-    <div aria-hidden className={`absolute bottom-full [image-rendering:pixelated] ${className}`}>
-      <div className="relative h-24 w-20">
-        {leaves.map(([r, w, h], i) => (
-          <div
-            key={i}
-            className={`absolute bottom-9 left-1/2 origin-bottom rounded-[50%_50%_45%_45%/65%_65%_35%_35%] ${i % 2 ? "bg-[#1d4677]" : "bg-[#24568c]"}`}
-            style={{ width: w, height: h, marginLeft: -w / 2, transform: `rotate(${r}deg)` }}
-          />
-        ))}
-        <div className="absolute bottom-0 left-1/2 h-10 w-14 -translate-x-1/2 rounded-b-[12px] rounded-t-sm bg-[#22365a]" />
-        <div className="absolute bottom-9 left-1/2 h-2 w-16 -translate-x-1/2 rounded-sm bg-[#2f4a73]" />
+    <div aria-hidden className={`absolute bg-[#1b2c48] shadow-[inset_0_0_0_2px_#0b1426] ${className}`}>
+      <div className="absolute inset-y-0 left-1/2 w-[2px] -translate-x-1/2 bg-[#0b1426]" />
+      <div className="absolute left-[16%] top-[10%] h-[42%] w-[26%] bg-[#e9c989]/80" />
+      <div className="absolute right-[16%] top-[10%] h-[42%] w-[26%] bg-[#e9c989]/80" />
+    </div>
+  );
+}
+
+/** One car of the train. The project shot goes in `children`. */
+function TrainCar({
+  children,
+  front = false,
+  rider = 0,
+  width = CAR_W,
+}: {
+  children: React.ReactNode;
+  front?: boolean;
+  rider?: number;
+  width?: string;
+}) {
+  return (
+    <div className="relative shrink-0 [image-rendering:pixelated]" style={{ width, aspectRatio: CAR_RATIO }}>
+      {/* roof: stepped corners, pixel style */}
+      <div className="absolute inset-x-[1.5%] top-0 h-[3%]" style={{ background: ROOF }} />
+      <div className="absolute inset-x-[0.5%] top-[3%] h-[2%]" style={{ background: ROOF }} />
+      <div className="absolute inset-x-0 bottom-[13%] top-[5%]" style={{ background: BODY }} />
+      {/* the coloured band along the side, under the windows */}
+      <div className="absolute inset-x-0 bottom-[19%] h-[3.5%]" style={{ background: BAND }} />
+      {/* side window, door, big window, door, side window */}
+      <LitWindow rider={rider % 2 === 1} className="left-[3%] top-[13%] h-[38%] w-[7%]" />
+      <Door className="left-[12%] top-[9%] h-[70%] w-[8%]" />
+      <div className="absolute left-[22%] right-[22%] top-[9%] h-[70%] overflow-hidden bg-[#0b1220] shadow-[0_0_0_4px_#0b1426]">
+        {children}
       </div>
-    </div>
-  );
-}
-
-/** Small succulent in a short pot. */
-function Succulent({ className = "" }: { className?: string }) {
-  return (
-    <div aria-hidden className={`absolute bottom-full [image-rendering:pixelated] ${className}`}>
-      <div className="relative h-14 w-12">
-        {[-40, -18, 0, 18, 40].map((r, i) => (
-          <div
-            key={r}
-            className={`absolute bottom-5 left-1/2 h-7 w-3 origin-bottom rounded-t-full ${i % 2 ? "bg-[#1d4677]" : "bg-[#24568c]"}`}
-            style={{ marginLeft: -6, transform: `rotate(${r}deg)` }}
-          />
-        ))}
-        <div className="absolute bottom-0 left-1/2 h-6 w-10 -translate-x-1/2 rounded-b-md bg-[#22365a]" />
-        <div className="absolute bottom-5 left-1/2 h-1.5 w-11 -translate-x-1/2 bg-[#2f4a73]" />
-      </div>
-    </div>
-  );
-}
-
-/** The window itself: frame, side panes, sill, lamp glow. The view out goes
- *  in `children`, so the frame can stay put while only the view changes. */
-function WindowFrame({ className = WINDOW_SHAPE, children }: { className?: string; children: React.ReactNode }) {
-  return (
-    <div className={`relative w-full ${className}`}>
-      {/* soft lamp light from the room, pooling on the sill */}
-      <div
-        aria-hidden
-        className="pointer-events-none absolute -inset-x-6 -bottom-6 top-1/2 bg-[radial-gradient(ellipse_at_50%_100%,rgba(251,191,36,0.12),transparent_65%)]"
-      />
-
-      {/* the window: outer frame, three lites split by mullions */}
-      <div
-        className="absolute inset-x-[3%] bottom-4 top-0 grid grid-cols-[10%_1fr_10%] gap-[10px] p-[10px]"
-        style={{ background: WOOD, boxShadow: `inset 0 3px 0 ${WOOD_LIT}` }}
-      >
-        <SidePane side="left" />
-
-        <div className="relative overflow-hidden bg-[#0b1220]">
-          {children}
-          <div aria-hidden className="pointer-events-none absolute inset-0 shadow-[inset_0_0_0_2px_#25395a,inset_0_-22px_28px_-12px_rgba(251,191,36,0.14)]" />
+      <Door className="right-[12%] top-[9%] h-[70%] w-[8%]" />
+      <LitWindow rider={rider % 3 === 0} className="right-[3%] top-[13%] h-[38%] w-[7%]" />
+      {/* skirt and two bogies */}
+      <div className="absolute inset-x-[2%] bottom-[8%] h-[5%]" style={{ background: DARK }} />
+      {[10, 70].map((l) => (
+        <div key={l} className="absolute bottom-0 h-[9%] w-[20%]" style={{ left: `${l}%` }}>
+          <div className="absolute inset-x-[10%] top-0 h-[40%]" style={{ background: DARK }} />
+          <div className="absolute bottom-0 left-0 h-[70%] w-[30%] rounded-full bg-[#1e293b]" />
+          <div className="absolute bottom-0 right-0 h-[70%] w-[30%] rounded-full bg-[#1e293b]" />
         </div>
-
-        <SidePane side="right" />
-      </div>
-
-      {/* sill: runs past the frame on both sides, pots stand on it */}
-      <div className="absolute inset-x-0 bottom-0 h-4 [image-rendering:pixelated]">
-        <div className="absolute inset-x-0 top-0 h-[6px] bg-[#1b2c48]" />
-        <div className="absolute inset-x-0 top-[6px] h-[5px] bg-[#132741]" />
-        <div className="absolute inset-x-0 top-[11px] bottom-0 bg-[#060d18]" />
-        <LeafyPlant className="left-[2%] origin-bottom-left scale-[0.55] md:scale-100" />
-        <Succulent className="left-[12%] origin-bottom-left scale-[0.55] md:scale-90" />
-        <Succulent className="right-[12%] origin-bottom-right scale-[0.5] md:scale-75" />
-        <LeafyPlant className="right-[2%] origin-bottom-right scale-[0.45] md:scale-[0.8]" />
-      </div>
+      ))}
+      {/* the front car's sloped nose; the train heads left */}
+      {front && (
+        <div aria-hidden className="absolute bottom-[13%] right-full top-[5%] w-[9%]">
+          <div className="absolute inset-0 [clip-path:polygon(100%_0,100%_100%,0_100%,0_52%,55%_0)]" style={{ background: BODY }} />
+          <div className="absolute inset-0 [clip-path:polygon(100%_8%,100%_46%,14%_46%,60%_8%)] bg-[#0b1220]" />
+          <div className="absolute bottom-[10%] left-0 right-0 h-[7%]" style={{ background: BAND }} />
+          <div className="absolute bottom-[24%] left-[6%] h-[7%] w-[16%] bg-amber-100" />
+        </div>
+      )}
     </div>
   );
 }
@@ -153,7 +141,7 @@ function WindowView({ project }: { project: Project }) {
         alt={project.title}
         fill
         sizes="(min-width: 768px) 45vw, 80vw"
-        className="object-cover object-top"
+        className="object-contain"
         onError={() => setFailed(true)}
       />
     );
@@ -172,12 +160,14 @@ function WindowView({ project }: { project: Project }) {
   );
 }
 
-/** One window per project — the mobile list, where nothing is pinned. */
-function SlideVisual({ project }: { project: Project }) {
+/** One car per project — the mobile list, where nothing is pinned. */
+function SlideVisual({ project, i }: { project: Project; i: number }) {
   return (
-    <WindowFrame>
-      <WindowView project={project} />
-    </WindowFrame>
+    <div className="flex justify-end">
+      <TrainCar front={i === 0} rider={i} width="92%">
+        <WindowView project={project} />
+      </TrainCar>
+    </div>
   );
 }
 
@@ -238,6 +228,7 @@ function SlideText({ project, reduce }: { project: Project; reduce: boolean }) {
 
 export default function ProjectSlides({ projects }: { projects: Project[] }) {
   const wrapRef = useRef<HTMLDivElement>(null);
+  const trainRef = useRef<HTMLDivElement>(null);
   const [active, setActive] = useState(0);
   const reduce = useReducedMotion() ?? false;
   const count = projects.length;
@@ -251,10 +242,32 @@ export default function ProjectSlides({ projects }: { projects: Project[] }) {
       const el = wrapRef.current;
       if (!el) return;
       const rect = el.getBoundingClientRect();
-      const travel = rect.height - window.innerHeight;
+      const vh = window.innerHeight;
+      const travel = rect.height - vh;
       if (travel <= 0) return;
-      const p = Math.min(1, Math.max(0, -rect.top / travel));
-      setActive(Math.min(count - 1, Math.floor(p * count)));
+      // arriving: the train pulls in from the right while the zone scrolls up
+      // into place, slowing to a stop with the first car in the middle
+      const arrive = reduce ? 1 : smooth(clamp((vh * 0.85 - rect.top) / (vh * 0.85)));
+      // then, pinned, it holds at each car and moves on to the next one,
+      // tied to the scroll both ways
+      const p = clamp(-rect.top / travel);
+      const seg = 1 / count;
+      const i = Math.min(count - 1, Math.floor(p / seg));
+      const f = (p - i * seg) / seg;
+      const move = i < count - 1 ? smooth(clamp((f - 0.55) / 0.45)) : 0;
+      const at = reduce ? Math.round(i + move) : i + move;
+      setActive(Math.round(i + move));
+
+      const train = trainRef.current;
+      const car = train?.firstElementChild as HTMLElement | null;
+      if (train && car) {
+        const w = car.offsetWidth;
+        // the stopped car sits right of centre; the rest of the train runs
+        // on behind the words on the left
+        const centre = window.innerWidth * 0.6 - w / 2;
+        const x = centre - at * w * (1 + CAR_GAP) + (1 - arrive) * window.innerWidth;
+        train.style.transform = `translate3d(${x}px, 0, 0)`;
+      }
     };
     const onScroll = () => {
       if (!frame) frame = requestAnimationFrame(read);
@@ -267,16 +280,16 @@ export default function ProjectSlides({ projects }: { projects: Project[] }) {
       window.removeEventListener("scroll", onScroll);
       window.removeEventListener("resize", onScroll);
     };
-  }, [count]);
+  }, [count, reduce]);
 
-  // Clicking the index drops you in the middle of that slide's scroll band.
+  // Clicking the index drops you where that car is standing still.
   const jumpTo = useCallback(
     (i: number) => {
       const el = wrapRef.current;
       if (!el) return;
       const top = el.getBoundingClientRect().top + window.scrollY;
       const travel = el.offsetHeight - window.innerHeight;
-      window.scrollTo({ top: top + (travel * (i + 0.5)) / count, behavior: reduce ? "auto" : "smooth" });
+      window.scrollTo({ top: top + (travel * (i + 0.25)) / count, behavior: reduce ? "auto" : "smooth" });
     },
     [count, reduce]
   );
@@ -291,8 +304,43 @@ export default function ProjectSlides({ projects }: { projects: Project[] }) {
         className="relative hidden md:block"
         style={{ height: `${count * VH_PER_SLIDE + 100}vh` }}
       >
-        <div className="sticky top-0 flex h-screen items-center">
-          <div className="mx-auto grid w-full max-w-[1600px] grid-cols-[minmax(0,4fr)_minmax(0,8fr)] gap-12 px-6 lg:gap-16 lg:px-10">
+        <div className="sticky top-0 h-screen overflow-hidden">
+          {/* the elevated line across the whole screen: the train, its rail and
+              pillars. It runs behind the words on the left. */}
+          <div className="absolute inset-x-0 top-[8vh]">
+            <div ref={trainRef} aria-hidden className="flex will-change-transform" style={{ gap: `calc(${CAR_W} * ${CAR_GAP})` }}>
+              {projects.map((p, i) => (
+                <TrainCar key={p.id} front={i === 0} rider={i + 1}>
+                  <WindowView project={p} />
+                </TrainCar>
+              ))}
+            </div>
+            <div aria-hidden className="h-[6px] w-full bg-[#1e293b] shadow-[0_2px_0_#0f1a2e]" />
+            {[6, 30, 54, 78].map((x) => (
+              <div key={x} aria-hidden className="absolute top-full h-[50vh] w-[10px] bg-[#0f1a2e]" style={{ left: `${x}%` }} />
+            ))}
+
+            {/* the station sign, right under the rail and centred under the
+                stopped car; fixed height, so a longer or shorter description
+                never moves anything. Above the words' shade (z-20). */}
+            <div
+              className="relative z-20 mt-3 h-56 border-t-4 border-[#1b2c48] bg-[#0b1426] px-6 py-5 shadow-[4px_4px_0_#050a14]"
+              style={{ width: `calc(${CAR_W} * 0.72)`, marginLeft: `calc(60vw - ${CAR_W} * 0.36)` }}
+            >
+              <div className="relative h-full">
+                <AnimatePresence initial={false} mode="wait">
+                  <SlideText key={current.id} project={current} reduce={reduce} />
+                </AnimatePresence>
+              </div>
+            </div>
+          </div>
+
+          {/* night air between the train and the words on the left, so a car
+              passing behind them never makes them hard to read */}
+          <div aria-hidden className="pointer-events-none absolute inset-y-0 left-0 z-[5] w-[46%] bg-gradient-to-r from-[#0b1628] via-[#0b1628]/85 to-transparent" />
+
+          {/* the words float over it */}
+          <div className="relative z-10 mx-auto grid h-full w-full max-w-[1600px] grid-cols-[minmax(0,4fr)_minmax(0,8fr)] gap-12 px-6 lg:gap-16 lg:px-10">
             {/* index */}
             <div className="flex flex-col justify-center">
               <h2 className="font-[family-name:var(--font-pixel)] text-4xl uppercase leading-[1.1] tracking-wider text-white lg:text-6xl">
@@ -358,31 +406,7 @@ export default function ProjectSlides({ projects }: { projects: Project[] }) {
               </div>
             </div>
 
-            {/* one window that stays put: only the view out and the words change */}
-            <div className="flex h-[76vh] flex-col justify-center">
-              {/* shaped by width so the opening matches the screenshots; the vh
-                  cap keeps it inside the pinned stage on short screens */}
-              <WindowFrame>
-                <AnimatePresence initial={false}>
-                  <motion.div
-                    key={current.id}
-                    className="absolute inset-0"
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1, transition: { duration: reduce ? 0.2 : 0.9, ease: EASE } }}
-                    exit={{ opacity: 0, transition: { duration: reduce ? 0.2 : 0.9, ease: EASE } }}
-                  >
-                    <WindowView project={current} />
-                  </motion.div>
-                </AnimatePresence>
-              </WindowFrame>
 
-              {/* fixed height, so a longer or shorter description never nudges the window */}
-              <div className="relative mt-7 h-60">
-                <AnimatePresence initial={false} mode="wait">
-                  <SlideText key={current.id} project={current} reduce={reduce} />
-                </AnimatePresence>
-              </div>
-            </div>
           </div>
         </div>
       </div>
@@ -410,9 +434,11 @@ export default function ProjectSlides({ projects }: { projects: Project[] }) {
                   {String(i + 1).padStart(2, "0")}
                 </span>
                 <div className="mt-3">
-                  <SlideVisual project={p} />
+                  <SlideVisual project={p} i={i} />
                 </div>
-                <h3 className="mt-6 font-[family-name:var(--font-pixel)] text-xl uppercase tracking-wider text-white">
+                {/* the same station sign as on desktop, solid behind the words */}
+                <div className="relative z-10 mt-5 border-t-4 border-[#1b2c48] bg-[#0b1426] px-5 py-4 shadow-[4px_4px_0_#050a14]">
+                <h3 className="font-[family-name:var(--font-pixel)] text-xl uppercase tracking-wider text-white">
                   {p.title}
                 </h3>
                 <p className="mt-3 line-clamp-4 leading-relaxed text-slate-400">{p.description}</p>
@@ -430,6 +456,7 @@ export default function ProjectSlides({ projects }: { projects: Project[] }) {
                     <ArrowUpRight className="h-3.5 w-3.5" />
                   </a>
                 )}
+                </div>
               </motion.article>
             );
           })}

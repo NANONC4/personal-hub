@@ -135,19 +135,18 @@ export default function HeroLightOn() {
             </span>
           ))}
           <span className="inline-block animate-gradient-text bg-gradient-to-r from-sky-400 via-pink-400 to-purple-400 bg-clip-text text-transparent">
-            Dia.
+            lemon.
           </span>
         </h1>
 
         <div className="mb-12 flex flex-wrap items-center gap-4 font-[family-name:var(--font-pixel)] text-3xl md:text-5xl">
-          <span className="text-pink-400">Creative</span>
-          <span className="text-sky-400">Developer</span>
+          <span className="text-pink-400">Game Dev</span>
+          <span aria-hidden className="text-slate-500">·</span>
+          <span className="text-sky-400">Web Dev</span>
         </div>
 
         <p className="mb-12 max-w-2xl text-xl font-medium leading-relaxed text-slate-200 md:text-2xl">
-          นักพัฒนาที่หลงใหลในศิลปะ{" "}
-          <span className="font-[family-name:var(--font-pixel)] tracking-widest text-pink-400">Pixel Art</span>{" "}
-          สร้างสรรค์ประสบการณ์บนเว็บไซต์และมินิเกม เพื่อเปลี่ยนไอเดียให้กลายเป็นโค้ดที่จับต้องได้
+          ยินดีต้อนรับสู่มุมเล็กๆ ที่มองเห็นเมืองตอนกลางคืน
         </p>
 
         <div className="flex flex-wrap items-center gap-6">

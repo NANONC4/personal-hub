@@ -1,5 +1,6 @@
 "use client";
 import { useEffect, useRef } from "react";
+import { MOON_D, MOON_RECTS } from "@/components/CityProps";
 
 type PixelSkyProps = {
   id?: string;
@@ -107,9 +108,48 @@ export default function PixelSky({
     // Lenis drives the page, and framer's scroll values do not stay in step with
     // it, so read scrollY off a passive listener like the other scroll-linked
     // pieces on this page do.
+    // ---- The moon: the far back of the sky, behind every building ---------
+    // Drawn here, before the skyline, so buildings cover it solidly. It sets
+    // as you scroll, and at the very bottom its centre sits on the footer's
+    // top edge, half hidden. Pre-rendered once per size.
+    let moonImg: HTMLCanvasElement | null = null;
+    let moonSize = 0;
+    let moonY = 0;
+    const buildMoon = () => {
+      if (!cozy || !depth) return;
+      const k = width >= 768 ? 5 : 4;
+      moonSize = MOON_D * k;
+      moonImg = document.createElement("canvas");
+      moonImg.width = moonImg.height = moonSize;
+      const m = moonImg.getContext("2d");
+      if (!m) return;
+      for (const [x, y, w, h, fill] of MOON_RECTS) {
+        m.fillStyle = fill;
+        m.fillRect(x * k, y * k, w * k, h * k);
+      }
+    };
+    const placeMoon = () => {
+      const travel = document.documentElement.scrollHeight - window.innerHeight;
+      const p = travel > 0 ? Math.min(1, Math.max(0, window.scrollY / travel)) : 0;
+      const footer = document.querySelector("footer");
+      const end = height - (footer?.offsetHeight ?? 0) - moonSize / 2;
+      const start = height * 0.08;
+      moonY = start + (end - start) * p;
+    };
+    const moonX = () => Math.round(width * (width >= 768 ? 0.8 : 0.9) - moonSize);
+    const drawMoon = () => {
+      if (moonImg) ctx.drawImage(moonImg, moonX(), Math.round(moonY));
+    };
+    const inMoon = (x: number, y: number) => {
+      if (!moonImg) return false;
+      const r = moonSize / 2;
+      return Math.hypot(x - (moonX() + r), y - (moonY + r)) < r;
+    };
+
     let depthFrame = 0;
     const readDepth = () => {
       depthFrame = 0;
+      placeMoon();
       mood = moodForHour(
         DEPTH_FROM_HOUR + scrollDepth() * (DEPTH_TO_HOUR - DEPTH_FROM_HOUR)
       );
@@ -131,7 +171,14 @@ export default function PixelSky({
 
     // ---- Distant pixel skyline (regenerated on resize) --------------------
     type Window_ = { x: number; y: number; s: number; lit: number; target: number; next: number; wake?: number };
-    type Building = { x: number; w: number; h: number; windows: Window_[] };
+    // Not all boxes of one colour: three tones for depth, and a roof on top of
+    // some (a stepped block, an antenna with a blinking red light, a water tank).
+    type Roof =
+      | { kind: "flat" }
+      | { kind: "step"; x: number; w: number; h: number }
+      | { kind: "antenna"; x: number; h: number }
+      | { kind: "tank"; x: number };
+    type Building = { x: number; w: number; h: number; tone: number; roof: Roof; windows: Window_[] };
     let skyline: Building[] = [];
 
     // The hero's lamp is a light switch (HeroLightOn → "night:lights"):
@@ -159,9 +206,21 @@ export default function PixelSky({
     const buildSkyline = () => {
       skyline = [];
       if (!cozy) return;
+      // Leave room for the hand-drawn buildings standing in the same row
+      // (CityProps' BackgroundCity marks them), so none stands in front of
+      // another and shows its windows through.
+      const gaps = [...document.querySelectorAll<HTMLElement>("[data-skyline-gap]")]
+        .map((el) => el.getBoundingClientRect())
+        .filter((r) => r.width > 8)
+        .map((r) => [r.left - 4, r.right + 4]);
       let x = -20;
       while (x < width + 20) {
         const w = 24 + Math.floor(Math.random() * 46);
+        const hit = gaps.find(([a, b]) => x < b && x + w > a);
+        if (hit) {
+          x = hit[1];
+          continue;
+        }
         const h = 40 + Math.floor(Math.random() * Math.min(180, height * 0.28));
         const windows: Window_[] = [];
         for (let wx = x + 6; wx < x + w - 6; wx += 10) {
@@ -178,7 +237,16 @@ export default function PixelSky({
             }
           }
         }
-        skyline.push({ x, w, h, windows });
+        const r = Math.random();
+        const roof: Roof =
+          r < 0.22
+            ? { kind: "step", x: Math.floor(w * Math.random() * 0.3), w: Math.floor(w * (0.4 + Math.random() * 0.3)), h: 8 + Math.floor(Math.random() * 14) }
+            : r < 0.4
+              ? { kind: "antenna", x: Math.floor(w * (0.2 + Math.random() * 0.6)), h: 12 + Math.floor(Math.random() * 18) }
+              : r < 0.54 && w > 26
+                ? { kind: "tank", x: 3 + Math.floor(Math.random() * (w - 18)) }
+                : { kind: "flat" };
+        skyline.push({ x, w, h, tone: Math.floor(Math.random() * 3), roof, windows });
         x += w + Math.floor(Math.random() * 10);
       }
     };
@@ -217,6 +285,8 @@ export default function PixelSky({
       canvas.height = height;
       buildSkyline();
       buildFlies();
+      buildMoon();
+      placeMoon();
     };
     window.addEventListener("resize", resize);
     resize();
@@ -357,14 +427,39 @@ export default function PixelSky({
       ctx.fillRect(0, height * 0.45, width, height * 0.55);
     };
 
+    const TONES = ["rgba(4, 8, 18, 0.88)", "rgba(10, 18, 34, 0.86)", "rgba(17, 29, 52, 0.84)"];
     const drawSkyline = (now: number, delta: number) => {
       for (const bld of skyline) {
         // Each lit window leaves globalAlpha at its own brightness. Without
         // this reset the next building's body was drawn at that alpha, so
         // whole buildings faded out and back in with one window.
         ctx.globalAlpha = 1;
-        ctx.fillStyle = "rgba(4, 8, 18, 0.85)";
-        ctx.fillRect(Math.floor(bld.x), Math.floor(height - bld.h), bld.w, bld.h);
+        const bx = Math.floor(bld.x);
+        const top = Math.floor(height - bld.h);
+        ctx.fillStyle = TONES[bld.tone];
+        // wipe what's behind first, so the moon never shows through a building
+        ctx.clearRect(bx, top, bld.w, bld.h);
+        ctx.fillRect(bx, top, bld.w, bld.h);
+        const roof = bld.roof;
+        if (roof.kind === "step") {
+          ctx.fillRect(bx + roof.x, top - roof.h, roof.w, roof.h);
+        } else if (roof.kind === "antenna") {
+          ctx.fillRect(bx + roof.x, top - roof.h, 2, roof.h);
+          ctx.fillRect(bx + roof.x - 3, top - roof.h + 5, 8, 2);
+          // aircraft warning light: hard on/off, never a glow
+          if (Math.floor(now / 1100 + bld.x) % 2 === 0) {
+            ctx.fillStyle = "#ef4444";
+            ctx.fillRect(bx + roof.x, top - roof.h - 2, 2, 2);
+            ctx.fillStyle = TONES[bld.tone];
+          }
+        } else if (roof.kind === "tank") {
+          ctx.fillRect(bx + roof.x, top - 10, 13, 7);
+          ctx.fillRect(bx + roof.x + 1, top - 3, 2, 3);
+          ctx.fillRect(bx + roof.x + 10, top - 3, 2, 3);
+        }
+        // a roof line catching a little light
+        ctx.fillStyle = "rgba(60, 90, 135, 0.35)";
+        ctx.fillRect(bx, top, bld.w, 1);
         for (const win of bld.windows) {
           if (nightMode) {
             if (win.wake !== undefined && now > win.wake) win.lit = 1;
@@ -468,6 +563,7 @@ export default function PixelSky({
 
         if (cozy) {
           drawHorizonGlow();
+          drawMoon();
           drawFog(delta);
           drawSkyline(now, delta);
         }
@@ -475,7 +571,8 @@ export default function PixelSky({
         for (let i = stars.length - 1; i >= 0; i--) {
           const star = stars[i];
           star.update(delta);
-          star.draw(ctx);
+          // no stars in front of the moon
+          if (!inMoon(star.x, star.y)) star.draw(ctx);
 
           if (star.opacity <= 0 && !star.isFadingIn) {
             stars.splice(i, 1);

@@ -4,6 +4,7 @@ import React, { useRef, useEffect, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { RefreshCw, Play, ArrowLeft, ArrowRight, Zap } from 'lucide-react';
 import { PixelHeart } from '@/components/PixelIcons';
+import { RooftopProps } from '@/components/CityProps';
 
 const TECH_STACK = [
   { text: "UNITY", group: "game", color: "#FFFFFF", iconUrl: "https://cdn.simpleicons.org/unity/white" },
@@ -66,7 +67,17 @@ type Particle = {
   size: number;
 };
 
-export function TechBreakout() {
+export function TechBreakout({
+  shown = null,
+  roof = 2,
+  sides = null,
+}: { shown?: string[] | null; roof?: number; sides?: React.ReactNode } = {}) {
+  // bricks only appear once their tool is switched on in the list beside the
+  // game (WhatIUse); null = all of them
+  const shownRef = useRef<string[] | null>(shown);
+  useEffect(() => {
+    shownRef.current = shown;
+  }, [shown]);
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
   const [wave, setWave] = useState(1);
@@ -322,6 +333,7 @@ export function TechBreakout() {
       for (let c = 0; c < brickColumnCount; c++) {
         for (let r = 0; r < brickRowCount; r++) {
           let b = bricks[c][r];
+          if (shownRef.current && !shownRef.current.includes(b.text)) { allIgnited = false; continue; }
           
           if (b.status === 1) { 
             allIgnited = false;
@@ -420,6 +432,7 @@ export function TechBreakout() {
           let brickY = (r * (brickHeight + brickPadding)) + brickOffsetTop;
           b.x = brickX;
           b.y = brickY;
+          if (shownRef.current && !shownRef.current.includes(b.text)) continue;
           
           if (b.status === 1) {
             // DULL STATE (Sci-Fi Targeting Bracket style)
@@ -733,10 +746,28 @@ export function TechBreakout() {
   };
 
   return (
-    <div className="w-full flex flex-col items-center">
+    // preserve-3d all the way down to the cabinet, so the faces WhatIUse
+    // passes in (`sides`) stand out of it as a real box when it turns
+    <div className="w-full flex flex-col items-center [transform-style:preserve-3d]">
       {/* chrome kept deliberately thin: it used to eat 278px of the 857px the
           machine took, which is what pushed this zone past one screen */}
-      <div className="w-full max-w-[900px] bg-slate-800/50 ring-1 ring-slate-700/50 border-b-[10px] border-r-[10px] border-slate-950 rounded-xl p-4 md:p-5 shadow-2xl relative z-20">
+      {/* The cabinet is a building in the night city: square, solid, with a
+          roof ledge, and the antenna, dish, tank and cat standing on top. */}
+      <div
+        data-cabinet
+        className="w-full max-w-[820px] bg-[#0b1629] p-4 md:p-5 relative z-20 [transform-style:preserve-3d]"
+        // sized by the screen's height too, so the building and what stands on
+        // its roof always fit under the menu bar in one screen
+        style={{ maxWidth: "min(820px, calc((100vh - 470px) * 4 / 3 + 70px))" }}
+      >
+        <div aria-hidden className="absolute -left-2 -right-2 -top-2 h-2 bg-[#1c2c48]" />
+        {/* the rest of the building, fading down into the city below */}
+        <div aria-hidden className="absolute inset-x-0 top-full h-40 bg-gradient-to-b from-[#0b1629] to-transparent" />
+        {sides}
+        {/* on the roof: set back from the front edge when the box has depth */}
+        <div data-roof className="absolute bottom-[calc(100%+0.5rem)] left-[5%]" style={{ transform: "translateZ(calc(var(--d, 0px) * -0.45))" }}>
+          <RooftopProps stage={roof} />
+        </div>
         
         {/* Header HUD — the section heading lives outside the machine now, so
             this row is only the controls */}

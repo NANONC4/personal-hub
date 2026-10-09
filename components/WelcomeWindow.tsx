@@ -347,8 +347,8 @@ export default function WelcomeWindow({
             <Firefly ref={flyRef} className="fixed opacity-0" />
 
             <div ref={hintRef} className="pointer-events-none absolute bottom-[9%] left-1/2 z-10 -translate-x-1/2 text-center">
-              <p className="font-[family-name:var(--font-pixel)] text-[10px] uppercase tracking-[0.35em] text-sky-100/80 md:text-xs">
-                scroll or click to open
+              <p className="text-xs text-sky-100/80 md:text-sm">
+                กดเพื่อเปิดหน้าต่าง
               </p>
               <motion.div
                 animate={reduce ? undefined : { y: [0, 8, 0] }}
