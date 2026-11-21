@@ -6,8 +6,10 @@ const silkscreen = Silkscreen({ weight: "400", subsets: ["latin"], variable: "--
 
 import type { Metadata } from "next";
 
+const SITE_URL = (process.env.NEXT_PUBLIC_SITE_URL || "https://lemonnano.pages.dev").replace(/\/+$/, "");
+
 export const metadata: Metadata = {
-  metadataBase: new URL("https://nanonc4-portfolio.vercel.app"),
+  metadataBase: new URL(SITE_URL),
   title: {
     default: "Chatchai Danrungruang | Creative Developer",
     template: "%s | Chatchai Danrungruang",
@@ -19,7 +21,7 @@ export const metadata: Metadata = {
   openGraph: {
     type: "website",
     locale: "en_US",
-    url: "https://nanonc4-portfolio.vercel.app",
+    url: SITE_URL,
     title: "Chatchai Danrungruang | Creative Developer",
     description: "Welcome to my interactive portfolio! A chill space where I share my creative web development, games, and UI/UX projects.",
     siteName: "Chatchai's Portfolio",
